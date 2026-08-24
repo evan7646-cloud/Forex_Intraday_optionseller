@@ -14,7 +14,7 @@
 
 //--- 策略外部可調參數矩陣 (Inputs)
 input group "=== 1. 資金管理與手數配置 ===" // 參數分組 1
-input double   InpLotSize             = 2.0;    // 交易下單手數 (固定手數，非馬丁)
+input double   InpLotSize             = 1.0;    // 交易下單手數 (固定 1.0 手，符合自營商風控)
 input ulong    InpMagicNumber         = 500201; // 策略專屬 Magic Number 識別碼
 
 input group "=== 2. 交易時段與零隔夜風控 (UTC 時間) ===" // 參數分組 2

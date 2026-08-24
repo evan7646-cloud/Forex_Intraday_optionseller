@@ -448,7 +448,7 @@ function renderCombinedEquityChart() { // 組合權益圖繪製函數
 
     const layout = { // 定義圖表面版樣式
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 60, r: 40, t: 40, b: 40 }, // 背景色與邊距
-        title: { text: `所選 ${selectedSymbols.size} 款商品之累計權益曲線 (固定 2.0 Lots / 零隔夜)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        title: { text: `所選 ${selectedSymbols.size} 款商品之累計權益曲線 (固定 1.0 Lot / 零隔夜)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } }, // X 軸
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$' }, // Y 軸
         hovermode: 'x unified', // 統一浮動標籤

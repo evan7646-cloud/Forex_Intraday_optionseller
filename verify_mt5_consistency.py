@@ -31,7 +31,7 @@ def verify_mt5_vs_web_consistency():  # 定義 MT5 EA 邏輯與網頁數據一�
     for sym in engine.scalper_symbols:  # 遍歷剝頭皮標的
         df = engine.fetch_5m_data(sym, n_bars=5000)  # 取得 5m 數據
         if df.empty: continue  # 檢查數據
-        res = engine.run_scalper_strategy(sym, df, lot_size=2.0)  # 執行策略
+        res = engine.run_scalper_strategy(sym, df, lot_size=1.0)  # 執行 1.0 手策略
         for t in res['trades']:  # 遍歷交易
             t['module_id'] = f"Scalper_{sym}"  # 模組識別
             mt5_simulated_trades.append(t)  # 寫入
@@ -40,7 +40,7 @@ def verify_mt5_vs_web_consistency():  # 定義 MT5 EA 邏輯與網頁數據一�
     for sym in engine.straddle_symbols:  # 遍歷跨式標的
         df = engine.fetch_5m_data(sym, n_bars=5000)  # 取得 5m 數據
         if df.empty: continue  # 檢查數據
-        res = engine.run_straddle_strategy(sym, df, lot_size=2.0)  # 執行策略
+        res = engine.run_straddle_strategy(sym, df, lot_size=1.0)  # 執行 1.0 手策略
         for t in res['trades']:  # 遍歷交易
             t['module_id'] = f"Straddle_{sym}"  # 模組識別
             mt5_simulated_trades.append(t)  # 寫入

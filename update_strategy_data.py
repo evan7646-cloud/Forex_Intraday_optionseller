@@ -60,7 +60,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             print(f"  [!] Yahoo Finance 下載失敗: {err}")  # 輸出錯誤訊息
             return pd.DataFrame()  # 回傳空表
 
-    def run_scalper_strategy(self, symbol: str, df_raw: pd.DataFrame, lot_size: float = 2.0) -> dict:  # 執行策略 1: 5m 亞洲夜間收租
+    def run_scalper_strategy(self, symbol: str, df_raw: pd.DataFrame, lot_size: float = 1.0) -> dict:  # 執行策略 1: 5m 亞洲夜間收租 (1.0 Lot)
         df = df_raw.copy()  # 複製原始數據
         df['MA'] = df['close'].rolling(20).mean()  # 計算 20 週期均線
         df['STD'] = df['close'].rolling(20).std()  # 計算 20 週期標準差
@@ -80,7 +80,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         balance = 100000.0  # 初始本金
         trades = []  # 交易記錄列表
         active_pos = None  # 當前即時活躍部位
-        cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($10 / 2.0 Lots)
+        cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($5 / 1.0 Lot)
         tp_ratio = 0.0005  # 止盈比例 0.05% (5 pips)
         sl_ratio = 0.0035  # 止損比例 0.35% (35 pips)
         equity_records = []  # 權益曲線記錄
@@ -260,7 +260,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             }  # 指標結束
         }  # 回傳結束
 
-    def run_straddle_strategy(self, symbol: str, df_raw: pd.DataFrame, lot_size: float = 2.0) -> dict:  # 執行策略 2: 5m 合成跨式賣方
+    def run_straddle_strategy(self, symbol: str, df_raw: pd.DataFrame, lot_size: float = 1.0) -> dict:  # 執行策略 2: 5m 合成跨式賣方 (1.0 Lot)
         df = df_raw.copy()  # 複製原始數據
         df['MA'] = df['close'].rolling(30).mean()  # 計算 30 週期均線
         df['STD'] = df['close'].rolling(30).std()  # 計算 30 週期標準差
@@ -273,7 +273,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         balance = 100000.0  # 初始本金
         trades = []  # 交易記錄列表
         active_pos = None  # 當前即時活躍部位
-        cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($10 / 2.0 Lots)
+        cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($5 / 1.0 Lot)
         tp_ratio = 0.0005  # 止盈比例 0.05% (5 pips)
         sl_ratio = 0.0035  # 止損比例 0.35% (35 pips)
         equity_records = []  # 權益曲線記錄
@@ -485,7 +485,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 1. 執行 4 款 Asian Scalper 模組
         for sym in self.scalper_symbols:  # 遍歷標的
             if sym not in data_cache or data_cache[sym].empty: continue  # 檢查數據
-            res = self.run_scalper_strategy(sym, data_cache[sym], lot_size=2.0)  # 執行回測
+            res = self.run_scalper_strategy(sym, data_cache[sym], lot_size=1.0)  # 執行 1.0 手回測
             module_results.append(res)  # 儲存模組結果
             for t in res['trades']:  # 遍歷交易
                 t['module_id'] = f"Scalper_{sym}"  # 添加模組識別 ID
@@ -496,7 +496,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 2. 執行 4 款 Short Straddle 模組
         for sym in self.straddle_symbols:  # 遍歷標的
             if sym not in data_cache or data_cache[sym].empty: continue  # 檢查數據
-            res = self.run_straddle_strategy(sym, data_cache[sym], lot_size=2.0)  # 執行回測
+            res = self.run_straddle_strategy(sym, data_cache[sym], lot_size=1.0)  # 執行 1.0 手回測
             module_results.append(res)  # 儲存模組結果
             for t in res['trades']:  # 遍歷交易
                 t['module_id'] = f"Straddle_{sym}"  # 添加模組識別 ID
