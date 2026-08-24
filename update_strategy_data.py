@@ -4,62 +4,55 @@ import datetime  # 導入日期時間處理模組
 import numpy as np  # 導入數值運算庫
 import pandas as pd  # 導入資料表格分析庫
 import yfinance as yf  # 導入 Yahoo Finance 行情介面
-try:  # 嘗試導入 TradingView 介面
-    from tvDatafeed import TvDatafeed, Interval  # 導入 TradingView 資料接口
-except Exception:  # 若無安裝或載入失敗
-    TvDatafeed = None  # 設定為 None
 
 class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與資料生成引擎
     def __init__(self):  # 初始化引擎
-        self.tv = None  # 初始化 TradingView 連線物件
-        if TvDatafeed is not None:  # 若套件可用
-            try:  # 嘗試建立連線
-                self.tv = TvDatafeed()  # 建立客戶端實例
-            except Exception:  # 連線例外處理
-                self.tv = None  # 設為 None
+        # 使用者指定之 5 大核心貨幣對
+        self.all_symbols = ["AUDCHF", "EURCHF", "AUDCAD", "USDCHF", "USDCAD"]  # 5 大精選貨幣對
+        
+        # 策略 1: 5 款夜間收租標的與專屬配置
+        self.scalper_configs = {  # 夜間收租配置表
+            "AUDCHF": {"tp": 5.0, "sl": 35.0, "max_spread": 1.8},  # AUDCHF 配置
+            "EURCHF": {"tp": 5.0, "sl": 35.0, "max_spread": 1.5},  # EURCHF 配置
+            "AUDCAD": {"tp": 8.0, "sl": 40.0, "max_spread": 2.0},  # AUDCAD 配置
+            "USDCHF": {"tp": 8.0, "sl": 40.0, "max_spread": 1.2},  # USDCHF 配置
+            "USDCAD": {"tp": 8.0, "sl": 40.0, "max_spread": 1.2}   # USDCAD 配置
+        }  # 結束
+        
+        # 策略 2: 3 款日間跨式賣方標的與專屬配置
+        self.straddle_configs = {  # 日間跨式賣方配置表
+            "AUDCHF": {"z_in": 2.1, "z_out": 0.2, "z_stop": 3.8, "tp": 5.0, "sl": 35.0},  # AUDCHF 配置
+            "AUDCAD": {"z_in": 2.1, "z_out": 0.2, "z_stop": 3.8, "tp": 8.0, "sl": 40.0},  # AUDCAD 配置
+            "USDCAD": {"z_in": 2.1, "z_out": 0.2, "z_stop": 3.8, "tp": 5.0, "sl": 35.0}   # USDCAD 配置
+        }  # 結束
 
-        # 定義策略 1: 4 款夜間收租標的
-        self.scalper_symbols = ["NZDCAD", "AUDNZD", "AUDCAD", "EURGBP"]  # 亞洲夜間剝頭皮貨幣對
-        # 定義策略 2: 4 款跨式賣方標的
-        self.straddle_symbols = ["EURCHF", "EURGBP", "EURUSD", "EURJPY"]  # 日間跨式賣方貨幣對
-        # 整合所有獨立貨幣對清單
-        self.all_symbols = sorted(list(set(self.scalper_symbols + self.straddle_symbols)))  # 7 大不重複貨幣對
+        # 依使用者實盤截圖精確設定之平台點差 (Pips)
+        self.platform_spreads = {  # 點差對照表
+            "AUDCHF": 0.8,  # 8 pts
+            "EURCHF": 0.6,  # 6 pts
+            "AUDCAD": 1.1,  # 11 pts
+            "USDCHF": 0.4,  # 4 pts
+            "USDCAD": 0.4   # 4 pts
+        }  # 結束
 
-    def get_pip_size(self, symbol: str) -> float:  # [修復] 取得 1 pip 最小價格單位
+    def get_pip_size(self, symbol: str) -> float:  # 取得 1 pip 最小價格單位
         return 0.01 if "JPY" in symbol else 0.0001  # JPY 貨幣對 1 pip = 0.01, 其餘 = 0.0001
 
-    def get_pip_value_usd(self, symbol: str, lot_size: float = 1.0) -> float:  # [修復] 計算 1 pip 在 USD 的真實價值
+    def get_pip_value_usd(self, symbol: str, lot_size: float = 1.0) -> float:  # 計算 1 pip 在 USD 的真實價值
         quote_usd_rates = {  # 報價貨幣轉 USD 的即時精確匯率對照表
-            "EURUSD": 1.0,       # 報價貨幣為 USD: $10.00 / pip
-            "NZDCAD": 1.0/1.37,  # 報價貨幣為 CAD: $7.30 / pip
-            "AUDNZD": 0.60,      # 報價貨幣為 NZD: $6.00 / pip
-            "AUDCAD": 1.0/1.37,  # 報價貨幣為 CAD: $7.30 / pip
-            "EURGBP": 1.30,      # 報價貨幣為 GBP: $13.00 / pip
-            "EURCHF": 1.0/0.88,  # 報價貨幣為 CHF: $11.36 / pip
-            "EURJPY": 1.0/148.0, # 報價貨幣為 JPY: $6.76 / pip
+            "USD": 1.0,        # 計價幣為 USD
+            "CAD": 1.0/1.38,   # 計價幣為 CAD
+            "CHF": 1.0/0.80,   # 計價幣為 CHF
+            "JPY": 1.0/159.0,  # 計價幣為 JPY
+            "GBP": 1.36,       # 計價幣為 GBP
+            "NZD": 0.60,       # 計價幣為 NZD
+            "AUD": 0.71        # 計價幣為 AUD
         }  # 匯率表結束
-        base_pip = 100000.0 * self.get_pip_size(symbol)  # 1 標準手 1 pip 在計價幣的金額 (非JPY=10, JPY=1000)
-        conversion = quote_usd_rates.get(symbol, 1.0)  # 取得對應美金轉換率
+        base_pip = 100000.0 * self.get_pip_size(symbol)  # 1 標準手 1 pip 在計價幣的金額
+        conversion = quote_usd_rates.get(symbol[-3:], 1.0)  # 取得對應美金轉換率
         return base_pip * conversion * lot_size  # 回傳每 pip 的美金價值
 
-    def fetch_5m_data(self, symbol: str, n_bars: int = 5000) -> pd.DataFrame:  # 抓取 5m K 線數據
-        print(f"[*] 正在抓取 [{symbol}] 5m 行情數據...")  # 輸出抓取日誌
-        df = None  # 初始化數據表
-
-        if self.tv is not None:  # 若 TradingView 可用
-            try:  # 嘗試自 TradingView 取得
-                df = self.tv.get_hist(symbol=symbol, exchange="OANDA", interval=Interval.in_5_minute, n_bars=n_bars)  # 發送請求
-                if df is not None and len(df) > 100:  # 檢查數據長度
-                    df = df.reset_index()  # 重設索引
-                    df['datetime'] = pd.to_datetime(df['datetime']).dt.tz_localize(None) - pd.Timedelta(hours=8)  # [修復] 將 TradingView 本地時間 (UTC+8) 轉換為標準 UTC 時間
-                    df.set_index('datetime', inplace=True)  # 設為時間索引
-                    df = df[['open', 'high', 'low', 'close', 'volume']][~df.index.duplicated(keep='first')]  # 欄位篩選與去重
-                    print(f"  [+] TradingView 成功獲取 {len(df)} 根 5m K 線 (已校準為 UTC)")  # 輸出成功日誌
-                    return df  # 回傳有效資料表
-            except Exception as e:  # 捕捉異常
-                print(f"  [-] TradingView 獲取失敗 ({e})，轉為 Yahoo Finance 備援...")  # 輸出備援提示
-
-        # Yahoo Finance 備援機制
+    def fetch_5m_data(self, symbol: str) -> pd.DataFrame:  # 抓取 5m K 線數據
         ticker = f"{symbol}=X"  # 設定 Yahoo 貨幣對代碼格式
         try:  # 嘗試下載
             df_yf = yf.download(ticker, period="60d", interval="5m", progress=False)  # 抓取近 60 天 5m 數據
@@ -71,13 +64,13 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             else:  # 無時區
                 df_yf.index = pd.to_datetime(df_yf.index)  # 確保時間格式
             df_clean = df_yf[['open', 'high', 'low', 'close', 'volume']].dropna()  # 清理空值
-            print(f"  [+] Yahoo Finance 成功獲取 {len(df_clean)} 根 5m K 線")  # 輸出成功日誌
+            print(f"  [+] 成功獲取 [{symbol}] {len(df_clean)} 根 5m K 線")  # 輸出成功日誌
             return df_clean  # 回傳清理後的數據表
         except Exception as err:  # 捕捉下載異常
-            print(f"  [!] Yahoo Finance 下載失敗: {err}")  # 輸出錯誤訊息
+            print(f"  [!] [{symbol}] 下載失敗: {err}")  # 輸出錯誤訊息
             return pd.DataFrame()  # 回傳空表
 
-    def run_scalper_strategy(self, symbol: str, df_raw: pd.DataFrame, lot_size: float = 1.0) -> dict:  # 執行策略 1: 5m 亞洲夜間收租 (1.0 Lot)
+    def run_scalper_strategy(self, symbol: str, df_raw: pd.DataFrame, cfg: dict, lot_size: float = 1.0) -> dict:  # 執行策略 1: 5m 亞洲夜間收租
         df = df_raw.copy()  # 複製原始數據
         df['MA'] = df['close'].rolling(20).mean()  # 計算 20 週期均線
         df['STD'] = df['close'].rolling(20).std()  # 計算 20 週期標準差
@@ -89,7 +82,6 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         loss = (-delta.where(delta < 0, 0)).rolling(14).mean()  # 14 週期平均跌幅
         df['RSI'] = 100 - (100 / (1 + (gain / (loss + 1e-9))))  # 計算 RSI 指標
 
-        is_night = (df.index.hour >= 21) | (df.index.hour <= 6)  # 夜間開倉時段 (UTC 21:00 - 06:00)
         pos = 0  # 倉位狀態 (1: 多, -1: 空, 0: 空手)
         entry_p = 0.0  # 進場價格
         entry_time = None  # 進場時間
@@ -98,10 +90,12 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         trades = []  # 交易記錄列表
         active_pos = None  # 當前即時活躍部位
         cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($5 / 1.0 Lot)
-        pip_size = self.get_pip_size(symbol)  # [精確計算] 取得商品最小 pip 單位 (0.0001 或 0.01)
-        pip_val_usd = self.get_pip_value_usd(symbol, lot_size)  # [精確計算] 取得每 pip 實際美金價值
-        tp_distance = 5.0 * pip_size  # 5 pips 止盈目標價差
-        sl_distance = 35.0 * pip_size  # 35 pips 停損目標價差
+        pip_size = self.get_pip_size(symbol)  # 取得商品最小 pip 單位
+        pip_val_usd = self.get_pip_value_usd(symbol, lot_size)  # 取得每 pip 實際美金價值
+        sp_pips = self.platform_spreads.get(symbol, 1.0)  # 實盤點差
+        sp_dist = sp_pips * pip_size  # 點差價格距離
+        tp_distance = cfg['tp'] * pip_size  # 止盈目標價差
+        sl_distance = cfg['sl'] * pip_size  # 停損目標價差
         equity_records = []  # 權益曲線記錄
 
         for i in range(len(df)):  # 遍歷每根 5m K 棒
@@ -120,35 +114,35 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 exit_reason = ""  # 出場原因
                 is_closed = False  # 是否已結算平倉
 
-                if pos == 1:  # 多單持倉
-                    if h >= entry_p + tp_distance:  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p + tp_distance  # 止盈價
-                        exit_reason = "TP (+5 pips)"  # 止盈原因標籤
+                if pos == 1:  # 多單持倉 (Bid 賣出)
+                    if h >= entry_p + tp_distance:  # 觸及止盈目標
+                        exit_price = entry_p + tp_distance - sp_dist  # 扣點差出場
+                        exit_reason = f"TP (+{cfg['tp']} pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
-                    elif c >= df['MA'].iloc[i]:  # 回歸布林中軌止盈
-                        exit_price = c  # 中軌現價
-                        exit_reason = "TP (BB Midline)"  # 中軌止盈原因
+                    elif c >= df['MA'].iloc[i] and c > entry_p:  # 碰中軌且高於成本
+                        exit_price = c - sp_dist  # 扣點差出場
+                        exit_reason = "BB Middle (Mean Reversion)"  # 中軌原因
                         is_closed = True  # 標記平倉
-                    elif l <= entry_p - sl_distance:  # 觸及 35 pips 硬停損
-                        exit_price = entry_p - sl_distance  # 停損價
-                        exit_reason = "SL (-35 pips)"  # 硬停損原因
+                    elif l <= entry_p - sl_distance:  # 觸及硬停損
+                        exit_price = entry_p - sl_distance - sp_dist  # 扣點差出場
+                        exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
-                    elif is_force_exit:  # UTC 07:00 時間強制清倉
-                        exit_price = c  # 現價清倉
-                        exit_reason = "Time Cutoff (UTC 07:00)"  # 強制清倉原因
+                    elif is_force_exit:  # UTC 07:00 強制清倉
+                        exit_price = c - sp_dist  # 扣點差出場
+                        exit_reason = "Time Cutoff (UTC 07:00 Zero-Overnight)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_pips = (exit_price - entry_p) / pip_size  # [精確計算] 多單獲利點數 (pips)
-                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 多單美金淨損益 (扣手續費)
+                        pnl_pips = (exit_price - entry_p) / pip_size  # 多單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # 多單美金淨損益 (扣手續費)
                         ret_pct = (exit_price - entry_p) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
-                        duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數量
+                        duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
                         trades.append({  # 寫入歷史交易紀錄
                             "trade_id": len(trades) + 1,  # 交易序號
                             "strategy": "Asian Night Scalper (5m)",  # 策略名稱
                             "symbol": symbol,  # 貨幣對
-                            "type": "Buy (Long)",  # 交易方向
+                            "type": "Buy (Short Put)",  # 交易方向
                             "lot_size": lot_size,  # 下單手數
                             "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
                             "entry_price": round(entry_p, 5),  # 進場價格
@@ -164,27 +158,27 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         })  # 結束單筆記錄
                         pos = 0  # 重設為空倉
 
-                elif pos == -1:  # 空單持倉
-                    if l <= entry_p - tp_distance:  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p - tp_distance  # 止盈價
-                        exit_reason = "TP (+5 pips)"  # 止盈標籤
+                elif pos == -1:  # 空單持倉 (Ask 買回)
+                    if l <= entry_p - tp_distance:  # 觸及止盈目標
+                        exit_price = entry_p - tp_distance + sp_dist  # 扣點差出場
+                        exit_reason = f"TP (+{cfg['tp']} pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
-                    elif c <= df['MA'].iloc[i]:  # 回歸布林中軌止盈
-                        exit_price = c  # 中軌現價
-                        exit_reason = "TP (BB Midline)"  # 中軌止盈原因
+                    elif c <= df['MA'].iloc[i] and c < entry_p:  # 碰中軌且低於成本
+                        exit_price = c + sp_dist  # 扣點差出場
+                        exit_reason = "BB Middle (Mean Reversion)"  # 中軌原因
                         is_closed = True  # 標記平倉
-                    elif h >= entry_p + sl_distance:  # 觸及 35 pips 硬停損
-                        exit_price = entry_p + sl_distance  # 停損價
-                        exit_reason = "SL (-35 pips)"  # 停損標籤
+                    elif h >= entry_p + sl_distance:  # 觸及硬停損
+                        exit_price = entry_p + sl_distance + sp_dist  # 扣點差出場
+                        exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
-                    elif is_force_exit:  # UTC 07:00 時間強制清倉
-                        exit_price = c  # 現價清倉
-                        exit_reason = "Time Cutoff (UTC 07:00)"  # 強制清倉原因
+                    elif is_force_exit:  # UTC 07:00 強制清倉
+                        exit_price = c + sp_dist  # 扣點差出場
+                        exit_reason = "Time Cutoff (UTC 07:00 Zero-Overnight)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_pips = (entry_p - exit_price) / pip_size  # [精確計算] 空單獲利點數 (pips)
-                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 空單美金淨損益 (扣手續費)
+                        pnl_pips = (entry_p - exit_price) / pip_size  # 空單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # 空單美金淨損益 (扣手續費)
                         ret_pct = (entry_p - exit_price) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
@@ -192,7 +186,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                             "trade_id": len(trades) + 1,  # 交易序號
                             "strategy": "Asian Night Scalper (5m)",  # 策略名稱
                             "symbol": symbol,  # 貨幣對
-                            "type": "Sell (Short)",  # 交易方向
+                            "type": "Sell (Short Call)",  # 交易方向
                             "lot_size": lot_size,  # 下單手數
                             "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
                             "entry_price": round(entry_p, 5),  # 進場價格
@@ -208,40 +202,21 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         })  # 結束單筆記錄
                         pos = 0  # 重設為空倉
 
-            # 檢查進場訊號 (僅在夜間時段且非強制清倉時間)
-            if pos == 0 and is_night[i] and not is_force_exit:  # 符合開倉時間窗口
+            # 檢查進場訊號 (UTC 22:00 ~ 05:00 夜間窗口)
+            is_entry_session = (hr >= 22) or (hr <= 5)  # 亞盤夜間時段
+            if pos == 0 and is_entry_session and not is_force_exit:  # 符合開倉時間窗口
                 if c <= df['LB'].iloc[i] and df['RSI'].iloc[i] <= 35:  # 跌破下軌且 RSI 超賣
                     pos = 1  # 開多單
-                    entry_p = c  # 記錄進場價
+                    entry_p = c + sp_dist  # 買在 Ask (加點差)
                     entry_time = dt  # 記錄進場時間
                     entry_bar_idx = i  # 記錄進場索引
                 elif c >= df['UB'].iloc[i] and df['RSI'].iloc[i] >= 65:  # 突破上軌且 RSI 超買
                     pos = -1  # 開空單
-                    entry_p = c  # 記錄進場價
+                    entry_p = c  # 賣在 Bid
                     entry_time = dt  # 記錄進場時間
                     entry_bar_idx = i  # 記錄進場索引
 
             equity_records.append({"time": dt.strftime('%Y-%m-%d %H:%M:%S'), "balance": round(balance, 2)})  # 記錄當前權益
-
-        # 檢查最後一根 K 棒是否有活躍持倉
-        if pos != 0:  # 仍有未平倉持倉
-            last_c = float(df['close'].iloc[-1])  # 最新收盤價
-            unrealized_pips = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / pip_size  # [精確計算] 未實現 pips
-            unrealized_pnl = unrealized_pips * pip_val_usd - cost_per_trade  # [精確計算] 未實現美金損益
-            active_pos = {  # 構建活躍部位物件
-                "strategy": "Asian Night Scalper (5m)",  # 策略名稱
-                "symbol": symbol,  # 貨幣對
-                "type": "Buy (Long)" if pos == 1 else "Sell (Short)",  # 方向
-                "lot_size": lot_size,  # 手數
-                "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
-                "entry_price": round(entry_p, 5),  # 進場價
-                "current_price": round(last_c, 5),  # 最新價
-                "target_tp_price": round(entry_p + (tp_distance if pos == 1 else -tp_distance), 5),  # [修復] 目標止盈價
-                "hard_sl_price": round(entry_p + (-sl_distance if pos == 1 else sl_distance), 5),  # [修復] 硬停損價
-                "unrealized_pnl_usd": round(unrealized_pnl, 2),  # 未實現盈虧 (USD)
-                "unrealized_pnl_pips": round(unrealized_pips, 1),  # 未實現盈虧 (pips)
-                "duration_mins": (len(df) - 1 - entry_bar_idx) * 5  # 持倉時間
-            }  # 活躍持倉結束
 
         # 計算策略關鍵指標
         tot_trades = len(trades)  # 總筆數
@@ -279,7 +254,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             }  # 指標結束
         }  # 回傳結束
 
-    def run_straddle_strategy(self, symbol: str, df_raw: pd.DataFrame, lot_size: float = 1.0) -> dict:  # 執行策略 2: 5m 合成跨式賣方 (1.0 Lot)
+    def run_straddle_strategy(self, symbol: str, df_raw: pd.DataFrame, cfg: dict, lot_size: float = 1.0) -> dict:  # 執行策略 2: 5m 合成跨式賣方
         df = df_raw.copy()  # 複製原始數據
         df['MA'] = df['close'].rolling(30).mean()  # 計算 30 週期均線
         df['STD'] = df['close'].rolling(30).std()  # 計算 30 週期標準差
@@ -293,10 +268,12 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         trades = []  # 交易記錄列表
         active_pos = None  # 當前即時活躍部位
         cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($5 / 1.0 Lot)
-        pip_size = self.get_pip_size(symbol)  # [精確計算] 取得商品最小 pip 單位 (0.0001 或 0.01)
-        pip_val_usd = self.get_pip_value_usd(symbol, lot_size)  # [精確計算] 取得每 pip 實際美金價值
-        tp_distance = 5.0 * pip_size  # 5 pips 止盈目標價差
-        sl_distance = 35.0 * pip_size  # 35 pips 停損目標價差
+        pip_size = self.get_pip_size(symbol)  # 取得商品最小 pip 單位
+        pip_val_usd = self.get_pip_value_usd(symbol, lot_size)  # 取得每 pip 實際美金價值
+        sp_pips = self.platform_spreads.get(symbol, 1.0)  # 實盤點差
+        sp_dist = sp_pips * pip_size  # 點差價格距離
+        tp_distance = cfg['tp'] * pip_size  # 止盈目標價差
+        sl_distance = cfg['sl'] * pip_size  # 停損目標價差
         equity_records = []  # 權益曲線記錄
 
         for i in range(len(df)):  # 遍歷每根 5m K 棒
@@ -317,30 +294,30 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 is_closed = False  # 是否已結算平倉
 
                 if pos == 1:  # 多單持倉 (Short Put 側)
-                    if z >= -0.2:  # Z 值均值回歸收租
-                        exit_price = c  # 現價平倉
-                        exit_reason = "Mean Reversion (Z >= -0.2)"  # 均值回歸原因
+                    if z >= -cfg['z_out'] and c > entry_p:  # Z 值均值回歸且處於獲利狀態
+                        exit_price = c - sp_dist  # 扣點差出場
+                        exit_reason = f"Mean Reversion (Z >= -{cfg['z_out']})"  # 均值回歸原因
                         is_closed = True  # 標記平倉
-                    elif h >= entry_p + tp_distance:  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p + tp_distance  # 止盈價
-                        exit_reason = "TP (+5 pips)"  # 止盈原因標籤
+                    elif h >= entry_p + tp_distance:  # 觸及止盈目標
+                        exit_price = entry_p + tp_distance - sp_dist  # 扣點差出場
+                        exit_reason = f"TP (+{cfg['tp']} pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
-                    elif z <= -3.8:  # 極端偏離停損
-                        exit_price = c  # 現價停損
-                        exit_reason = "SL (Z <= -3.8)"  # Z值極端偏離停損
+                    elif z <= -cfg['z_stop']:  # 極端偏離停損
+                        exit_price = c - sp_dist  # 扣點差出場
+                        exit_reason = f"SL (Z <= -{cfg['z_stop']})"  # Z值極端偏離停損
                         is_closed = True  # 標記平倉
-                    elif l <= entry_p - sl_distance:  # 觸及 35 pips 硬停損
-                        exit_price = entry_p - sl_distance  # 硬停損價
-                        exit_reason = "SL (-35 pips)"  # 硬停損標籤
+                    elif l <= entry_p - sl_distance:  # 觸及硬停損
+                        exit_price = entry_p - sl_distance - sp_dist  # 扣點差出場
+                        exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
                     elif is_force_exit:  # UTC 21:00 時間強制清倉
-                        exit_price = c  # 現價清倉
-                        exit_reason = "Time Cutoff (UTC 21:00)"  # 強制清倉原因
+                        exit_price = c - sp_dist  # 扣點差出場
+                        exit_reason = "Time Cutoff (UTC 21:00 Zero-Overnight)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_pips = (exit_price - entry_p) / pip_size  # [精確計算] 多單獲利點數 (pips)
-                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 多單美金淨損益 (扣手續費)
+                        pnl_pips = (exit_price - entry_p) / pip_size  # 多單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # 多單美金淨損益 (扣手續費)
                         ret_pct = (exit_price - entry_p) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
@@ -365,30 +342,30 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         pos = 0  # 重設為空倉
 
                 elif pos == -1:  # 空單持倉 (Short Call 側)
-                    if z <= 0.2:  # Z 值均值回歸收租
-                        exit_price = c  # 現價平倉
-                        exit_reason = "Mean Reversion (Z <= 0.2)"  # 均值回歸原因
+                    if z <= cfg['z_out'] and c < entry_p:  # Z 值均值回歸且處於獲利狀態
+                        exit_price = c + sp_dist  # 扣點差出場
+                        exit_reason = f"Mean Reversion (Z <= +{cfg['z_out']})"  # 均值回歸原因
                         is_closed = True  # 標記平倉
-                    elif l <= entry_p - tp_distance:  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p - tp_distance  # 止盈價
-                        exit_reason = "TP (+5 pips)"  # 止盈原因標籤
+                    elif l <= entry_p - tp_distance:  # 觸及止盈目標
+                        exit_price = entry_p - tp_distance + sp_dist  # 扣點差出場
+                        exit_reason = f"TP (+{cfg['tp']} pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
-                    elif z >= 3.8:  # 極端偏離停損
-                        exit_price = c  # 現價停損
-                        exit_reason = "SL (Z >= 3.8)"  # Z值極端偏離停損
+                    elif z >= cfg['z_stop']:  # 極端偏離停損
+                        exit_price = c + sp_dist  # 扣點差出場
+                        exit_reason = f"SL (Z >= +{cfg['z_stop']})"  # Z值極端偏離停損
                         is_closed = True  # 標記平倉
-                    elif h >= entry_p + sl_distance:  # 觸及 35 pips 硬停損
-                        exit_price = entry_p + sl_distance  # 硬停損價
-                        exit_reason = "SL (-35 pips)"  # 硬停損標籤
+                    elif h >= entry_p + sl_distance:  # 觸及硬停損
+                        exit_price = entry_p + sl_distance + sp_dist  # 扣點差出場
+                        exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
                     elif is_force_exit:  # UTC 21:00 時間強制清倉
-                        exit_price = c  # 現價清倉
-                        exit_reason = "Time Cutoff (UTC 21:00)"  # 強制清倉原因
+                        exit_price = c + sp_dist  # 扣點差出場
+                        exit_reason = "Time Cutoff (UTC 21:00 Zero-Overnight)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_pips = (entry_p - exit_price) / pip_size  # [精確計算] 空單獲利點數 (pips)
-                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 空單美金淨損益 (扣手續費)
+                        pnl_pips = (entry_p - exit_price) / pip_size  # 空單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # 空單美金淨損益 (扣手續費)
                         ret_pct = (entry_p - exit_price) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
@@ -412,40 +389,21 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         })  # 結束單筆記錄
                         pos = 0  # 重設為空倉
 
-            # 檢查進場訊號 (僅在日間活躍時段 UTC 07:00 - 20:00 允許進場)
-            if pos == 0 and (7 <= hr <= 20) and not is_force_exit:  # 符合日間開倉窗口
-                if z <= -2.1:  # 動態偏離低於 -2.1 買入
+            # 檢查進場訊號 (UTC 07:00 ~ 20:00 日間活躍窗口)
+            is_entry_session = (7 <= hr <= 20)  # 歐美日間時段
+            if pos == 0 and is_entry_session and not is_force_exit:  # 符合開倉時間窗口
+                if z <= -cfg['z_in']:  # 偏離下軌做多 (賣 Put)
                     pos = 1  # 開多單
-                    entry_p = c  # 記錄進場價
+                    entry_p = c + sp_dist  # 買在 Ask (加點差)
                     entry_time = dt  # 記錄進場時間
                     entry_bar_idx = i  # 記錄進場索引
-                elif z >= 2.1:  # 動態偏離高於 +2.1 賣出
+                elif z >= cfg['z_in']:  # 偏離上軌做空 (賣 Call)
                     pos = -1  # 開空單
-                    entry_p = c  # 記錄進場價
+                    entry_p = c  # 賣在 Bid
                     entry_time = dt  # 記錄進場時間
                     entry_bar_idx = i  # 記錄進場索引
 
             equity_records.append({"time": dt.strftime('%Y-%m-%d %H:%M:%S'), "balance": round(balance, 2)})  # 記錄當前權益
-
-        # 檢查最後一根 K 棒是否有活躍持倉
-        if pos != 0:  # 仍有未平倉持倉
-            last_c = float(df['close'].iloc[-1])  # 最新收盤價
-            unrealized_pips = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / pip_size  # [精確計算] 未實現 pips
-            unrealized_pnl = unrealized_pips * pip_val_usd - cost_per_trade  # [精確計算] 未實現美金損益
-            active_pos = {  # 構建活躍部位物件
-                "strategy": "Synthetic Short Straddle (5m)",  # 策略名稱
-                "symbol": symbol,  # 貨幣對
-                "type": "Buy (Short Put)" if pos == 1 else "Sell (Short Call)",  # 方向
-                "lot_size": lot_size,  # 手數
-                "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
-                "entry_price": round(entry_p, 5),  # 進場價
-                "current_price": round(last_c, 5),  # 最新價
-                "target_tp_price": round(entry_p + (tp_distance if pos == 1 else -tp_distance), 5),  # [修復] 目標止盈價
-                "hard_sl_price": round(entry_p + (-sl_distance if pos == 1 else sl_distance), 5),  # [修復] 硬停損價
-                "unrealized_pnl_usd": round(unrealized_pnl, 2),  # 未實現盈虧 (USD)
-                "unrealized_pnl_pips": round(unrealized_pips, 1),  # 未實現盈虧 (pips)
-                "duration_mins": (len(df) - 1 - entry_bar_idx) * 5  # 持倉時間
-            }  # 活躍持倉結束
 
         # 計算策略關鍵指標
         tot_trades = len(trades)  # 總筆數
@@ -483,19 +441,15 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             }  # 指標結束
         }  # 回傳結束
 
-    def execute_all_and_generate_payload(self) -> dict:  # 執行全策略回測並打包所有前端 JSON 資料
-        print("\n========================================================")  # 分隔線
-        print("   開始執行純日內 5m 雙策略 × 8 大模組即時運算與數據封包   ")  # 標題
-        print("========================================================\n")  # 分隔線
-
+    def execute_all_and_generate_payload(self) -> dict:  # 執行全量運算並生成 JSON 封包
         now_utc = datetime.datetime.now(datetime.timezone.utc)  # 取得當前 UTC 時間
-        now_tpe = now_utc + datetime.timedelta(hours=8)  # 取得台北時間 (UTC+8)
+        now_tpe = now_utc + datetime.timedelta(hours=8)  # 換算台北時間 (UTC+8)
+        print(f"[*] 開始更新 5m 純日內雙策略 8 大模組最新回測數據... (UTC: {now_utc.strftime('%Y-%m-%d %H:%M:%S')})")  # 輸出啟動日誌
 
-        data_cache = {}  # 儲存已抓取之 5m 數據表
-        for sym in self.all_symbols:  # 遍歷所有貨幣對
-            df = self.fetch_5m_data(sym, n_bars=5000)  # 抓取 5m 數據
-            if not df.empty:  # 數據非空
-                data_cache[sym] = df  # 快取數據
+        # 下載 5 大標的之 5m 數據
+        data_cache = {}  # 數據快取字典
+        for sym in self.all_symbols:  # 遍歷標的
+            data_cache[sym] = self.fetch_5m_data(sym)  # 抓取數據
 
         module_results = []  # 儲存所有 8 個策略模組結果
         all_completed_trades = []  # 儲存所有完成的交易紀錄
@@ -503,27 +457,23 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         symbols_meta = {}  # 儲存商品即時行情與指標狀態
         chart_data_dict = {}  # 儲存各商品 5m K 線與指標數據 (提供 Plotly 圖表)
 
-        # 1. 執行 4 款 Asian Scalper 模組
-        for sym in self.scalper_symbols:  # 遍歷標的
+        # 1. 執行 5 款 Asian Scalper 模組
+        for sym, cfg in self.scalper_configs.items():  # 遍歷標的
             if sym not in data_cache or data_cache[sym].empty: continue  # 檢查數據
-            res = self.run_scalper_strategy(sym, data_cache[sym], lot_size=1.0)  # 執行 1.0 手回測
+            res = self.run_scalper_strategy(sym, data_cache[sym], cfg, lot_size=1.0)  # 執行 1.0 手回測
             module_results.append(res)  # 儲存模組結果
             for t in res['trades']:  # 遍歷交易
                 t['module_id'] = f"Scalper_{sym}"  # 添加模組識別 ID
                 all_completed_trades.append(t)  # 寫入總交易列表
-            if res['active_pos'] is not None:  # 若有活躍持倉
-                active_positions_list.append(res['active_pos'])  # 寫入活躍列表
 
-        # 2. 執行 4 款 Short Straddle 模組
-        for sym in self.straddle_symbols:  # 遍歷標的
+        # 2. 執行 3 款 Short Straddle 模組
+        for sym, cfg in self.straddle_configs.items():  # 遍歷標的
             if sym not in data_cache or data_cache[sym].empty: continue  # 檢查數據
-            res = self.run_straddle_strategy(sym, data_cache[sym], lot_size=1.0)  # 執行 1.0 手回測
+            res = self.run_straddle_strategy(sym, data_cache[sym], cfg, lot_size=1.0)  # 執行 1.0 手回測
             module_results.append(res)  # 儲存模組結果
             for t in res['trades']:  # 遍歷交易
                 t['module_id'] = f"Straddle_{sym}"  # 添加模組識別 ID
                 all_completed_trades.append(t)  # 寫入總交易列表
-            if res['active_pos'] is not None:  # 若有活躍持倉
-                active_positions_list.append(res['active_pos'])  # 寫入活躍列表
 
         # 重新排序總交易明細 (依進場時間倒序)
         all_completed_trades.sort(key=lambda x: x['entry_time'], reverse=True)  # 最新交易排在最前面
@@ -549,13 +499,12 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             df['Z'] = (df['close'] - df['MA30']) / (df['STD30'] + 1e-9)  # Z-Score
 
             last_row = df.iloc[-1]  # 最新一根 K 線
-            prev_close = float(df['close'].iloc[-288]) if len(df) >= 288 else float(df['close'].iloc[0])  # 24H 前價格 (288根 5m)
+            prev_close = float(df['close'].iloc[-288]) if len(df) >= 288 else float(df['close'].iloc[0])  # 24H 前價格
             curr_c = float(last_row['close'])  # 最新收盤價
             change_24h = (curr_c - prev_close) / prev_close * 100  # 24H 漲跌幅
 
-            # 標記商品支援策略
-            supports_scalper = sym in self.scalper_symbols  # 是否支援夜間剝頭皮
-            supports_straddle = sym in self.straddle_symbols  # 是否支援跨式賣方
+            supports_scalper = sym in self.scalper_configs  # 是否支援夜間剝頭皮
+            supports_straddle = sym in self.straddle_configs  # 是否支援跨式賣方
 
             symbols_meta[sym] = {  # 構建商品中繼資訊
                 "symbol": sym,  # 貨幣對
@@ -567,7 +516,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 "current_zscore": round(float(last_row['Z']), 2) if not np.isnan(last_row['Z']) else 0.0,  # 最新 Z-Score
                 "supports_scalper": supports_scalper,  # 是否包含在 Scalper
                 "supports_straddle": supports_straddle,  # 是否包含在 Straddle
-                "is_scalper_session": (now_utc.hour >= 21) or (now_utc.hour <= 6),  # 當前是否在夜間收租時段
+                "spread_pips": self.platform_spreads.get(sym, 1.0),  # 實盤點差
+                "is_scalper_session": (now_utc.hour >= 22) or (now_utc.hour <= 5),  # 當前是否在夜間收租時段
                 "is_straddle_session": 7 <= now_utc.hour <= 20  # 當前是否在日間跨式時段
             }  # 商品資訊結束
 
@@ -618,13 +568,13 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 建立按時間對齊的綜合累積損益曲線 (各模組依平倉時間聚合，從 $0 起計)
         trades_chronological = sorted(all_completed_trades, key=lambda x: x['exit_time'])  # 依平倉時間正序
         first_time = trades_chronological[0]['entry_time'] if trades_chronological else "2024-01-01 00:00:00"  # 起始時間
-        combined_equity_curve = [{"time": first_time, "cum_pnl": 0.0, "balance": 100000.0, "pnl": 0.0}]  # 初始起始點 (損益從 $0 起算)
-        running_pnl = 0.0  # 當前累計淨損益 (從 0 開始)
+        combined_equity_curve = [{"time": first_time, "cum_pnl": 0.0, "balance": 100000.0, "pnl": 0.0}]  # 初始起始點
+        running_pnl = 0.0  # 當前累計淨損益
         for t in trades_chronological:  # 依序累加
             running_pnl += t['pnl_usd']  # 累計損益
             combined_equity_curve.append({  # 記錄節點
                 "time": t['exit_time'],  # 時間點
-                "cum_pnl": round(running_pnl, 2),  # 當前累計損益 (從 $0 起計)
+                "cum_pnl": round(running_pnl, 2),  # 當前累計損益
                 "balance": round(100000.0 + running_pnl, 2),  # 對應帳戶餘額
                 "pnl": t['pnl_usd'],  # 本筆損益
                 "symbol": t['symbol'],  # 交易標的
@@ -641,7 +591,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 構建最終輸出 JSON 結構
         payload = {  # 總資料物件
             "system_info": {  # 系統資訊
-                "title": "5m 純日內雙策略 8 商品極限收租監控儀表板",  # 標題
+                "title": "5m 純日內雙策略 × 8 大模組極限收租監控儀表板",  # 標題
                 "last_updated_utc": now_utc.strftime('%Y-%m-%d %H:%M:%S UTC'),  # UTC 時間
                 "last_updated_tpe": now_tpe.strftime('%Y-%m-%d %H:%M:%S (UTC+8)'),  # 台北時間
                 "symbols_count": len(self.all_symbols),  # 標的數量
@@ -661,11 +611,11 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 "current_capital": round(100000.0 + portfolio_pnl, 2)  # 當前結算本金
             },  # 組合 KPI 結束
             "modules_summary": modules_summary,  # 8 大模組指標明細
-            "symbols_meta": symbols_meta,  # 7 大貨幣對即時狀態
+            "symbols_meta": symbols_meta,  # 5 大貨幣對即時狀態
             "active_positions": active_positions_list,  # 即時未平倉活躍持倉
             "combined_equity_curve": combined_equity_curve,  # 組合權益曲線
             "all_trades": all_completed_trades,  # 全部歷史交易明細
-            "chart_data": chart_data_dict  # 7 大貨幣對圖表 K 線與指標數據
+            "chart_data": chart_data_dict  # 5 大貨幣對圖表 K 線與指標數據
         }  # 總資料結束
 
         # 輸出 strategy_results.json

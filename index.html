@@ -3,7 +3,7 @@
 <head> <!-- 網頁標頭區塊開始 -->
     <meta charset="UTF-8"> <!-- 設定 UTF-8 編碼 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 響應式視窗縮放設定 -->
-    <title>5m 純日內雙策略 8 商品極限收租量化監控儀表板</title> <!-- 網頁分頁標題 -->
+    <title>5m 純日內雙策略 8 大模組極限收租量化監控儀表板</title> <!-- 網頁分頁標題 -->
     <!-- 引入 Google Fonts 現代視效字型 Outfit 與 JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"> <!-- 字型樣式表 -->
     <!-- 引入 Plotly.js 互動繪圖函式庫 CDN -->
@@ -19,8 +19,8 @@
             <div class="logo-section"> <!-- Logo 與標題區 -->
                 <div class="strategy-badge-icon">⚡</div> <!-- 科技圖標徽章 -->
                 <div class="header-title-text"> <!-- 標題文字外框 -->
-                    <h1>5m 純日內雙策略 × 8 大模組量化極限收租儀表板</h1> <!-- 主標題 -->
-                    <p class="subtitle">Asian Night Scalper (UTC 07:00 Flat) & Synthetic Short Straddle (UTC 21:00 Flat)</p> <!-- 副標題說明 -->
+                    <h1>5m 純日內雙策略 × 8 大模組極限收租監控儀表板</h1> <!-- 主標題 -->
+                    <p class="subtitle">夜間 5 款 (UTC 22:00-05:00, 07:00清倉) & 日間 3 款 (UTC 07:00-20:00, 21:00清倉) | 100% 扣除真實點差與每手 $5 手續費</p> <!-- 副標題說明 -->
                 </div> <!-- 標題外框結束 -->
             </div> <!-- Logo 區結束 -->
             <div class="header-actions"> <!-- 右側狀態與動作群 -->
@@ -36,7 +36,7 @@
 
         <!-- 第一區：即時行情與指標狀態跑馬卡片 -->
         <section class="market-status-strip" id="market-tickers-container"> <!-- 即時報價小卡容器 -->
-            <!-- JavaScript 動態渲染 7 大貨幣對即時報價、RSI 與 Z-Score -->
+            <!-- JavaScript 動態渲染 5 大貨幣對即時報價、RSI 與 Z-Score -->
         </section> <!-- 報價區結束 -->
 
         <!-- 第二區：關鍵績效指標卡片 (KPI Cards) - 支援勾選即時動態重算 -->
@@ -89,7 +89,7 @@
                 <div class="card-main-val val-bear" id="kpi-max-drawdown">0.00%</div> <!-- MDD 百分比 -->
                 <div class="card-sub-info"> <!-- 底部細節 -->
                     <span>最大回撤金額: <strong id="kpi-mdd-dollars" class="val-bear">-$0</strong></span> <!-- MDD 美金 -->
-                    <span>單日風控: <strong class="val-bull">合規 (< 5%)</strong></span> <!-- 風控合規 -->
+                    <span>單日風控: <strong class="val-bull">合規 (&lt; 1%)</strong></span> <!-- 風控合規 -->
                 </div> <!-- 細節結束 -->
             </div> <!-- 卡片 4 結束 -->
 
@@ -99,34 +99,34 @@
                     <span class="card-title">🔔 當前即時持倉 (Active Open)</span> <!-- 標題 -->
                     <span class="card-icon">⏱️</span> <!-- 圖示 -->
                 </div> <!-- 頂部列結束 -->
-                <div class="card-main-val val-neutral" id="kpi-active-positions-count">0 筆</div> <!-- 活躍部位數 -->
+                <div class="card-main-val val-cyan" id="kpi-active-count">0 部位</div> <!-- 持倉數 -->
                 <div class="card-sub-info" id="kpi-active-positions-detail"> <!-- 底部細節 -->
                     <span>未實現損益: <strong id="kpi-unrealized-pnl" class="val-neutral">$0.00</strong></span> <!-- 未實現損益 -->
-                    <span>零隔夜狀態: <strong class="val-bull">監控中</strong></span> <!-- 狀態 -->
+                    <span>持倉狀態: <strong id="kpi-active-status" class="val-neutral">無在場單</strong></span> <!-- 狀態標籤 -->
                 </div> <!-- 細節結束 -->
             </div> <!-- 卡片 5 結束 -->
-        </section> <!-- KPI 網格結束 -->
+        </section> <!-- KPI 區結束 -->
 
-        <!-- 第三區：多商品與策略勾選過濾面板 (核心自訂勾選功能) -->
-        <section class="filter-control-panel"> <!-- 篩選盤容器 -->
-            <div class="filter-header"> <!-- 篩選頂部列 -->
-                <div class="filter-title"> <!-- 標題 -->
-                    <span>🔍</span> <strong>策略與商品自訂篩選器</strong> <!-- 標題文字 -->
-                    <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(勾選即時連動上方 KPI 指標、權益曲線與歷史交易明細)</span> <!-- 提示 -->
-                </div> <!-- 標題結束 -->
-                <div class="quick-strategy-toggles"> <!-- 快速切換按鈕群 -->
-                    <button class="btn-filter-toggle active" id="btn-toggle-all">🌟 全部組合 (8 模組)</button> <!-- 全部按鈕 -->
-                    <button class="btn-filter-toggle" id="btn-toggle-scalper">🌙 亞洲夜間收租 (4 標的)</button> <!-- 剝頭皮按鈕 -->
-                    <button class="btn-filter-toggle" id="btn-toggle-straddle">⚡ 合成跨式賣方 (4 標的)</button> <!-- 跨式按鈕 -->
-                    <button class="btn-filter-toggle" id="btn-select-all">全選</button> <!-- 全選按鈕 -->
-                    <button class="btn-filter-toggle" id="btn-clear-all">清除</button> <!-- 清除按鈕 -->
-                </div> <!-- 快選群結束 -->
-            </div> <!-- 頂部列結束 -->
+        <!-- 第三區：8 大策略模組勾選過濾與控制盤 -->
+        <section class="filter-control-panel"> <!-- 篩選控制外框 -->
+            <div class="filter-panel-header"> <!-- 標題列 -->
+                <div class="panel-title-text"> <!-- 標題群 -->
+                    <h2>🎛️ 5m 策略模組組合自選器 (即時連動重算)</h2> <!-- 標題 -->
+                    <span>勾選或取消個別模組，下方 KPI、資金曲線與明細將自動即時重新計算</span> <!-- 提示 -->
+                </div> <!-- 標題群結束 -->
+                <div class="filter-quick-presets"> <!-- 快捷預設按鈕 -->
+                    <button class="preset-btn active" id="btn-toggle-all">🌟 全部 8 大模組</button> <!-- 全部 -->
+                    <button class="preset-btn" id="btn-toggle-scalper">🌙 僅夜間剝頭皮 (5款)</button> <!-- 僅夜間 -->
+                    <button class="preset-btn" id="btn-toggle-straddle">⚡ 僅日間跨式賣方 (3款)</button> <!-- 僅日間 -->
+                    <button class="preset-btn-ghost" id="btn-select-all">全選</button> <!-- 全選 -->
+                    <button class="preset-btn-ghost" id="btn-clear-all">清除</button> <!-- 清除 -->
+                </div> <!-- 快捷按鈕結束 -->
+            </div> <!-- 標題列結束 -->
 
-            <!-- 個別貨幣對獨立勾選卡片群 (JavaScript 動態生成或靜態綁定) -->
+            <!-- 模組勾選卡片網格 -->
             <div class="asset-checkbox-grid" id="asset-checkbox-container"> <!-- 勾選卡片容器 -->
-                <!-- JavaScript 動態生成 7 款貨幣對 Checkbox 與個別交易次數/勝率徽章 -->
-            </div> <!-- 勾選群結束 -->
+                <!-- 由 JavaScript 動態渲染 8 大模組卡片 -->
+            </div> <!-- 容器結束 -->
         </section> <!-- 篩選盤結束 -->
 
         <!-- 第四區：Plotly 互動式圖表展示區 -->
@@ -141,13 +141,11 @@
                 <div class="chart-extra-options" id="candlestick-options" style="display:none;"> <!-- K 線圖專屬標的下拉選單 -->
                     <span style="font-size:12px; color:var(--text-secondary);">選擇圖表標的:</span> <!-- 標籤 -->
                     <select class="chart-select-dropdown" id="candlestick-symbol-select"> <!-- 標的下拉選單 -->
-                        <option value="NZDCAD">NZDCAD</option> <!-- 選項 -->
-                        <option value="AUDNZD">AUDNZD</option> <!-- 選項 -->
-                        <option value="AUDCAD">AUDCAD</option> <!-- 選項 -->
-                        <option value="EURGBP">EURGBP</option> <!-- 選項 -->
+                        <option value="AUDCHF">AUDCHF</option> <!-- 選項 -->
                         <option value="EURCHF">EURCHF</option> <!-- 選項 -->
-                        <option value="EURUSD">EURUSD</option> <!-- 選項 -->
-                        <option value="EURJPY">EURJPY</option> <!-- 選項 -->
+                        <option value="AUDCAD">AUDCAD</option> <!-- 選項 -->
+                        <option value="USDCHF">USDCHF</option> <!-- 選項 -->
+                        <option value="USDCAD">USDCAD</option> <!-- 選項 -->
                     </select> <!-- 下拉選單結束 -->
                 </div> <!-- K 線選項結束 -->
             </div> <!-- 控制列結束 -->
@@ -158,7 +156,40 @@
             </div> <!-- 繪圖容器結束 -->
         </section> <!-- 圖表區結束 -->
 
-        <!-- 第五區：歷史交易紀錄表格清單 (支援多維度搜尋、篩選、分頁與 CSV 匯出) -->
+        <!-- 第五區：8 大策略模組參數規格與實盤回測績效矩陣總表 -->
+        <section class="strategy-matrix-section" style="margin-top:24px;"> <!-- 策略矩陣區塊 -->
+            <div class="table-header-bar"> <!-- 表格標題操作列 -->
+                <div class="table-title-group"> <!-- 標題群組 -->
+                    <h2>📊 8 大策略模組參數規格與實盤回測績效矩陣</h2> <!-- 表格主標題 -->
+                    <span>100% 依實盤點差 (0.4~1.1 pips) 與每手 $5 手續費撮合計算</span> <!-- 補充說明 -->
+                </div> <!-- 標題群組結束 -->
+            </div> <!-- 標題列結束 -->
+
+            <div class="table-responsive-wrapper"> <!-- 滾動外框 -->
+                <table class="custom-trades-table"> <!-- 表格 -->
+                    <thead> <!-- 表頭 -->
+                        <tr> <!-- 表頭列 -->
+                            <th>模組識別碼</th> <!-- 識別碼 -->
+                            <th>策略名稱</th> <!-- 策略 -->
+                            <th>交易貨幣對</th> <!-- 標的 -->
+                            <th>掛載 EA 檔案</th> <!-- EA 檔名 -->
+                            <th>執行時段 (UTC)</th> <!-- 時段 -->
+                            <th>進出場設定 (TP/SL/Z)</th> <!-- 設定 -->
+                            <th>交易筆數</th> <!-- 筆數 -->
+                            <th>勝率</th> <!-- 勝率 -->
+                            <th>獲利因子 (PF)</th> <!-- PF -->
+                            <th>最大回撤 (MDD)</th> <!-- MDD -->
+                            <th>實質純利 (USD)</th> <!-- 純利 -->
+                        </tr> <!-- 表頭列結束 -->
+                    </thead> <!-- 表頭結束 -->
+                    <tbody id="strategy-matrix-table-body"> <!-- 表體 -->
+                        <!-- 由 JavaScript 動態渲染 -->
+                    </tbody> <!-- 表體結束 -->
+                </table> <!-- 表格結束 -->
+            </div> <!-- 滾動外框結束 -->
+        </section> <!-- 策略矩陣結束 -->
+
+        <!-- 第六區：歷史交易紀錄表格清單 -->
         <section class="trades-table-section"> <!-- 表格區塊 -->
             <div class="table-header-bar"> <!-- 表格標題操作列 -->
                 <div class="table-title-group"> <!-- 標題群組 -->
@@ -225,7 +256,7 @@
             </div> <!-- 分頁列結束 -->
         </section> <!-- 表格區結束 -->
 
-        <!-- 第六區：策略規格與 MT5 參數速查卡片 (Strategy Reference) -->
+        <!-- 第七區：策略規格與 MT5 參數速查卡片 (Strategy Reference) -->
         <section class="strategy-guide-section"> <!-- 說明手冊區塊 -->
             <div class="table-title-group"> <!-- 標題 -->
                 <h2>📖 兩大純日內 5m 策略核心規範速查 (Zero-Overnight Rules)</h2> <!-- 標題文字 -->
@@ -235,27 +266,37 @@
             <div class="strategy-guide-grid"> <!-- 雙欄規格卡片 -->
                 <!-- 策略 1 規格 -->
                 <div class="guide-spec-box"> <!-- 規格盒 1 -->
-                    <h3 style="color:var(--color-purple);">🌙 策略 1：5m 亞洲夜間極限收租 (Asian Night Scalper)</h3> <!-- 策略 1 標題 -->
+                    <h3 style="color:var(--color-purple);">🌙 策略 1：5m 亞洲夜間極限收租 (OptionSeller_AsianNightScalper_5m.mq5)</h3> <!-- 策略 1 標題 -->
                     <ul class="guide-spec-list"> <!-- 清單 -->
-                        <li>🎯 <strong>核心標的</strong>：NZDCAD, AUDNZD, AUDCAD, EURGBP</li> <!-- 標的 -->
-                        <li>⏰ <strong>交易時段</strong>：進場 UTC 21:00 ～ 06:00 | <strong>UTC 07:00 強制清倉 (零隔夜)</strong></li> <!-- 時段 -->
-                        <li>📐 <strong>指標模型</strong>：20 週期 Bollinger Bands (2.2σ) + 14 週期 RSI</li> <!-- 指標 -->
+                        <li>🎯 <strong>掛載清單 (5款)</strong>：
+                            <br>• <code>AUDCHF [M5]</code>: TP 50 (5p) / SL 350 (35p) / 容許點差 18 pts
+                            <br>• <code>EURCHF [M5]</code>: TP 50 (5p) / SL 350 (35p) / 容許點差 15 pts
+                            <br>• <code>AUDCAD [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 20 pts
+                            <br>• <code>USDCHF [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 12 pts
+                            <br>• <code>USDCAD [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 12 pts
+                        </li> <!-- 標的 -->
+                        <li>⏰ <strong>交易時段</strong>：進場 <strong>UTC 22:00 ～ 05:00</strong> | <strong>UTC 07:00 強制清倉 (零隔夜)</strong></li> <!-- 時段 -->
+                        <li>📐 <strong>指標模型</strong>：20 週期 Bollinger Bands (2.2σ) + 14 週期 RSI (35/65)</li> <!-- 指標 -->
                         <li>🟢 <strong>買進訊號</strong>：收盤價 $\le$ 布林下軌 且 RSI $\le$ 35 (賣 Put 收租)</li> <!-- 買進 -->
                         <li>🔴 <strong>賣出訊號</strong>：收盤價 $\ge$ 布林上軌 且 RSI $\ge$ 65 (賣 Call 收租)</li> <!-- 賣出 -->
-                        <li>💰 <strong>出場機制</strong>：+5 pips (0.05%) / 中軌止盈；-35 pips (0.35%) 硬停損</li> <!-- 出場 -->
+                        <li>💰 <strong>出場機制</strong>：指定 TP 止盈 / 布林中軌獲利平倉；指定 SL 硬停損</li> <!-- 出場 -->
                     </ul> <!-- 清單結束 -->
                 </div> <!-- 規格盒 1 結束 -->
 
                 <!-- 策略 2 規格 -->
                 <div class="guide-spec-box"> <!-- 規格盒 2 -->
-                    <h3 style="color:var(--color-accent);">⚡ 策略 2：5m 合成跨式賣方模型 (Synthetic Short Straddle)</h3> <!-- 策略 2 標題 -->
+                    <h3 style="color:var(--color-accent);">⚡ 策略 2：5m 合成跨式賣方模型 (OptionSeller_SyntheticShortStraddle_5m.mq5)</h3> <!-- 策略 2 標題 -->
                     <ul class="guide-spec-list"> <!-- 清單 -->
-                        <li>🎯 <strong>核心標的</strong>：EURCHF, EURGBP, EURUSD, EURJPY</li> <!-- 標的 -->
-                        <li>⏰ <strong>交易時段</strong>：進場 UTC 07:00 ～ 20:00 | <strong>UTC 21:00 強制清倉 (零隔夜)</strong></li> <!-- 時段 -->
+                        <li>🎯 <strong>掛載清單 (3款)</strong>：
+                            <br>• <code>AUDCHF [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 50 (5p) / SL 350 (35p)
+                            <br>• <code>AUDCAD [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 80 (8p) / SL 400 (40p)
+                            <br>• <code>USDCAD [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 50 (5p) / SL 350 (35p)
+                        </li> <!-- 標的 -->
+                        <li>⏰ <strong>交易時段</strong>：進場 <strong>UTC 07:00 ～ 20:00</strong> | <strong>UTC 21:00 強制清倉 (零隔夜)</strong></li> <!-- 時段 -->
                         <li>📐 <strong>指標模型</strong>：30 週期滾動均值與標準差，動態波動偏離度 $Z\text{-Score}$</li> <!-- 指標 -->
                         <li>🟢 <strong>買進訊號</strong>：$Z \le -2.1\sigma$ (Short OTM Put 側買入)</li> <!-- 買進 -->
                         <li>🔴 <strong>賣出訊號</strong>：$Z \ge +2.1\sigma$ (Short OTM Call 側賣出)</li> <!-- 賣出 -->
-                        <li>💰 <strong>出場機制</strong>：$|Z| \le 0.2\sigma$ 均值回歸 / +5 pips 止盈；$|Z| \ge 3.8\sigma$ / -35 pips 硬停損</li> <!-- 出場 -->
+                        <li>💰 <strong>出場機制</strong>：$|Z| \le 0.2\sigma$ 均值回歸獲利平倉 / 指定 TP 止盈；$|Z| \ge 3.8\sigma$ / 指定 SL 硬停損</li> <!-- 出場 -->
                     </ul> <!-- 清單結束 -->
                 </div> <!-- 規格盒 2 結束 -->
             </div> <!-- 雙欄結束 -->
