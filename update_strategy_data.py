@@ -25,6 +25,23 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 整合所有獨立貨幣對清單
         self.all_symbols = sorted(list(set(self.scalper_symbols + self.straddle_symbols)))  # 7 大不重複貨幣對
 
+    def get_pip_size(self, symbol: str) -> float:  # [修復] 取得 1 pip 最小價格單位
+        return 0.01 if "JPY" in symbol else 0.0001  # JPY 貨幣對 1 pip = 0.01, 其餘 = 0.0001
+
+    def get_pip_value_usd(self, symbol: str, lot_size: float = 1.0) -> float:  # [修復] 計算 1 pip 在 USD 的真實價值
+        quote_usd_rates = {  # 報價貨幣轉 USD 的即時精確匯率對照表
+            "EURUSD": 1.0,       # 報價貨幣為 USD: $10.00 / pip
+            "NZDCAD": 1.0/1.37,  # 報價貨幣為 CAD: $7.30 / pip
+            "AUDNZD": 0.60,      # 報價貨幣為 NZD: $6.00 / pip
+            "AUDCAD": 1.0/1.37,  # 報價貨幣為 CAD: $7.30 / pip
+            "EURGBP": 1.30,      # 報價貨幣為 GBP: $13.00 / pip
+            "EURCHF": 1.0/0.88,  # 報價貨幣為 CHF: $11.36 / pip
+            "EURJPY": 1.0/148.0, # 報價貨幣為 JPY: $6.76 / pip
+        }  # 匯率表結束
+        base_pip = 100000.0 * self.get_pip_size(symbol)  # 1 標準手 1 pip 在計價幣的金額 (非JPY=10, JPY=1000)
+        conversion = quote_usd_rates.get(symbol, 1.0)  # 取得對應美金轉換率
+        return base_pip * conversion * lot_size  # 回傳每 pip 的美金價值
+
     def fetch_5m_data(self, symbol: str, n_bars: int = 5000) -> pd.DataFrame:  # 抓取 5m K 線數據
         print(f"[*] 正在抓取 [{symbol}] 5m 行情數據...")  # 輸出抓取日誌
         df = None  # 初始化數據表
@@ -81,8 +98,10 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         trades = []  # 交易記錄列表
         active_pos = None  # 當前即時活躍部位
         cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($5 / 1.0 Lot)
-        tp_ratio = 0.0005  # 止盈比例 0.05% (5 pips)
-        sl_ratio = 0.0035  # 止損比例 0.35% (35 pips)
+        pip_size = self.get_pip_size(symbol)  # [精確計算] 取得商品最小 pip 單位 (0.0001 或 0.01)
+        pip_val_usd = self.get_pip_value_usd(symbol, lot_size)  # [精確計算] 取得每 pip 實際美金價值
+        tp_distance = 5.0 * pip_size  # 5 pips 止盈目標價差
+        sl_distance = 35.0 * pip_size  # 35 pips 停損目標價差
         equity_records = []  # 權益曲線記錄
 
         for i in range(len(df)):  # 遍歷每根 5m K 棒
@@ -102,16 +121,16 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 is_closed = False  # 是否已結算平倉
 
                 if pos == 1:  # 多單持倉
-                    if h >= entry_p * (1.0 + tp_ratio):  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p * (1.0 + tp_ratio)  # 止盈價
+                    if h >= entry_p + tp_distance:  # 觸及 5 pips 止盈目標
+                        exit_price = entry_p + tp_distance  # 止盈價
                         exit_reason = "TP (+5 pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
                     elif c >= df['MA'].iloc[i]:  # 回歸布林中軌止盈
                         exit_price = c  # 中軌現價
                         exit_reason = "TP (BB Midline)"  # 中軌止盈原因
                         is_closed = True  # 標記平倉
-                    elif l <= entry_p * (1.0 - sl_ratio):  # 觸及 35 pips 硬停損
-                        exit_price = entry_p * (1.0 - sl_ratio)  # 停損價
+                    elif l <= entry_p - sl_distance:  # 觸及 35 pips 硬停損
+                        exit_price = entry_p - sl_distance  # 停損價
                         exit_reason = "SL (-35 pips)"  # 硬停損原因
                         is_closed = True  # 標記平倉
                     elif is_force_exit:  # UTC 07:00 時間強制清倉
@@ -120,8 +139,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_dollars = (exit_price - entry_p) / entry_p * 100000.0 * lot_size - cost_per_trade  # 計算淨美金盈虧
-                        pnl_pips = (exit_price - entry_p) / entry_p * 10000  # 計算盈虧 pips 點數
+                        pnl_pips = (exit_price - entry_p) / pip_size  # [精確計算] 多單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 多單美金淨損益 (扣手續費)
                         ret_pct = (exit_price - entry_p) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數量
@@ -146,16 +165,16 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         pos = 0  # 重設為空倉
 
                 elif pos == -1:  # 空單持倉
-                    if l <= entry_p * (1.0 - tp_ratio):  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p * (1.0 - tp_ratio)  # 止盈價
+                    if l <= entry_p - tp_distance:  # 觸及 5 pips 止盈目標
+                        exit_price = entry_p - tp_distance  # 止盈價
                         exit_reason = "TP (+5 pips)"  # 止盈標籤
                         is_closed = True  # 標記平倉
                     elif c <= df['MA'].iloc[i]:  # 回歸布林中軌止盈
                         exit_price = c  # 中軌現價
                         exit_reason = "TP (BB Midline)"  # 中軌止盈原因
                         is_closed = True  # 標記平倉
-                    elif h >= entry_p * (1.0 + sl_ratio):  # 觸及 35 pips 硬停損
-                        exit_price = entry_p * (1.0 + sl_ratio)  # 停損價
+                    elif h >= entry_p + sl_distance:  # 觸及 35 pips 硬停損
+                        exit_price = entry_p + sl_distance  # 停損價
                         exit_reason = "SL (-35 pips)"  # 停損標籤
                         is_closed = True  # 標記平倉
                     elif is_force_exit:  # UTC 07:00 時間強制清倉
@@ -164,8 +183,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_dollars = (entry_p - exit_price) / entry_p * 100000.0 * lot_size - cost_per_trade  # 計算淨美金盈虧
-                        pnl_pips = (entry_p - exit_price) / entry_p * 10000  # 計算盈虧 pips 點數
+                        pnl_pips = (entry_p - exit_price) / pip_size  # [精確計算] 空單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 空單美金淨損益 (扣手續費)
                         ret_pct = (entry_p - exit_price) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
@@ -207,8 +226,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 檢查最後一根 K 棒是否有活躍持倉
         if pos != 0:  # 仍有未平倉持倉
             last_c = float(df['close'].iloc[-1])  # 最新收盤價
-            unrealized_pnl = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / entry_p * 100000.0 * lot_size - cost_per_trade  # 計算未實現盈虧美金
-            unrealized_pips = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / entry_p * 10000  # 計算未實現 pips
+            unrealized_pips = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / pip_size  # [精確計算] 未實現 pips
+            unrealized_pnl = unrealized_pips * pip_val_usd - cost_per_trade  # [精確計算] 未實現美金損益
             active_pos = {  # 構建活躍部位物件
                 "strategy": "Asian Night Scalper (5m)",  # 策略名稱
                 "symbol": symbol,  # 貨幣對
@@ -217,8 +236,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
                 "entry_price": round(entry_p, 5),  # 進場價
                 "current_price": round(last_c, 5),  # 最新價
-                "target_tp_price": round(entry_p * (1.0 + (tp_ratio if pos == 1 else -tp_ratio)), 5),  # 目標止盈價
-                "hard_sl_price": round(entry_p * (1.0 + (-sl_ratio if pos == 1 else sl_ratio)), 5),  # 硬停損價
+                "target_tp_price": round(entry_p + (tp_distance if pos == 1 else -tp_distance), 5),  # [修復] 目標止盈價
+                "hard_sl_price": round(entry_p + (-sl_distance if pos == 1 else sl_distance), 5),  # [修復] 硬停損價
                 "unrealized_pnl_usd": round(unrealized_pnl, 2),  # 未實現盈虧 (USD)
                 "unrealized_pnl_pips": round(unrealized_pips, 1),  # 未實現盈虧 (pips)
                 "duration_mins": (len(df) - 1 - entry_bar_idx) * 5  # 持倉時間
@@ -274,8 +293,10 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         trades = []  # 交易記錄列表
         active_pos = None  # 當前即時活躍部位
         cost_per_trade = 5.0 * lot_size  # 單筆交易手續費 ($5 / 1.0 Lot)
-        tp_ratio = 0.0005  # 止盈比例 0.05% (5 pips)
-        sl_ratio = 0.0035  # 止損比例 0.35% (35 pips)
+        pip_size = self.get_pip_size(symbol)  # [精確計算] 取得商品最小 pip 單位 (0.0001 或 0.01)
+        pip_val_usd = self.get_pip_value_usd(symbol, lot_size)  # [精確計算] 取得每 pip 實際美金價值
+        tp_distance = 5.0 * pip_size  # 5 pips 止盈目標價差
+        sl_distance = 35.0 * pip_size  # 35 pips 停損目標價差
         equity_records = []  # 權益曲線記錄
 
         for i in range(len(df)):  # 遍歷每根 5m K 棒
@@ -300,16 +321,16 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         exit_price = c  # 現價平倉
                         exit_reason = "Mean Reversion (Z >= -0.2)"  # 均值回歸原因
                         is_closed = True  # 標記平倉
-                    elif h >= entry_p * (1.0 + tp_ratio):  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p * (1.0 + tp_ratio)  # 止盈價
+                    elif h >= entry_p + tp_distance:  # 觸及 5 pips 止盈目標
+                        exit_price = entry_p + tp_distance  # 止盈價
                         exit_reason = "TP (+5 pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
                     elif z <= -3.8:  # 極端偏離停損
                         exit_price = c  # 現價停損
                         exit_reason = "SL (Z <= -3.8)"  # Z值極端偏離停損
                         is_closed = True  # 標記平倉
-                    elif l <= entry_p * (1.0 - sl_ratio):  # 觸及 35 pips 硬停損
-                        exit_price = entry_p * (1.0 - sl_ratio)  # 硬停損價
+                    elif l <= entry_p - sl_distance:  # 觸及 35 pips 硬停損
+                        exit_price = entry_p - sl_distance  # 硬停損價
                         exit_reason = "SL (-35 pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
                     elif is_force_exit:  # UTC 21:00 時間強制清倉
@@ -318,8 +339,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_dollars = (exit_price - entry_p) / entry_p * 100000.0 * lot_size - cost_per_trade  # 計算淨美金盈虧
-                        pnl_pips = (exit_price - entry_p) / entry_p * 10000  # 計算盈虧 pips
+                        pnl_pips = (exit_price - entry_p) / pip_size  # [精確計算] 多單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 多單美金淨損益 (扣手續費)
                         ret_pct = (exit_price - entry_p) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
@@ -348,16 +369,16 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         exit_price = c  # 現價平倉
                         exit_reason = "Mean Reversion (Z <= 0.2)"  # 均值回歸原因
                         is_closed = True  # 標記平倉
-                    elif l <= entry_p * (1.0 - tp_ratio):  # 觸及 5 pips 止盈目標
-                        exit_price = entry_p * (1.0 - tp_ratio)  # 止盈價
+                    elif l <= entry_p - tp_distance:  # 觸及 5 pips 止盈目標
+                        exit_price = entry_p - tp_distance  # 止盈價
                         exit_reason = "TP (+5 pips)"  # 止盈原因標籤
                         is_closed = True  # 標記平倉
                     elif z >= 3.8:  # 極端偏離停損
                         exit_price = c  # 現價停損
                         exit_reason = "SL (Z >= 3.8)"  # Z值極端偏離停損
                         is_closed = True  # 標記平倉
-                    elif h >= entry_p * (1.0 + sl_ratio):  # 觸及 35 pips 硬停損
-                        exit_price = entry_p * (1.0 + sl_ratio)  # 硬停損價
+                    elif h >= entry_p + sl_distance:  # 觸及 35 pips 硬停損
+                        exit_price = entry_p + sl_distance  # 硬停損價
                         exit_reason = "SL (-35 pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
                     elif is_force_exit:  # UTC 21:00 時間強制清倉
@@ -366,8 +387,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
-                        pnl_dollars = (entry_p - exit_price) / entry_p * 100000.0 * lot_size - cost_per_trade  # 計算淨美金盈虧
-                        pnl_pips = (entry_p - exit_price) / entry_p * 10000  # 計算盈虧 pips
+                        pnl_pips = (entry_p - exit_price) / pip_size  # [精確計算] 空單獲利點數 (pips)
+                        pnl_dollars = pnl_pips * pip_val_usd - cost_per_trade  # [精確計算] 空單美金淨損益 (扣手續費)
                         ret_pct = (entry_p - exit_price) / entry_p * 100  # 計算報酬百分比
                         balance += pnl_dollars  # 更新帳戶餘額
                         duration_bars = i - entry_bar_idx  # 計算持倉 K 棒數
@@ -409,8 +430,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         # 檢查最後一根 K 棒是否有活躍持倉
         if pos != 0:  # 仍有未平倉持倉
             last_c = float(df['close'].iloc[-1])  # 最新收盤價
-            unrealized_pnl = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / entry_p * 100000.0 * lot_size - cost_per_trade  # 計算未實現盈虧美金
-            unrealized_pips = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / entry_p * 10000  # 計算未實現 pips
+            unrealized_pips = ((last_c - entry_p) if pos == 1 else (entry_p - last_c)) / pip_size  # [精確計算] 未實現 pips
+            unrealized_pnl = unrealized_pips * pip_val_usd - cost_per_trade  # [精確計算] 未實現美金損益
             active_pos = {  # 構建活躍部位物件
                 "strategy": "Synthetic Short Straddle (5m)",  # 策略名稱
                 "symbol": symbol,  # 貨幣對
@@ -419,8 +440,8 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
                 "entry_price": round(entry_p, 5),  # 進場價
                 "current_price": round(last_c, 5),  # 最新價
-                "target_tp_price": round(entry_p * (1.0 + (tp_ratio if pos == 1 else -tp_ratio)), 5),  # 目標止盈價
-                "hard_sl_price": round(entry_p * (1.0 + (-sl_ratio if pos == 1 else sl_ratio)), 5),  # 硬停損價
+                "target_tp_price": round(entry_p + (tp_distance if pos == 1 else -tp_distance), 5),  # [修復] 目標止盈價
+                "hard_sl_price": round(entry_p + (-sl_distance if pos == 1 else sl_distance), 5),  # [修復] 硬停損價
                 "unrealized_pnl_usd": round(unrealized_pnl, 2),  # 未實現盈虧 (USD)
                 "unrealized_pnl_pips": round(unrealized_pips, 1),  # 未實現盈虧 (pips)
                 "duration_mins": (len(df) - 1 - entry_bar_idx) * 5  # 持倉時間
@@ -594,15 +615,17 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 "roi_pct": m['metrics']['roi_pct']  # 投報率 (%)
             })  # 結束摘要
 
-        # 建立按時間對齊的綜合權益曲線 (各模組依平倉時間聚合)
+        # 建立按時間對齊的綜合累積損益曲線 (各模組依平倉時間聚合，從 $0 起計)
         trades_chronological = sorted(all_completed_trades, key=lambda x: x['exit_time'])  # 依平倉時間正序
-        combined_equity_curve = [{"time": "2024-01-01 00:00:00", "balance": 100000.0, "pnl": 0.0}]  # 初始起始點
-        running_bal = 100000.0  # 當前累計淨值
+        first_time = trades_chronological[0]['entry_time'] if trades_chronological else "2024-01-01 00:00:00"  # 起始時間
+        combined_equity_curve = [{"time": first_time, "cum_pnl": 0.0, "balance": 100000.0, "pnl": 0.0}]  # 初始起始點 (損益從 $0 起算)
+        running_pnl = 0.0  # 當前累計淨損益 (從 0 開始)
         for t in trades_chronological:  # 依序累加
-            running_bal += t['pnl_usd']  # 累計損益
+            running_pnl += t['pnl_usd']  # 累計損益
             combined_equity_curve.append({  # 記錄節點
                 "time": t['exit_time'],  # 時間點
-                "balance": round(running_bal, 2),  # 當前權益
+                "cum_pnl": round(running_pnl, 2),  # 當前累計損益 (從 $0 起計)
+                "balance": round(100000.0 + running_pnl, 2),  # 對應帳戶餘額
                 "pnl": t['pnl_usd'],  # 本筆損益
                 "symbol": t['symbol'],  # 交易標的
                 "strategy": t['strategy']  # 交易策略

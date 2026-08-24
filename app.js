@@ -408,8 +408,8 @@ function renderMainChart() { // 主圖表調度函數
     } // 分頁判斷結束
 } // renderMainChart 結束
 
-// 繪製分頁 1：組合累積資金權益曲線 (隨勾選商品動態重算聚合)
-function renderCombinedEquityChart() { // 組合權益圖繪製函數
+// 繪製分頁 1：組合累積淨損益曲線 (從 $0 起計，隨勾選商品動態重算聚合)
+function renderCombinedEquityChart() { // 組合損益圖繪製函數
     const filteredTrades = globalData.all_trades.filter(t => { // 過濾交易
         const matchSymbol = selectedSymbols.has(t.symbol); // 標的符合
         let matchStrategy = true; // 策略符合
@@ -418,39 +418,43 @@ function renderCombinedEquityChart() { // 組合權益圖繪製函數
         return matchSymbol && matchStrategy; // 兩者符合
     }).sort((a, b) => new Date(a.exit_time) - new Date(b.exit_time)); // 依出場時間正序
 
-    // 建立時間序列節點
+    // 建立時間序列節點 (從 $0 淨損益起算)
     const timeSeries = []; // 時間陣列
-    const balanceSeries = []; // 權益陣列
-    let currentBal = 100000.0; // 初始本金 $100,000
+    const pnlSeries = []; // 累積淨損益陣列
+    let currentPnl = 0.0; // 初始累計淨利 $0.0
 
     if (filteredTrades.length > 0) { // 若有交易
         timeSeries.push(filteredTrades[0].entry_time); // 起始時間點
-        balanceSeries.push(currentBal); // 起始本金
+        pnlSeries.push(0.0); // 起始損益 $0.0
         filteredTrades.forEach(t => { // 遍歷交易
-            currentBal += t.pnl_usd; // 累加淨值
+            currentPnl += t.pnl_usd; // 累加淨損益
             timeSeries.push(t.exit_time); // 記錄時間
-            balanceSeries.push(Math.round(currentBal * 100) / 100); // 記錄權益
+            pnlSeries.push(Math.round(currentPnl * 100) / 100); // 記錄累計損益
         }); // 遍歷結束
     } else { // 無交易
         timeSeries.push(new Date().toISOString().substring(0, 19).replace('T', ' ')); // 當前時間
-        balanceSeries.push(100000.0); // 本金
+        pnlSeries.push(0.0); // 損益 $0.0
     } // 判斷結束
+
+    const isPositive = (pnlSeries[pnlSeries.length - 1] || 0) >= 0; // 判斷最終損益正負
+    const lineColor = isPositive ? '#00e676' : '#ff1744'; // 綠色或紅色
+    const fillColor = isPositive ? 'rgba(0, 230, 118, 0.12)' : 'rgba(255, 23, 68, 0.12)'; // 對應填充
 
     const trace = { // 定義曲線軌跡
         x: timeSeries, // X 軸時間
-        y: balanceSeries, // Y 軸權益
+        y: pnlSeries, // Y 軸累積淨損益
         mode: 'lines', // 折線模式
-        name: '篩選組合資金權益 ($100k 本金)', // 圖例名稱
-        line: { color: '#00e676', width: 2.8 }, // 亮綠色線條
-        fill: 'tozeroy', // 填充至底部
-        fillcolor: 'rgba(0, 230, 118, 0.08)' // 淡綠半透明填充
+        name: '累積淨損益 ($0起計)', // 圖例名稱
+        line: { color: lineColor, width: 2.8 }, // 線條顏色
+        fill: 'tozeroy', // 填充至 $0 基準線
+        fillcolor: fillColor // 半透明填充
     }; // 軌跡結束
 
     const layout = { // 定義圖表面版樣式
-        paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 60, r: 40, t: 40, b: 40 }, // 背景色與邊距
-        title: { text: `所選 ${selectedSymbols.size} 款商品之累計權益曲線 (固定 1.0 Lot / 零隔夜)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 }, // 背景色與邊距
+        title: { text: `所選 ${selectedSymbols.size} 款商品之累積淨損益曲線 (從 $0 起計 / 扣手續費實收)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } }, // X 軸
-        yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$' }, // Y 軸
+        yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 }, // Y 軸與 $0 基準線
         hovermode: 'x unified', // 統一浮動標籤
         legend: { orientation: 'h', y: 1.1, font: { color: '#8b949e' } } // 圖例
     }; // 面版結束
@@ -458,39 +462,39 @@ function renderCombinedEquityChart() { // 組合權益圖繪製函數
     Plotly.newPlot('main-plotly-chart', [trace], layout, { responsive: true, displayModeBar: true }); // 渲染 Plotly 圖表
 } // renderCombinedEquityChart 結束
 
-// 繪製分頁 2：多商品個別資金曲線對比圖
+// 繪製分頁 2：多商品個別累積損益曲線對比圖 (從 $0 起計)
 function renderComparativeEquityChart() { // 多商品比較圖繪製函數
     const traces = []; // 軌跡陣列
 
     selectedSymbols.forEach(sym => { // 遍歷已勾選的商品
-        // 抓取該標的的交易並重建該標的的權益曲線
+        // 抓取該標的的交易並重建該標的的累計損益曲線
         const symTrades = globalData.all_trades.filter(t => t.symbol === sym).sort((a, b) => new Date(a.exit_time) - new Date(b.exit_time)); // 依時間排序
         if (symTrades.length === 0) return; // 無交易跳過
 
         const tTimes = [symTrades[0].entry_time]; // 時間
-        const tBals = [100000.0]; // 權益
-        let rBal = 100000.0; // 淨值
+        const tPnls = [0.0]; // 累積損益 (從 $0 開始)
+        let rPnl = 0.0; // 當前累計淨利
 
         symTrades.forEach(t => { // 遍歷
-            rBal += t.pnl_usd; // 累加
+            rPnl += t.pnl_usd; // 累加損益
             tTimes.push(t.exit_time); // 時間
-            tBals.push(Math.round(rBal * 100) / 100); // 權益
+            tPnls.push(Math.round(rPnl * 100) / 100); // 累積損益
         }); // 結束
 
         traces.push({ // 加入軌跡
             x: tTimes, // 時間
-            y: tBals, // 權益
+            y: tPnls, // 損益
             mode: 'lines', // 折線
-            name: `${sym} (${symTrades.length} 筆交易)`, // 名稱
+            name: `${sym} (${symTrades.length} 筆 / ${rPnl >= 0 ? '+' : ''}$${Math.round(rPnl).toLocaleString()})`, // 名稱與總獲利
             line: { color: symbolColors[sym] || '#fff', width: 2.2 } // 專屬顏色
         }); // 結束
     }); // 遍歷結束
 
     const layout = { // 面版樣式
-        paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 60, r: 40, t: 40, b: 40 }, // 背景色
-        title: { text: '各貨幣對獨立資金成長曲線比較 (初始本金 $100,000)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 }, // 背景色
+        title: { text: '各貨幣對獨立累積淨損益比較 (從 $0 起計 / 扣手續費)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } }, // X 軸
-        yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$' }, // Y 軸
+        yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 }, // Y 軸與 $0 基準線
         hovermode: 'x unified', // 統一浮動
         legend: { orientation: 'h', y: 1.12, font: { color: '#8b949e', size: 11 } } // 圖例
     }; // 面版結束
