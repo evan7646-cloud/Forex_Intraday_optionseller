@@ -1,0 +1,562 @@
+﻿trade_id,strategy,symbol,type,lot_size,entry_time,entry_price,exit_time,exit_price,pnl_usd,pnl_pips,return_pct,exit_reason,duration_bars,duration_mins,win,module_id,global_id
+113,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-24 08:20:00,185.524,2026-08-24 09:15:00,185.57,39.59,2.5,0.025,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURJPY,1
+79,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-24 08:10:00,0.93502,2026-08-24 10:30:00,0.93486,-44.22,-1.7,-0.017,Mean Reversion (Z >= -0.2),28,140,False,Straddle_EURCHF,2
+97,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-24 07:55:00,1.16824,2026-08-24 09:15:00,1.16802,27.66,1.9,0.019,Mean Reversion (Z <= 0.2),16,80,True,Straddle_EURUSD,3
+53,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-24 05:20:00,1.1985,2026-08-24 05:25:00,1.1991,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDNZD,4
+40,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-24 05:00:00,0.8252,2026-08-24 05:40:00,0.82479,90.0,5.0,0.05,TP (+5 pips),8,40,True,Scalper_NZDCAD,5
+52,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-24 05:00:00,1.19893,2026-08-24 05:15:00,1.19953,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_AUDNZD,6
+43,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-24 05:00:00,0.98959,2026-08-24 05:30:00,0.9891,90.0,5.0,0.05,TP (+5 pips),6,30,True,Scalper_AUDCAD,7
+40,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-24 05:00:00,0.85646,2026-08-24 05:30:00,0.85603,90.0,5.0,0.05,TP (+5 pips),6,30,True,Scalper_EURGBP,8
+39,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-22 04:40:00,0.82283,2026-08-22 04:55:00,0.82324,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_NZDCAD,9
+51,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-22 04:05:00,1.19937,2026-08-22 04:10:00,1.19962,31.69,2.1,0.021,TP (BB Midline),1,5,True,Scalper_AUDNZD,10
+42,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-22 03:30:00,0.98744,2026-08-24 05:00:00,0.98793,90.0,5.0,0.05,TP (+5 pips),18,90,True,Scalper_AUDCAD,11
+41,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-22 02:00:00,0.98786,2026-08-22 03:05:00,0.9876,42.64,2.6,0.026,TP (BB Midline),13,65,True,Scalper_AUDCAD,12
+39,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-22 01:05:00,0.85612,2026-08-22 03:10:00,0.8558,-84.76,-3.7,-0.037,TP (BB Midline),25,125,False,Scalper_EURGBP,13
+50,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-22 00:10:00,1.19928,2026-08-22 01:00:00,1.19957,38.36,2.4,0.024,TP (BB Midline),10,50,True,Scalper_AUDNZD,14
+38,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-21 23:30:00,0.8232,2026-08-22 01:00:00,0.82319,-7.57,0.1,0.001,TP (BB Midline),18,90,False,Scalper_NZDCAD,15
+49,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-21 21:05:00,1.19824,2026-08-21 23:50:00,1.19955,-228.65,-10.9,-0.109,TP (BB Midline),33,165,False,Scalper_AUDNZD,16
+96,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-21 20:15:00,0.85642,2026-08-21 20:35:00,0.85696,116.11,6.3,0.063,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURGBP,17
+78,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-21 19:45:00,0.93546,2026-08-21 20:15:00,0.93498,92.62,5.1,0.051,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURCHF,18
+96,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-21 19:30:00,1.16988,2026-08-21 21:00:00,1.16882,-191.22,-9.1,-0.091,Time Cutoff (UTC 21:00),18,90,False,Straddle_EURUSD,19
+95,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-21 18:55:00,0.85739,2026-08-21 19:20:00,0.85696,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURGBP,20
+112,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-21 18:50:00,185.739,2026-08-21 19:25:00,185.64613,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURJPY,21
+77,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-21 17:20:00,0.9351,2026-08-21 19:10:00,0.93534,41.33,2.6,0.026,Mean Reversion (Z >= -0.2),22,110,True,Straddle_EURCHF,22
+94,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-21 17:00:00,0.8564,2026-08-21 17:25:00,0.85683,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURGBP,23
+95,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-21 16:40:00,1.17041,2026-08-21 17:55:00,1.17002,56.64,3.3,0.033,Mean Reversion (Z <= 0.2),15,75,True,Straddle_EURUSD,24
+93,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-21 16:05:00,0.8573,2026-08-21 16:30:00,0.85687,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURGBP,25
+94,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-21 15:50:00,1.16885,2026-08-21 16:10:00,1.16944,90.95,5.0,0.05,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURUSD,26
+111,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-21 15:35:00,185.685,2026-08-21 17:50:00,185.598,-103.71,-4.7,-0.047,Mean Reversion (Z >= -0.2),27,135,False,Straddle_EURJPY,27
+92,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-21 15:20:00,0.85678,2026-08-21 15:50:00,0.85698,36.69,2.3,0.023,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURGBP,28
+76,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-21 15:05:00,0.93582,2026-08-21 15:30:00,0.93535,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURCHF,29
+75,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-21 14:50:00,0.93568,2026-08-21 15:00:00,0.93523,86.19,4.8,0.048,Mean Reversion (Z <= 0.2),2,10,True,Straddle_EURCHF,30
+74,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-21 13:50:00,0.93484,2026-08-21 14:15:00,0.93513,52.04,3.1,0.031,Mean Reversion (Z >= -0.2),5,25,True,Straddle_EURCHF,31
+91,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-21 13:50:00,0.8569,2026-08-21 14:00:00,0.85704,22.68,1.6,0.016,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURGBP,32
+93,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-21 13:40:00,1.16967,2026-08-21 14:05:00,1.16933,48.14,2.9,0.029,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURUSD,33
+110,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-21 13:30:00,185.887,2026-08-21 14:25:00,185.88,-17.53,-0.4,-0.004,Mean Reversion (Z >= -0.2),11,55,False,Straddle_EURJPY,34
+73,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-21 11:30:00,0.93504,2026-08-21 13:30:00,0.93515,-33.53,-1.2,-0.012,Mean Reversion (Z <= 0.2),24,120,False,Straddle_EURCHF,35
+109,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-21 11:30:00,186.005,2026-08-21 12:00:00,185.899,103.98,5.7,0.057,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURJPY,36
+90,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-21 10:00:00,0.85686,2026-08-21 13:15:00,0.85703,-49.68,-2.0,-0.02,Mean Reversion (Z <= 0.2),39,195,False,Straddle_EURGBP,37
+72,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-21 09:30:00,0.93434,2026-08-21 09:50:00,0.93472,71.34,4.1,0.041,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURCHF,38
+92,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-21 09:25:00,1.16909,2026-08-21 11:35:00,1.16925,-37.37,-1.4,-0.014,Mean Reversion (Z <= 0.2),26,130,False,Straddle_EURUSD,39
+108,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-21 08:05:00,185.808,2026-08-21 09:35:00,185.82,-22.92,-0.6,-0.006,Mean Reversion (Z <= 0.2),18,90,False,Straddle_EURJPY,40
+89,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-21 07:55:00,0.85668,2026-08-21 08:25:00,0.85675,6.34,0.8,0.008,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURGBP,41
+107,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-21 07:10:00,185.694,2026-08-21 07:50:00,185.735,34.16,2.2,0.022,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURJPY,42
+71,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-21 07:00:00,0.9345,2026-08-21 07:50:00,0.93473,39.22,2.5,0.025,Mean Reversion (Z >= -0.2),10,50,True,Straddle_EURCHF,43
+91,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-21 07:00:00,1.16859,2026-08-21 08:40:00,1.16852,1.98,0.6,0.006,Mean Reversion (Z <= 0.2),20,100,True,Straddle_EURUSD,44
+40,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-21 05:25:00,0.98029,2026-08-21 06:00:00,0.98078,90.0,5.0,0.05,TP (+5 pips),7,35,True,Scalper_AUDCAD,45
+48,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-21 05:05:00,1.19628,2026-08-21 05:10:00,1.19688,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDNZD,46
+37,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-20 23:40:00,0.81912,2026-08-20 23:55:00,0.81953,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_NZDCAD,47
+47,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-20 23:40:00,1.1976,2026-08-21 00:00:00,1.197,90.0,5.0,0.05,TP (+5 pips),4,20,True,Scalper_AUDNZD,48
+39,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-20 23:00:00,0.98208,2026-08-20 23:05:00,0.98159,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDCAD,49
+38,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-20 21:00:00,0.85659,2026-08-20 22:30:00,0.85668,11.01,1.1,0.011,TP (BB Midline),18,90,True,Scalper_EURGBP,50
+70,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-20 19:40:00,0.93272,2026-08-20 20:15:00,0.93225,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURCHF,51
+90,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-20 19:10:00,1.16904,2026-08-20 19:25:00,1.16962,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURUSD,52
+88,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-20 18:10:00,0.85751,2026-08-20 21:00:00,0.85659,-224.57,-10.7,-0.107,Time Cutoff (UTC 21:00),34,170,False,Straddle_EURGBP,53
+69,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-20 17:10:00,0.9318,2026-08-20 18:55:00,0.93185,0.73,0.5,0.005,Mean Reversion (Z >= -0.2),21,105,True,Straddle_EURCHF,54
+106,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-20 16:40:00,185.4,2026-08-20 17:15:00,185.3073,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURJPY,55
+87,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-20 16:15:00,0.85764,2026-08-20 16:40:00,0.85806,87.94,4.9,0.049,Mean Reversion (Z >= -0.2),5,25,True,Straddle_EURGBP,56
+89,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-20 15:40:00,1.16906,2026-08-20 18:40:00,1.17024,-211.87,-10.1,-0.101,Mean Reversion (Z <= 0.2),36,180,False,Straddle_EURUSD,57
+88,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-20 14:45:00,1.16851,2026-08-20 15:20:00,1.16793,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURUSD,58
+68,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-20 14:10:00,0.93324,2026-08-20 14:30:00,0.93371,90.0,5.0,0.05,TP (+5 pips),4,20,True,Straddle_EURCHF,59
+86,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-20 13:40:00,0.85804,2026-08-20 15:10:00,0.85814,-33.31,-1.2,-0.012,Mean Reversion (Z <= 0.2),18,90,False,Straddle_EURGBP,60
+87,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-20 12:55:00,1.16729,2026-08-20 13:55:00,1.16762,46.54,2.8,0.028,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURUSD,61
+67,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-20 12:40:00,0.93421,2026-08-20 12:55:00,0.93386,64.93,3.7,0.037,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURCHF,62
+105,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-20 12:35:00,185.104,2026-08-20 14:15:00,185.122,-29.45,-1.0,-0.01,Mean Reversion (Z <= 0.2),20,100,False,Straddle_EURJPY,63
+85,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-20 09:45:00,0.85822,2026-08-20 13:15:00,0.85791,-82.24,-3.6,-0.036,Mean Reversion (Z >= -0.2),42,210,False,Straddle_EURGBP,64
+86,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-20 09:30:00,1.16798,2026-08-20 09:45:00,1.16752,68.77,3.9,0.039,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURUSD,65
+85,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-20 09:00:00,1.1671,2026-08-20 09:15:00,1.1676,75.68,4.3,0.043,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURUSD,66
+66,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-20 08:05:00,0.93145,2026-08-20 12:10:00,0.93369,-490.97,-24.0,-0.24,Mean Reversion (Z <= 0.2),49,245,False,Straddle_EURCHF,67
+104,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-20 08:05:00,184.865,2026-08-20 10:30:00,184.975,-129.01,-6.0,-0.06,Mean Reversion (Z <= 0.2),29,145,False,Straddle_EURJPY,68
+65,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-20 07:55:00,0.93134,2026-08-20 08:00:00,0.9311,41.54,2.6,0.026,Mean Reversion (Z <= 0.2),1,5,True,Straddle_EURCHF,69
+46,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-20 05:55:00,1.2016,2026-08-20 06:00:00,1.201,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDNZD,70
+36,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-20 05:00:00,0.81887,2026-08-20 05:05:00,0.81928,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_NZDCAD,71
+38,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-20 05:00:00,0.98322,2026-08-20 05:15:00,0.98371,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_AUDCAD,72
+37,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-20 03:55:00,0.85814,2026-08-20 05:15:00,0.85808,3.98,0.7,0.007,TP (BB Midline),16,80,True,Scalper_EURGBP,73
+45,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-20 03:45:00,1.20094,2026-08-20 03:55:00,1.20034,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDNZD,74
+44,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-20 00:50:00,1.20062,2026-08-20 03:10:00,1.20034,-56.64,-2.3,-0.023,TP (BB Midline),28,140,False,Scalper_AUDNZD,75
+36,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-19 22:15:00,0.85654,2026-08-20 02:45:00,0.85779,-301.87,-14.6,-0.146,TP (BB Midline),54,270,False,Scalper_EURGBP,76
+43,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-19 21:55:00,1.20124,2026-08-19 23:20:00,1.20142,19.97,1.5,0.015,TP (BB Midline),17,85,True,Scalper_AUDNZD,77
+35,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-19 21:15:00,0.85527,2026-08-19 21:30:00,0.8557,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_EURGBP,78
+84,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-19 20:40:00,0.85576,2026-08-19 21:00:00,0.85604,55.44,3.3,0.033,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURGBP,79
+103,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 20:40:00,184.265,2026-08-19 20:45:00,184.35713,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,80
+102,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 20:35:00,184.0,2026-08-19 20:40:00,184.092,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,81
+84,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-19 20:30:00,1.16191,2026-08-19 21:00:00,1.16416,-397.29,-19.4,-0.194,Time Cutoff (UTC 21:00),6,30,False,Straddle_EURUSD,82
+101,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 20:30:00,184.409,2026-08-19 20:35:00,184.5012,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,83
+100,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 20:20:00,184.568,2026-08-19 20:30:00,184.409,-182.29,-8.6,-0.086,SL (Z <= -3.8),2,10,False,Straddle_EURJPY,84
+83,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-19 20:15:00,0.85598,2026-08-19 20:35:00,0.85618,36.73,2.3,0.023,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURGBP,85
+99,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 20:00:00,184.614,2026-08-19 20:10:00,184.655,34.42,2.2,0.022,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURJPY,86
+64,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-19 19:25:00,0.9402,2026-08-19 21:00:00,0.93892,-282.28,-13.6,-0.136,Time Cutoff (UTC 21:00),19,95,False,Straddle_EURCHF,87
+82,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-19 17:15:00,0.8559,2026-08-19 19:55:00,0.85612,-61.41,-2.6,-0.026,Mean Reversion (Z <= 0.2),32,160,False,Straddle_EURGBP,88
+98,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-19 17:10:00,184.702,2026-08-19 18:00:00,184.62,78.79,4.4,0.044,Mean Reversion (Z <= 0.2),10,50,True,Straddle_EURJPY,89
+63,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-19 15:40:00,0.9402,2026-08-19 17:00:00,0.94026,-22.76,-0.6,-0.006,Mean Reversion (Z <= 0.2),16,80,False,Straddle_EURCHF,90
+81,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-19 15:15:00,0.85585,2026-08-19 15:20:00,0.85564,39.07,2.5,0.025,Mean Reversion (Z <= 0.2),1,5,True,Straddle_EURGBP,91
+80,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-19 15:05:00,0.85547,2026-08-19 15:10:00,0.85572,48.45,2.9,0.029,Mean Reversion (Z >= -0.2),1,5,True,Straddle_EURGBP,92
+79,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-19 14:45:00,0.85576,2026-08-19 15:00:00,0.85556,36.74,2.3,0.023,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURGBP,93
+97,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-19 14:45:00,184.677,2026-08-19 15:05:00,184.562,114.54,6.2,0.062,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURJPY,94
+62,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-19 14:40:00,0.9396,2026-08-19 14:50:00,0.93992,58.11,3.4,0.034,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURCHF,95
+78,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-19 14:05:00,0.85568,2026-08-19 14:20:00,0.85549,34.41,2.2,0.022,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURGBP,96
+96,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 13:20:00,184.525,2026-08-19 13:50:00,184.596,66.95,3.8,0.038,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURJPY,97
+61,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-19 13:15:00,0.9397,2026-08-19 13:30:00,0.93988,28.31,1.9,0.019,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURCHF,98
+83,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-19 12:55:00,1.15858,2026-08-19 19:05:00,1.16035,-315.55,-15.3,-0.153,Mean Reversion (Z <= 0.2),74,370,False,Straddle_EURUSD,99
+95,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-19 11:10:00,184.643,2026-08-19 12:20:00,184.601,35.49,2.3,0.023,Mean Reversion (Z <= 0.2),14,70,True,Straddle_EURJPY,100
+82,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-19 10:15:00,1.15828,2026-08-19 11:55:00,1.15813,15.9,1.3,0.013,Mean Reversion (Z <= 0.2),20,100,True,Straddle_EURUSD,101
+60,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-19 10:10:00,0.93984,2026-08-19 11:05:00,0.94008,41.07,2.6,0.026,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURCHF,102
+77,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-19 08:50:00,0.8555,2026-08-19 10:40:00,0.85554,-19.35,-0.5,-0.005,Mean Reversion (Z <= 0.2),22,110,False,Straddle_EURGBP,103
+59,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-19 08:10:00,0.94006,2026-08-19 09:10:00,0.94046,75.1,4.3,0.043,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURCHF,104
+81,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-19 08:00:00,1.15796,2026-08-19 08:30:00,1.15763,47.0,2.8,0.028,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURUSD,105
+94,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-19 08:00:00,184.684,2026-08-19 10:30:00,184.606,-94.47,-4.2,-0.042,Mean Reversion (Z >= -0.2),30,150,False,Straddle_EURJPY,106
+80,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-19 07:35:00,1.15735,2026-08-19 07:55:00,1.1576,33.2,2.2,0.022,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURUSD,107
+34,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-19 05:05:00,0.85546,2026-08-19 05:10:00,0.85526,36.76,2.3,0.023,TP (BB Midline),1,5,True,Scalper_EURGBP,108
+42,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-19 05:00:00,1.20598,2026-08-19 05:20:00,1.20646,69.6,4.0,0.04,TP (BB Midline),4,20,True,Scalper_AUDNZD,109
+37,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-19 05:00:00,0.98421,2026-08-19 05:30:00,0.9847,90.0,5.0,0.05,TP (+5 pips),6,30,True,Scalper_AUDCAD,110
+33,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-19 04:20:00,0.85543,2026-08-19 04:40:00,0.85533,13.38,1.2,0.012,TP (BB Midline),4,20,True,Scalper_EURGBP,111
+35,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-19 03:10:00,0.81622,2026-08-19 04:50:00,0.81631,12.05,1.1,0.011,TP (BB Midline),20,100,True,Scalper_NZDCAD,112
+36,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-19 03:10:00,0.98478,2026-08-19 04:50:00,0.98462,-42.49,-1.6,-0.016,TP (BB Midline),20,100,False,Scalper_AUDCAD,113
+34,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-19 02:15:00,0.8169,2026-08-19 02:45:00,0.81666,48.76,2.9,0.029,TP (BB Midline),6,30,True,Scalper_NZDCAD,114
+41,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-19 01:40:00,1.20649,2026-08-19 02:50:00,1.20645,-16.63,-0.3,-0.003,TP (BB Midline),14,70,False,Scalper_AUDNZD,115
+35,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-18 22:50:00,0.98543,2026-08-18 22:55:00,0.98592,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDCAD,116
+33,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-18 21:45:00,0.81743,2026-08-18 21:55:00,0.81702,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_NZDCAD,117
+34,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-18 21:35:00,0.98736,2026-08-18 21:45:00,0.98687,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDCAD,118
+40,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-18 21:00:00,1.20746,2026-08-18 21:15:00,1.20806,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_AUDNZD,119
+76,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-18 20:45:00,0.85548,2026-08-18 21:00:00,0.85536,-38.05,-1.4,-0.014,Time Cutoff (UTC 21:00),3,15,False,Straddle_EURGBP,120
+79,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-18 19:25:00,1.1573,2026-08-18 19:55:00,1.15767,53.94,3.2,0.032,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURUSD,121
+75,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-18 19:00:00,0.85598,2026-08-18 19:55:00,0.8558,32.06,2.1,0.021,Mean Reversion (Z <= 0.2),11,55,True,Straddle_EURGBP,122
+93,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-18 18:55:00,184.878,2026-08-18 20:15:00,184.856,13.8,1.2,0.012,Mean Reversion (Z <= 0.2),16,80,True,Straddle_EURJPY,123
+58,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-18 18:15:00,0.9402,2026-08-18 20:45:00,0.94038,-48.29,-1.9,-0.019,Mean Reversion (Z <= 0.2),30,150,False,Straddle_EURCHF,124
+74,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-18 18:05:00,0.85577,2026-08-18 18:35:00,0.8556,29.73,2.0,0.02,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURGBP,125
+92,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-18 17:15:00,184.779,2026-08-18 17:55:00,184.819,33.29,2.2,0.022,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURJPY,126
+78,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-18 15:35:00,1.15758,2026-08-18 16:05:00,1.15714,66.02,3.8,0.038,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURUSD,127
+91,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-18 15:25:00,184.887,2026-08-18 16:05:00,184.813,70.05,4.0,0.04,Mean Reversion (Z <= 0.2),8,40,True,Straddle_EURJPY,128
+57,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-18 14:55:00,0.93904,2026-08-18 16:00:00,0.93914,11.3,1.1,0.011,Mean Reversion (Z >= -0.2),13,65,True,Straddle_EURCHF,129
+56,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-18 14:15:00,0.93949,2026-08-18 14:30:00,0.93929,32.58,2.1,0.021,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURCHF,130
+73,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-18 14:00:00,0.85538,2026-08-18 16:15:00,0.85546,-28.71,-0.9,-0.009,Mean Reversion (Z <= 0.2),27,135,False,Straddle_EURGBP,131
+77,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-18 14:00:00,1.15682,2026-08-18 14:25:00,1.15724,62.61,3.6,0.036,Mean Reversion (Z >= -0.2),5,25,True,Straddle_EURUSD,132
+90,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-18 12:05:00,184.714,2026-08-18 14:00:00,184.745,-43.57,-1.7,-0.017,Mean Reversion (Z <= 0.2),23,115,False,Straddle_EURJPY,133
+55,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-18 12:00:00,0.9393,2026-08-18 13:35:00,0.93923,4.9,0.7,0.007,Mean Reversion (Z <= 0.2),19,95,True,Straddle_EURCHF,134
+72,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-18 10:20:00,0.85487,2026-08-18 12:20:00,0.85486,-7.66,0.1,0.001,Mean Reversion (Z <= 0.2),24,120,False,Straddle_EURGBP,135
+76,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-18 10:00:00,1.15787,2026-08-18 10:50:00,1.15798,9.0,1.0,0.01,Mean Reversion (Z >= -0.2),10,50,True,Straddle_EURUSD,136
+75,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-18 09:10:00,1.15853,2026-08-18 09:20:00,1.15818,50.42,3.0,0.03,Mean Reversion (Z <= 0.2),2,10,True,Straddle_EURUSD,137
+89,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-18 08:30:00,184.654,2026-08-18 10:15:00,184.66,-16.5,-0.3,-0.003,Mean Reversion (Z <= 0.2),21,105,False,Straddle_EURJPY,138
+74,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-18 07:30:00,1.15818,2026-08-18 08:25:00,1.15798,24.54,1.7,0.017,Mean Reversion (Z <= 0.2),11,55,True,Straddle_EURUSD,139
+32,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-18 05:10:00,0.85457,2026-08-18 05:25:00,0.855,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_EURGBP,140
+32,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-18 03:30:00,0.81906,2026-08-18 04:30:00,0.81865,90.0,5.0,0.05,TP (+5 pips),12,60,True,Scalper_NZDCAD,141
+39,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-18 03:30:00,1.20334,2026-08-18 04:30:00,1.20388,79.75,4.5,0.045,TP (BB Midline),12,60,True,Scalper_AUDNZD,142
+33,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-18 03:20:00,0.9857,2026-08-18 04:25:00,0.98556,18.41,1.4,0.014,TP (BB Midline),13,65,True,Scalper_AUDCAD,143
+31,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-18 03:00:00,0.85494,2026-08-18 04:15:00,0.85488,4.04,0.7,0.007,TP (BB Midline),15,75,True,Scalper_EURGBP,144
+32,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-18 01:20:00,0.9858,2026-08-18 03:10:00,0.98545,-81.01,-3.6,-0.036,TP (BB Midline),22,110,False,Scalper_AUDCAD,145
+31,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-18 01:15:00,0.8188,2026-08-18 02:35:00,0.81868,-39.31,-1.5,-0.015,TP (BB Midline),16,80,False,Scalper_NZDCAD,146
+38,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-18 01:15:00,1.20424,2026-08-18 02:15:00,1.2039,46.47,2.8,0.028,TP (BB Midline),12,60,True,Scalper_AUDNZD,147
+37,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-17 22:40:00,1.20365,2026-08-17 23:50:00,1.20346,21.57,1.6,0.016,TP (BB Midline),14,70,True,Scalper_AUDNZD,148
+30,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-17 22:00:00,0.85482,2026-08-17 22:50:00,0.85502,36.79,2.3,0.023,TP (BB Midline),10,50,True,Scalper_EURGBP,149
+36,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-17 21:00:00,1.20307,2026-08-17 22:10:00,1.20303,-16.65,-0.3,-0.003,TP (BB Midline),14,70,False,Scalper_AUDNZD,150
+73,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-17 20:55:00,1.15975,2026-08-17 21:00:00,1.15964,8.97,0.9,0.009,Time Cutoff (UTC 21:00),1,5,True,Straddle_EURUSD,151
+71,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-17 20:50:00,0.8553,2026-08-17 21:00:00,0.85515,25.08,1.8,0.018,Time Cutoff (UTC 21:00),2,10,True,Straddle_EURGBP,152
+88,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-17 20:40:00,184.658,2026-08-17 21:00:00,184.694,-48.99,-1.9,-0.019,Time Cutoff (UTC 21:00),4,20,False,Straddle_EURJPY,153
+87,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-17 18:35:00,184.492,2026-08-17 19:25:00,184.563,66.97,3.8,0.038,Mean Reversion (Z >= -0.2),10,50,True,Straddle_EURJPY,154
+70,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-17 17:40:00,0.85537,2026-08-17 19:50:00,0.8551,-73.13,-3.2,-0.032,Mean Reversion (Z >= -0.2),26,130,False,Straddle_EURGBP,155
+54,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-17 15:25:00,0.93856,2026-08-17 17:10:00,0.93853,-16.39,-0.3,-0.003,Mean Reversion (Z >= -0.2),21,105,False,Straddle_EURCHF,156
+86,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-17 15:20:00,184.367,2026-08-17 18:05:00,184.558,-217.2,-10.4,-0.104,Mean Reversion (Z <= 0.2),33,165,False,Straddle_EURJPY,157
+53,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-17 15:05:00,0.93988,2026-08-17 15:25:00,0.93856,-290.89,-14.0,-0.14,SL (Z <= -3.8),4,20,False,Straddle_EURCHF,158
+69,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-17 14:25:00,0.85515,2026-08-17 17:05:00,0.85564,-124.6,-5.7,-0.057,Mean Reversion (Z <= 0.2),32,160,False,Straddle_EURGBP,159
+72,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-17 14:25:00,1.15921,2026-08-17 16:50:00,1.15963,-82.46,-3.6,-0.036,Mean Reversion (Z <= 0.2),29,145,False,Straddle_EURUSD,160
+52,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-17 13:30:00,0.93996,2026-08-17 13:40:00,0.94016,32.56,2.1,0.021,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURCHF,161
+71,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-17 12:05:00,1.15868,2026-08-17 13:10:00,1.15832,52.14,3.1,0.031,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURUSD,162
+85,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-17 08:20:00,184.182,2026-08-17 09:35:00,184.229,41.04,2.6,0.026,Mean Reversion (Z >= -0.2),15,75,True,Straddle_EURJPY,163
+51,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-17 08:05:00,0.94028,2026-08-17 09:30:00,0.94038,11.27,1.1,0.011,Mean Reversion (Z >= -0.2),17,85,True,Straddle_EURCHF,164
+70,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-17 07:00:00,1.15747,2026-08-17 10:30:00,1.15808,-115.4,-5.3,-0.053,Mean Reversion (Z <= 0.2),42,210,False,Straddle_EURUSD,165
+35,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-17 05:05:00,1.20219,2026-08-17 05:10:00,1.20279,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDNZD,166
+29,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-17 05:00:00,0.8542,2026-08-17 05:50:00,0.85458,78.97,4.4,0.044,TP (BB Midline),10,50,True,Scalper_EURGBP,167
+30,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-15 04:55:00,0.81732,2026-08-17 05:25:00,0.81716,29.15,2.0,0.02,TP (BB Midline),6,30,True,Scalper_NZDCAD,168
+28,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-15 03:55:00,0.85472,2026-08-17 05:00:00,0.85429,90.0,5.0,0.05,TP (+5 pips),13,65,True,Scalper_EURGBP,169
+29,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-15 03:00:00,0.8172,2026-08-15 03:40:00,0.8169,63.42,3.7,0.037,TP (BB Midline),8,40,True,Scalper_NZDCAD,170
+34,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-15 01:15:00,1.20308,2026-08-15 02:05:00,1.20286,26.57,1.8,0.018,TP (BB Midline),10,50,True,Scalper_AUDNZD,171
+28,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-15 00:25:00,0.81746,2026-08-15 02:45:00,0.8169,-147.01,-6.9,-0.069,TP (BB Midline),28,140,False,Scalper_NZDCAD,172
+31,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-14 22:55:00,0.98421,2026-08-14 23:30:00,0.98372,90.0,5.0,0.05,TP (+5 pips),7,35,True,Scalper_AUDCAD,173
+27,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-14 22:40:00,0.85468,2026-08-14 23:45:00,0.85462,4.04,0.7,0.007,TP (BB Midline),13,65,True,Scalper_EURGBP,174
+84,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-14 20:25:00,183.756,2026-08-14 21:00:00,183.837,78.16,4.4,0.044,Time Cutoff (UTC 21:00),7,35,True,Straddle_EURJPY,175
+68,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-14 19:50:00,0.85456,2026-08-14 20:20:00,0.85429,53.19,3.2,0.032,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURGBP,176
+50,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-14 19:40:00,0.93914,2026-08-14 21:00:00,0.93895,-50.46,-2.0,-0.02,Time Cutoff (UTC 21:00),16,80,False,Straddle_EURCHF,177
+69,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-14 19:00:00,1.15572,2026-08-14 21:00:00,1.15638,-124.21,-5.7,-0.057,Mean Reversion (Z <= 0.2),24,120,False,Straddle_EURUSD,178
+83,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-14 19:00:00,183.958,2026-08-14 20:05:00,183.932,18.27,1.4,0.014,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURJPY,179
+67,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-14 16:25:00,0.85436,2026-08-14 19:15:00,0.85433,-17.02,-0.4,-0.004,Mean Reversion (Z >= -0.2),34,170,False,Straddle_EURGBP,180
+66,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-14 16:05:00,0.8547,2026-08-14 16:25:00,0.85436,-89.56,-4.0,-0.04,SL (Z <= -3.8),4,20,False,Straddle_EURGBP,181
+65,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-14 15:25:00,0.855,2026-08-14 15:45:00,0.85482,32.11,2.1,0.021,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURGBP,182
+68,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-14 14:55:00,1.15444,2026-08-14 17:30:00,1.1552,-141.67,-6.6,-0.066,Mean Reversion (Z <= 0.2),31,155,False,Straddle_EURUSD,183
+64,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-14 14:10:00,0.85482,2026-08-14 15:15:00,0.85488,4.04,0.7,0.007,Mean Reversion (Z >= -0.2),13,65,True,Straddle_EURGBP,184
+49,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-14 14:05:00,0.93904,2026-08-14 17:00:00,0.93972,-154.83,-7.2,-0.072,Mean Reversion (Z <= 0.2),35,175,False,Straddle_EURCHF,185
+67,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-14 14:00:00,1.15431,2026-08-14 14:20:00,1.15394,54.11,3.2,0.032,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURUSD,186
+82,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-14 13:40:00,183.814,2026-08-14 14:55:00,183.838,16.11,1.3,0.013,Mean Reversion (Z >= -0.2),15,75,True,Straddle_EURJPY,187
+48,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-14 13:00:00,0.93868,2026-08-14 13:40:00,0.93886,28.35,1.9,0.019,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURCHF,188
+63,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-14 12:30:00,0.8548,2026-08-14 12:40:00,0.85496,27.44,1.9,0.019,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURGBP,189
+66,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-14 12:05:00,1.15396,2026-08-14 12:25:00,1.1537,35.06,2.3,0.023,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURUSD,190
+62,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-14 10:00:00,0.85512,2026-08-14 11:05:00,0.85496,27.42,1.9,0.019,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURGBP,191
+47,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-14 09:15:00,0.93921,2026-08-14 09:35:00,0.939,34.72,2.2,0.022,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURCHF,192
+61,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-14 08:30:00,0.8549,2026-08-14 09:30:00,0.85496,4.04,0.7,0.007,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURGBP,193
+81,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-14 08:00:00,183.95,2026-08-14 08:25:00,183.908,35.66,2.3,0.023,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURJPY,194
+65,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-14 07:00:00,1.15332,2026-08-14 09:10:00,1.15335,-15.2,-0.3,-0.003,Mean Reversion (Z <= 0.2),26,130,False,Straddle_EURUSD,195
+26,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-14 05:40:00,0.85462,2026-08-14 06:00:00,0.855,78.93,4.4,0.044,TP (BB Midline),4,20,True,Scalper_EURGBP,196
+33,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-14 05:00:00,1.20688,2026-08-14 05:15:00,1.20658,39.71,2.5,0.025,TP (BB Midline),3,15,True,Scalper_AUDNZD,197
+27,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-14 04:15:00,0.8148,2026-08-14 04:40:00,0.81505,51.36,3.1,0.031,TP (BB Midline),5,25,True,Scalper_NZDCAD,198
+30,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-14 04:15:00,0.98316,2026-08-14 04:30:00,0.98339,36.79,2.3,0.023,TP (BB Midline),3,15,True,Scalper_AUDCAD,199
+25,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-14 03:55:00,0.8548,2026-08-14 05:35:00,0.85486,4.04,0.7,0.007,TP (BB Midline),20,100,True,Scalper_EURGBP,200
+26,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-14 02:10:00,0.81514,2026-08-14 03:00:00,0.8149,48.89,2.9,0.029,TP (BB Midline),10,50,True,Scalper_NZDCAD,201
+32,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-14 02:00:00,1.20676,2026-08-14 03:40:00,1.20667,-24.92,-0.7,-0.007,TP (BB Midline),20,100,False,Scalper_AUDNZD,202
+24,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-14 00:35:00,0.85492,2026-08-14 02:25:00,0.85494,-14.68,-0.2,-0.002,TP (BB Midline),22,110,False,Scalper_EURGBP,203
+29,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-13 23:25:00,0.98368,2026-08-14 01:00:00,0.98344,-58.8,-2.4,-0.024,TP (BB Midline),19,95,False,Scalper_AUDCAD,204
+23,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-13 22:35:00,0.85468,2026-08-13 23:45:00,0.85454,22.76,1.6,0.016,TP (BB Midline),14,70,True,Scalper_EURGBP,205
+25,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-13 22:10:00,0.81618,2026-08-13 22:35:00,0.81577,90.0,5.0,0.05,TP (+5 pips),5,25,True,Scalper_NZDCAD,206
+28,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-13 22:00:00,0.98486,2026-08-13 23:00:00,0.98455,52.95,3.1,0.031,TP (BB Midline),12,60,True,Scalper_AUDCAD,207
+31,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-13 21:15:00,1.20728,2026-08-13 22:10:00,1.20686,59.58,3.5,0.035,TP (BB Midline),11,55,True,Scalper_AUDNZD,208
+64,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-13 20:55:00,1.15439,2026-08-13 21:00:00,1.15436,-4.8,0.3,0.003,Time Cutoff (UTC 21:00),1,5,False,Straddle_EURUSD,209
+60,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-13 20:40:00,0.85442,2026-08-13 21:00:00,0.85458,27.45,1.9,0.019,Time Cutoff (UTC 21:00),4,20,True,Straddle_EURGBP,210
+80,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-13 20:30:00,183.682,2026-08-13 20:55:00,183.77384,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURJPY,211
+63,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-13 20:15:00,1.15308,2026-08-13 20:45:00,1.15375,106.21,5.8,0.058,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURUSD,212
+46,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-13 20:10:00,0.93752,2026-08-13 20:30:00,0.93705,90.0,5.0,0.05,TP (+5 pips),4,20,True,Straddle_EURCHF,213
+59,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-13 18:10:00,0.85469,2026-08-13 18:50:00,0.85504,71.9,4.1,0.041,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURGBP,214
+62,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-13 17:55:00,1.15344,2026-08-13 19:50:00,1.15348,-16.94,-0.3,-0.003,Mean Reversion (Z <= 0.2),23,115,False,Straddle_EURUSD,215
+45,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-13 15:40:00,0.93722,2026-08-13 17:55:00,0.9368,-99.63,-4.5,-0.045,Mean Reversion (Z >= -0.2),27,135,False,Straddle_EURCHF,216
+58,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-13 14:30:00,0.85434,2026-08-13 17:55:00,0.85496,-155.14,-7.3,-0.073,Mean Reversion (Z <= 0.2),41,205,False,Straddle_EURGBP,217
+61,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-13 14:25:00,1.1518,2026-08-13 15:20:00,1.1521,42.09,2.6,0.026,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURUSD,218
+44,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-13 13:40:00,0.93776,2026-08-13 15:20:00,0.93772,-18.53,-0.4,-0.004,Mean Reversion (Z >= -0.2),20,100,False,Straddle_EURCHF,219
+79,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-13 12:55:00,183.557,2026-08-13 13:20:00,183.64878,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURJPY,220
+57,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-13 12:45:00,0.85406,2026-08-13 14:30:00,0.85434,55.57,3.3,0.033,Mean Reversion (Z >= -0.2),21,105,True,Straddle_EURGBP,221
+60,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-13 12:45:00,1.15238,2026-08-13 14:00:00,1.15234,-3.06,0.3,0.003,Mean Reversion (Z <= 0.2),15,75,False,Straddle_EURUSD,222
+78,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-13 12:45:00,183.638,2026-08-13 12:55:00,183.557,-98.22,-4.4,-0.044,SL (Z <= -3.8),2,10,False,Straddle_EURJPY,223
+56,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-13 11:45:00,0.8541,2026-08-13 12:15:00,0.85418,8.73,0.9,0.009,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURGBP,224
+55,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-13 11:05:00,0.85429,2026-08-13 11:10:00,0.85418,15.75,1.3,0.013,Mean Reversion (Z <= 0.2),1,5,True,Straddle_EURGBP,225
+59,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-13 09:50:00,1.15241,2026-08-13 12:45:00,1.15238,-15.21,-0.3,-0.003,Mean Reversion (Z >= -0.2),35,175,False,Straddle_EURUSD,226
+77,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-13 08:40:00,183.64,2026-08-13 09:25:00,183.698,53.17,3.2,0.032,Mean Reversion (Z >= -0.2),9,45,True,Straddle_EURJPY,227
+54,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-13 08:35:00,0.85418,2026-08-13 10:30:00,0.85418,-10.0,0.0,0.0,Mean Reversion (Z <= 0.2),23,115,False,Straddle_EURGBP,228
+43,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-13 08:10:00,0.93734,2026-08-13 09:35:00,0.93742,7.07,0.9,0.009,Mean Reversion (Z >= -0.2),17,85,True,Straddle_EURCHF,229
+58,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-13 08:00:00,1.15292,2026-08-13 08:50:00,1.15277,16.02,1.3,0.013,Mean Reversion (Z <= 0.2),10,50,True,Straddle_EURUSD,230
+27,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-13 05:15:00,0.98421,2026-08-13 06:10:00,0.98438,24.55,1.7,0.017,TP (BB Midline),11,55,True,Scalper_AUDCAD,231
+22,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-13 05:10:00,0.85384,2026-08-13 06:00:00,0.8542,74.32,4.2,0.042,TP (BB Midline),10,50,True,Scalper_EURGBP,232
+24,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-13 05:00:00,0.81712,2026-08-13 05:10:00,0.81671,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_NZDCAD,233
+30,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-13 05:00:00,1.20486,2026-08-13 05:10:00,1.20546,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDNZD,234
+29,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-13 03:00:00,1.20554,2026-08-13 03:55:00,1.20582,36.45,2.3,0.023,TP (BB Midline),11,55,True,Scalper_AUDNZD,235
+28,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-13 02:20:00,1.20566,2026-08-13 02:30:00,1.20588,26.49,1.8,0.018,TP (BB Midline),2,10,True,Scalper_AUDNZD,236
+26,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-13 01:00:00,0.98495,2026-08-13 01:55:00,0.9847,40.76,2.5,0.025,TP (BB Midline),11,55,True,Scalper_AUDCAD,237
+21,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-13 00:10:00,0.85393,2026-08-13 01:05:00,0.8541,29.82,2.0,0.02,TP (BB Midline),11,55,True,Scalper_EURGBP,238
+25,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-12 22:50:00,0.98438,2026-08-12 23:15:00,0.98487,90.0,5.0,0.05,TP (+5 pips),5,25,True,Scalper_AUDCAD,239
+20,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-12 22:25:00,0.85438,2026-08-12 23:30:00,0.8543,8.73,0.9,0.009,TP (BB Midline),13,65,True,Scalper_EURGBP,240
+57,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-12 20:30:00,1.1549,2026-08-12 21:00:00,1.15565,-139.88,-6.5,-0.065,Time Cutoff (UTC 21:00),6,30,False,Straddle_EURUSD,241
+53,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-12 20:20:00,0.85372,2026-08-12 21:00:00,0.85392,-56.85,-2.3,-0.023,Time Cutoff (UTC 21:00),8,40,False,Straddle_EURGBP,242
+56,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-12 19:50:00,1.15446,2026-08-12 20:30:00,1.15388,90.0,5.0,0.05,TP (+5 pips),8,40,True,Straddle_EURUSD,243
+42,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-12 19:30:00,0.93674,2026-08-12 21:00:00,0.93628,-108.21,-4.9,-0.049,Time Cutoff (UTC 21:00),18,90,False,Straddle_EURCHF,244
+76,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-12 17:35:00,183.584,2026-08-12 18:00:00,183.67579,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURJPY,245
+75,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-12 17:25:00,183.569,2026-08-12 17:30:00,183.66078,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,246
+55,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-12 17:20:00,1.15471,2026-08-12 17:35:00,1.15413,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURUSD,247
+74,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-12 17:20:00,183.452,2026-08-12 17:25:00,183.54373,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,248
+73,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-12 17:15:00,183.769,2026-08-12 17:20:00,183.452,-355.0,-17.2,-0.172,SL (Z <= -3.8),1,5,False,Straddle_EURJPY,249
+54,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-12 17:10:00,1.15412,2026-08-12 17:20:00,1.15471,-112.24,-5.1,-0.051,SL (Z >= 3.8),2,10,False,Straddle_EURUSD,250
+52,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-12 16:55:00,0.85394,2026-08-12 19:20:00,0.85352,-108.37,-4.9,-0.049,Mean Reversion (Z >= -0.2),29,145,False,Straddle_EURGBP,251
+41,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-12 15:30:00,0.93726,2026-08-12 17:20:00,0.93695,56.15,3.3,0.033,Mean Reversion (Z <= 0.2),22,110,True,Straddle_EURCHF,252
+72,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-12 15:10:00,183.911,2026-08-12 15:30:00,183.859,46.55,2.8,0.028,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURJPY,253
+53,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-12 14:55:00,1.15372,2026-08-12 16:00:00,1.15348,31.6,2.1,0.021,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURUSD,254
+40,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-12 14:30:00,0.93662,2026-08-12 15:00:00,0.9368,28.44,1.9,0.019,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURCHF,255
+51,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-12 14:25:00,0.85418,2026-08-12 14:35:00,0.85407,15.76,1.3,0.013,Mean Reversion (Z <= 0.2),2,10,True,Straddle_EURGBP,256
+71,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-12 12:40:00,183.868,2026-08-12 14:25:00,183.88,3.05,0.7,0.007,Mean Reversion (Z >= -0.2),21,105,True,Straddle_EURJPY,257
+39,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-12 11:05:00,0.9366,2026-08-12 13:35:00,0.93679,-50.57,-2.0,-0.02,Mean Reversion (Z <= 0.2),30,150,False,Straddle_EURCHF,258
+70,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-12 10:15:00,183.903,2026-08-12 11:50:00,183.904,-11.09,-0.1,-0.001,Mean Reversion (Z <= 0.2),19,95,False,Straddle_EURJPY,259
+50,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-12 09:45:00,0.85428,2026-08-12 13:25:00,0.8541,-52.14,-2.1,-0.021,Mean Reversion (Z >= -0.2),44,220,False,Straddle_EURGBP,260
+52,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-12 08:50:00,1.15402,2026-08-12 13:35:00,1.15349,-101.85,-4.6,-0.046,Mean Reversion (Z >= -0.2),57,285,False,Straddle_EURUSD,261
+69,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-12 08:50:00,183.891,2026-08-12 09:10:00,183.844,41.12,2.6,0.026,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURJPY,262
+38,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-12 08:05:00,0.93636,2026-08-12 09:50:00,0.93638,-14.27,-0.2,-0.002,Mean Reversion (Z <= 0.2),21,105,False,Straddle_EURCHF,263
+68,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-12 08:05:00,183.802,2026-08-12 08:35:00,183.85,42.23,2.6,0.026,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURJPY,264
+23,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-12 05:15:00,0.81824,2026-08-12 05:20:00,0.81865,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_NZDCAD,265
+27,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-12 05:15:00,1.20142,2026-08-12 05:25:00,1.20082,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDNZD,266
+22,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-12 03:55:00,0.81878,2026-08-12 05:10:00,0.81865,21.75,1.6,0.016,TP (BB Midline),14,70,True,Scalper_NZDCAD,267
+19,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-12 03:55:00,0.85451,2026-08-12 04:30:00,0.85462,15.75,1.3,0.013,TP (BB Midline),7,35,True,Scalper_EURGBP,268
+26,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-12 02:55:00,1.2007,2026-08-12 05:00:00,1.20061,4.99,0.7,0.007,TP (BB Midline),25,125,True,Scalper_AUDNZD,269
+21,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-12 02:25:00,0.8181,2026-08-12 03:25:00,0.81846,78.01,4.4,0.044,TP (BB Midline),12,60,True,Scalper_NZDCAD,270
+18,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-12 02:25:00,0.85476,2026-08-12 03:15:00,0.85465,15.74,1.3,0.013,TP (BB Midline),10,50,True,Scalper_EURGBP,271
+24,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-12 02:20:00,0.98222,2026-08-12 02:55:00,0.98252,51.09,3.1,0.031,TP (BB Midline),7,35,True,Scalper_AUDCAD,272
+25,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-12 01:00:00,1.20038,2026-08-12 02:20:00,1.20046,3.33,0.7,0.007,TP (BB Midline),16,80,True,Scalper_AUDNZD,273
+23,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-11 22:55:00,0.98374,2026-08-12 01:55:00,0.98276,-209.24,-10.0,-0.1,TP (BB Midline),36,180,False,Scalper_AUDCAD,274
+17,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-11 22:15:00,0.85466,2026-08-12 00:10:00,0.85441,-68.5,-2.9,-0.029,TP (BB Midline),23,115,False,Scalper_EURGBP,275
+22,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-11 21:40:00,0.98514,2026-08-11 22:05:00,0.98465,90.0,5.0,0.05,TP (+5 pips),5,25,True,Scalper_AUDCAD,276
+37,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-11 20:55:00,0.93569,2026-08-11 21:00:00,0.93542,47.71,2.9,0.029,Time Cutoff (UTC 21:00),1,5,True,Straddle_EURCHF,277
+51,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-11 19:00:00,1.15416,2026-08-11 19:40:00,1.15363,81.84,4.6,0.046,Mean Reversion (Z <= 0.2),8,40,True,Straddle_EURUSD,278
+67,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-11 19:00:00,183.634,2026-08-11 19:55:00,183.721,84.75,4.7,0.047,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURJPY,279
+49,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-11 18:25:00,0.85454,2026-08-11 21:00:00,0.85502,-122.34,-5.6,-0.056,Time Cutoff (UTC 21:00),31,155,False,Straddle_EURGBP,280
+36,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-11 18:15:00,0.93521,2026-08-11 18:55:00,0.93554,60.57,3.5,0.035,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURCHF,281
+48,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-11 15:20:00,0.8546,2026-08-11 16:15:00,0.85423,76.59,4.3,0.043,Mean Reversion (Z <= 0.2),11,55,True,Straddle_EURGBP,282
+66,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-11 15:05:00,183.813,2026-08-11 15:35:00,183.728,82.49,4.6,0.046,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURJPY,283
+65,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-11 14:20:00,183.655,2026-08-11 15:00:00,183.784,130.48,7.0,0.07,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURJPY,284
+50,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-11 14:15:00,1.15384,2026-08-11 16:35:00,1.15368,-37.73,-1.4,-0.014,Mean Reversion (Z >= -0.2),28,140,False,Straddle_EURUSD,285
+35,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-11 14:10:00,0.9354,2026-08-11 15:00:00,0.93526,19.93,1.5,0.015,Mean Reversion (Z <= 0.2),10,50,True,Straddle_EURCHF,286
+49,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-11 13:50:00,1.1539,2026-08-11 14:00:00,1.15421,43.73,2.7,0.027,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURUSD,287
+47,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-11 13:35:00,0.85414,2026-08-11 14:50:00,0.85424,13.42,1.2,0.012,Mean Reversion (Z >= -0.2),15,75,True,Straddle_EURGBP,288
+64,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-11 13:15:00,183.721,2026-08-11 14:00:00,183.748,19.39,1.5,0.015,Mean Reversion (Z >= -0.2),9,45,True,Straddle_EURJPY,289
+34,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-11 13:05:00,0.93511,2026-08-11 13:50:00,0.93522,13.53,1.2,0.012,Mean Reversion (Z >= -0.2),9,45,True,Straddle_EURCHF,290
+46,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-11 10:20:00,0.85448,2026-08-11 13:25:00,0.85438,-33.41,-1.2,-0.012,Mean Reversion (Z >= -0.2),37,185,False,Straddle_EURGBP,291
+48,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-11 10:20:00,1.15408,2026-08-11 11:25:00,1.15444,52.39,3.1,0.031,Mean Reversion (Z >= -0.2),13,65,True,Straddle_EURUSD,292
+45,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-11 09:00:00,0.85466,2026-08-11 09:45:00,0.85457,11.06,1.1,0.011,Mean Reversion (Z <= 0.2),9,45,True,Straddle_EURGBP,293
+33,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-11 08:40:00,0.93498,2026-08-11 09:40:00,0.93505,4.97,0.7,0.007,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURCHF,294
+63,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-11 08:35:00,183.722,2026-08-11 09:45:00,183.753,23.75,1.7,0.017,Mean Reversion (Z >= -0.2),14,70,True,Straddle_EURJPY,295
+47,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-11 07:55:00,1.15462,2026-08-11 09:00:00,1.15436,35.04,2.3,0.023,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURUSD,296
+46,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-11 07:45:00,1.15442,2026-08-11 07:55:00,1.15462,-44.65,-1.7,-0.017,SL (Z >= 3.8),2,10,False,Straddle_EURUSD,297
+62,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-11 07:45:00,183.773,2026-08-11 08:20:00,183.825,46.59,2.8,0.028,Mean Reversion (Z >= -0.2),7,35,True,Straddle_EURJPY,298
+20,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-11 05:20:00,0.82038,2026-08-11 05:30:00,0.81997,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_NZDCAD,299
+24,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-11 05:10:00,1.19991,2026-08-11 05:15:00,1.19931,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDNZD,300
+19,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-11 05:05:00,0.82032,2026-08-11 05:10:00,0.81991,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_NZDCAD,301
+16,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-11 05:00:00,0.85466,2026-08-11 05:25:00,0.8545,27.44,1.9,0.019,TP (BB Midline),5,25,True,Scalper_EURGBP,302
+23,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-11 03:55:00,1.19928,2026-08-11 05:05:00,1.19988,90.0,5.0,0.05,TP (+5 pips),14,70,True,Scalper_AUDNZD,303
+21,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-11 03:30:00,0.98338,2026-08-11 05:00:00,0.98382,79.49,4.5,0.045,TP (BB Midline),17,85,True,Scalper_AUDCAD,304
+18,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-11 02:45:00,0.82004,2026-08-11 04:55:00,0.8199,-44.14,-1.7,-0.017,TP (BB Midline),26,130,False,Scalper_NZDCAD,305
+20,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-10 23:30:00,0.98418,2026-08-11 01:10:00,0.98398,-50.64,-2.0,-0.02,TP (BB Midline),20,100,False,Scalper_AUDCAD,306
+22,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-10 21:55:00,1.19987,2026-08-10 22:20:00,1.19927,90.0,5.0,0.05,TP (+5 pips),5,25,True,Scalper_AUDNZD,307
+15,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-10 21:30:00,0.85531,2026-08-11 00:00:00,0.85424,-260.2,-12.5,-0.125,TP (BB Midline),30,150,False,Scalper_EURGBP,308
+32,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-10 20:40:00,0.93442,2026-08-10 21:00:00,0.9347,-69.93,-3.0,-0.03,Time Cutoff (UTC 21:00),4,20,False,Straddle_EURCHF,309
+45,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-10 20:40:00,1.1546,2026-08-10 21:00:00,1.15465,-1.34,0.4,0.004,Time Cutoff (UTC 21:00),4,20,False,Straddle_EURUSD,310
+61,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-10 20:05:00,183.31,2026-08-10 20:40:00,183.40166,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURJPY,311
+44,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-10 18:55:00,0.8559,2026-08-10 20:35:00,0.85592,-5.33,0.2,0.002,Mean Reversion (Z >= -0.2),20,100,False,Straddle_EURGBP,312
+44,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-10 18:00:00,1.15552,2026-08-10 20:05:00,1.15546,-20.38,-0.5,-0.005,Mean Reversion (Z >= -0.2),25,125,False,Straddle_EURUSD,313
+43,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-10 15:25:00,0.85652,2026-08-10 16:30:00,0.85638,22.69,1.6,0.016,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURGBP,314
+43,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-10 15:20:00,1.15571,2026-08-10 17:00:00,1.15599,-58.46,-2.4,-0.024,Mean Reversion (Z <= 0.2),20,100,False,Straddle_EURUSD,315
+31,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-10 14:25:00,0.9343,2026-08-10 16:25:00,0.93392,-91.34,-4.1,-0.041,Mean Reversion (Z >= -0.2),24,120,False,Straddle_EURCHF,316
+42,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-10 13:50:00,1.15549,2026-08-10 14:50:00,1.15529,24.62,1.7,0.017,Mean Reversion (Z <= 0.2),12,60,True,Straddle_EURUSD,317
+60,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-10 12:55:00,182.91,2026-08-10 17:40:00,183.55018,-710.0,-35.0,-0.35,SL (-35 pips),57,285,False,Straddle_EURJPY,318
+30,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-10 12:05:00,0.9347,2026-08-10 13:55:00,0.93469,-7.86,0.1,0.001,Mean Reversion (Z <= 0.2),22,110,False,Straddle_EURCHF,319
+42,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-10 11:45:00,0.85648,2026-08-10 14:40:00,0.85636,-38.02,-1.4,-0.014,Mean Reversion (Z >= -0.2),35,175,False,Straddle_EURGBP,320
+41,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-10 09:05:00,1.15539,2026-08-10 12:45:00,1.15519,-44.62,-1.7,-0.017,Mean Reversion (Z >= -0.2),44,220,False,Straddle_EURUSD,321
+59,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-10 09:00:00,182.669,2026-08-10 11:00:00,182.749,-97.59,-4.4,-0.044,Mean Reversion (Z <= 0.2),24,120,False,Straddle_EURJPY,322
+41,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-10 08:55:00,0.85678,2026-08-10 09:25:00,0.85667,15.68,1.3,0.013,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURGBP,323
+58,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-10 08:50:00,182.536,2026-08-10 09:00:00,182.669,-155.72,-7.3,-0.073,SL (Z >= 3.8),2,10,False,Straddle_EURJPY,324
+29,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-10 08:20:00,0.9343,2026-08-10 11:15:00,0.93448,-48.53,-1.9,-0.019,Mean Reversion (Z <= 0.2),35,175,False,Straddle_EURCHF,325
+21,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-08 04:35:00,1.19934,2026-08-10 05:20:00,1.1988,80.05,4.5,0.045,TP (BB Midline),8,40,True,Scalper_AUDNZD,326
+14,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-08 03:55:00,0.85656,2026-08-08 04:30:00,0.85672,27.36,1.9,0.019,TP (BB Midline),7,35,True,Scalper_EURGBP,327
+17,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-08 03:05:00,0.82208,2026-08-08 04:00:00,0.82194,24.06,1.7,0.017,TP (BB Midline),11,55,True,Scalper_NZDCAD,328
+19,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-08 03:00:00,0.98544,2026-08-08 04:05:00,0.9854,-1.88,0.4,0.004,TP (BB Midline),13,65,False,Scalper_AUDCAD,329
+16,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-08 00:10:00,0.82128,2026-08-08 02:20:00,0.82128,-10.0,0.0,0.0,TP (BB Midline),26,130,False,Scalper_NZDCAD,330
+18,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-07 22:00:00,0.98418,2026-08-07 22:15:00,0.98467,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_AUDCAD,331
+13,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-07 21:20:00,0.85692,2026-08-07 22:50:00,0.85679,-40.34,-1.5,-0.015,TP (BB Midline),18,90,False,Scalper_EURGBP,332
+28,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-07 20:40:00,0.93342,2026-08-07 20:55:00,0.93389,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURCHF,333
+40,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-07 20:35:00,1.15734,2026-08-07 21:00:00,1.15676,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURUSD,334
+57,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-07 20:35:00,181.804,2026-08-07 20:40:00,181.8949,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,335
+39,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-07 20:30:00,1.15722,2026-08-07 20:35:00,1.15664,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURUSD,336
+56,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-07 20:30:00,181.492,2026-08-07 20:35:00,181.58275,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,337
+40,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-07 20:20:00,0.85738,2026-08-07 21:00:00,0.85729,-30.99,-1.0,-0.01,Time Cutoff (UTC 21:00),8,40,False,Straddle_EURGBP,338
+27,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-07 20:05:00,0.93466,2026-08-07 20:30:00,0.93373,189.0,10.0,0.1,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURCHF,339
+38,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-07 19:40:00,1.1532,2026-08-07 20:25:00,1.15279,61.11,3.6,0.036,Mean Reversion (Z <= 0.2),9,45,True,Straddle_EURUSD,340
+55,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-07 18:40:00,182.466,2026-08-07 19:15:00,182.548,79.88,4.5,0.045,Mean Reversion (Z >= -0.2),7,35,True,Straddle_EURJPY,341
+54,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-07 18:20:00,182.62,2026-08-07 18:35:00,182.52,99.52,5.5,0.055,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURJPY,342
+37,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-07 17:10:00,1.15287,2026-08-07 18:40:00,1.15259,38.57,2.4,0.024,Mean Reversion (Z <= 0.2),18,90,True,Straddle_EURUSD,343
+36,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-07 16:10:00,1.15187,2026-08-07 16:30:00,1.15216,40.35,2.5,0.025,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURUSD,344
+53,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-07 15:50:00,182.578,2026-08-07 16:50:00,182.502,73.25,4.2,0.042,Mean Reversion (Z <= 0.2),12,60,True,Straddle_EURJPY,345
+39,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-07 15:20:00,0.85674,2026-08-07 19:10:00,0.85764,-220.1,-10.5,-0.105,Mean Reversion (Z <= 0.2),46,230,False,Straddle_EURGBP,346
+35,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-07 15:00:00,1.15196,2026-08-07 15:15:00,1.15228,45.56,2.8,0.028,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURUSD,347
+26,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-07 14:00:00,0.93602,2026-08-07 19:15:00,0.93434,-368.97,-17.9,-0.179,Mean Reversion (Z >= -0.2),63,315,False,Straddle_EURCHF,348
+38,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-07 14:00:00,0.85642,2026-08-07 14:30:00,0.85652,13.35,1.2,0.012,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURGBP,349
+52,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-07 13:55:00,182.446,2026-08-07 15:15:00,182.473,19.6,1.5,0.015,Mean Reversion (Z >= -0.2),16,80,True,Straddle_EURJPY,350
+37,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-07 13:40:00,0.85662,2026-08-07 13:55:00,0.85652,13.35,1.2,0.012,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURGBP,351
+34,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-07 12:40:00,1.15242,2026-08-07 13:20:00,1.15224,21.24,1.6,0.016,Mean Reversion (Z <= 0.2),8,40,True,Straddle_EURUSD,352
+51,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-07 11:45:00,182.568,2026-08-07 12:55:00,182.517,45.87,2.8,0.028,Mean Reversion (Z <= 0.2),14,70,True,Straddle_EURJPY,353
+25,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-07 11:30:00,0.93639,2026-08-07 13:00:00,0.9364,-12.14,-0.1,-0.001,Mean Reversion (Z <= 0.2),18,90,False,Straddle_EURCHF,354
+50,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-07 09:20:00,182.488,2026-08-07 11:05:00,182.484,-14.38,-0.2,-0.002,Mean Reversion (Z >= -0.2),21,105,False,Straddle_EURJPY,355
+36,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-07 08:55:00,0.85644,2026-08-07 09:35:00,0.85652,8.68,0.9,0.009,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURGBP,356
+33,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-07 08:55:00,1.15191,2026-08-07 09:10:00,1.1522,40.35,2.5,0.025,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURUSD,357
+49,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-07 08:50:00,182.668,2026-08-07 09:05:00,182.582,84.16,4.7,0.047,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURJPY,358
+32,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-07 07:45:00,1.15242,2026-08-07 08:10:00,1.15213,40.33,2.5,0.025,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURUSD,359
+12,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-07 05:15:00,0.85676,2026-08-07 05:20:00,0.85633,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_EURGBP,360
+17,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-07 04:40:00,0.9852,2026-08-07 05:15:00,0.9855,50.9,3.0,0.03,TP (BB Midline),7,35,True,Scalper_AUDCAD,361
+20,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-07 04:05:00,1.19833,2026-08-07 04:25:00,1.1979,61.77,3.6,0.036,TP (BB Midline),4,20,True,Scalper_AUDNZD,362
+19,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-07 01:55:00,1.19814,2026-08-07 03:25:00,1.19795,-41.72,-1.6,-0.016,TP (BB Midline),18,90,False,Scalper_AUDNZD,363
+16,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-07 00:00:00,0.9858,2026-08-07 02:00:00,0.98573,-24.2,-0.7,-0.007,TP (BB Midline),24,120,False,Scalper_AUDCAD,364
+15,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-06 23:35:00,0.82362,2026-08-07 01:50:00,0.82255,-269.83,-13.0,-0.13,TP (BB Midline),27,135,False,Scalper_NZDCAD,365
+11,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-06 22:00:00,0.8563,2026-08-06 22:15:00,0.85673,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_EURGBP,366
+18,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-06 21:40:00,1.19747,2026-08-06 22:00:00,1.19696,75.18,4.3,0.043,TP (BB Midline),4,20,True,Scalper_AUDNZD,367
+15,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-06 21:40:00,0.9866,2026-08-06 23:30:00,0.98687,-64.73,-2.7,-0.027,TP (BB Midline),22,110,False,Scalper_AUDCAD,368
+35,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-06 20:05:00,0.85704,2026-08-06 21:00:00,0.85672,-84.68,-3.7,-0.037,Time Cutoff (UTC 21:00),11,55,False,Straddle_EURGBP,369
+48,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-06 19:05:00,182.308,2026-08-06 19:45:00,182.21685,90.0,5.0,0.05,TP (+5 pips),8,40,True,Straddle_EURJPY,370
+47,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-06 19:00:00,182.234,2026-08-06 19:05:00,182.308,-91.21,-4.1,-0.041,SL (Z >= 3.8),1,5,False,Straddle_EURJPY,371
+31,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-06 17:35:00,1.15396,2026-08-06 18:25:00,1.15413,19.46,1.5,0.015,Mean Reversion (Z >= -0.2),10,50,True,Straddle_EURUSD,372
+34,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-06 16:00:00,0.85756,2026-08-06 17:35:00,0.85752,-19.33,-0.5,-0.005,Mean Reversion (Z >= -0.2),19,95,False,Straddle_EURGBP,373
+33,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-06 15:20:00,0.85758,2026-08-06 15:40:00,0.85783,48.3,2.9,0.029,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURGBP,374
+30,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-06 15:05:00,1.15426,2026-08-06 17:10:00,1.15438,10.79,1.0,0.01,Mean Reversion (Z >= -0.2),25,125,True,Straddle_EURUSD,375
+46,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-06 15:05:00,182.096,2026-08-06 15:10:00,182.174,75.67,4.3,0.043,Mean Reversion (Z >= -0.2),1,5,True,Straddle_EURJPY,376
+45,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-06 13:50:00,182.208,2026-08-06 15:00:00,182.171,30.61,2.0,0.02,Mean Reversion (Z <= 0.2),14,70,True,Straddle_EURJPY,377
+32,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-06 13:45:00,0.8579,2026-08-06 14:45:00,0.85796,3.99,0.7,0.007,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURGBP,378
+44,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-06 11:50:00,182.14,2026-08-06 12:55:00,182.176,29.53,2.0,0.02,Mean Reversion (Z >= -0.2),13,65,True,Straddle_EURJPY,379
+24,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-06 11:35:00,0.93214,2026-08-06 20:25:00,0.9344,-494.91,-24.2,-0.242,Mean Reversion (Z <= 0.2),106,530,False,Straddle_EURCHF,380
+29,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-06 10:55:00,1.15536,2026-08-06 13:35:00,1.15485,-98.28,-4.4,-0.044,Mean Reversion (Z >= -0.2),32,160,False,Straddle_EURUSD,381
+43,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-06 08:50:00,182.302,2026-08-06 09:25:00,182.199,103.0,5.6,0.056,Mean Reversion (Z <= 0.2),7,35,True,Straddle_EURJPY,382
+23,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-06 08:20:00,0.93204,2026-08-06 11:15:00,0.93188,-44.33,-1.7,-0.017,Mean Reversion (Z >= -0.2),35,175,False,Straddle_EURCHF,383
+31,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-06 08:10:00,0.85807,2026-08-06 09:15:00,0.85797,13.31,1.2,0.012,Mean Reversion (Z <= 0.2),13,65,True,Straddle_EURGBP,384
+28,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-06 07:45:00,1.15575,2026-08-06 09:00:00,1.15554,26.34,1.8,0.018,Mean Reversion (Z <= 0.2),15,75,True,Straddle_EURUSD,385
+42,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-06 07:45:00,182.107,2026-08-06 08:00:00,182.192,83.35,4.7,0.047,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURJPY,386
+10,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-06 05:10:00,0.85814,2026-08-06 05:15:00,0.8579,45.93,2.8,0.028,TP (BB Midline),1,5,True,Scalper_EURGBP,387
+14,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-06 05:05:00,0.82528,2026-08-06 05:15:00,0.82487,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_NZDCAD,388
+14,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-06 03:55:00,0.98854,2026-08-06 05:00:00,0.98881,44.63,2.7,0.027,TP (BB Midline),13,65,True,Scalper_AUDCAD,389
+13,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-06 03:25:00,0.82464,2026-08-06 04:50:00,0.82484,38.51,2.4,0.024,TP (BB Midline),17,85,True,Scalper_NZDCAD,390
+17,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-06 03:00:00,1.19848,2026-08-06 03:15:00,1.19886,53.41,3.2,0.032,TP (BB Midline),3,15,True,Scalper_AUDNZD,391
+16,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-06 01:20:00,1.19892,2026-08-06 02:55:00,1.19892,-10.0,0.0,0.0,TP (BB Midline),19,95,False,Scalper_AUDNZD,392
+13,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-05 22:50:00,0.9895,2026-08-06 00:35:00,0.989,-111.06,-5.1,-0.051,TP (BB Midline),21,105,False,Scalper_AUDCAD,393
+12,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-05 22:05:00,0.9912,2026-08-05 22:15:00,0.9907,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDCAD,394
+15,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-05 21:50:00,1.19982,2026-08-06 00:20:00,1.19948,-66.68,-2.8,-0.028,TP (BB Midline),30,150,False,Scalper_AUDNZD,395
+22,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-05 20:05:00,0.93447,2026-08-05 21:00:00,0.93428,30.66,2.0,0.02,Time Cutoff (UTC 21:00),11,55,True,Straddle_EURCHF,396
+30,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-05 20:05:00,0.8572,2026-08-05 20:35:00,0.85697,43.66,2.7,0.027,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURGBP,397
+41,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-05 19:15:00,181.911,2026-08-05 19:30:00,182.00196,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURJPY,398
+27,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-05 19:10:00,1.15458,2026-08-05 20:40:00,1.1548,-48.11,-1.9,-0.019,Mean Reversion (Z <= 0.2),18,90,False,Straddle_EURUSD,399
+40,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-05 16:15:00,182.074,2026-08-05 17:40:00,182.041,26.25,1.8,0.018,Mean Reversion (Z <= 0.2),17,85,True,Straddle_EURJPY,400
+39,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-05 16:00:00,182.054,2026-08-05 16:10:00,181.96297,90.0,5.0,0.05,TP (+5 pips),2,10,True,Straddle_EURJPY,401
+29,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-05 15:25:00,0.85702,2026-08-05 16:35:00,0.85722,36.67,2.3,0.023,Mean Reversion (Z >= -0.2),14,70,True,Straddle_EURGBP,402
+26,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-05 14:40:00,1.1542,2026-08-05 15:25:00,1.15342,125.16,6.8,0.068,Mean Reversion (Z <= 0.2),9,45,True,Straddle_EURUSD,403
+21,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-05 14:25:00,0.93268,2026-08-05 17:45:00,0.93385,-260.89,-12.5,-0.125,Mean Reversion (Z <= 0.2),40,200,False,Straddle_EURCHF,404
+28,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-05 13:05:00,0.85726,2026-08-05 13:50:00,0.85736,13.33,1.2,0.012,Mean Reversion (Z >= -0.2),9,45,True,Straddle_EURGBP,405
+25,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-05 13:00:00,1.15323,2026-08-05 13:35:00,1.15365,62.84,3.6,0.036,Mean Reversion (Z >= -0.2),7,35,True,Straddle_EURUSD,406
+38,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-05 12:35:00,181.765,2026-08-05 14:30:00,181.83,-81.52,-3.6,-0.036,Mean Reversion (Z <= 0.2),23,115,False,Straddle_EURJPY,407
+24,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-05 11:05:00,1.15402,2026-08-05 12:40:00,1.1537,45.46,2.8,0.028,Mean Reversion (Z <= 0.2),19,95,True,Straddle_EURUSD,408
+23,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-05 10:40:00,1.15405,2026-08-05 11:00:00,1.15347,90.0,5.0,0.05,TP (+5 pips),4,20,True,Straddle_EURUSD,409
+37,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-05 10:40:00,181.552,2026-08-05 11:15:00,181.64278,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURJPY,410
+27,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-05 10:35:00,0.85744,2026-08-05 11:00:00,0.85732,17.99,1.4,0.014,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURGBP,411
+22,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-05 09:20:00,1.15278,2026-08-05 10:15:00,1.15308,42.05,2.6,0.026,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURUSD,412
+20,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-05 08:50:00,0.9327,2026-08-05 12:30:00,0.93214,-130.08,-6.0,-0.06,Mean Reversion (Z >= -0.2),44,220,False,Straddle_EURCHF,413
+26,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-05 08:35:00,0.85722,2026-08-05 09:15:00,0.85737,25.0,1.7,0.017,Mean Reversion (Z >= -0.2),8,40,True,Straddle_EURGBP,414
+36,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-05 08:15:00,181.822,2026-08-05 10:00:00,181.781,-55.1,-2.3,-0.023,Mean Reversion (Z >= -0.2),21,105,False,Straddle_EURJPY,415
+21,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-05 08:00:00,1.15334,2026-08-05 08:45:00,1.15297,54.16,3.2,0.032,Mean Reversion (Z <= 0.2),9,45,True,Straddle_EURUSD,416
+12,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-05 06:50:00,0.82791,2026-08-05 07:00:00,0.82743,-125.95,-5.8,-0.058,Time Cutoff (UTC 07:00),2,10,False,Scalper_NZDCAD,417
+14,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-05 06:50:00,1.19734,2026-08-05 07:00:00,1.19795,-111.89,-5.1,-0.051,Time Cutoff (UTC 07:00),2,10,False,Scalper_AUDNZD,418
+11,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-05 06:45:00,0.82782,2026-08-05 06:50:00,0.82823,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_NZDCAD,419
+13,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-05 06:45:00,1.1975,2026-08-05 06:50:00,1.1969,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDNZD,420
+9,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-05 05:15:00,0.85696,2026-08-05 05:25:00,0.85728,64.68,3.7,0.037,TP (BB Midline),2,10,True,Scalper_EURGBP,421
+10,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-05 05:05:00,0.8284,2026-08-05 05:20:00,0.82881,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_NZDCAD,422
+11,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-05 04:55:00,0.99074,2026-08-05 05:30:00,0.99095,32.39,2.1,0.021,TP (BB Midline),7,35,True,Scalper_AUDCAD,423
+9,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-05 04:10:00,0.82924,2026-08-05 04:25:00,0.82884,86.47,4.8,0.048,TP (BB Midline),3,15,True,Scalper_NZDCAD,424
+8,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-04 22:55:00,0.82734,2026-08-04 23:35:00,0.82775,90.0,5.0,0.05,TP (+5 pips),8,40,True,Scalper_NZDCAD,425
+12,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-04 22:50:00,1.19575,2026-08-04 23:45:00,1.1954,48.54,2.9,0.029,TP (BB Midline),11,55,True,Scalper_AUDNZD,426
+8,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-04 21:35:00,0.85694,2026-08-04 22:40:00,0.85667,53.01,3.2,0.032,TP (BB Midline),13,65,True,Scalper_EURGBP,427
+7,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-04 21:20:00,0.82833,2026-08-04 22:30:00,0.82792,90.0,5.0,0.05,TP (+5 pips),14,70,True,Scalper_NZDCAD,428
+10,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-04 21:10:00,0.9894,2026-08-04 22:45:00,0.98946,-22.13,-0.6,-0.006,TP (BB Midline),19,95,False,Scalper_AUDCAD,429
+19,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-04 19:35:00,0.93176,2026-08-04 21:00:00,0.93172,-18.59,-0.4,-0.004,Time Cutoff (UTC 21:00),17,85,False,Straddle_EURCHF,430
+35,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-04 19:30:00,181.626,2026-08-04 21:00:00,181.342,-322.73,-15.6,-0.156,Time Cutoff (UTC 21:00),18,90,False,Straddle_EURJPY,431
+25,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-04 19:05:00,0.85662,2026-08-04 19:30:00,0.85631,62.38,3.6,0.036,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURGBP,432
+18,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-08-04 18:55:00,0.9326,2026-08-04 19:25:00,0.93218,80.07,4.5,0.045,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURCHF,433
+20,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-04 18:40:00,1.15144,2026-08-04 20:10:00,1.15142,-6.53,0.2,0.002,Mean Reversion (Z <= 0.2),18,90,False,Straddle_EURUSD,434
+34,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-04 17:45:00,181.766,2026-08-04 18:00:00,181.67512,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURJPY,435
+33,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-04 15:35:00,181.623,2026-08-04 16:25:00,181.53219,90.0,5.0,0.05,TP (+5 pips),10,50,True,Straddle_EURJPY,436
+19,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-04 15:15:00,1.15126,2026-08-04 16:15:00,1.15096,42.12,2.6,0.026,Mean Reversion (Z <= 0.2),12,60,True,Straddle_EURUSD,437
+32,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-04 15:10:00,181.554,2026-08-04 15:30:00,181.46322,90.0,5.0,0.05,TP (+5 pips),4,20,True,Straddle_EURJPY,438
+17,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-04 14:10:00,0.93235,2026-08-04 15:10:00,0.93245,11.45,1.1,0.011,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURCHF,439
+24,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-04 14:00:00,0.85702,2026-08-04 18:25:00,0.85637,-161.69,-7.6,-0.076,Mean Reversion (Z >= -0.2),53,265,False,Straddle_EURGBP,440
+18,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-04 13:40:00,1.15055,2026-08-04 14:10:00,1.15078,29.98,2.0,0.02,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURUSD,441
+31,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-04 12:35:00,181.301,2026-08-04 13:20:00,181.39165,90.0,5.0,0.05,TP (+5 pips),9,45,True,Straddle_EURJPY,442
+23,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-04 12:30:00,0.85727,2026-08-04 13:45:00,0.85724,-3.0,0.3,0.003,Mean Reversion (Z <= 0.2),15,75,False,Straddle_EURGBP,443
+30,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-04 09:55:00,181.45,2026-08-04 11:20:00,181.42,23.07,1.7,0.017,Mean Reversion (Z <= 0.2),17,85,True,Straddle_EURJPY,444
+22,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-04 09:45:00,0.85734,2026-08-04 10:10:00,0.85719,24.99,1.7,0.017,Mean Reversion (Z <= 0.2),5,25,True,Straddle_EURGBP,445
+17,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-04 09:00:00,1.15041,2026-08-04 09:30:00,1.1512,127.34,6.9,0.069,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURUSD,446
+16,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-04 08:35:00,0.9321,2026-08-04 09:05:00,0.93232,37.21,2.4,0.024,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURCHF,447
+16,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-04 08:05:00,1.1513,2026-08-04 08:45:00,1.15098,45.59,2.8,0.028,Mean Reversion (Z <= 0.2),8,40,True,Straddle_EURUSD,448
+21,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-04 08:00:00,0.8572,2026-08-04 08:55:00,0.85708,18.0,1.4,0.014,Mean Reversion (Z <= 0.2),11,55,True,Straddle_EURGBP,449
+29,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-04 07:35:00,181.27,2026-08-04 08:05:00,181.148,124.61,6.7,0.067,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURJPY,450
+11,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-04 05:00:00,1.19352,2026-08-04 05:10:00,1.19292,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDNZD,451
+7,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-08-04 04:55:00,0.8567,2026-08-04 05:00:00,0.85713,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_EURGBP,452
+6,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-04 02:45:00,0.82421,2026-08-04 05:00:00,0.82404,31.25,2.1,0.021,TP (BB Midline),27,135,True,Scalper_NZDCAD,453
+10,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-04 02:45:00,1.19252,2026-08-04 04:50:00,1.19236,-36.83,-1.3,-0.013,TP (BB Midline),25,125,False,Scalper_AUDNZD,454
+9,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-04 02:45:00,0.98284,2026-08-04 05:25:00,0.98305,-52.73,-2.1,-0.021,TP (BB Midline),32,160,False,Scalper_AUDCAD,455
+8,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-04 01:00:00,0.98231,2026-08-04 02:00:00,0.98256,40.9,2.5,0.025,TP (BB Midline),12,60,True,Scalper_AUDCAD,456
+9,Asian Night Scalper (5m),AUDNZD,Sell (Short),2.0,2026-08-03 23:05:00,1.19307,2026-08-04 00:05:00,1.19288,21.85,1.6,0.016,TP (BB Midline),12,60,True,Scalper_AUDNZD,457
+7,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-03 22:55:00,0.98232,2026-08-04 00:40:00,0.98268,-83.3,-3.7,-0.037,TP (BB Midline),21,105,False,Scalper_AUDCAD,458
+5,Asian Night Scalper (5m),NZDCAD,Buy (Long),2.0,2026-08-03 22:05:00,0.82323,2026-08-03 22:20:00,0.82364,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_NZDCAD,459
+8,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-03 21:45:00,1.19138,2026-08-03 22:00:00,1.19198,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_AUDNZD,460
+6,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-03 21:45:00,0.85696,2026-08-03 22:05:00,0.85653,90.0,5.0,0.05,TP (+5 pips),4,20,True,Scalper_EURGBP,461
+6,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-03 21:10:00,0.98197,2026-08-03 22:45:00,0.98218,32.77,2.1,0.021,TP (BB Midline),19,95,True,Scalper_AUDCAD,462
+28,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-03 20:10:00,180.606,2026-08-03 20:25:00,180.6963,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURJPY,463
+15,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-03 19:55:00,1.15325,2026-08-03 20:35:00,1.15267,90.0,5.0,0.05,TP (+5 pips),8,40,True,Straddle_EURUSD,464
+20,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-03 18:30:00,0.85602,2026-08-03 19:55:00,0.8563,55.42,3.3,0.033,Mean Reversion (Z >= -0.2),17,85,True,Straddle_EURGBP,465
+14,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-03 18:15:00,1.1519,2026-08-03 19:00:00,1.15252,97.65,5.4,0.054,Mean Reversion (Z >= -0.2),9,45,True,Straddle_EURUSD,466
+27,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-03 17:40:00,181.096,2026-08-03 17:45:00,181.00545,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,467
+19,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-03 17:00:00,0.85664,2026-08-03 18:15:00,0.85634,60.04,3.5,0.035,Mean Reversion (Z <= 0.2),15,75,True,Straddle_EURGBP,468
+26,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-03 16:55:00,180.891,2026-08-03 17:15:00,180.80055,90.0,5.0,0.05,TP (+5 pips),4,20,True,Straddle_EURJPY,469
+25,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-03 16:40:00,180.855,2026-08-03 16:50:00,180.76457,90.0,5.0,0.05,TP (+5 pips),2,10,True,Straddle_EURJPY,470
+18,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-03 15:35:00,0.85586,2026-08-03 15:50:00,0.8562,69.45,4.0,0.04,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURGBP,471
+15,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-03 15:30:00,0.93182,2026-08-03 16:25:00,0.93206,41.51,2.6,0.026,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURCHF,472
+13,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-03 14:35:00,1.15258,2026-08-03 15:30:00,1.15318,94.11,5.2,0.052,Mean Reversion (Z >= -0.2),11,55,True,Straddle_EURUSD,473
+17,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-03 14:30:00,0.85634,2026-08-03 15:30:00,0.85614,36.71,2.3,0.023,Mean Reversion (Z <= 0.2),12,60,True,Straddle_EURGBP,474
+24,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-03 14:20:00,180.645,2026-08-03 15:05:00,180.55468,90.0,5.0,0.05,TP (+5 pips),9,45,True,Straddle_EURJPY,475
+16,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-08-03 14:10:00,0.85597,2026-08-03 14:20:00,0.85616,34.39,2.2,0.022,Mean Reversion (Z >= -0.2),2,10,True,Straddle_EURGBP,476
+14,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-03 13:10:00,0.93262,2026-08-03 14:45:00,0.93264,-5.71,0.2,0.002,Mean Reversion (Z >= -0.2),19,95,False,Straddle_EURCHF,477
+12,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-08-03 12:40:00,1.1536,2026-08-03 14:10:00,1.15329,43.74,2.7,0.027,Mean Reversion (Z <= 0.2),18,90,True,Straddle_EURUSD,478
+15,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-03 12:15:00,0.85628,2026-08-03 13:05:00,0.85612,27.37,1.9,0.019,Mean Reversion (Z <= 0.2),10,50,True,Straddle_EURGBP,479
+14,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-08-03 09:05:00,0.85595,2026-08-03 11:10:00,0.85594,-7.66,0.1,0.001,Mean Reversion (Z <= 0.2),25,125,False,Straddle_EURGBP,480
+23,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-03 08:50:00,179.786,2026-08-03 08:55:00,179.87589,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,481
+22,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-03 08:45:00,179.905,2026-08-03 08:50:00,179.99495,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,482
+21,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-03 08:35:00,180.102,2026-08-03 08:45:00,179.47164,-710.0,-35.0,-0.35,SL (-35 pips),2,10,False,Straddle_EURJPY,483
+13,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-08-03 08:25:00,0.93048,2026-08-03 08:35:00,0.93095,90.0,5.0,0.05,TP (+5 pips),2,10,True,Straddle_EURCHF,484
+20,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-08-03 08:25:00,180.898,2026-08-03 08:35:00,180.26486,-710.0,-35.0,-0.35,SL (-35 pips),2,10,False,Straddle_EURJPY,485
+11,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-08-03 08:00:00,1.15384,2026-08-03 08:25:00,1.15473,144.27,7.7,0.077,Mean Reversion (Z >= -0.2),5,25,True,Straddle_EURUSD,486
+19,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-08-03 07:15:00,182.132,2026-08-03 07:25:00,182.04093,90.0,5.0,0.05,TP (+5 pips),2,10,True,Straddle_EURJPY,487
+4,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-08-03 05:05:00,0.82687,2026-08-03 05:20:00,0.82646,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_NZDCAD,488
+7,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-01 04:55:00,1.19378,2026-08-03 05:25:00,1.19438,90.0,5.0,0.05,TP (+5 pips),6,30,True,Scalper_AUDNZD,489
+5,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-08-01 04:55:00,0.98522,2026-08-03 05:00:00,0.98571,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDCAD,490
+6,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-01 03:55:00,1.19435,2026-08-01 04:35:00,1.19482,68.7,3.9,0.039,TP (BB Midline),8,40,True,Scalper_AUDNZD,491
+5,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-01 03:55:00,0.85564,2026-08-01 04:30:00,0.85531,67.14,3.9,0.039,TP (BB Midline),7,35,True,Scalper_EURGBP,492
+4,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-08-01 03:50:00,0.98684,2026-08-01 03:55:00,0.98635,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_AUDCAD,493
+5,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-08-01 01:35:00,1.19476,2026-08-01 02:30:00,1.19494,20.13,1.5,0.015,TP (BB Midline),11,55,True,Scalper_AUDNZD,494
+4,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-08-01 01:35:00,0.85546,2026-08-01 02:20:00,0.85536,13.38,1.2,0.012,TP (BB Midline),9,45,True,Scalper_EURGBP,495
+3,Asian Night Scalper (5m),AUDCAD,Buy (Long),2.0,2026-07-31 21:35:00,0.98352,2026-07-31 22:20:00,0.98401,90.0,5.0,0.05,TP (+5 pips),9,45,True,Scalper_AUDCAD,496
+3,Asian Night Scalper (5m),EURGBP,Buy (Long),2.0,2026-07-31 21:35:00,0.85492,2026-07-31 21:40:00,0.85535,90.0,5.0,0.05,TP (+5 pips),1,5,True,Scalper_EURGBP,497
+4,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-07-31 21:25:00,1.19624,2026-07-31 23:00:00,1.19548,-137.06,-6.4,-0.064,TP (BB Midline),19,95,False,Scalper_AUDNZD,498
+2,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-07-31 21:10:00,0.85636,2026-07-31 21:35:00,0.85593,90.0,5.0,0.05,TP (+5 pips),5,25,True,Scalper_EURGBP,499
+18,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-31 20:35:00,184.226,2026-07-31 21:00:00,184.241,-26.28,-0.8,-0.008,Time Cutoff (UTC 21:00),5,25,False,Straddle_EURJPY,500
+12,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-31 20:20:00,0.931,2026-07-31 21:00:00,0.93142,-100.23,-4.5,-0.045,Time Cutoff (UTC 21:00),8,40,False,Straddle_EURCHF,501
+17,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-31 20:15:00,184.202,2026-07-31 20:30:00,184.1099,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURJPY,502
+10,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-31 19:45:00,1.1488,2026-07-31 21:00:00,1.149,24.82,1.7,0.017,Time Cutoff (UTC 21:00),15,75,True,Straddle_EURUSD,503
+13,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-07-31 19:30:00,0.85585,2026-07-31 20:45:00,0.85564,39.07,2.5,0.025,Mean Reversion (Z <= 0.2),15,75,True,Straddle_EURGBP,504
+16,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-31 17:05:00,183.462,2026-07-31 17:10:00,183.55373,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,505
+12,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-31 17:00:00,0.85572,2026-07-31 18:05:00,0.85588,27.4,1.9,0.019,Mean Reversion (Z >= -0.2),13,65,True,Straddle_EURGBP,506
+15,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-31 17:00:00,183.18,2026-07-31 17:05:00,183.27159,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,507
+14,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-31 16:55:00,183.132,2026-07-31 17:00:00,183.22357,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,508
+13,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-31 16:35:00,184.188,2026-07-31 16:45:00,184.28009,90.0,5.0,0.05,TP (+5 pips),2,10,True,Straddle_EURJPY,509
+9,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-31 16:25:00,1.15076,2026-07-31 16:45:00,1.15148,115.13,6.3,0.063,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURUSD,510
+11,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-07-31 16:20:00,0.85645,2026-07-31 16:35:00,0.85614,62.39,3.6,0.036,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURGBP,511
+12,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-31 15:55:00,184.468,2026-07-31 16:00:00,184.56023,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,512
+11,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-31 15:40:00,0.92962,2026-07-31 16:55:00,0.92885,155.66,8.3,0.083,Mean Reversion (Z <= 0.2),15,75,True,Straddle_EURCHF,513
+10,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-07-31 15:40:00,0.85634,2026-07-31 15:55:00,0.85596,78.75,4.4,0.044,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURGBP,514
+9,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-07-31 14:55:00,0.85621,2026-07-31 15:25:00,0.85599,41.39,2.6,0.026,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURGBP,515
+8,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-07-31 14:10:00,1.15166,2026-07-31 14:35:00,1.15108,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURUSD,516
+11,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-31 13:55:00,184.797,2026-07-31 15:20:00,184.758,-52.21,-2.1,-0.021,Mean Reversion (Z >= -0.2),17,85,False,Straddle_EURJPY,517
+10,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-31 13:35:00,0.9292,2026-07-31 14:05:00,0.92892,50.27,3.0,0.03,Mean Reversion (Z <= 0.2),6,30,True,Straddle_EURCHF,518
+7,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-31 12:40:00,1.15062,2026-07-31 14:00:00,1.15109,71.7,4.1,0.041,Mean Reversion (Z >= -0.2),16,80,True,Straddle_EURUSD,519
+9,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-31 11:50:00,0.92907,2026-07-31 12:40:00,0.92886,35.21,2.3,0.023,Mean Reversion (Z <= 0.2),10,50,True,Straddle_EURCHF,520
+10,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-31 11:20:00,185.118,2026-07-31 11:30:00,184.937,185.55,9.8,0.098,Mean Reversion (Z <= 0.2),2,10,True,Straddle_EURJPY,521
+8,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-31 10:05:00,0.85566,2026-07-31 10:35:00,0.85586,36.75,2.3,0.023,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURGBP,522
+7,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-31 08:30:00,0.85594,2026-07-31 09:30:00,0.85596,-5.33,0.2,0.002,Mean Reversion (Z >= -0.2),12,60,False,Straddle_EURGBP,523
+6,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-31 08:05:00,1.15214,2026-07-31 11:50:00,1.15118,-176.65,-8.3,-0.083,Mean Reversion (Z >= -0.2),45,225,False,Straddle_EURUSD,524
+8,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-31 08:00:00,0.92881,2026-07-31 08:20:00,0.92837,84.74,4.7,0.047,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURCHF,525
+9,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-31 07:10:00,184.23,2026-07-31 08:35:00,184.87481,-710.0,-35.0,-0.35,SL (-35 pips),17,85,False,Straddle_EURJPY,526
+3,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-07-31 06:40:00,0.82392,2026-07-31 07:00:00,0.82362,62.82,3.6,0.036,Time Cutoff (UTC 07:00),4,20,True,Scalper_NZDCAD,527
+2,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-07-31 04:50:00,0.82372,2026-07-31 05:00:00,0.82331,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_NZDCAD,528
+3,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-07-31 04:50:00,1.1953,2026-07-31 05:05:00,1.1959,90.0,5.0,0.05,TP (+5 pips),3,15,True,Scalper_AUDNZD,529
+1,Asian Night Scalper (5m),EURGBP,Sell (Short),2.0,2026-07-31 04:20:00,0.85614,2026-07-31 04:30:00,0.85596,32.05,2.1,0.021,TP (BB Midline),2,10,True,Scalper_EURGBP,530
+2,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-07-31 03:05:00,0.98444,2026-07-31 05:00:00,0.98406,67.2,3.9,0.039,TP (BB Midline),23,115,True,Scalper_AUDCAD,531
+2,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-07-31 02:20:00,1.19512,2026-07-31 03:05:00,1.19548,50.24,3.0,0.03,TP (BB Midline),9,45,True,Scalper_AUDNZD,532
+1,Asian Night Scalper (5m),NZDCAD,Sell (Short),2.0,2026-07-30 21:35:00,0.82169,2026-07-30 22:50:00,0.82166,-2.7,0.4,0.004,TP (BB Midline),15,75,False,Scalper_NZDCAD,533
+1,Asian Night Scalper (5m),AUDNZD,Buy (Long),2.0,2026-07-30 21:35:00,1.19462,2026-07-30 21:45:00,1.19522,90.0,5.0,0.05,TP (+5 pips),2,10,True,Scalper_AUDNZD,534
+1,Asian Night Scalper (5m),AUDCAD,Sell (Short),2.0,2026-07-30 21:35:00,0.98156,2026-07-30 22:50:00,0.9821,-120.03,-5.5,-0.055,TP (BB Midline),15,75,False,Scalper_AUDCAD,535
+6,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-07-30 20:45:00,0.8579,2026-07-30 21:00:00,0.85783,6.32,0.8,0.008,Time Cutoff (UTC 21:00),3,15,True,Straddle_EURGBP,536
+5,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-30 18:45:00,0.85646,2026-07-30 18:50:00,0.85689,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURGBP,537
+5,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-07-30 18:40:00,1.14806,2026-07-30 18:55:00,1.14749,90.0,5.0,0.05,TP (+5 pips),3,15,True,Straddle_EURUSD,538
+8,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-30 18:20:00,186.766,2026-07-30 18:40:00,186.85938,90.0,5.0,0.05,TP (+5 pips),4,20,True,Straddle_EURJPY,539
+7,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-30 18:15:00,186.858,2026-07-30 18:20:00,186.95143,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURJPY,540
+7,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-07-30 18:10:00,0.93297,2026-07-30 20:45:00,0.93252,-106.47,-4.8,-0.048,Mean Reversion (Z >= -0.2),31,155,False,Straddle_EURCHF,541
+6,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-30 18:00:00,187.178,2026-07-30 18:15:00,186.52288,-710.0,-35.0,-0.35,SL (-35 pips),3,15,False,Straddle_EURJPY,542
+6,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-07-30 17:45:00,0.93314,2026-07-30 17:50:00,0.93361,90.0,5.0,0.05,TP (+5 pips),1,5,True,Straddle_EURCHF,543
+5,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-30 16:15:00,187.356,2026-07-30 17:35:00,187.311,38.04,2.4,0.024,Mean Reversion (Z <= 0.2),16,80,True,Straddle_EURJPY,544
+5,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-30 15:30:00,0.93428,2026-07-30 16:20:00,0.93415,17.83,1.4,0.014,Mean Reversion (Z <= 0.2),10,50,True,Straddle_EURCHF,545
+4,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-30 15:25:00,1.14373,2026-07-30 16:00:00,1.1443,90.0,5.0,0.05,TP (+5 pips),7,35,True,Straddle_EURUSD,546
+4,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-30 15:25:00,187.17,2026-07-30 15:45:00,187.252,77.62,4.4,0.044,Mean Reversion (Z >= -0.2),4,20,True,Straddle_EURJPY,547
+4,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-30 15:10:00,0.85745,2026-07-30 18:15:00,0.85712,-86.97,-3.8,-0.038,Mean Reversion (Z >= -0.2),37,185,False,Straddle_EURGBP,548
+4,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-07-30 15:00:00,0.93346,2026-07-30 15:15:00,0.93383,69.27,4.0,0.04,Mean Reversion (Z >= -0.2),3,15,True,Straddle_EURCHF,549
+3,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-30 14:50:00,187.324,2026-07-30 15:05:00,187.254,64.74,3.7,0.037,Mean Reversion (Z <= 0.2),3,15,True,Straddle_EURJPY,550
+3,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-30 14:15:00,0.9342,2026-07-30 14:25:00,0.93384,67.07,3.9,0.039,Mean Reversion (Z <= 0.2),2,10,True,Straddle_EURCHF,551
+3,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-30 14:00:00,1.14486,2026-07-30 15:00:00,1.14498,10.96,1.0,0.01,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURUSD,552
+3,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-30 13:25:00,0.85774,2026-07-30 14:10:00,0.85818,92.6,5.1,0.051,Mean Reversion (Z >= -0.2),9,45,True,Straddle_EURGBP,553
+2,Synthetic Short Straddle (5m),EURJPY,Sell (Short Call),2.0,2026-07-30 13:25:00,187.294,2026-07-30 14:05:00,187.242,45.53,2.8,0.028,Mean Reversion (Z <= 0.2),8,40,True,Straddle_EURJPY,554
+2,Synthetic Short Straddle (5m),EURUSD,Sell (Short Call),2.0,2026-07-30 13:20:00,1.14554,2026-07-30 13:40:00,1.14526,38.89,2.4,0.024,Mean Reversion (Z <= 0.2),4,20,True,Straddle_EURUSD,555
+2,Synthetic Short Straddle (5m),EURCHF,Sell (Short Call),2.0,2026-07-30 11:50:00,0.9339,2026-07-30 13:15:00,0.93375,22.12,1.6,0.016,Mean Reversion (Z <= 0.2),17,85,True,Straddle_EURCHF,556
+2,Synthetic Short Straddle (5m),EURGBP,Sell (Short Call),2.0,2026-07-30 11:10:00,0.85812,2026-07-30 13:20:00,0.85802,13.31,1.2,0.012,Mean Reversion (Z <= 0.2),26,130,True,Straddle_EURGBP,557
+1,Synthetic Short Straddle (5m),EURGBP,Buy (Short Put),2.0,2026-07-30 09:20:00,0.85778,2026-07-30 10:20:00,0.8579,17.98,1.4,0.014,Mean Reversion (Z >= -0.2),12,60,True,Straddle_EURGBP,558
+1,Synthetic Short Straddle (5m),EURUSD,Buy (Short Put),2.0,2026-07-30 08:20:00,1.1462,2026-07-30 12:10:00,1.14528,-170.53,-8.0,-0.08,Mean Reversion (Z >= -0.2),46,230,False,Straddle_EURUSD,559
+1,Synthetic Short Straddle (5m),EURJPY,Buy (Short Put),2.0,2026-07-30 08:00:00,187.193,2026-07-30 08:25:00,187.2866,90.0,5.0,0.05,TP (+5 pips),5,25,True,Straddle_EURJPY,560
+1,Synthetic Short Straddle (5m),EURCHF,Buy (Short Put),2.0,2026-07-30 07:50:00,0.93276,2026-07-30 08:20:00,0.9333,105.79,5.8,0.058,Mean Reversion (Z >= -0.2),6,30,True,Straddle_EURCHF,561

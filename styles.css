@@ -1,0 +1,743 @@
+:root { /* 定義全域 CSS 變數 */
+    --bg-main: #0d1117; /* 主背景深邃深黑 */
+    --bg-card: rgba(22, 27, 34, 0.85); /* 玻璃擬態卡片深灰底色 */
+    --bg-card-hover: rgba(30, 38, 49, 0.95); /* 卡片懸停底色 */
+    --border-color: rgba(255, 255, 255, 0.08); /* 邊框淡灰半透明 */
+    --border-highlight: rgba(41, 182, 246, 0.4); /* 亮藍焦點外框 */
+    --text-primary: #f0f6fc; /* 主要文字雪白色 */
+    --text-secondary: #8b949e; /* 次要文字淡灰色 */
+    --text-muted: #586069; /* 靜音暗灰文字 */
+    --color-bull: #00e676; /* 多頭 / 獲利霓虹翡翠綠 */
+    --color-bull-bg: rgba(0, 230, 118, 0.12); /* 獲利標籤背景淺綠 */
+    --color-bear: #ff1744; /* 空頭 / 虧損霓虹亮紅 */
+    --color-bear-bg: rgba(255, 23, 68, 0.12); /* 虧損標籤背景淺紅 */
+    --color-accent: #29b6f6; /* 主題科技亮天藍 */
+    --color-purple: #b388ff; /* 跨式賣方奢華紫 */
+    --color-gold: #ffd54f; /* 金色亮點 */
+    --font-heading: 'Outfit', sans-serif; /* 標題字型 Outfit */
+    --font-mono: 'JetBrains Mono', monospace; /* 數據與代碼字型 */
+    --radius-sm: 8px; /* 小圓角 */
+    --radius-md: 14px; /* 中圓角 */
+    --radius-lg: 20px; /* 大圓角 */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.45); /* 卡片投影 */
+    --backdrop-blur: blur(16px); /* 毛玻璃濾鏡模糊度 */
+} /* 變數設定結束 */
+
+* { /* 全域元素重設 */
+    margin: 0; /* 邊界歸零 */
+    padding: 0; /* 留白歸零 */
+    box-sizing: border-box; /* 邊框盒模型 */
+} /* 樣式結束 */
+
+body { /* 網頁主體樣式 */
+    background-color: var(--bg-main); /* 設定全頁深黑底色 */
+    color: var(--text-primary); /* 設定預設字體顏色 */
+    font-family: var(--font-heading); /* 預設採用 Outfit 字體 */
+    min-height: 100vh; /* 最小高度填滿視窗 */
+    overflow-x: hidden; /* 防止水平滾動條 */
+    line-height: 1.5; /* 文字行高 */
+    background-image: radial-gradient(circle at 15% 15%, rgba(41, 182, 246, 0.05) 0%, transparent 40%), radial-gradient(circle at 85% 85%, rgba(179, 136, 255, 0.05) 0%, transparent 40%); /* 背景細緻漸層光暈 */
+    background-attachment: fixed; /* 背景固定不滾動 */
+} /* body 結束 */
+
+.dashboard-container { /* 儀表板主要排版容器 */
+    max-width: 1600px; /* 最大寬度 1600px */
+    margin: 0 auto; /* 水平居中 */
+    padding: 24px 32px 60px; /* 內邊距排版 */
+    display: flex; /* 彈性盒子佈局 */
+    flex-direction: column; /* 垂直排列 */
+    gap: 24px; /* 區塊間距 */
+} /* 容器結束 */
+
+/* 頂部導航與狀態列 */
+.header-bar { /* 頂部列樣式 */
+    display: flex; /* 彈性盒排版 */
+    justify-content: space-between; /* 左右分散對齊 */
+    align-items: center; /* 垂直居中對齊 */
+    padding: 20px 28px; /* 內邊距 */
+    background: var(--bg-card); /* 玻璃卡片背景 */
+    border: 1px solid var(--border-color); /* 細微邊框 */
+    border-radius: var(--radius-lg); /* 大圓角造型 */
+    backdrop-filter: var(--backdrop-blur); /* 毛玻璃模糊特效 */
+    box-shadow: var(--shadow-card); /* 陰影深邃立體 */
+} /* 頂部列結束 */
+
+.logo-section { /* 標題與 Logo 區塊 */
+    display: flex; /* 橫向排版 */
+    align-items: center; /* 垂直居中 */
+    gap: 16px; /* 圖示與文字間隔 */
+} /* 標題區結束 */
+
+.strategy-badge-icon { /* 策略大圖示徽章 */
+    font-size: 32px; /* 圖示大小 */
+    background: linear-gradient(135deg, rgba(41, 182, 246, 0.2), rgba(179, 136, 255, 0.2)); /* 科技漸層背景 */
+    border: 1px solid var(--border-highlight); /* 亮藍邊框 */
+    padding: 10px; /* 內距 */
+    border-radius: var(--radius-md); /* 圓角 */
+    display: flex; /* 彈性盒 */
+    align-items: center; /* 居中 */
+    justify-content: center; /* 居中 */
+} /* 徽章結束 */
+
+.header-title-text h1 { /* 主標題文字 */
+    font-size: 24px; /* 字體大小 */
+    font-weight: 700; /* 粗體字 */
+    letter-spacing: -0.5px; /* 字距緊湊 */
+    background: linear-gradient(90deg, #ffffff, #80d8ff, #b388ff); /* 霓虹漸層文字 */
+    -webkit-background-clip: text; /* 文字剪裁漸層 */
+    -webkit-text-fill-color: transparent; /* 背景透出文字 */
+} /* 主標題結束 */
+
+.header-title-text .subtitle { /* 副標題文字 */
+    font-size: 13px; /* 小字 */
+    color: var(--text-secondary); /* 次要灰字 */
+    margin-top: 4px; /* 頂部間距 */
+    font-family: var(--font-mono); /* 等寬字體 */
+} /* 副標題結束 */
+
+.header-actions { /* 右側狀態與動作控制區 */
+    display: flex; /* 橫向排列 */
+    align-items: center; /* 垂直居中 */
+    gap: 14px; /* 元件間隔 */
+} /* 右側區結束 */
+
+.system-status-pill { /* 系統狀態膠囊 */
+    display: flex; /* 橫向排列 */
+    align-items: center; /* 居中 */
+    gap: 10px; /* 圓點與文字間隔 */
+    padding: 8px 16px; /* 內距 */
+    background: rgba(0, 0, 0, 0.4); /* 深色透明背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: 30px; /* 膠囊全圓角 */
+    font-size: 12px; /* 字級 */
+    font-family: var(--font-mono); /* 等寬字體 */
+    color: var(--text-secondary); /* 字色 */
+} /* 膠囊結束 */
+
+.pulse-dot { /* 動態脈動綠燈 */
+    width: 9px; /* 寬度 */
+    height: 9px; /* 高度 */
+    background-color: var(--color-bull); /* 亮綠色燈號 */
+    border-radius: 50%; /* 正圓形 */
+    box-shadow: 0 0 10px var(--color-bull); /* 霓虹外發光 */
+    animation: pulseGlow 2s infinite; /* 無限脈動動畫 */
+} /* 脈動燈結束 */
+
+@keyframes pulseGlow { /* 脈動發光關鍵影格 */
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); } /* 起始小縮放 */
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0, 230, 118, 0); } /* 發光擴散淡出 */
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); } /* 回復 */
+} /* 動畫結束 */
+
+.refresh-btn { /* 立即刷新按鈕 */
+    display: flex; /* 彈性盒 */
+    align-items: center; /* 居中 */
+    gap: 6px; /* 圖標間距 */
+    background: rgba(41, 182, 246, 0.15); /* 淺藍背景 */
+    border: 1px solid rgba(41, 182, 246, 0.35); /* 亮藍邊框 */
+    color: var(--color-accent); /* 亮藍字體 */
+    padding: 8px 16px; /* 內距 */
+    border-radius: 30px; /* 膠囊造型 */
+    cursor: pointer; /* 手指游標 */
+    font-size: 13px; /* 字級 */
+    font-family: var(--font-heading); /* 字型 */
+    font-weight: 600; /* 中粗體 */
+    transition: all 0.2s ease; /* 平滑過渡 */
+} /* 刷新按鈕結束 */
+
+.refresh-btn:hover { /* 刷新按鈕懸停 */
+    background: rgba(41, 182, 246, 0.3); /* 加深藍底 */
+    box-shadow: 0 0 14px rgba(41, 182, 246, 0.4); /* 藍光陰影 */
+    transform: translateY(-1px); /* 微幅上浮 */
+} /* 懸停結束 */
+
+/* 核心指標卡片網格 */
+.kpi-cards-grid { /* KPI 卡片網格排版 */
+    display: grid; /* 網格系統 */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* 自適應等寬欄位 */
+    gap: 18px; /* 卡片間距 */
+} /* 網格結束 */
+
+.glass-card { /* 玻璃擬態卡片通用類別 */
+    background: var(--bg-card); /* 玻璃背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-md); /* 圓角 */
+    padding: 20px; /* 內距 */
+    backdrop-filter: var(--backdrop-blur); /* 毛玻璃效果 */
+    box-shadow: var(--shadow-card); /* 投影 */
+    transition: transform 0.2s ease, border-color 0.2s ease; /* 懸停平滑過渡 */
+    position: relative; /* 定位容器 */
+    overflow: hidden; /* 隱藏溢出 */
+} /* 卡片結束 */
+
+.glass-card:hover { /* 卡片懸停 */
+    transform: translateY(-2px); /* 向上浮起 */
+    border-color: rgba(255, 255, 255, 0.16); /* 邊框微亮 */
+} /* 懸停結束 */
+
+.card-top { /* 卡片頂部列 */
+    display: flex; /* 橫向排版 */
+    justify-content: space-between; /* 分散對齊 */
+    align-items: center; /* 居中 */
+    margin-bottom: 12px; /* 底部間隔 */
+} /* 卡片頂部結束 */
+
+.card-title { /* 卡片標題文字 */
+    font-size: 13px; /* 小標題字級 */
+    color: var(--text-secondary); /* 次要灰字 */
+    font-weight: 600; /* 中粗體 */
+    text-transform: uppercase; /* 大寫轉換 */
+    letter-spacing: 0.5px; /* 字距 */
+} /* 標題結束 */
+
+.card-icon { /* 卡片小圖示 */
+    font-size: 16px; /* 圖示大小 */
+    opacity: 0.8; /* 透明度 */
+} /* 圖示結束 */
+
+.card-main-val { /* 卡片核心巨幅數值 */
+    font-size: 28px; /* 巨幅字級 */
+    font-weight: 700; /* 粗體 */
+    font-family: var(--font-mono); /* 等寬字體呈現數字 */
+    letter-spacing: -0.5px; /* 緊湊排版 */
+    margin-bottom: 8px; /* 底部間距 */
+} /* 核心數值結束 */
+
+.card-sub-info { /* 卡片底部補充數據 */
+    display: flex; /* 彈性盒 */
+    justify-content: space-between; /* 分散排版 */
+    font-size: 12px; /* 小字 */
+    color: var(--text-secondary); /* 次要顏色 */
+    font-family: var(--font-mono); /* 等寬字型 */
+    border-top: 1px dashed rgba(255, 255, 255, 0.08); /* 細分隔線 */
+    padding-top: 8px; /* 上內距 */
+} /* 補充數據結束 */
+
+/* 顏色樣式類別 */
+.val-bull { color: var(--color-bull); } /* 翡翠綠字色 */
+.val-bear { color: var(--color-bear); } /* 亮紅色字色 */
+.val-neutral { color: var(--text-primary); } /* 白色字色 */
+.val-blue { color: var(--color-accent); } /* 亮藍色字色 */
+.val-purple { color: var(--color-purple); } /* 紫色字色 */
+
+/* 多商品與策略篩選控制盤 */
+.filter-control-panel { /* 篩選器主外框 */
+    background: var(--bg-card); /* 玻璃背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-lg); /* 圓角 */
+    padding: 22px 28px; /* 內距 */
+    backdrop-filter: var(--backdrop-blur); /* 毛玻璃 */
+    box-shadow: var(--shadow-card); /* 陰影 */
+} /* 篩選盤結束 */
+
+.filter-header { /* 篩選器標題與快速按鈕列 */
+    display: flex; /* 橫向排列 */
+    justify-content: space-between; /* 分散對齊 */
+    align-items: center; /* 垂直居中 */
+    margin-bottom: 18px; /* 下方間距 */
+    flex-wrap: wrap; /* 自適應換行 */
+    gap: 12px; /* 間隔 */
+} /* 篩選標題列結束 */
+
+.filter-title { /* 篩選盤主標題 */
+    font-size: 16px; /* 字級 */
+    font-weight: 700; /* 粗體 */
+    display: flex; /* 彈性盒 */
+    align-items: center; /* 居中 */
+    gap: 8px; /* 圖標間距 */
+} /* 標題結束 */
+
+.quick-strategy-toggles { /* 策略群組快選按鈕群 */
+    display: flex; /* 橫向排列 */
+    gap: 8px; /* 按鈕間隔 */
+    flex-wrap: wrap; /* 換行支援 */
+} /* 快選群結束 */
+
+.btn-filter-toggle { /* 篩選切換按鈕通用 */
+    background: rgba(255, 255, 255, 0.05); /* 淡透明灰底 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    color: var(--text-secondary); /* 灰字 */
+    padding: 6px 14px; /* 內距 */
+    border-radius: 20px; /* 圓角 */
+    font-size: 12px; /* 小字 */
+    font-weight: 600; /* 中粗體 */
+    cursor: pointer; /* 手指指標 */
+    transition: all 0.2s ease; /* 平滑過渡 */
+} /* 切換按鈕結束 */
+
+.btn-filter-toggle:hover { /* 切換按鈕懸停 */
+    background: rgba(255, 255, 255, 0.1); /* 亮灰 */
+    color: var(--text-primary); /* 白字 */
+} /* 懸停結束 */
+
+.btn-filter-toggle.active { /* 啟動狀態按鈕 */
+    background: rgba(41, 182, 246, 0.2); /* 亮藍底色 */
+    border-color: var(--color-accent); /* 亮藍邊框 */
+    color: #ffffff; /* 白字 */
+    box-shadow: 0 0 10px rgba(41, 182, 246, 0.3); /* 發光效果 */
+} /* 啟動按鈕結束 */
+
+.asset-checkbox-grid { /* 貨幣對獨立勾選網格 */
+    display: grid; /* 網格排列 */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 自動填滿卡片 */
+    gap: 12px; /* 間隔 */
+    margin-top: 14px; /* 上邊距 */
+} /* 貨幣對網格結束 */
+
+.asset-checkbox-item { /* 個別貨幣對 Checkbox 卡片 */
+    display: flex; /* 橫向排版 */
+    align-items: center; /* 居中 */
+    justify-content: space-between; /* 分散對齊 */
+    padding: 10px 14px; /* 內邊距 */
+    background: rgba(0, 0, 0, 0.25); /* 深黑透明底 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-sm); /* 圓角 */
+    cursor: pointer; /* 手指指標 */
+    user-select: none; /* 防止反白 */
+    transition: all 0.2s ease; /* 過渡 */
+} /* 卡片結束 */
+
+.asset-checkbox-item:hover { /* 卡片懸停 */
+    background: rgba(255, 255, 255, 0.04); /* 微亮 */
+    border-color: rgba(255, 255, 255, 0.2); /* 邊框微亮 */
+} /* 懸停結束 */
+
+.asset-checkbox-item.checked { /* 已勾選狀態卡片 */
+    background: rgba(41, 182, 246, 0.08); /* 淺藍微光底 */
+    border-color: var(--color-accent); /* 藍色邊框 */
+} /* 已勾選結束 */
+
+.asset-check-left { /* Checkbox 左側標籤與名稱 */
+    display: flex; /* 彈性盒 */
+    align-items: center; /* 居中 */
+    gap: 10px; /* 間距 */
+} /* 左側結束 */
+
+.custom-checkbox { /* 自訂風格核取方塊 */
+    width: 18px; /* 寬度 */
+    height: 18px; /* 高度 */
+    border-radius: 4px; /* 微圓角 */
+    border: 2px solid var(--text-secondary); /* 邊框 */
+    display: flex; /* 彈性盒 */
+    align-items: center; /* 居中 */
+    justify-content: center; /* 居中 */
+    transition: all 0.2s ease; /* 動畫 */
+    background: transparent; /* 透明底 */
+} /* 核取方塊結束 */
+
+.asset-checkbox-item.checked .custom-checkbox { /* 勾選時的方塊 */
+    background: var(--color-accent); /* 藍底 */
+    border-color: var(--color-accent); /* 藍框 */
+} /* 勾選方塊結束 */
+
+.custom-checkbox::after { /* 打勾圖標 */
+    content: '✓'; /* 打勾符號 */
+    color: #0d1117; /* 深黑打勾 */
+    font-size: 12px; /* 字級 */
+    font-weight: 800; /* 粗體 */
+    display: none; /* 預設隱藏 */
+} /* 打勾結束 */
+
+.asset-checkbox-item.checked .custom-checkbox::after { /* 勾選時顯示打勾 */
+    display: block; /* 顯示 */
+} /* 顯示結束 */
+
+.asset-symbol-name { /* 貨幣對代碼文字 */
+    font-weight: 700; /* 粗體 */
+    font-size: 14px; /* 字級 */
+    font-family: var(--font-mono); /* 等寬字體 */
+} /* 代碼文字結束 */
+
+.asset-strategy-tags { /* 商品支援策略標籤組 */
+    display: flex; /* 彈性盒 */
+    gap: 4px; /* 標籤間隔 */
+} /* 標籤組結束 */
+
+.badge-scalper { /* 夜間收租標籤 */
+    font-size: 10px; /* 極小字 */
+    padding: 2px 6px; /* 內距 */
+    background: rgba(179, 136, 255, 0.15); /* 紫色淺底 */
+    color: var(--color-purple); /* 紫色字體 */
+    border: 1px solid rgba(179, 136, 255, 0.3); /* 紫色邊框 */
+    border-radius: 4px; /* 圓角 */
+    font-weight: 600; /* 中粗體 */
+} /* 標籤結束 */
+
+.badge-straddle { /* 跨式賣方標籤 */
+    font-size: 10px; /* 極小字 */
+    padding: 2px 6px; /* 內距 */
+    background: rgba(41, 182, 246, 0.15); /* 亮藍淺底 */
+    color: var(--color-accent); /* 亮藍字體 */
+    border: 1px solid rgba(41, 182, 246, 0.3); /* 亮藍邊框 */
+    border-radius: 4px; /* 圓角 */
+    font-weight: 600; /* 中粗體 */
+} /* 標籤結束 */
+
+/* 即時市場行情與指標跑馬盤 */
+.market-status-strip { /* 即時行情橫條 */
+    display: grid; /* 網格系統 */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 自動平鋪 */
+    gap: 12px; /* 間隔 */
+} /* 橫條結束 */
+
+.market-ticker-card { /* 個別即時報價小卡 */
+    background: var(--bg-card); /* 玻璃背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-sm); /* 圓角 */
+    padding: 12px 14px; /* 內距 */
+    display: flex; /* 彈性盒 */
+    flex-direction: column; /* 垂直排版 */
+    gap: 4px; /* 行距 */
+    transition: all 0.2s ease; /* 過渡 */
+} /* 小卡結束 */
+
+.market-ticker-card:hover { /* 小卡懸停 */
+    border-color: var(--border-highlight); /* 亮藍框 */
+} /* 懸停結束 */
+
+.ticker-top-row { /* 頂部代碼與漲跌幅 */
+    display: flex; /* 橫向排列 */
+    justify-content: space-between; /* 分散對齊 */
+    align-items: center; /* 居中 */
+} /* 頂部結束 */
+
+.ticker-symbol { /* 代碼文字 */
+    font-weight: 700; /* 粗體 */
+    font-size: 13px; /* 字級 */
+    font-family: var(--font-mono); /* 等寬字體 */
+} /* 代碼結束 */
+
+.ticker-price { /* 即時報價 */
+    font-size: 17px; /* 報價字級 */
+    font-weight: 700; /* 粗體 */
+    font-family: var(--font-mono); /* 等寬字體 */
+    margin: 2px 0; /* 上下微調 */
+} /* 報價結束 */
+
+.ticker-indicators { /* 技術指標數據列 (RSI / Z-Score) */
+    display: flex; /* 彈性盒 */
+    justify-content: space-between; /* 分散 */
+    font-size: 11px; /* 極小字 */
+    color: var(--text-secondary); /* 灰字 */
+    font-family: var(--font-mono); /* 等寬字型 */
+} /* 指標列結束 */
+
+/* 互動圖表展示區塊 */
+.chart-section { /* 圖表主區塊 */
+    background: var(--bg-card); /* 玻璃背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-lg); /* 大圓角 */
+    padding: 24px 28px; /* 內邊距 */
+    backdrop-filter: var(--backdrop-blur); /* 毛玻璃 */
+    box-shadow: var(--shadow-card); /* 陰影 */
+} /* 圖表區結束 */
+
+.chart-header-controls { /* 圖表標籤頁切換列 */
+    display: flex; /* 橫向排版 */
+    justify-content: space-between; /* 分散 */
+    align-items: center; /* 居中 */
+    margin-bottom: 20px; /* 底部間距 */
+    flex-wrap: wrap; /* 自適應換行 */
+    gap: 14px; /* 間隔 */
+} /* 切換列結束 */
+
+.chart-tabs-nav { /* 分頁切換按鈕組 */
+    display: flex; /* 彈性盒 */
+    gap: 8px; /* 按鈕間隔 */
+} /* 按鈕組結束 */
+
+.tab-btn { /* 分頁按鈕樣式 */
+    background: rgba(255, 255, 255, 0.05); /* 淡灰底 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    color: var(--text-secondary); /* 灰字 */
+    padding: 8px 18px; /* 內邊距 */
+    border-radius: 20px; /* 圓角 */
+    font-size: 13px; /* 字級 */
+    font-weight: 600; /* 中粗體 */
+    cursor: pointer; /* 手指指標 */
+    transition: all 0.2s ease; /* 平滑過渡 */
+} /* 按鈕結束 */
+
+.tab-btn:hover { /* 懸停 */
+    background: rgba(255, 255, 255, 0.1); /* 亮底 */
+    color: var(--text-primary); /* 白字 */
+} /* 懸停結束 */
+
+.tab-btn.active { /* 作用中分頁按鈕 */
+    background: var(--color-accent); /* 亮藍底色 */
+    color: #0d1117; /* 深黑字體 */
+    font-weight: 700; /* 粗體 */
+    border-color: var(--color-accent); /* 亮藍框 */
+    box-shadow: 0 0 12px rgba(41, 182, 246, 0.4); /* 發光 */
+} /* 作用中結束 */
+
+.chart-extra-options { /* 圖表輔助控制選項 (如標的下拉) */
+    display: flex; /* 橫向排版 */
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 間距 */
+} /* 輔助選項結束 */
+
+.chart-select-dropdown { /* 標的下拉選單樣式 */
+    background: #161b22; /* 深灰背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    color: var(--text-primary); /* 白字 */
+    padding: 7px 14px; /* 內邊距 */
+    border-radius: var(--radius-sm); /* 圓角 */
+    font-size: 13px; /* 字級 */
+    font-family: var(--font-mono); /* 等寬字型 */
+    cursor: pointer; /* 手指游標 */
+    outline: none; /* 移除外框 */
+} /* 下拉結束 */
+
+.chart-container-box { /* Plotly 繪圖容器主體 */
+    width: 100%; /* 寬度 100% */
+    height: 520px; /* 固定高度 520px */
+    border-radius: var(--radius-md); /* 圓角 */
+    overflow: hidden; /* 隱藏溢出 */
+} /* 繪圖容器結束 */
+
+/* 歷史交易紀錄表格區塊 */
+.trades-table-section { /* 表格主區塊 */
+    background: var(--bg-card); /* 玻璃背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-lg); /* 圓角 */
+    padding: 24px 28px; /* 內邊距 */
+    backdrop-filter: var(--backdrop-blur); /* 毛玻璃 */
+    box-shadow: var(--shadow-card); /* 陰影 */
+} /* 表格區結束 */
+
+.table-header-bar { /* 表格頂部篩選與操作列 */
+    display: flex; /* 彈性盒 */
+    justify-content: space-between; /* 分散對齊 */
+    align-items: center; /* 垂直居中 */
+    margin-bottom: 18px; /* 下邊距 */
+    flex-wrap: wrap; /* 換行支援 */
+    gap: 14px; /* 間隔 */
+} /* 表格頂部結束 */
+
+.table-title-group h2 { /* 交易明細標題 */
+    font-size: 18px; /* 字級 */
+    font-weight: 700; /* 粗體 */
+} /* 標題結束 */
+
+.table-title-group span { /* 交易筆數小文字 */
+    font-size: 12px; /* 小字 */
+    color: var(--text-secondary); /* 灰字 */
+    font-family: var(--font-mono); /* 等寬 */
+} /* 小文字結束 */
+
+.table-filters-row { /* 搜尋與過濾條件工具列 */
+    display: flex; /* 橫向排版 */
+    align-items: center; /* 居中 */
+    gap: 10px; /* 間隔 */
+    flex-wrap: wrap; /* 換行 */
+} /* 工具列結束 */
+
+.table-search-input { /* 關鍵字搜尋框 */
+    background: #161b22; /* 深灰底 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    color: var(--text-primary); /* 字色 */
+    padding: 7px 14px; /* 內距 */
+    border-radius: var(--radius-sm); /* 圓角 */
+    font-size: 13px; /* 字級 */
+    outline: none; /* 移除外框 */
+    width: 200px; /* 寬度 */
+} /* 搜尋框結束 */
+
+.table-search-input:focus { /* 聚焦狀態 */
+    border-color: var(--color-accent); /* 亮藍邊框 */
+} /* 聚焦結束 */
+
+.btn-export-csv { /* 匯出 CSV 按鈕 */
+    background: rgba(0, 230, 118, 0.15); /* 綠色透明底 */
+    border: 1px solid rgba(0, 230, 118, 0.35); /* 綠邊框 */
+    color: var(--color-bull); /* 綠字 */
+    padding: 7px 16px; /* 內距 */
+    border-radius: var(--radius-sm); /* 圓角 */
+    font-size: 13px; /* 字級 */
+    font-weight: 600; /* 中粗體 */
+    cursor: pointer; /* 手指指標 */
+    transition: all 0.2s ease; /* 平滑過渡 */
+} /* 匯出按鈕結束 */
+
+.btn-export-csv:hover { /* 匯出按鈕懸停 */
+    background: rgba(0, 230, 118, 0.3); /* 加深綠底 */
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.3); /* 綠光陰影 */
+} /* 懸停結束 */
+
+.table-responsive-wrapper { /* 響應式滾動外層容器 */
+    width: 100%; /* 寬度 100% */
+    overflow-x: auto; /* 水平滾動 */
+    border-radius: var(--radius-md); /* 圓角 */
+    border: 1px solid var(--border-color); /* 邊框 */
+} /* 外層容器結束 */
+
+.custom-trades-table { /* 歷史交易數據表格 */
+    width: 100%; /* 寬度填滿 */
+    border-collapse: collapse; /* 邊框重疊合併 */
+    font-size: 13px; /* 字級 */
+    text-align: left; /* 靠左對齊 */
+} /* 表格結束 */
+
+.custom-trades-table th { /* 表頭儲存格 */
+    background: #161b22; /* 表頭深灰底 */
+    color: var(--text-secondary); /* 灰字 */
+    padding: 14px 16px; /* 內距 */
+    font-weight: 600; /* 中粗體 */
+    font-family: var(--font-heading); /* 字型 */
+    border-bottom: 1px solid var(--border-color); /* 下邊框 */
+    white-space: nowrap; /* 不換行 */
+} /* 表頭結束 */
+
+.custom-trades-table td { /* 數據資料儲存格 */
+    padding: 12px 16px; /* 內距 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04); /* 極細分隔線 */
+    font-family: var(--font-mono); /* 等寬字體呈現數據 */
+    white-space: nowrap; /* 不換行 */
+} /* 儲存格結束 */
+
+.custom-trades-table tbody tr { /* 表格內容資料列 */
+    transition: background-color 0.15s ease; /* 背景平滑過渡 */
+    cursor: pointer; /* 手指游標 */
+} /* 資料列結束 */
+
+.custom-trades-table tbody tr:hover { /* 滑鼠懸停資料列 */
+    background-color: rgba(255, 255, 255, 0.04); /* 微亮懸停效果 */
+} /* 懸停結束 */
+
+.custom-trades-table tbody tr.active-highlight { /* 當前圖表選取聚焦列 */
+    background-color: rgba(41, 182, 246, 0.12) !important; /* 亮藍底色高亮 */
+    border-left: 3px solid var(--color-accent); /* 左側藍色標記條 */
+} /* 聚焦列結束 */
+
+/* 交易標籤 Badges */
+.badge-buy { /* 買進多單標籤 */
+    padding: 3px 8px; /* 內距 */
+    border-radius: 4px; /* 圓角 */
+    font-size: 11px; /* 小字 */
+    font-weight: 700; /* 粗體 */
+    background: var(--color-bull-bg); /* 淺綠底 */
+    color: var(--color-bull); /* 綠字 */
+    border: 1px solid rgba(0, 230, 118, 0.3); /* 綠邊框 */
+} /* 買單結束 */
+
+.badge-sell { /* 賣出空單標籤 */
+    padding: 3px 8px; /* 內距 */
+    border-radius: 4px; /* 圓角 */
+    font-size: 11px; /* 小字 */
+    font-weight: 700; /* 粗體 */
+    background: var(--color-bear-bg); /* 淺紅底 */
+    color: var(--color-bear); /* 紅字 */
+    border: 1px solid rgba(255, 23, 68, 0.3); /* 紅邊框 */
+} /* 賣單結束 */
+
+.badge-win { /* 獲利標籤 */
+    color: var(--color-bull); /* 綠色文字 */
+    font-weight: 700; /* 粗體 */
+} /* 獲利結束 */
+
+.badge-loss { /* 虧損標籤 */
+    color: var(--color-bear); /* 紅色文字 */
+    font-weight: 700; /* 粗體 */
+} /* 虧損結束 */
+
+/* 分頁控制列 */
+.table-pagination-bar { /* 表格底部分頁導航列 */
+    display: flex; /* 彈性盒 */
+    justify-content: space-between; /* 分散排版 */
+    align-items: center; /* 居中 */
+    margin-top: 18px; /* 上間距 */
+    flex-wrap: wrap; /* 換行支援 */
+    gap: 12px; /* 間隔 */
+} /* 分頁列結束 */
+
+.pagination-controls { /* 分頁切換按鈕容器 */
+    display: flex; /* 橫向排版 */
+    gap: 6px; /* 按鈕間隔 */
+} /* 按鈕容器結束 */
+
+.page-btn { /* 分頁按鈕樣式 */
+    background: #161b22; /* 深灰底 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    color: var(--text-primary); /* 字色 */
+    padding: 6px 12px; /* 內距 */
+    border-radius: 6px; /* 圓角 */
+    font-size: 12px; /* 字級 */
+    cursor: pointer; /* 手指指標 */
+    font-family: var(--font-mono); /* 等寬 */
+    transition: all 0.2s ease; /* 過渡 */
+} /* 按鈕結束 */
+
+.page-btn:hover:not(:disabled) { /* 分頁按鈕懸停 */
+    background: rgba(255, 255, 255, 0.1); /* 亮底 */
+    border-color: rgba(255, 255, 255, 0.2); /* 亮框 */
+} /* 懸停結束 */
+
+.page-btn.active { /* 當前分頁頁碼按鈕 */
+    background: var(--color-accent); /* 亮藍底 */
+    color: #0d1117; /* 深黑字 */
+    font-weight: 700; /* 粗體 */
+    border-color: var(--color-accent); /* 亮藍邊框 */
+} /* 當前頁結束 */
+
+.page-btn:disabled { /* 停用狀態按鈕 */
+    opacity: 0.35; /* 半透明 */
+    cursor: not-allowed; /* 禁止游標 */
+} /* 停用結束 */
+
+/* 策略規範速查手冊 (Accordion) */
+.strategy-guide-section { /* 說明手冊區塊 */
+    background: var(--bg-card); /* 玻璃背景 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-lg); /* 圓角 */
+    padding: 24px 28px; /* 內距 */
+    backdrop-filter: var(--backdrop-blur); /* 毛玻璃 */
+    box-shadow: var(--shadow-card); /* 陰影 */
+} /* 手冊區結束 */
+
+.strategy-guide-grid { /* 雙策略規格卡片雙欄排版 */
+    display: grid; /* 網格系統 */
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); /* 自適應雙欄 */
+    gap: 20px; /* 間隔 */
+    margin-top: 16px; /* 上邊距 */
+} /* 雙欄結束 */
+
+.guide-spec-box { /* 單一策略規格小盒 */
+    background: rgba(0, 0, 0, 0.3); /* 深底 */
+    border: 1px solid var(--border-color); /* 邊框 */
+    border-radius: var(--radius-md); /* 圓角 */
+    padding: 18px 20px; /* 內邊距 */
+} /* 規格盒結束 */
+
+.guide-spec-box h3 { /* 策略規格主標題 */
+    font-size: 15px; /* 字級 */
+    font-weight: 700; /* 粗體 */
+    margin-bottom: 12px; /* 下邊距 */
+    display: flex; /* 彈性盒 */
+    align-items: center; /* 居中 */
+    gap: 8px; /* 間距 */
+} /* 標題結束 */
+
+.guide-spec-list { /* 參數項目清單 */
+    list-style: none; /* 移除預設符號 */
+    display: flex; /* 彈性盒 */
+    flex-direction: column; /* 垂直排列 */
+    gap: 8px; /* 行距 */
+    font-size: 13px; /* 字級 */
+    color: var(--text-secondary); /* 灰字 */
+} /* 清單結束 */
+
+.guide-spec-list strong { /* 重點數值強調 */
+    color: var(--text-primary); /* 白字 */
+    font-family: var(--font-mono); /* 等寬字體 */
+} /* 強調結束 */
+
+/* 響應式行動端斷點 */
+@media (max-width: 900px) { /* 當螢幕小於 900px */
+    .dashboard-container { padding: 16px; gap: 16px; } /* 縮減內邊距 */
+    .header-bar { flex-direction: column; align-items: flex-start; gap: 14px; } /* 標題改為垂直排列 */
+    .header-actions { width: 100%; justify-content: space-between; } /* 動作區撐滿 */
+    .chart-container-box { height: 400px; } /* 降低圖表高度 */
+    .filter-header { flex-direction: column; align-items: flex-start; } /* 篩選頭改為垂直 */
+    .quick-strategy-toggles { width: 100%; } /* 快選按鈕撐滿 */
+} /* 斷點結束 */

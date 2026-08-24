@@ -1,0 +1,60 @@
+name: 📈 5m Scalper & Straddle Hourly Data Update # 工作流名稱：每小時自動更新 5m 策略數據與最新報價
+
+on: # 觸發事件配置
+  schedule: # 定時排程觸發
+    # 📌 外匯市場 24 小時全時段平日每小時整點 (UTC 00:00 - 23:00 週一至週五) 自動執行
+    - cron: '0 * * * 1-5' # 週一至週五每小時整點觸發
+    # 📌 週日外匯市場美東早盤開市 (UTC 21:00, 22:00, 23:00) 自動執行
+    - cron: '0 21,22,23 * * 0' # 週日晚間開市時段
+  workflow_dispatch: # 支援在 GitHub 網頁手動點擊觸發
+
+jobs: # 工作任務清單
+  update-data: # 任務名稱
+    runs-on: ubuntu-latest # 使用 Ubuntu 最新執行環境
+    permissions: # 權限設定
+      contents: write # 賦予倉庫寫入權限 (防止 Git Push 403 錯誤)
+    timeout-minutes: 30 # 最長執行 30 分鐘防護
+
+    steps: # 執行步驟清單
+      - name: ⬇️ Checkout repository # 步驟 1: 拉取倉庫最新程式碼
+        uses: actions/checkout@v4 # 使用官方 checkout 動作
+        with: # 傳遞參數
+          token: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 自動提供的 token
+
+      - name: 🐍 Set up Python 3.11 # 步驟 2: 配置 Python 3.11 環境
+        uses: actions/setup-python@v5 # 使用 setup-python 動作
+        with: # 參數
+          python-version: '3.11' # 指定 Python 版本為 3.11
+          cache: 'pip' # 快取 pip 套件加速安裝
+
+      - name: 📦 Install dependencies # 步驟 3: 安裝所需套件
+        run: | # 執行 shell 命令
+          python -m pip install --upgrade pip # 升級 pip 工具
+          pip install -r requirements.txt # 安裝 requirements.txt 所需依賴
+
+      - name: 🔄 Run strategy update # 步驟 4: 執行 5m 策略運算與數據更新
+        run: python update_strategy_data.py # 執行回測運算並更新 strategy_results.json
+        env: # 環境變數
+          PYTHONUNBUFFERED: '1' # 確保 print 即時輸出至 Actions log
+
+      - name: 📊 Check if data changed # 步驟 5: 檢查資料檔案是否有異動
+        id: check_changes # 設定步驟識別 ID
+        run: | # 檢查檔案變動
+          if [ -n "$(git status --porcelain strategy_results.json all_trades_history.csv)" ]; then # 判斷檔案是否變更
+            echo "changed=true" >> $GITHUB_OUTPUT # 標記有異動
+          else # 若無變動
+            echo "changed=false" >> $GITHUB_OUTPUT # 標記無異動
+          fi # 判斷結束
+
+      - name: 💾 Commit and push updated data # 步驟 6: 若有異動則 commit 並推送到 GitHub
+        if: steps.check_changes.outputs.changed == 'true' # 僅在資料有變動時執行
+        run: | # 執行 Git 提交與推送指令
+          git config --local user.email "github-actions[bot]@users.noreply.github.com" # 設定 bot Email
+          git config --local user.name "github-actions[bot]" # 設定 bot 名稱
+          git add strategy_results.json all_trades_history.csv # 加入已更新的資料檔案
+          git commit -m "🤖 Auto-update: 5m strategy data $(date -u +'%Y-%m-%d %H:%M UTC')" # 自動 commit 訊息帶時間戳
+          git push # 推送到 GitHub main 分支
+
+      - name: ✅ No changes detected # 步驟 7: 若無變動印出提示
+        if: steps.check_changes.outputs.changed == 'false' # 若無異動
+        run: echo "資料無更新，跳過 commit。" # 印出提示文字
