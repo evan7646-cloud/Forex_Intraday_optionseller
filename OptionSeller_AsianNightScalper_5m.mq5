@@ -5,7 +5,7 @@
 //+------------------------------------------------------------------+ // 標頭結束
 #property copyright "Copyright 2026, Quant Fund Team" // 設定版權屬性
 #property link      "https://github.com/evan7646-cloud" // 設定專案連結屬性
-#property version   "1.00" // 設定版本號屬性
+#property version   "1.20" // 設定版本號屬性 (加入點差防護與伺服器時區校準)
 #property description "5分鐘 (M5) 亞洲夜間高勝率收租策略，每日 UTC 07:00 強制清倉 (Zero-Overnight)" // 策略描述說明
 
 #include <Trade\Trade.mqh> // 導入 MT5 官方交易標準類別庫
@@ -16,8 +16,10 @@
 input group "=== 1. 資金管理與手數配置 ===" // 參數分組 1
 input double   InpLotSize             = 1.0;    // 交易下單手數 (固定 1.0 手，符合自營商風控)
 input ulong    InpMagicNumber         = 500101; // 策略專屬 Magic Number 識別碼
+input int      InpMaxSpreadPoints     = 15;     // 最大容許點差 (15 Points = 1.5 pips，避開夜間換匯擴點)
 
-input group "=== 2. 交易時段與零隔夜風控 (UTC 時間) ===" // 參數分組 2
+input group "=== 2. 交易時段與伺服器時區校準 (UTC 時間) ===" // 參數分組 2
+input int      InpBrokerGMTOffset     = 3;      // 經紀商伺服器 GMT 偏移 (夏令通常為 +3, 冬令為 +2)
 input int      InpStartHour           = 21;     // 允許進場起始小時 (UTC 21:00 亞盤前夕)
 input int      InpEndHour             = 6;      // 允許進場結束小時 (UTC 06:00 歐盤前夕)
 input bool     InpForceIntradayClose  = true;   // 是否啟用純日內強制清倉 (零隔夜 Zero-Overnight)
@@ -61,7 +63,7 @@ int OnInit() // 初始化入口
       return(INIT_FAILED); // 中止並回傳失敗狀態
    } // 判斷結束
    
-   // [修復] 自動偵測經紀商支援的委託成交模式，避免 Prop Firm 因 FOK 不支援而 100% 拒單
+   // 自動偵測經紀商支援的委託成交模式，避免 Prop Firm 因 FOK 不支援而 100% 拒單
    ENUM_SYMBOL_TRADE_EXECUTION exec_mode = (ENUM_SYMBOL_TRADE_EXECUTION)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_EXEMODE); // 取得經紀商撮合模式
    int filling_mode = (int)SymbolInfoInteger(_Symbol, SYMBOL_FILLING_MODE); // 取得支援的填充模式位掩碼
    if((filling_mode & SYMBOL_FILLING_FOK) != 0) // 若支援 FOK 模式
@@ -113,10 +115,12 @@ void OnTick() // 報價觸發主函數
    datetime current_bar_time = iTime(_Symbol, PERIOD_M5, 0); // 取得當前 5m K 棒開盤時間
    bool is_new_bar = (current_bar_time != m_last_bar_time); // 判定是否形成新 5m K 棒
 
-   // 1. 純日內強制清倉風控檢查 (Zero-Overnight Check, 每日 UTC 07:00 強制全平)
+   // 1. 純日內強制清倉風控檢查 (透過 Server Time 精確換算 UTC 時間，回測與實盤皆精準無誤)
+   datetime current_server_time = TimeCurrent(); // 取得伺服器當前即時/回測時間
+   datetime gmt_time = current_server_time - (InpBrokerGMTOffset * 3600); // 扣除時區偏移換算為標準 UTC 時間
    MqlDateTime dt_struct; // 宣告時間結構體
-   TimeGMT(dt_struct); // 取得當前標準 GMT/UTC 時間
-   int current_utc_hour = dt_struct.hour; // 取得當前 UTC 小時
+   TimeToStruct(gmt_time, dt_struct); // 解析時間結構
+   int current_utc_hour = dt_struct.hour; // 取得當前標準 UTC 小時
 
    if(InpForceIntradayClose && current_utc_hour == InpForceCloseHour) // 觸達 UTC 07:00 強制清倉時段
    { // 執行清倉
@@ -130,6 +134,14 @@ void OnTick() // 報價觸發主函數
    // 3. 進場訊號檢查 (嚴格於「新 5m K 棒形成」時確認上一根 K 棒收盤價與指標)
    if(!is_new_bar) return; // 若非新 K 棒則不重複開倉
    m_last_bar_time = current_bar_time; // 更新最後處理的 K 棒時間
+
+   // 4. 夜間換匯擴點防護 (Rollover Spread Filter)
+   long current_spread = SymbolInfoInteger(_Symbol, SYMBOL_SPREAD); // 取得即時點差 (Points)
+   if(InpMaxSpreadPoints > 0 && current_spread > InpMaxSpreadPoints) // 若點差超過容許上限
+   { // 點差過大
+      Print("[!] 當前點差過大 (", current_spread, " Points > ", InpMaxSpreadPoints, " Points)，跳過開倉以防點差滑價磨損"); // 輸出日誌
+      return; // 拒絕開倉
+   } // 判斷結束
 
    // 檢查當前是否處於允許開倉的夜間時段 (UTC 21:00 ~ 06:00)
    bool is_in_entry_session = false; // 初始化時段旗標
@@ -166,13 +178,13 @@ void OnTick() // 報價觸發主函數
    double lower_1 = bb_lower[0]; // 下軌數值 (Index 1)
    double rsi_1   = rsi_val[0];  // RSI 數值 (Index 1)
 
-   // 4. 進場訊號判定與下單執行
+   // 5. 進場訊號判定與下單執行
    // 做多訊號 (等效賣出 Put 收租)：收盤價 <= 下軌 且 RSI <= 35 (超賣鈍化確認)
    if(close_1 <= lower_1 && rsi_1 <= InpRSI_Oversold) // 符合多單條件
    { // 執行多單下單
       double ask_price = m_symbol.Ask(); // 取得當前最佳買入價 (Ask)
-      double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(ask_price - InpHardStopPoints * _Point, _Digits) : 0; // [修復] 計算停損價並正規化精度
-      double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(ask_price + InpTakeProfitPoints * _Point, _Digits) : 0; // [修復] 計算止盈價並正規化精度
+      double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(ask_price - InpHardStopPoints * _Point, _Digits) : 0; // 計算停損價並正規化精度
+      double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(ask_price + InpTakeProfitPoints * _Point, _Digits) : 0; // 計算止盈價並正規化精度
       
       if(m_trade.Buy(InpLotSize, _Symbol, ask_price, sl_price, tp_price, "Scalper 5m Buy (Short Put)")) // 送出市價買單
       { // 下單成功
@@ -187,8 +199,8 @@ void OnTick() // 報價觸發主函數
    else if(close_1 >= upper_1 && rsi_1 >= InpRSI_Overbought) // 符合空單條件
    { // 執行空單下單
       double bid_price = m_symbol.Bid(); // 取得當前最佳賣出價 (Bid)
-      double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(bid_price + InpHardStopPoints * _Point, _Digits) : 0; // [修復] 計算停損價並正規化精度
-      double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(bid_price - InpTakeProfitPoints * _Point, _Digits) : 0; // [修復] 計算止盈價並正規化精度
+      double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(bid_price + InpHardStopPoints * _Point, _Digits) : 0; // 計算停損價並正規化精度
+      double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(bid_price - InpTakeProfitPoints * _Point, _Digits) : 0; // 計算止盈價並正規化精度
 
       if(m_trade.Sell(InpLotSize, _Symbol, bid_price, sl_price, tp_price, "Scalper 5m Sell (Short Call)")) // 送出市價賣單
       { // 下單成功
@@ -202,7 +214,7 @@ void OnTick() // 報價觸發主函數
 } // OnTick 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| 管理當前持倉，執行中軌回歸出場邏輯                               | // 管理持倉註解
+//| 管理當前持倉，執行中軌回歸出場邏輯 (確認高於成本線方才止盈出場)       | // 管理持倉註解
 //+------------------------------------------------------------------+ // 分隔線
 void ManageOpenPositions() // 持倉管理函數
 { // 區塊開始
@@ -218,25 +230,28 @@ void ManageOpenPositions() // 持倉管理函數
             ArraySetAsSeries(bb_mid, true); // 倒序索引
             if(CopyBuffer(m_handle_bb, 0, 0, 1, bb_mid) <= 0) return; // 取得當前中軌最新值
             double current_mid = bb_mid[0]; // 當前中軌價
+            double open_price = m_position.PriceOpen(); // 取得進場成本價
 
             if(m_position.PositionType() == POSITION_TYPE_BUY) // 若持有多單
             { // 多單檢查
-               if(m_symbol.Bid() >= current_mid) // 當前現價已回歸或超越布林中軌
+               // 多單要求：現價觸碰或超過中軌 且 現價高於進場成本 (確保是獲利收租，非逆向提前認賠)
+               if(m_symbol.Bid() >= current_mid && m_symbol.Bid() > open_price) // 符合中軌獲利收租
                { // 執行平倉
-                  if(!m_trade.PositionClose(m_position.Ticket())) // [修復] 市價平倉多單，檢查返回值
+                  if(!m_trade.PositionClose(m_position.Ticket())) // 市價平倉多單，檢查返回值
                      Print("[!] 多單中軌止盈平倉失敗，將在下一 Tick 重試! Err: ", m_trade.ResultRetcode()); // 失敗則記錄待重試
                   else // 平倉成功
-                     Print("[+] 多單觸及布林中軌，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
+                     Print("[+] 多單觸及布林中軌且處於獲利狀態，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
                } // 平倉結束
             } // 多單結束
             else if(m_position.PositionType() == POSITION_TYPE_SELL) // 若持有空單
             { // 空單檢查
-               if(m_symbol.Ask() <= current_mid) // 當前現價已回歸或跌破布林中軌
+               // 空單要求：現價觸碰或跌破中軌 且 現價低於進場成本 (確保是獲利收租，非逆向提前認賠)
+               if(m_symbol.Ask() <= current_mid && m_symbol.Ask() < open_price) // 符合中軌獲利收租
                { // 執行平倉
-                  if(!m_trade.PositionClose(m_position.Ticket())) // [修復] 市價平倉空單，檢查返回值
+                  if(!m_trade.PositionClose(m_position.Ticket())) // 市價平倉空單，檢查返回值
                      Print("[!] 空單中軌止盈平倉失敗，將在下一 Tick 重試! Err: ", m_trade.ResultRetcode()); // 失敗則記錄待重試
                   else // 平倉成功
-                     Print("[+] 空單觸及布林中軌，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
+                     Print("[+] 空單觸及布林中軌且處於獲利狀態，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
                } // 平倉結束
             } // 空單結束
          } // 符合結束
@@ -274,8 +289,8 @@ void CloseAllPositions(string reason) // 全平倉函數
       { // 成功
          if(m_position.Symbol() == _Symbol && m_position.Magic() == InpMagicNumber) // 匹配
          { // 執行平倉
-            ulong ticket = m_position.Ticket(); // [修復] 先暫存 Ticket 避免迴圈中物件狀態變更
-            if(!m_trade.PositionClose(ticket)) // [修復] 檢查平倉是否成功
+            ulong ticket = m_position.Ticket(); // 先暫存 Ticket 避免迴圈中物件狀態變更
+            if(!m_trade.PositionClose(ticket)) // 檢查平倉是否成功
             { // 平倉失敗
                Print("[!] 強制清倉失敗 [", reason, "] Ticket: ", ticket, " Err: ", m_trade.ResultRetcode(), " 將在下一 Tick 重試"); // 記錄失敗日誌
             } // 失敗結束
@@ -285,5 +300,5 @@ void CloseAllPositions(string reason) // 全平倉函數
             } // 成功結束
          } // 結束
       } // 結束
-   } // 遍歷結束
+   } // 結束
 } // CloseAllPositions 結束
