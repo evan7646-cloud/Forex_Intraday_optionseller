@@ -49,13 +49,23 @@ int OnInit() // 初始化入口
 { // 區塊開始
    m_trade.SetExpertMagicNumber(InpMagicNumber); // 設定 Magic Number
    m_trade.SetDeviationInPoints(10); // 設定最大容許滑點點數 (10 Points)
-   m_trade.SetTypeFilling(ORDER_FILLING_FOK); // 預設成交模式為 FOK
    
    if(!m_symbol.Name(_Symbol)) // 初始化商品物件
    { // 失敗
       Print("[-] 商品資訊初始化失敗: ", _Symbol); // 印出錯誤
       return(INIT_FAILED); // 返回失敗
    } // 結束
+   
+   // [修復] 自動偵測經紀商支援的委託成交模式，避免 Prop Firm 因 FOK 不支援而 100% 拒單
+   ENUM_SYMBOL_TRADE_EXECUTION exec_mode = (ENUM_SYMBOL_TRADE_EXECUTION)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_EXEMODE); // 取得經紀商撮合模式
+   int filling_mode = (int)SymbolInfoInteger(_Symbol, SYMBOL_FILLING_MODE); // 取得支援的填充模式位掩碼
+   if((filling_mode & SYMBOL_FILLING_FOK) != 0) // 若支援 FOK 模式
+      m_trade.SetTypeFilling(ORDER_FILLING_FOK); // 使用 FOK 成交
+   else if((filling_mode & SYMBOL_FILLING_IOC) != 0) // 若支援 IOC 模式
+      m_trade.SetTypeFilling(ORDER_FILLING_IOC); // 使用 IOC 成交
+   else // 其餘情況 (Exchange 模式)
+      m_trade.SetTypeFilling(ORDER_FILLING_RETURN); // 使用 RETURN 成交
+   Print("[*] 偵測到經紀商填充模式: ", EnumToString(exec_mode), " -> 使用: ", filling_mode); // 輸出偵測結果
    
    // 建立 5 分鐘週期 (PERIOD_M5) 的 30 週期移動平均線 (SMA) 指標 Handle
    m_handle_ma = iMA(_Symbol, PERIOD_M5, InpLookbackPeriod, 0, MODE_SMA, PRICE_CLOSE); // 建立 MA Handle
@@ -150,9 +160,9 @@ void OnTick() // 報價主函數
    // 賣出跨式左翼做多 (Short OTM Put 側買多)：Z <= -2.1σ
    if(z_score_1 <= -InpZScoreEntry) // 符合賣 Put 多單條件
    { // 執行買入
-      double ask_price = m_symbol.Ask(); // 買入價
-      double sl_price = (InpHardStopPoints > 0) ? ask_price - InpHardStopPoints * _Point : 0; // 停損價
-      double tp_price = (InpTakeProfitPoints > 0) ? ask_price + InpTakeProfitPoints * _Point : 0; // 止盈價
+       double ask_price = m_symbol.Ask(); // 買入價
+       double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(ask_price - InpHardStopPoints * _Point, _Digits) : 0; // [修復] 停損價正規化精度
+       double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(ask_price + InpTakeProfitPoints * _Point, _Digits) : 0; // [修復] 止盈價正規化精度
 
       if(m_trade.Buy(InpLotSize, _Symbol, ask_price, sl_price, tp_price, "Short Straddle Buy (Short Put Wing)")) // 送出買單
       { // 成功
@@ -166,9 +176,9 @@ void OnTick() // 報價主函數
    // 賣出跨式右翼做空 (Short OTM Call 側賣空)：Z >= +2.1σ
    else if(z_score_1 >= InpZScoreEntry) // 符合賣 Call 空單條件
    { // 執行賣出
-      double bid_price = m_symbol.Bid(); // 賣出價
-      double sl_price = (InpHardStopPoints > 0) ? bid_price + InpHardStopPoints * _Point : 0; // 停損價
-      double tp_price = (InpTakeProfitPoints > 0) ? bid_price - InpTakeProfitPoints * _Point : 0; // 止盈價
+       double bid_price = m_symbol.Bid(); // 賣出價
+       double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(bid_price + InpHardStopPoints * _Point, _Digits) : 0; // [修復] 停損價正規化精度
+       double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(bid_price - InpTakeProfitPoints * _Point, _Digits) : 0; // [修復] 止盈價正規化精度
 
       if(m_trade.Sell(InpLotSize, _Symbol, bid_price, sl_price, tp_price, "Short Straddle Sell (Short Call Wing)")) // 送出賣單
       { // 成功
@@ -258,9 +268,16 @@ void CloseAllPositions(string reason) // 全平倉函數
       if(m_position.SelectByIndex(i)) // 選取
       { // 成功
          if(m_position.Symbol() == _Symbol && m_position.Magic() == InpMagicNumber) // 匹配
-         { // 匹配
-            m_trade.PositionClose(m_position.Ticket()); // 市價全平
-            Print("[*] 執行強制清倉 [", reason, "] Ticket: ", m_position.Ticket()); // 輸出日誌
+         { // 執行平倉
+            ulong ticket = m_position.Ticket(); // [修復] 先暫存 Ticket 避免迴圈中物件狀態變更
+            if(!m_trade.PositionClose(ticket)) // [修復] 檢查平倉是否成功
+            { // 平倉失敗
+               Print("[!] 強制清倉失敗 [", reason, "] Ticket: ", ticket, " Err: ", m_trade.ResultRetcode(), " 將在下一 Tick 重試"); // 記錄失敗日誌
+            } // 失敗結束
+            else // 平倉成功
+            { // 成功
+               Print("[*] 執行強制清倉成功 [", reason, "] Ticket: ", ticket); // 輸出成功日誌
+            } // 成功結束
          } // 結束
       } // 結束
    } // 遍歷結束

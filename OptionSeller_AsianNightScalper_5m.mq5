@@ -54,13 +54,23 @@ int OnInit() // 初始化入口
 { // 區塊開始
    m_trade.SetExpertMagicNumber(InpMagicNumber); // 設定交易操作之 Magic Number
    m_trade.SetDeviationInPoints(10); // 設定最大容許滑點點數 (10 Points = 1 pip)
-   m_trade.SetTypeFilling(ORDER_FILLING_FOK); // 預設委託成交模式為 FOK (或 IOC)
    
    if(!m_symbol.Name(_Symbol)) // 初始化商品行情資訊物件
    { // 驗證失敗
       Print("[-] 商品資訊初始化失敗: ", _Symbol); // 輸出錯誤日誌
       return(INIT_FAILED); // 中止並回傳失敗狀態
    } // 判斷結束
+   
+   // [修復] 自動偵測經紀商支援的委託成交模式，避免 Prop Firm 因 FOK 不支援而 100% 拒單
+   ENUM_SYMBOL_TRADE_EXECUTION exec_mode = (ENUM_SYMBOL_TRADE_EXECUTION)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_EXEMODE); // 取得經紀商撮合模式
+   int filling_mode = (int)SymbolInfoInteger(_Symbol, SYMBOL_FILLING_MODE); // 取得支援的填充模式位掩碼
+   if((filling_mode & SYMBOL_FILLING_FOK) != 0) // 若支援 FOK 模式
+      m_trade.SetTypeFilling(ORDER_FILLING_FOK); // 使用 FOK 成交
+   else if((filling_mode & SYMBOL_FILLING_IOC) != 0) // 若支援 IOC 模式
+      m_trade.SetTypeFilling(ORDER_FILLING_IOC); // 使用 IOC 成交
+   else // 其餘情況 (Exchange 模式)
+      m_trade.SetTypeFilling(ORDER_FILLING_RETURN); // 使用 RETURN 成交
+   Print("[*] 偵測到經紀商填充模式: ", EnumToString(exec_mode), " -> 使用: ", filling_mode); // 輸出偵測結果
    
    // 建立 5 分鐘週期 (PERIOD_M5) 的布林通道指標
    m_handle_bb = iBands(_Symbol, PERIOD_M5, InpBBPeriod, InpBBShift, InpBBDeviation, PRICE_CLOSE); // 建立 BB Handle
@@ -161,8 +171,8 @@ void OnTick() // 報價觸發主函數
    if(close_1 <= lower_1 && rsi_1 <= InpRSI_Oversold) // 符合多單條件
    { // 執行多單下單
       double ask_price = m_symbol.Ask(); // 取得當前最佳買入價 (Ask)
-      double sl_price = (InpHardStopPoints > 0) ? ask_price - InpHardStopPoints * _Point : 0; // 計算停損價
-      double tp_price = (InpTakeProfitPoints > 0) ? ask_price + InpTakeProfitPoints * _Point : 0; // 計算止盈價
+      double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(ask_price - InpHardStopPoints * _Point, _Digits) : 0; // [修復] 計算停損價並正規化精度
+      double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(ask_price + InpTakeProfitPoints * _Point, _Digits) : 0; // [修復] 計算止盈價並正規化精度
       
       if(m_trade.Buy(InpLotSize, _Symbol, ask_price, sl_price, tp_price, "Scalper 5m Buy (Short Put)")) // 送出市價買單
       { // 下單成功
@@ -177,8 +187,8 @@ void OnTick() // 報價觸發主函數
    else if(close_1 >= upper_1 && rsi_1 >= InpRSI_Overbought) // 符合空單條件
    { // 執行空單下單
       double bid_price = m_symbol.Bid(); // 取得當前最佳賣出價 (Bid)
-      double sl_price = (InpHardStopPoints > 0) ? bid_price + InpHardStopPoints * _Point : 0; // 計算停損價
-      double tp_price = (InpTakeProfitPoints > 0) ? bid_price - InpTakeProfitPoints * _Point : 0; // 計算止盈價
+      double sl_price = (InpHardStopPoints > 0) ? NormalizeDouble(bid_price + InpHardStopPoints * _Point, _Digits) : 0; // [修復] 計算停損價並正規化精度
+      double tp_price = (InpTakeProfitPoints > 0) ? NormalizeDouble(bid_price - InpTakeProfitPoints * _Point, _Digits) : 0; // [修復] 計算止盈價並正規化精度
 
       if(m_trade.Sell(InpLotSize, _Symbol, bid_price, sl_price, tp_price, "Scalper 5m Sell (Short Call)")) // 送出市價賣單
       { // 下單成功
@@ -213,16 +223,20 @@ void ManageOpenPositions() // 持倉管理函數
             { // 多單檢查
                if(m_symbol.Bid() >= current_mid) // 當前現價已回歸或超越布林中軌
                { // 執行平倉
-                  m_trade.PositionClose(m_position.Ticket()); // 市價平倉多單
-                  Print("[+] 多單觸及布林中軌，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
+                  if(!m_trade.PositionClose(m_position.Ticket())) // [修復] 市價平倉多單，檢查返回值
+                     Print("[!] 多單中軌止盈平倉失敗，將在下一 Tick 重試! Err: ", m_trade.ResultRetcode()); // 失敗則記錄待重試
+                  else // 平倉成功
+                     Print("[+] 多單觸及布林中軌，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
                } // 平倉結束
             } // 多單結束
             else if(m_position.PositionType() == POSITION_TYPE_SELL) // 若持有空單
             { // 空單檢查
                if(m_symbol.Ask() <= current_mid) // 當前現價已回歸或跌破布林中軌
                { // 執行平倉
-                  m_trade.PositionClose(m_position.Ticket()); // 市價平倉空單
-                  Print("[+] 空單觸及布林中軌，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
+                  if(!m_trade.PositionClose(m_position.Ticket())) // [修復] 市價平倉空單，檢查返回值
+                     Print("[!] 空單中軌止盈平倉失敗，將在下一 Tick 重試! Err: ", m_trade.ResultRetcode()); // 失敗則記錄待重試
+                  else // 平倉成功
+                     Print("[+] 空單觸及布林中軌，主動獲利平倉收租! Ticket: ", m_position.Ticket()); // 輸出日誌
                } // 平倉結束
             } // 空單結束
          } // 符合結束
@@ -260,8 +274,15 @@ void CloseAllPositions(string reason) // 全平倉函數
       { // 成功
          if(m_position.Symbol() == _Symbol && m_position.Magic() == InpMagicNumber) // 匹配
          { // 執行平倉
-            m_trade.PositionClose(m_position.Ticket()); // 市價全平
-            Print("[*] 執行強制清倉 [", reason, "] Ticket: ", m_position.Ticket()); // 輸出日誌
+            ulong ticket = m_position.Ticket(); // [修復] 先暫存 Ticket 避免迴圈中物件狀態變更
+            if(!m_trade.PositionClose(ticket)) // [修復] 檢查平倉是否成功
+            { // 平倉失敗
+               Print("[!] 強制清倉失敗 [", reason, "] Ticket: ", ticket, " Err: ", m_trade.ResultRetcode(), " 將在下一 Tick 重試"); // 記錄失敗日誌
+            } // 失敗結束
+            else // 平倉成功
+            { // 成功
+               Print("[*] 執行強制清倉成功 [", reason, "] Ticket: ", ticket); // 輸出成功日誌
+            } // 成功結束
          } // 結束
       } // 結束
    } // 遍歷結束
