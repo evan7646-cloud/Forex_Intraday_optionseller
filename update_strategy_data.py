@@ -34,10 +34,10 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 df = self.tv.get_hist(symbol=symbol, exchange="OANDA", interval=Interval.in_5_minute, n_bars=n_bars)  # 發送請求
                 if df is not None and len(df) > 100:  # 檢查數據長度
                     df = df.reset_index()  # 重設索引
-                    df['datetime'] = pd.to_datetime(df['datetime']).dt.tz_localize(None)  # 去除時區
+                    df['datetime'] = pd.to_datetime(df['datetime']).dt.tz_localize(None) - pd.Timedelta(hours=8)  # [修復] 將 TradingView 本地時間 (UTC+8) 轉換為標準 UTC 時間
                     df.set_index('datetime', inplace=True)  # 設為時間索引
                     df = df[['open', 'high', 'low', 'close', 'volume']][~df.index.duplicated(keep='first')]  # 欄位篩選與去重
-                    print(f"  [+] TradingView 成功獲取 {len(df)} 根 5m K 線")  # 輸出成功日誌
+                    print(f"  [+] TradingView 成功獲取 {len(df)} 根 5m K 線 (已校準為 UTC)")  # 輸出成功日誌
                     return df  # 回傳有效資料表
             except Exception as e:  # 捕捉異常
                 print(f"  [-] TradingView 獲取失敗 ({e})，轉為 Yahoo Finance 備援...")  # 輸出備援提示

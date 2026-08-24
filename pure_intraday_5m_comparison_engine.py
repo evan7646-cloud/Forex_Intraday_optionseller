@@ -3,22 +3,45 @@ import pandas as pd  # 導入數據分析庫 Pandas
 import matplotlib.pyplot as plt  # 導入專業繪圖庫 Matplotlib
 from tvDatafeed import TvDatafeed, Interval  # 導入 TradingView 行情數據接口
 import yfinance as yf  # 導入備用金融數據接口
+import signal  # 導入信號模組 (用於 timeout 防卡死)
+
+def _timeout_handler(signum, frame):  # timeout 信號處理器
+    raise TimeoutError("TvDatafeed 請求超時 (30 秒)")  # 拋出超時異常
 
 class PureIntraday5mScreeningEngine:  # 定義純日內 5 分鐘週期 (5m) 8 大商品專用回測與繪圖引擎
     def __init__(self):  # 初始化
-        self.tv = TvDatafeed()  # 建立 TradingView 連線客戶端
+        self.tv = None  # 延遲初始化 TradingView 客戶端 (避免建構時卡住)
+
+    def _get_tv(self):  # 安全取得 TvDatafeed 實例
+        if self.tv is None:  # 尚未建立
+            try:  # 嘗試建立
+                signal.signal(signal.SIGALRM, _timeout_handler)  # 設定 timeout 處理器
+                signal.alarm(15)  # 15 秒內必須完成連線
+                self.tv = TvDatafeed()  # 建立 TradingView 連線客戶端
+                signal.alarm(0)  # 取消計時器
+            except Exception as e:  # 連線失敗
+                signal.alarm(0)  # 取消計時器
+                print(f"[!] TvDatafeed 連線失敗: {e}")  # 輸出錯誤
+                self.tv = None  # 保持 None
+        return self.tv  # 回傳
 
     def fetch_5m_data(self, symbol: str, n_bars: int = 5000) -> pd.DataFrame:  # 抓取 5m 高解析數據
         print(f"[*] 正在抓取 [{symbol}] 5m 數據 (目標: {n_bars} 根)...")  # 輸出日誌
         df = None  # 初始化
-        try:  # 嘗試 TradingView
-            df = self.tv.get_hist(symbol=symbol, exchange="OANDA", interval=Interval.in_5_minute, n_bars=n_bars)  # 請求 5m 數據
-        except Exception:  # 忽略異常
-            pass  # 轉備用
+        tv = self._get_tv()  # 安全取得連線
+        if tv is not None:  # 連線可用
+            try:  # 嘗試 TradingView
+                signal.signal(signal.SIGALRM, _timeout_handler)  # 設定 timeout 處理器
+                signal.alarm(30)  # 30 秒內必須完成數據請求
+                df = tv.get_hist(symbol=symbol, exchange="OANDA", interval=Interval.in_5_minute, n_bars=n_bars)  # 請求 5m 數據
+                signal.alarm(0)  # 取消計時器
+            except Exception as e:  # 捕獲所有異常 (含 TimeoutError)
+                signal.alarm(0)  # 取消計時器
+                print(f"[!] TvDatafeed [{symbol}] 請求失敗: {e}, 切換 yfinance")  # 輸出錯誤
         
         if df is not None and len(df) > 100:  # 驗證數據有效性
             df = df.reset_index()  # 重設索引
-            df['datetime'] = pd.to_datetime(df['datetime']).dt.tz_localize(None)  # 去時區
+            df['datetime'] = pd.to_datetime(df['datetime']).dt.tz_localize(None) - pd.Timedelta(hours=8)  # [修復] 校準為 UTC 時間
             df.set_index('datetime', inplace=True)  # 設為索引
             return df[['open', 'high', 'low', 'close', 'volume']][~df.index.duplicated(keep='first')]  # 回傳去重數據
         
