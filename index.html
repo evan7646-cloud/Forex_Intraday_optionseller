@@ -16,22 +16,24 @@
         
         <!-- 頂部標題導航列 -->
         <header class="header-bar"> <!-- 頂部玻璃列 -->
-            <div class="logo-section"> <!-- Logo 與標題區 -->
-                <div class="strategy-badge-icon">⚡</div> <!-- 科技圖標徽章 -->
-                <div class="header-title-text"> <!-- 標題文字外框 -->
-                    <h1>5m 純日內雙策略 × 8 大模組極限收租監控儀表板</h1> <!-- 主標題 -->
-                    <p class="subtitle">全面以 <strong>MT5 伺服器時間 (Broker Server Time)</strong> 為統一基準 | 夜間 (01:00-08:00, 10:00清倉) & 日間 (10:00-23:00, 00:00清倉) | 100% 扣除真實點差與每手 $5 手續費</p> <!-- 副標題說明 -->
-                </div> <!-- 標題外框結束 -->
-            </div> <!-- Logo 區結束 -->
-            <div class="header-actions"> <!-- 右側狀態與動作群 -->
-                <div class="system-status-pill"> <!-- 狀態膠囊標籤 -->
-                    <span class="pulse-dot"></span> <!-- 綠色動態呼吸燈 -->
-                    <span id="status-update-time">資料載入中...</span> <!-- 即時更新時間戳 -->
-                </div> <!-- 狀態膠囊結束 -->
-                <button class="refresh-btn" id="btn-manual-refresh" title="重新載入最新策略數據"> <!-- 重新載入按鈕 -->
-                    <span>🔄</span> 重新載入 <!-- 按鈕文字 -->
-                </button> <!-- 按鈕結束 -->
-            </div> <!-- 右側群結束 -->
+            <div class="header-left">
+                <div class="logo-badge">
+                    <span class="logo-icon">⚡</span>
+                    <div>
+                        <h1 class="logo-title">純期權賣方高勝率收租旗艦量化監控儀表板</h1>
+                        <p class="logo-subtitle">PEPPERSTONE ECN 真實數據源 | MT5 伺服器時間標準 | 純震盪收租 (無順勢) | 100% 扣除點差與手續費</p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="time-display-badge">
+                    <div class="pulse-dot"></div>
+                    <span id="status-update-time">載入中...</span>
+                </div>
+                <button id="btn-manual-refresh" class="action-btn">
+                    <span>🔄</span> 重新載入
+                </button>
+            </div>
         </header> <!-- 頂部列結束 -->
 
         <!-- 第一區：即時行情與指標狀態跑馬卡片 -->
