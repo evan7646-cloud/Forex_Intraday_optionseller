@@ -1,399 +1,249 @@
 import os  # 導入作業系統模組
-import sys  # 導入系統模組
-import time  # 導入時間模組
-import signal  # 導入信號處理模組
-import datetime  # 導入日期時間模組
+import glob  # 導入檔案路徑匹配模組
+import json  # 導入 JSON 解析模組
+import datetime  # 導入日期時間處理模組
 import numpy as np  # 導入數值運算庫
-import pandas as pd  # 導入數據表格處理庫
-import matplotlib.pyplot as plt  # 導入專業繪圖庫
-from tvDatafeed import TvDatafeed, Interval  # 導入 TradingView 數據介面
-import yfinance as yf  # 導入 Yahoo Finance 備援介面
+import pandas as pd  # 導入資料表格分析庫
+import warnings  # 導入警告控制模組
 
-def _timeout_handler(signum, frame):  # 定義超時例外處理器
-    raise TimeoutError("請求超時 (20 秒)")  # 拋出超時異常
+warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-class LargeScaleMultiTFBacktestEngine:  # 定義大規模多週期全品種量化回測引擎
-    def __init__(self):  # 初始化
-        self.tv = None  # 延遲初始化連線物件
-        # 28 款主要與交叉外匯全幣別清單
-        self.symbols = [
-            "EURUSD", "GBPUSD", "AUDUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY",
-            "EURGBP", "EURJPY", "EURAUD", "EURNZD", "EURCAD", "EURCHF",
-            "GBPJPY", "GBPAUD", "GBPCAD", "GBPCHF", "GBPNZD",
-            "AUDCAD", "AUDNZD", "AUDJPY", "AUDCHF",
-            "NZDCAD", "NZDJPY", "NZDCHF",
-            "CADJPY", "CADCHF", "CHFJPY"
-        ]
-        # 4 大回測時間週期
-        self.timeframes = {
-            "M5":  {"tv": Interval.in_5_minute,  "yf": "5m",  "bars": 5000, "tp_pips": 5.0,  "sl_pips": 35.0},
-            "M15": {"tv": Interval.in_15_minute, "yf": "15m", "bars": 5000, "tp_pips": 10.0, "sl_pips": 50.0},
-            "M30": {"tv": Interval.in_30_minute, "yf": "30m", "bars": 5000, "tp_pips": 15.0, "sl_pips": 70.0},
-            "H1":  {"tv": Interval.in_1_hour,    "yf": "1h",  "bars": 5000, "tp_pips": 25.0, "sl_pips": 100.0}
-        }
+# 100% 依據使用者 MT5 Market Watch 實盤截圖精準點差 (Pips)
+EXACT_SPREADS = {  # 點差字典
+    "EURUSD": 0.3, "USDCAD": 0.6, "USDCHF": 0.6, "EURGBP": 0.7, "GBPUSD": 0.8,
+    "NZDUSD": 0.9, "AUDCHF": 1.0, "USDJPY": 1.0, "CADCHF": 1.1, "EURCHF": 1.2,
+    "EURJPY": 1.2, "AUDCAD": 1.4, "NZDCHF": 1.5, "EURAUD": 1.7, "GBPCHF": 1.7,
+    "NZDCAD": 1.8, "AUDJPY": 1.9, "EURCAD": 1.9, "AUDNZD": 2.0, "GBPJPY": 2.1,
+    "GBPCAD": 2.2, "GBPAUD": 2.7, "EURNZD": 2.8, "GBPNZD": 3.0, "CHFJPY": 1.5, "CADJPY": 1.6
+}  # 點差結束
 
-    def _get_tv(self):  # 安全建立 TradingView 連線
-        if self.tv is None:  # 尚未建立
-            try:  # 嘗試連線
-                signal.signal(signal.SIGALRM, _timeout_handler)  # 設定信號
-                signal.alarm(10)  # 10 秒超時
-                self.tv = TvDatafeed()  # 建立客戶端
-                signal.alarm(0)  # 取消計時器
-            except Exception as e:  # 捕捉異常
-                signal.alarm(0)  # 取消計時
-                print(f"[!] TvDatafeed 連線失敗: {e}")  # 輸出錯誤
-                self.tv = None  # 設為 None
-        return self.tv  # 回傳物件
+# MT5 實盤計價幣別對美金即時匯率
+QUOTE_TO_USD = {  # 匯率字典
+    "USD": 1.00000,                  # 美金 $1.00000
+    "CHF": 1.0 / 0.80218,            # 1 CHF = $1.24660 USD (每手每點 = $12.47 USD)
+    "GBP": 1.36386,                  # 1 GBP = $1.36386 USD (每手每點 = $13.64 USD)
+    "CAD": 1.0 / 1.38452,            # 1 CAD = $0.72227 USD (每手每點 = $7.22 USD)
+    "JPY": 1.0 / 159.178,            # 1 JPY = $0.006282 USD (每手每點 = $6.28 USD)
+    "AUD": 0.71000,                  # 1 AUD = $0.71000 USD (每手每點 = $7.10 USD)
+    "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
+}  # 匯率結束
 
-    def get_pip_size(self, symbol: str) -> float:  # 取得 1 pip 價格單位
-        return 0.01 if "JPY" in symbol else 0.0001  # JPY 貨幣對為 0.01, 其餘為 0.0001
+def get_specs(sym: str):  # 依據計價貨幣計算每點單位與換算美金價值
+    if "JPY" in sym:  # 日圓貨幣對
+        return 0.01, 100000.0 * 0.01 * QUOTE_TO_USD["JPY"]  # JPY
+    counter_curr = sym[-3:]  # 計價貨幣
+    return 0.0001, 100000.0 * 0.0001 * QUOTE_TO_USD.get(counter_curr, 1.0)  # 外匯
 
-    def get_pip_value_usd(self, symbol: str, lot_size: float = 1.0) -> float:  # 精確計算每 pip 在 USD 的真實價值
-        quote_rates = {  # 報價幣對美金匯率對照表
-            "USD": 1.0,          # USD 計價: $10.00 / pip
-            "CAD": 1.0 / 1.37,   # CAD 計價: $7.30 / pip
-            "CHF": 1.0 / 0.88,   # CHF 計價: $11.36 / pip
-            "JPY": 1.0 / 148.0,  # JPY 計價: $6.76 / pip (1000 JPY / 148)
-            "GBP": 1.30,         # GBP 計價: $13.00 / pip
-            "NZD": 0.60,         # NZD 計價: $6.00 / pip
-            "AUD": 0.66          # AUD 計價: $6.60 / pip
-        }
-        quote_curr = symbol[-3:]  # 取後三碼計價幣別
-        conversion = quote_rates.get(quote_curr, 1.0)  # 取得匯率轉換係數
-        base_pip = 100000.0 * self.get_pip_size(symbol)  # 1 手 1 pip 在計價幣金額
-        return base_pip * conversion * lot_size  # 回傳每 pip 美金價值
-
-    def fetch_data(self, symbol: str, tf_key: str) -> pd.DataFrame:  # 抓取指定標的與週期的數據
-        tf_cfg = self.timeframes[tf_key]  # 取得週期配置
-        n_bars = tf_cfg["bars"]  # 目標 K 棒數
-        df = None  # 初始化資料表
-        tv = self._get_tv()  # 取得連線
+def backtest_single_asset(filepath: str, sl_atr: float = 2.0, adx_thresh: float = 30.0, lot_size: float = 1.0):  # 單一資產與週期回測
+    filename = os.path.basename(filepath)  # 檔名
+    parts = filename.replace(".csv", "").split("_")  # 分割檔名
+    if len(parts) < 3: return None  # 格式檢查
+    sym = parts[1].upper()  # 標的代碼
+    tf = parts[2].lower()  # 週期
+    if sym not in EXACT_SPREADS: return None  # 點差檢查
+    
+    df = pd.read_csv(filepath)  # 讀取 CSV
+    if len(df) < 200: return None  # 資料量檢查
+    
+    pip_size, pip_val_usd = get_specs(sym)  # 規格
+    sp_pips = EXACT_SPREADS[sym]  # 點差
+    sp_dist = sp_pips * pip_size  # 點差距離
+    cost_per_trade = 5.0 * lot_size  # 每手進出固定扣除 $5.00 手續費
+    
+    # 指標運算
+    df["MA20"] = df["close"].rolling(20).mean()  # 20 SMA
+    df["STD20"] = df["close"].rolling(20).std()  # 20 STD
+    df["UB"] = df["MA20"] + 2.2 * df["STD20"]  # 上軌 (2.2σ)
+    df["LB"] = df["MA20"] - 2.2 * df["STD20"]  # 下軌 (2.2σ)
+    
+    tr = np.maximum(df["high"] - df["low"], np.maximum(abs(df["high"] - df["close"].shift(1)), abs(df["low"] - df["close"].shift(1))))  # TR
+    df["ATR"] = tr.rolling(14).mean()  # ATR
+    
+    plus_dm = (df["high"] - df["high"].shift(1)).clip(lower=0)  # +DM
+    minus_dm = (df["low"].shift(1) - df["low"]).clip(lower=0)  # -DM
+    plus_di = 100 * (plus_dm.ewm(span=14).mean() / (df["ATR"] + 1e-9))  # +DI
+    minus_di = 100 * (minus_dm.ewm(span=14).mean() / (df["ATR"] + 1e-9))  # -DI
+    dx = 100 * (abs(plus_di - minus_di) / (plus_di + minus_di + 1e-9))  # DX
+    df["ADX"] = dx.ewm(span=14).mean()  # ADX
+    
+    delta = df["close"].diff()  # 差分
+    gain = delta.where(delta > 0, 0).rolling(14).mean()  # 漲幅
+    loss = (-delta.where(delta < 0, 0)).rolling(14).mean()  # 跌幅
+    df["RSI"] = 100 - (100 / (1 + (gain / (loss + 1e-9))))  # RSI
+    
+    df["mt5_time"] = pd.to_datetime(df["timestamp_mt5"])  # MT5 伺服器時間
+    pos = 0  # 倉位
+    trades = []  # 交易記錄
+    entry_p = 0.0  # 進場價
+    entry_time = None  # 進場時間
+    
+    for i in range(35, len(df)):  # 遍歷 K 棒
+        dt = df["mt5_time"].iloc[i]  # 時間
+        hr = dt.hour  # 小時 (MT5)
+        minute = dt.minute  # 分鐘 (MT5)
+        c = float(df["close"].iloc[i])  # 收盤
+        h = float(df["high"].iloc[i])  # 最高
+        l = float(df["low"].iloc[i])  # 最低
+        atr = float(df["ATR"].iloc[i])  # ATR
+        adx = float(df["ADX"].iloc[i])  # ADX
         
-        if tv is not None:  # 若連線可用
-            try:  # 嘗試 TradingView
-                signal.signal(signal.SIGALRM, _timeout_handler)  # 設定信號
-                signal.alarm(15)  # 15 秒超時
-                df = tv.get_hist(symbol=symbol, exchange="OANDA", interval=tf_cfg["tv"], n_bars=n_bars)  # 抓取
-                signal.alarm(0)  # 取消計時
-            except Exception:  # 忽略例外
-                signal.alarm(0)  # 取消計時
-                df = None  # 重設為 None
-
-        if df is not None and len(df) > 100:  # 驗證數據
-            df = df.reset_index()  # 重設索引
-            df['datetime'] = pd.to_datetime(df['datetime']).dt.tz_localize(None) - pd.Timedelta(hours=8)  # 校準為 UTC 時間
-            df.set_index('datetime', inplace=True)  # 設為索引
-            return df[['open', 'high', 'low', 'close', 'volume']][~df.index.duplicated(keep='first')]  # 回傳去重表
-
-        # Yahoo Finance 備援下載
-        ticker = f"{symbol}=X"  # 設定 yf 標的代碼
-        try:  # 嘗試 yf 下載
-            period_str = "60d" if tf_key in ["M5", "M15", "M30"] else "730d"  # 設定天數
-            df_yf = yf.download(ticker, period=period_str, interval=tf_cfg["yf"], progress=False)  # 下載
-            if isinstance(df_yf.columns, pd.MultiIndex): df_yf.columns = df_yf.columns.get_level_values(0)  # 展平欄位
-            df_yf = df_yf.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close', 'Volume': 'volume'})  # 統一名稱
-            if df_yf.index.tz is not None: df_yf.index = pd.to_datetime(df_yf.index).tz_localize(None)  # 去時區
-            else: df_yf.index = pd.to_datetime(df_yf.index)  # 格式化
-            return df_yf[['open', 'high', 'low', 'close', 'volume']].dropna()  # 回傳清理後數據
-        except Exception:  # 異常處理
-            return pd.DataFrame()  # 回傳空表
-
-    def run_scalper(self, symbol: str, tf_key: str, df_raw: pd.DataFrame, lot_size: float = 1.0) -> dict:  # 策略 1: Asian Night Scalper (真實結算)
-        df = df_raw.copy()  # 複製表
-        df['MA'] = df['close'].rolling(20).mean()  # 20 週期均線
-        df['STD'] = df['close'].rolling(20).std()  # 20 週期標準差
-        df['UB'] = df['MA'] + 2.2 * df['STD']  # 上軌 (2.2σ)
-        df['LB'] = df['MA'] - 2.2 * df['STD']  # 下軌 (2.2σ)
+        is_force = (hr >= 9)  # MT5 09:00 (台北 14:00) 歐洲盤前強制全平 (Zero-Overnight)
         
-        delta = df['close'].diff()  # 價差
-        gain = delta.where(delta > 0, 0).rolling(14).mean()  # 漲幅
-        loss = (-delta.where(delta < 0, 0)).rolling(14).mean()  # 跌幅
-        df['RSI'] = 100 - (100 / (1 + (gain / (loss + 1e-9))))  # RSI
-        
-        # 亞盤夜間時段 (UTC 21:00 ~ 06:00)
-        is_night = (df.index.hour >= 21) | (df.index.hour <= 6)  # 夜間開倉時段
-        pos = 0  # 倉位
-        entry_p = 0.0  # 進場價
-        cum_pnl = 0.0  # 累積淨利
-        wins, losses = 0, 0  # 勝負次數
-        win_usd, loss_usd = 0.0, 0.0  # 盈虧美金
-        cost = 5.0 * lot_size  # 手續費
-        pip_size = self.get_pip_size(symbol)  # pip 單位
-        pip_val = self.get_pip_value_usd(symbol, lot_size)  # pip 美金價值
-        tp_dist = self.timeframes[tf_key]["tp_pips"] * pip_size  # 止盈距離
-        sl_dist = self.timeframes[tf_key]["sl_pips"] * pip_size  # 停損距離
-        equity_curve = [0.0]  # 權益曲線 ($0 起計)
-        trades_list = []  # 交易記錄
-
-        for i in range(30, len(df)):  # 遍歷 K 棒
-            c, h, l = float(df['close'].iloc[i]), float(df['high'].iloc[i]), float(df['low'].iloc[i])  # 價格
-            hr = df.index[i].hour  # 當前 UTC 小時
-            is_force = (hr == 7)  # UTC 07:00 強制清倉
-
-            if pos != 0:  # 持倉管理
-                exit_p = 0.0  # 出場價
-                is_closed = False  # 平倉標記
-
-                if pos == 1:  # 多單
-                    if h >= entry_p + tp_dist: exit_p = entry_p + tp_dist; is_closed = True  # TP 止盈
-                    elif c >= df['MA'].iloc[i]: exit_p = c; is_closed = True  # 中軌平倉
-                    elif l <= entry_p - sl_dist: exit_p = entry_p - sl_dist; is_closed = True  # 硬停損
-                    elif is_force: exit_p = c; is_closed = True  # 時間強平
+        if pos != 0:  # 持倉中
+            closed = False  # 平倉標記
+            exit_price = 0.0  # 出場價
+            
+            if pos == 1:  # 多單
+                if c >= df["MA20"].iloc[i] and c > entry_p:  # 碰中軌且高於成本
+                    exit_price = c - sp_dist  # 扣點差
+                    closed = True  # 平倉
+                elif l <= entry_p - sl_atr * atr or is_force:  # 停損或強平
+                    exit_price = (entry_p - sl_atr * atr - sp_dist) if l <= entry_p - sl_atr * atr else (c - sp_dist)  # 出場價
+                    closed = True  # 平倉
+                if closed:  # 結算
+                    pnl_pips = (exit_price - entry_p)/pip_size  # 點數
+                    pnl_usd = pnl_pips * pip_val_usd - cost_per_trade  # 美金淨利 (已扣手續費)
+                    trades.append({"pnl_usd": pnl_usd, "win": pnl_usd > 0, "time": dt})  # 記錄
+                    pos = 0  # 重設
                     
-                    if is_closed:  # 執行真實結算
-                        pips = (exit_p - entry_p) / pip_size  # 點數
-                        pnl = pips * pip_val - cost  # 淨損益
-                        cum_pnl += pnl  # 更新
-                        if pnl > 0: wins += 1; win_usd += pnl  # 獲利
-                        else: losses += 1; loss_usd += abs(pnl)  # 虧損
-                        trades_list.append(pnl)  # 記錄
-                        pos = 0  # 空手
-
-                elif pos == -1:  # 空單
-                    if l <= entry_p - tp_dist: exit_p = entry_p - tp_dist; is_closed = True  # TP 止盈
-                    elif c <= df['MA'].iloc[i]: exit_p = c; is_closed = True  # 中軌平倉
-                    elif h >= entry_p + sl_dist: exit_p = entry_p + sl_dist; is_closed = True  # 硬停損
-                    elif is_force: exit_p = c; is_closed = True  # 時間強平
+            elif pos == -1:  # 空單
+                if c <= df["MA20"].iloc[i] and c < entry_p:  # 碰中軌且低於成本
+                    exit_price = c + sp_dist  # 扣點差
+                    closed = True  # 平倉
+                elif h >= entry_p + sl_atr * atr or is_force:  # 停損或強平
+                    exit_price = (entry_p + sl_atr * atr + sp_dist) if h >= entry_p + sl_atr * atr else (c + sp_dist)  # 出場價
+                    closed = True  # 平倉
+                if closed:  # 結算
+                    pnl_pips = (entry_p - exit_price)/pip_size  # 點數
+                    pnl_usd = pnl_pips * pip_val_usd - cost_per_trade  # 美金淨利 (已扣手續費)
+                    trades.append({"pnl_usd": pnl_usd, "win": pnl_usd > 0, "time": dt})  # 記錄
+                    pos = 0  # 重設
                     
-                    if is_closed:  # 執行真實結算
-                        pips = (entry_p - exit_p) / pip_size  # 點數
-                        pnl = pips * pip_val - cost  # 淨損益
-                        cum_pnl += pnl  # 更新
-                        if pnl > 0: wins += 1; win_usd += pnl  # 獲利
-                        else: losses += 1; loss_usd += abs(pnl)  # 虧損
-                        trades_list.append(pnl)  # 記錄
-                        pos = 0  # 空手
-
-            if pos == 0 and is_night[i] and not is_force:  # 開倉訊號
-                if c <= df['LB'].iloc[i] and df['RSI'].iloc[i] <= 35: pos, entry_p = 1, c  # 買多
-                elif c >= df['UB'].iloc[i] and df['RSI'].iloc[i] >= 65: pos, entry_p = -1, c  # 賣空
-
-            equity_curve.append(cum_pnl)  # 記錄累積損益
-
-        tot = wins + losses  # 總筆數
-        win_rate = (wins / tot * 100) if tot > 0 else 0.0  # 勝率
-        pf = (win_usd / (loss_usd + 1e-9)) if loss_usd > 0 else (99.0 if wins > 0 else 0.0)  # 獲利因子
-        eq_ser = pd.Series(equity_curve)  # Series
-        bal_ser = eq_ser + 100000.0  # 換算 $100k
-        mdd = ((bal_ser - bal_ser.cummax()) / bal_ser.cummax() * 100).min()  # 最大回撤
-        ev = (cum_pnl / tot) if tot > 0 else 0.0  # 每筆期望值
-        sharpe = (np.mean(trades_list) / (np.std(trades_list) + 1e-9) * np.sqrt(len(trades_list))) if len(trades_list) > 1 else 0.0  # 夏普評分
-        
-        return {
-            "Symbol": symbol, "Timeframe": tf_key, "Strategy": "Asian Scalper",
-            "Trades": tot, "WinRate": round(win_rate, 1), "Profit": round(cum_pnl, 1),
-            "PF": round(pf, 2), "MDD": round(mdd, 2), "EV": round(ev, 2), "Sharpe": round(sharpe, 2),
-            "Equity": eq_ser
-        }
-
-    def run_straddle(self, symbol: str, tf_key: str, df_raw: pd.DataFrame, lot_size: float = 1.0) -> dict:  # 策略 2: Synthetic Short Straddle (真實結算)
-        df = df_raw.copy()  # 複製表
-        df['MA'] = df['close'].rolling(30).mean()  # 均值
-        df['STD'] = df['close'].rolling(30).std()  # 標準差
-        df['Z'] = (df['close'] - df['MA']) / (df['STD'] + 1e-9)  # Z 值
-
-        pos = 0  # 倉位
-        entry_p = 0.0  # 進場價
-        cum_pnl = 0.0  # 累積損益
-        wins, losses = 0, 0  # 勝負
-        win_usd, loss_usd = 0.0, 0.0  # 盈虧美金
-        cost = 5.0 * lot_size  # 手續費
-        pip_size = self.get_pip_size(symbol)  # pip 單位
-        pip_val = self.get_pip_value_usd(symbol, lot_size)  # pip 美金價值
-        tp_dist = self.timeframes[tf_key]["tp_pips"] * pip_size  # 止盈距離
-        sl_dist = self.timeframes[tf_key]["sl_pips"] * pip_size  # 停損距離
-        equity_curve = [0.0]  # 權益曲線 ($0 起計)
-        trades_list = []  # 交易記錄
-
-        for i in range(35, len(df)):  # 遍歷 K 棒
-            c, h, l = float(df['close'].iloc[i]), float(df['high'].iloc[i]), float(df['low'].iloc[i])  # 價格
-            z = float(df['Z'].iloc[i])  # Z 值
-            hr = df.index[i].hour  # 小時 (UTC)
-            is_force = (hr == 21)  # UTC 21:00 強平
-
-            if pos != 0:  # 持倉管理
-                exit_p = 0.0  # 出場價
-                is_closed = False  # 平倉標記
-
-                if pos == 1:  # 多單
-                    if z >= -0.2: exit_p = c; is_closed = True  # 均值回歸
-                    elif h >= entry_p + tp_dist: exit_p = entry_p + tp_dist; is_closed = True  # TP 止盈
-                    elif z <= -3.8: exit_p = c; is_closed = True  # Z 停損
-                    elif l <= entry_p - sl_dist: exit_p = entry_p - sl_dist; is_closed = True  # 硬停損
-                    elif is_force: exit_p = c; is_closed = True  # 時間強平
-                    
-                    if is_closed:  # 執行真實結算
-                        pips = (exit_p - entry_p) / pip_size  # 點數
-                        pnl = pips * pip_val - cost  # 淨損益
-                        cum_pnl += pnl  # 更新
-                        if pnl > 0: wins += 1; win_usd += pnl  # 獲利
-                        else: losses += 1; loss_usd += abs(pnl)  # 虧損
-                        trades_list.append(pnl)  # 記錄
-                        pos = 0  # 空手
-
-                elif pos == -1:  # 空單
-                    if z <= 0.2: exit_p = c; is_closed = True  # 均值回歸
-                    elif l <= entry_p - tp_dist: exit_p = entry_p - tp_dist; is_closed = True  # TP 止盈
-                    elif z >= 3.8: exit_p = c; is_closed = True  # Z 停損
-                    elif h >= entry_p + sl_dist: exit_p = entry_p + sl_dist; is_closed = True  # 硬停損
-                    elif is_force: exit_p = c; is_closed = True  # 時間強平
-                    
-                    if is_closed:  # 執行真實結算
-                        pips = (entry_p - exit_p) / pip_size  # 點數
-                        pnl = pips * pip_val - cost  # 淨損益
-                        cum_pnl += pnl  # 更新
-                        if pnl > 0: wins += 1; win_usd += pnl  # 獲利
-                        else: losses += 1; loss_usd += abs(pnl)  # 虧損
-                        trades_list.append(pnl)  # 記錄
-                        pos = 0  # 空手
-
-            if pos == 0 and (7 <= hr <= 20) and not is_force:  # 開倉訊號
-                if z <= -2.1: pos, entry_p = 1, c  # 買多
-                elif z >= 2.1: pos, entry_p = -1, c  # 賣空
-
-            equity_curve.append(cum_pnl)  # 記錄累積損益
-
-        tot = wins + losses  # 總筆數
-        win_rate = (wins / tot * 100) if tot > 0 else 0.0  # 勝率
-        pf = (win_usd / (loss_usd + 1e-9)) if loss_usd > 0 else (99.0 if wins > 0 else 0.0)  # 獲利因子
-        eq_ser = pd.Series(equity_curve)  # Series
-        bal_ser = eq_ser + 100000.0  # 換算 $100k
-        mdd = ((bal_ser - bal_ser.cummax()) / bal_ser.cummax() * 100).min()  # 最大回撤
-        ev = (cum_pnl / tot) if tot > 0 else 0.0  # 每筆期望值
-        sharpe = (np.mean(trades_list) / (np.std(trades_list) + 1e-9) * np.sqrt(len(trades_list))) if len(trades_list) > 1 else 0.0  # 夏普評分
-        
-        return {
-            "Symbol": symbol, "Timeframe": tf_key, "Strategy": "Short Straddle",
-            "Trades": tot, "WinRate": round(win_rate, 1), "Profit": round(cum_pnl, 1),
-            "PF": round(pf, 2), "MDD": round(mdd, 2), "EV": round(ev, 2), "Sharpe": round(sharpe, 2),
-            "Equity": eq_ser
-        }
-
-    def execute_large_scale_screening(self):  # 執行全矩陣掃描與篩選
-        print("=" * 80)  # 標頭
-        print("   大規模多週期 (M5, M15, M30, H1) × 28 大外匯商品真實物理結算全矩陣量化回測   ")  # 標題
-        print("=" * 80 + "\n")  # 分隔線
-
-        results = []  # 儲存所有回測指標
-        equity_dict = {}  # 儲存所有曲線
-
-        total_tasks = len(self.symbols) * len(self.timeframes)  # 總下載任務數
-        current_task = 0  # 當前進度
-
-        for sym in self.symbols:  # 遍歷 28 大貨幣對
-            for tf in ["M5", "M15", "M30", "H1"]:  # 遍歷 4 大週期
-                current_task += 1  # 累計進度
-                print(f"[{current_task}/{total_tasks}] 正在處理: [{sym}] [{tf}] ...", end="", flush=True)  # 日誌
-                df = self.fetch_data(sym, tf)  # 抓取數據
+        # 開倉條件：MT5 00:15 ~ 07:45 亞洲夜間靜態盤 且 ADX < 30
+        is_entry = (0 <= hr <= 7) and not (hr == 0 and minute < 15) and adx < adx_thresh and not is_force  # 條件
+        if pos == 0 and is_entry:  # 開倉檢查
+            if c <= df["LB"].iloc[i] and df["RSI"].iloc[i] <= 32:  # 跌破下軌做多 (賣 Put)
+                pos = 1  # 買多
+                entry_p = c + sp_dist  # 買價
+            elif c >= df["UB"].iloc[i] and df["RSI"].iloc[i] >= 68:  # 突破上軌做空 (賣 Call)
+                pos = -1  # 賣空
+                entry_p = c  # 賣價
                 
-                if df.empty or len(df) < 200:  # 檢查數據有效性
-                    print(" ❌ 無法獲取數據")  # 輸出失敗
-                    continue  # 跳過
+    if len(trades) < 8: return None  # 樣本過少排除
+    
+    tot = len(trades)  # 總筆數
+    wins = sum(1 for t in trades if t["win"])  # 獲利數
+    losses = tot - wins  # 虧損數
+    wr = round(wins / tot * 100, 2)  # 勝率
+    pnl = round(sum(t["pnl_usd"] for t in trades), 2)  # 實質總淨利
+    win_d = sum(t["pnl_usd"] for t in trades if t["pnl_usd"] > 0)  # 毛利
+    loss_d = sum(abs(t["pnl_usd"]) for t in trades if t["pnl_usd"] < 0)  # 毛損
+    pf = round(win_d / (loss_d + 1e-9), 2) if loss_d > 0 else 99.0  # PF
+    
+    # 計算 MDD 與夏普
+    df_t = pd.DataFrame(trades).sort_values(by="time").reset_index(drop=True)  # 表格
+    bal = 100000.0 + df_t["pnl_usd"].cumsum()  # 淨值
+    cum_max = bal.cummax()  # 新高
+    dd_usd = cum_max - bal  # 回撤金額
+    max_dd_usd = round(dd_usd.max(), 2)  # 最大回撤美金
+    max_dd_pct = round((dd_usd / cum_max * 100).max(), 2)  # 最大回撤百分比
+    
+    duration_days = max((df_t["time"].iloc[-1] - df_t["time"].iloc[0]).total_seconds() / 86400.0, 1.0)  # 天數
+    ann_roi = round((pnl / 100000.0) * 100.0 * (365.0 / duration_days), 2)  # 年化報酬
+    
+    trade_ret = df_t["pnl_usd"] / 100000.0  # 報酬
+    mean_r = trade_ret.mean()  # 平均
+    std_r = trade_ret.std()  # 標準差
+    trades_yr = tot * (365.0 / duration_days)  # 年交易次數
+    sharpe = round((mean_r * trades_yr - 0.02) / (std_r * np.sqrt(trades_yr) + 1e-9), 2) if std_r > 0 else 0.0  # 夏普
+    calmar = round(ann_roi / (max_dd_pct + 1e-9), 2) if max_dd_pct > 0 else 99.0  # 卡瑪
+    
+    return {  # 回傳分析字典
+        "symbol": sym, "timeframe": tf, "spread_pips": sp_pips, "trades": tot,
+        "wins": wins, "losses": losses, "win_rate": wr, "total_pnl": pnl, "annualized_roi": ann_roi,
+        "profit_factor": pf, "max_dd_pct": max_dd_pct, "max_dd_usd": max_dd_usd,
+        "sharpe_ratio": sharpe, "calmar_ratio": calmar, "trades_list": trades
+    }  # 字典結束
 
-                print(f" ✅ 獲取 {len(df)} 根 K線", end="", flush=True)  # 成功日誌
-                
-                # 執行策略 1: Asian Scalper
-                res_scalper = self.run_scalper(sym, tf, df, lot_size=1.0)  # 回測
-                if res_scalper["Trades"] >= 15:  # 過濾樣本過少
-                    results.append(res_scalper)  # 加入
-                    equity_dict[f"Scalper_{sym}_{tf}"] = res_scalper["Equity"]  # 儲存曲線
+def main():  # 主程式
+    print("==========================================================================")  # 分隔線
+    print(" 🚀 啟動【全市場大規模跨商品與跨週期 (5m, 15m, 1h)】期權賣方收租回測篩選...")  # 標題
+    print("==========================================================================")  # 分隔線
+    
+    csv_files = glob.glob("data_pepperstone/pepperstone_*.csv")  # 取得所有數據檔案
+    all_results = []  # 結果清單
+    
+    for f in csv_files:  # 遍歷檔案
+        res = backtest_single_asset(f)  # 執行回測
+        if res:  # 有結果
+            all_results.append(res)  # 寫入清單
+            
+    df_rank = pd.DataFrame(all_results)  # 轉為 DataFrame
+    df_rank_clean = df_rank.drop(columns=["trades_list"])  # 移除交易明細方便檢視
+    df_rank_clean = df_rank_clean.sort_values(by="total_pnl", ascending=False).reset_index(drop=True)  # 依淨利排序
+    
+    print("\n🏆【全市場跨週期 (5m / 15m / 1h) 全量篩選排行榜前 25 名】")  # 標題
+    print(df_rank_clean.head(25).to_string(index=True))  # 輸出前 25 名
+    
+    # 挑選出勝率 >= 60%、PF >= 1.4、夏普 >= 1.0 的頂級模組
+    elite_modules = df_rank[
+        (df_rank["win_rate"] >= 60.0) &
+        (df_rank["profit_factor"] >= 1.5) &
+        (df_rank["total_pnl"] > 250.0) &
+        (df_rank["sharpe_ratio"] > 1.0)
+    ].sort_values(by="total_pnl", ascending=False).reset_index(drop=True)  # 篩選王牌
+    
+    print("\n" + "="*80)  # 分隔線
+    print(f" 👑【通過機構級嚴格濾網 (勝率>=60%, PF>=1.5, 夏普>1.0) 的終極王牌收租模組: 共 {len(elite_modules)} 款】")  # 標題
+    print("="*80)  # 分隔線
+    print(elite_modules.drop(columns=["trades_list"]).to_string(index=True))  # 輸出王牌清單
+    
+    # 計算終極王牌組合的合併總體績效
+    combined_trades = []  # 組合交易
+    for idx, row in elite_modules.iterrows():  # 遍歷王牌
+        for t in row["trades_list"]:  # 遍歷交易
+            t["symbol"] = row["symbol"]  # 標記標的
+            t["tf"] = row["timeframe"]  # 標記週期
+            combined_trades.append(t)  # 加入總表
+            
+    df_comb = pd.DataFrame(combined_trades).sort_values(by="time").reset_index(drop=True)  # 依時間排序
+    c_tot = len(df_comb)  # 總筆數
+    c_wins = sum(1 for t in combined_trades if t["win"])  # 獲利數
+    c_wr = round(c_wins / c_tot * 100, 2)  # 勝率
+    c_pnl = round(sum(t["pnl_usd"] for t in combined_trades), 2)  # 淨利
+    c_win_d = sum(t["pnl_usd"] for t in combined_trades if t["pnl_usd"] > 0)  # 毛利
+    c_loss_d = sum(abs(t["pnl_usd"]) for t in combined_trades if t["pnl_usd"] < 0)  # 毛損
+    c_pf = round(c_win_d / (c_loss_d + 1e-9), 2)  # PF
+    
+    c_bal = 100000.0 + df_comb["pnl_usd"].cumsum()  # 淨值
+    c_peak = c_bal.cummax()  # 新高
+    c_dd_usd = c_peak - c_bal  # 回撤
+    c_max_dd_usd = round(c_dd_usd.max(), 2)  # 最大回撤美金
+    c_max_dd_pct = round((c_dd_usd / c_peak * 100).max(), 2)  # 最大回撤百分比
+    
+    c_days = max((df_comb["time"].iloc[-1] - df_comb["time"].iloc[0]).total_seconds() / 86400.0, 1.0)  # 天數
+    c_ann_roi = round((c_pnl / 100000.0) * 100.0 * (365.0 / c_days), 2)  # 年化投報
+    
+    c_ret = df_comb["pnl_usd"] / 100000.0  # 報酬
+    c_sharpe = round((c_ret.mean() * (c_tot * 365.0 / c_days) - 0.02) / (c_ret.std() * np.sqrt(c_tot * 365.0 / c_days) + 1e-9), 2)  # 夏普
+    c_calmar = round(c_ann_roi / (c_max_dd_pct + 1e-9), 2)  # 卡瑪
+    
+    print("\n" + "="*80)  # 分隔線
+    print(" 🏆【終極精選王牌收租旗艦組合總合績效】")  # 標題
+    print(f" • 總交易筆數: {c_tot} 筆 (勝: {c_wins}W / 負: {c_tot-c_wins}L)")  # 筆數
+    print(f" • 綜合勝率 (Win Rate):       {c_wr}%")  # 勝率
+    print(f" • 獲利因子 (Profit Factor):   {c_pf}")  # PF
+    print(f" • 實質總淨利 (Total Net PnL): +${c_pnl:,.2f} USD")  # 淨利
+    print(f" • 預估年化報酬率:             {c_ann_roi}%")  # 年化報酬
+    print(f" • 歷史最大回撤 (Max DD):      -{c_max_dd_pct}% (-${c_max_dd_usd:,.2f} USD)")  # MDD
+    print(f" • 年化夏普比率 (Sharpe):      {c_sharpe}")  # 夏普
+    print(f" • 卡瑪比率 (Calmar):          {c_calmar}")  # 卡瑪
+    print("="*80 + "\n")  # 分隔線
+    
+    # 匯出全量篩選結果至 CSV
+    out_csv = "large_scale_screening_ranking_results.csv"  # 檔名
+    df_rank_clean.to_csv(out_csv, index=False, encoding="utf-8-sig")  # 儲存
+    print(f"[+] 全量篩選排行榜已成功匯出至: {out_csv}")  # 日誌
 
-                # 執行策略 2: Short Straddle
-                res_straddle = self.run_straddle(sym, tf, df, lot_size=1.0)  # 回測
-                if res_straddle["Trades"] >= 15:  # 過濾樣本過少
-                    results.append(res_straddle)  # 加入
-                    equity_dict[f"Straddle_{sym}_{tf}"] = res_straddle["Equity"]  # 儲存曲線
-
-                print(" -> 回測完成")  # 完成提示
-
-        # 轉為 DataFrame 進行排序與評級
-        df_res = pd.DataFrame(results)  # 建立 DataFrame
-        df_res_clean = df_res.drop(columns=['Equity'])  # 移除曲線欄位以便輸出
-
-        # 輸出完整 224 組回測結果至 CSV
-        csv_path = "multi_tf_all_results.csv"  # CSV 路徑
-        df_res_clean.to_csv(csv_path, index=False)  # 輸出
-        print(f"\n[+] 全 28 標的 × 4 週期完整回測結果已輸出至: {csv_path}")  # 日誌
-
-        # 篩選「FTMO 1-Step 黃金組合」條件:
-        # 1. 獲利因子 PF >= 1.30
-        # 2. 勝率 WinRate >= 65.0%
-        # 3. 最大回撤 MDD >= -1.50% (即回撤不超過 1.5%)
-        # 4. 總交易次數 Trades >= 25
-        # 5. 總淨利 Profit > 0
-        golden_filter = (
-            (df_res_clean["PF"] >= 1.30) &
-            (df_res_clean["WinRate"] >= 65.0) &
-            (df_res_clean["MDD"] >= -1.50) &
-            (df_res_clean["Trades"] >= 25) &
-            (df_res_clean["Profit"] > 0)
-        )
-        df_golden = df_res_clean[golden_filter].sort_values(by=["PF", "Profit"], ascending=[False, False])  # 排序
-
-        golden_csv_path = "golden_portfolio_matrix.csv"  # 黃金組合 CSV
-        df_golden.to_csv(golden_csv_path, index=False)  # 輸出
-        print(f"[+] FTMO 1-Step 黃金首選標的組合已輸出至: {golden_csv_path}")  # 日誌
-
-        print("\n" + "=" * 90)  # 標頭
-        print("               🏆 FTMO 1-Step 黃金首選標的排行榜 (PF >= 1.30, 勝率 >= 65%, MDD <= 1.5%)              ")  # 標題
-        print("=" * 90)  # 標頭
-        print(df_golden.to_string(index=False))  # 格式化輸出
-        print("=" * 90 + "\n")  # 結尾
-
-        # 繪製各週期頂級標的累積損益曲線圖
-        self.plot_golden_portfolio_chart(df_golden, equity_dict)  # 繪圖
-
-    def plot_golden_portfolio_chart(self, df_golden: pd.DataFrame, equity_dict: dict):  # 繪製黃金組合多子圖對比
-        if df_golden.empty:  # 若無符合標的
-            print("[!] 無符合黃金條件之標的，繪圖跳過。")  # 提示
-            return  # 返回
-
-        top_scalper = df_golden[df_golden["Strategy"] == "Asian Scalper"].head(5)  # 取前 5 名 Scalper
-        top_straddle = df_golden[df_golden["Strategy"] == "Short Straddle"].head(5)  # 取前 5 名 Straddle
-
-        plt.style.use('dark_background')  # 深色主題
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 11), sharex=False)  # 雙子圖
-        fig.patch.set_facecolor('#0d1117')  # 畫布背景
-        ax1.set_facecolor('#161b22')  # 子圖 1 背景
-        ax2.set_facecolor('#161b22')  # 子圖 2 背景
-
-        # 配色表
-        palette = ["#58a6ff", "#3fb950", "#d2a8ff", "#f0883e", "#f85149", "#79c0ff", "#56d364"]  # 配色清單
-
-        # 子圖 1: Top Asian Night Scalper
-        for idx, row in top_scalper.reset_index().iterrows():  # 遍歷
-            k = f"Scalper_{row['Symbol']}_{row['Timeframe']}"  # 鍵名
-            if k in equity_dict:  # 若曲線存在
-                eq = equity_dict[k]  # 取得曲線
-                lbl = f"{row['Symbol']} [{row['Timeframe']}] (PF: {row['PF']}, WR: {row['WinRate']}%, PnL: +${row['Profit']})"  # 標籤
-                ax1.plot(eq.values, label=lbl, color=palette[idx % len(palette)], linewidth=2.2)  # 繪線
-
-        ax1.axhline(0, color='#8b949e', linestyle='--', linewidth=1.2, alpha=0.6, label='$0 Baseline')  # 基準線
-        ax1.set_title('🏆 Top 5 Asian Night Scalper Combinations (Zero-Overnight, 1.0 Lot, $0 PnL Baseline)', fontsize=13, fontweight='bold', color='#f0f6fc')  # 標題
-        ax1.set_ylabel('Cumulative Net Profit ($)', fontsize=11, color='#8b949e')  # Y 軸
-        ax1.grid(True, linestyle=':', alpha=0.3, color='#30363d')  # 網格
-        ax1.legend(loc='upper left', fontsize=9.5, facecolor='#21262d', edgecolor='#30363d')  # 圖例
-
-        # 子圖 2: Top Synthetic Short Straddle
-        for idx, row in top_straddle.reset_index().iterrows():  # 遍歷
-            k = f"Straddle_{row['Symbol']}_{row['Timeframe']}"  # 鍵名
-            if k in equity_dict:  # 若曲線存在
-                eq = equity_dict[k]  # 取得曲線
-                lbl = f"{row['Symbol']} [{row['Timeframe']}] (PF: {row['PF']}, WR: {row['WinRate']}%, PnL: +${row['Profit']})"  # 標籤
-                ax2.plot(eq.values, label=lbl, color=palette[idx % len(palette)], linewidth=2.2)  # 繪線
-
-        ax2.axhline(0, color='#8b949e', linestyle='--', linewidth=1.2, alpha=0.6, label='$0 Baseline')  # 基準線
-        ax2.set_title('🏆 Top 5 Synthetic Short Straddle Combinations (Zero-Overnight, 1.0 Lot, $0 PnL Baseline)', fontsize=13, fontweight='bold', color='#f0f6fc')  # 標題
-        ax2.set_ylabel('Cumulative Net Profit ($)', fontsize=11, color='#8b949e')  # Y 軸
-        ax2.set_xlabel('Simulated Bar Steps', fontsize=11, color='#8b949e')  # X 軸
-        ax2.grid(True, linestyle=':', alpha=0.3, color='#30363d')  # 網格
-        ax2.legend(loc='upper left', fontsize=9.5, facecolor='#21262d', edgecolor='#30363d')  # 圖例
-
-        plt.tight_layout()  # 自動排版
-        out_chart = "multi_tf_best_portfolio.png"  # 圖名
-        plt.savefig(out_chart, dpi=300, facecolor=fig.get_facecolor(), edgecolor='none')  # 存檔
-        print(f"[+] 多週期黃金組合對比圖表已輸出至: {out_chart}")  # 日誌
-
-if __name__ == "__main__":  # 執行入口
-    engine = LargeScaleMultiTFBacktestEngine()  # 實例化
-    engine.execute_large_scale_screening()  # 啟動大規模回測
+if __name__ == "__main__":  # 主入口
+    main()  # 執行
