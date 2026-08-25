@@ -5,12 +5,12 @@ import numpy as np  # 導入數值運算庫
 import pandas as pd  # 導入資料表格分析庫
 import yfinance as yf  # 導入 Yahoo Finance 行情介面
 
-class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與資料生成引擎
+class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與資料生成引擎 (以 MT5 伺服器時間為基準)
     def __init__(self):  # 初始化引擎
         # 使用者指定之 5 大核心貨幣對
         self.all_symbols = ["AUDCHF", "EURCHF", "AUDCAD", "USDCHF", "USDCAD"]  # 5 大精選貨幣對
         
-        # 策略 1: 5 款夜間收租標的與專屬配置
+        # 策略 1: 5 款夜間收租標的與專屬配置 (時段: MT5 01:00~08:00 開倉，MT5 10:00 強制清倉)
         self.scalper_configs = {  # 夜間收租配置表
             "AUDCHF": {"tp": 5.0, "sl": 35.0, "max_spread": 1.8},  # AUDCHF 配置
             "EURCHF": {"tp": 5.0, "sl": 35.0, "max_spread": 1.5},  # EURCHF 配置
@@ -19,7 +19,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             "USDCAD": {"tp": 8.0, "sl": 40.0, "max_spread": 1.2}   # USDCAD 配置
         }  # 結束
         
-        # 策略 2: 3 款日間跨式賣方標的與專屬配置
+        # 策略 2: 3 款日間跨式賣方標的與專屬配置 (時段: MT5 10:00~23:00 開倉，MT5 00:00 強制清倉)
         self.straddle_configs = {  # 日間跨式賣方配置表
             "AUDCHF": {"z_in": 2.1, "z_out": 0.2, "z_stop": 3.8, "tp": 5.0, "sl": 35.0},  # AUDCHF 配置
             "AUDCAD": {"z_in": 2.1, "z_out": 0.2, "z_stop": 3.8, "tp": 8.0, "sl": 40.0},  # AUDCAD 配置
@@ -34,6 +34,27 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             "USDCHF": 0.4,  # 4 pts
             "USDCAD": 0.4   # 4 pts
         }  # 結束
+
+    def get_mt5_offset_hours(self, dt_utc: datetime.datetime) -> int:  # 取得美國標準夏冬令時對應之 MT5 伺服器時差 (夏令+3 / 冬令+2)
+        year = dt_utc.year  # 取得年份
+        # 美國夏令時間: 3月第二個星期日 ~ 11月第一個星期日
+        mar1 = datetime.datetime(year, 3, 1)  # 3/1
+        second_sun_mar = 1 + (6 - mar1.weekday()) % 7 + 7  # 3月第2個週日日期
+        dst_start = datetime.datetime(year, 3, second_sun_mar, 2, 0, 0)  # 夏令開始時間
+
+        nov1 = datetime.datetime(year, 11, 1)  # 11/1
+        first_sun_nov = 1 + (6 - nov1.weekday()) % 7  # 11月第1個週日日期
+        dst_end = datetime.datetime(year, 11, first_sun_nov, 2, 0, 0)  # 冬令開始時間
+
+        dt_naive = dt_utc.replace(tzinfo=None) if dt_utc.tzinfo else dt_utc  # 轉為無時區時間比較
+        if dst_start <= dt_naive < dst_end:  # 若在夏令區間內
+            return 3  # 夏令 MT5 伺服器時間為 UTC+3
+        else:  # 冬令區間
+            return 2  # 冬令 MT5 伺服器時間為 UTC+2
+
+    def to_mt5_time(self, dt_utc: datetime.datetime) -> datetime.datetime:  # 將 UTC 時間精確換算為 MT5 伺服器時間
+        offset = self.get_mt5_offset_hours(dt_utc)  # 計算時差
+        return dt_utc + datetime.timedelta(hours=offset)  # 加上時差
 
     def get_pip_size(self, symbol: str) -> float:  # 取得 1 pip 最小價格單位
         return 0.01 if "JPY" in symbol else 0.0001  # JPY 貨幣對 1 pip = 0.01, 其餘 = 0.0001
@@ -52,25 +73,35 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         conversion = quote_usd_rates.get(symbol[-3:], 1.0)  # 取得對應美金轉換率
         return base_pip * conversion * lot_size  # 回傳每 pip 的美金價值
 
-    def fetch_5m_data(self, symbol: str) -> pd.DataFrame:  # 抓取 5m K 線數據
+    def fetch_5m_data(self, symbol: str) -> pd.DataFrame:  # 抓取 5m K 線數據並轉化為 MT5 時間序列
         ticker = f"{symbol}=X"  # 設定 Yahoo 貨幣對代碼格式
         try:  # 嘗試下載
             df_yf = yf.download(ticker, period="60d", interval="5m", progress=False)  # 抓取近 60 天 5m 數據
             if isinstance(df_yf.columns, pd.MultiIndex):  # 若欄位為 MultiIndex
                 df_yf.columns = df_yf.columns.get_level_values(0)  # 展平欄位索引
             df_yf = df_yf.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close', 'Volume': 'volume'})  # 標準化欄位名稱
+            
+            # 將數據庫 index 轉為標準 UTC 時間
             if df_yf.index.tz is not None:  # 若包含時區
-                df_yf.index = pd.to_datetime(df_yf.index).tz_localize(None)  # 轉為無時區時間
+                utc_index = pd.to_datetime(df_yf.index).tz_convert('UTC').tz_localize(None)  # 轉為純 UTC 時間
             else:  # 無時區
-                df_yf.index = pd.to_datetime(df_yf.index)  # 確保時間格式
+                utc_index = pd.to_datetime(df_yf.index)  # 確保時間格式
+            
+            df_yf.index = utc_index  # 賦予 UTC 時間
+            
+            # 轉換出 MT5 伺服器時間索引
+            mt5_times = [self.to_mt5_time(t) for t in df_yf.index]  # 逐一轉換為 MT5 伺服器時間
+            df_yf['mt5_time'] = mt5_times  # 存入欄位
+            df_yf = df_yf.set_index('mt5_time')  # 以 MT5 伺服器時間作為主索引
+            
             df_clean = df_yf[['open', 'high', 'low', 'close', 'volume']].dropna()  # 清理空值
-            print(f"  [+] 成功獲取 [{symbol}] {len(df_clean)} 根 5m K 線")  # 輸出成功日誌
+            print(f"  [+] 成功獲取 [{symbol}] {len(df_clean)} 根 5m K 線 (時間基準: MT5 伺服器時間)")  # 輸出成功日誌
             return df_clean  # 回傳清理後的數據表
         except Exception as err:  # 捕捉下載異常
             print(f"  [!] [{symbol}] 下載失敗: {err}")  # 輸出錯誤訊息
             return pd.DataFrame()  # 回傳空表
 
-    def run_scalper_strategy(self, symbol: str, df_raw: pd.DataFrame, cfg: dict, lot_size: float = 1.0) -> dict:  # 執行策略 1: 5m 亞洲夜間收租
+    def run_scalper_strategy(self, symbol: str, df_raw: pd.DataFrame, cfg: dict, lot_size: float = 1.0) -> dict:  # 執行策略 1: 5m 亞洲夜間收租 (MT5 基準)
         df = df_raw.copy()  # 複製原始數據
         df['MA'] = df['close'].rolling(20).mean()  # 計算 20 週期均線
         df['STD'] = df['close'].rolling(20).std()  # 計算 20 週期標準差
@@ -99,15 +130,18 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         equity_records = []  # 權益曲線記錄
 
         for i in range(len(df)):  # 遍歷每根 5m K 棒
-            dt = df.index[i]  # 當前時間
+            dt = df.index[i]  # 當前時間 (MT5 伺服器時間)
             if i < 30:  # 預熱期
                 equity_records.append({"time": dt.strftime('%Y-%m-%d %H:%M:%S'), "balance": balance})  # 記錄起始本金
                 continue  # 跳過預熱
             c = float(df['close'].iloc[i])  # 收盤價
             h = float(df['high'].iloc[i])  # 最高價
             l = float(df['low'].iloc[i])  # 最低價
-            hr = dt.hour  # 當前小時 (UTC)
-            is_force_exit = (hr == 7)  # UTC 07:00 歐盤前夕強制清倉
+            hr = dt.hour  # 當前 MT5 伺服器小時
+            is_friday = (dt.weekday() == 4)  # 是否為週五 (0=週一, 4=週五)
+            
+            # 純日內與週末強制清倉：MT5 10:00 (歐盤前夕) 或 週五 MT5 23:00 (週末收市前)
+            is_force_exit = (hr == 10) or (is_friday and hr >= 23)  # 強制平倉觸發
 
             if pos != 0:  # 當前持有部位
                 exit_price = 0.0  # 出場價格
@@ -127,9 +161,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         exit_price = entry_p - sl_distance - sp_dist  # 扣點差出場
                         exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
-                    elif is_force_exit:  # UTC 07:00 強制清倉
+                    elif is_force_exit:  # 強制清倉 (MT5 10:00 零隔夜)
                         exit_price = c - sp_dist  # 扣點差出場
-                        exit_reason = "Time Cutoff (UTC 07:00 Zero-Overnight)"  # 強制清倉原因
+                        exit_reason = "Zero-Overnight (MT5 10:00 / 週末前夕強制清倉)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
@@ -144,9 +178,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                             "symbol": symbol,  # 貨幣對
                             "type": "Buy (Short Put)",  # 交易方向
                             "lot_size": lot_size,  # 下單手數
-                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
+                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間 (MT5)
                             "entry_price": round(entry_p, 5),  # 進場價格
-                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間
+                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間 (MT5)
                             "exit_price": round(exit_price, 5),  # 出場價格
                             "pnl_usd": round(pnl_dollars, 2),  # 淨利 (USD)
                             "pnl_pips": round(pnl_pips, 1),  # 點數 (pips)
@@ -171,9 +205,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         exit_price = entry_p + sl_distance + sp_dist  # 扣點差出場
                         exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
-                    elif is_force_exit:  # UTC 07:00 強制清倉
+                    elif is_force_exit:  # 強制清倉 (MT5 10:00 零隔夜)
                         exit_price = c + sp_dist  # 扣點差出場
-                        exit_reason = "Time Cutoff (UTC 07:00 Zero-Overnight)"  # 強制清倉原因
+                        exit_reason = "Zero-Overnight (MT5 10:00 / 週末前夕強制清倉)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
@@ -188,9 +222,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                             "symbol": symbol,  # 貨幣對
                             "type": "Sell (Short Call)",  # 交易方向
                             "lot_size": lot_size,  # 下單手數
-                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
+                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間 (MT5)
                             "entry_price": round(entry_p, 5),  # 進場價格
-                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間
+                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間 (MT5)
                             "exit_price": round(exit_price, 5),  # 出場價格
                             "pnl_usd": round(pnl_dollars, 2),  # 淨利 (USD)
                             "pnl_pips": round(pnl_pips, 1),  # 點數 (pips)
@@ -202,18 +236,18 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         })  # 結束單筆記錄
                         pos = 0  # 重設為空倉
 
-            # 檢查進場訊號 (UTC 22:00 ~ 05:00 夜間窗口)
-            is_entry_session = (hr >= 22) or (hr <= 5)  # 亞盤夜間時段
+            # 檢查進場訊號 (MT5 伺服器時間 01:00 ~ 08:00 夜間窗口)
+            is_entry_session = (1 <= hr <= 8) and not (is_friday and hr >= 23)  # MT5 伺服器夜間時段
             if pos == 0 and is_entry_session and not is_force_exit:  # 符合開倉時間窗口
                 if c <= df['LB'].iloc[i] and df['RSI'].iloc[i] <= 35:  # 跌破下軌且 RSI 超賣
                     pos = 1  # 開多單
                     entry_p = c + sp_dist  # 買在 Ask (加點差)
-                    entry_time = dt  # 記錄進場時間
+                    entry_time = dt  # 記錄進場時間 (MT5)
                     entry_bar_idx = i  # 記錄進場索引
                 elif c >= df['UB'].iloc[i] and df['RSI'].iloc[i] >= 65:  # 突破上軌且 RSI 超買
                     pos = -1  # 開空單
                     entry_p = c  # 賣在 Bid
-                    entry_time = dt  # 記錄進場時間
+                    entry_time = dt  # 記錄進場時間 (MT5)
                     entry_bar_idx = i  # 記錄進場索引
 
             equity_records.append({"time": dt.strftime('%Y-%m-%d %H:%M:%S'), "balance": round(balance, 2)})  # 記錄當前權益
@@ -254,7 +288,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             }  # 指標結束
         }  # 回傳結束
 
-    def run_straddle_strategy(self, symbol: str, df_raw: pd.DataFrame, cfg: dict, lot_size: float = 1.0) -> dict:  # 執行策略 2: 5m 合成跨式賣方
+    def run_straddle_strategy(self, symbol: str, df_raw: pd.DataFrame, cfg: dict, lot_size: float = 1.0) -> dict:  # 執行策略 2: 5m 合成跨式賣方 (MT5 基準)
         df = df_raw.copy()  # 複製原始數據
         df['MA'] = df['close'].rolling(30).mean()  # 計算 30 週期均線
         df['STD'] = df['close'].rolling(30).std()  # 計算 30 週期標準差
@@ -277,7 +311,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         equity_records = []  # 權益曲線記錄
 
         for i in range(len(df)):  # 遍歷每根 5m K 棒
-            dt = df.index[i]  # 當前時間
+            dt = df.index[i]  # 當前時間 (MT5 伺服器時間)
             if i < 35:  # 預熱期
                 equity_records.append({"time": dt.strftime('%Y-%m-%d %H:%M:%S'), "balance": balance})  # 記錄起始本金
                 continue  # 跳過預熱
@@ -285,8 +319,11 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             h = float(df['high'].iloc[i])  # 最高價
             l = float(df['low'].iloc[i])  # 最低價
             z = float(df['Z'].iloc[i])  # 當前 Z 值
-            hr = dt.hour  # 當前小時 (UTC)
-            is_force_exit = (hr == 21)  # UTC 21:00 美盤收盤前夕強制清倉
+            hr = dt.hour  # 當前 MT5 伺服器小時
+            is_friday = (dt.weekday() == 4)  # 是否為週五
+            
+            # 純日內強制清倉：MT5 00:00 (換日 Rollover 前夕強制清倉，確保 0 隔夜利息) 或 週五 MT5 23:00
+            is_force_exit = (hr == 0) or (is_friday and hr >= 23)  # 強制平倉觸發
 
             if pos != 0:  # 當前持有部位
                 exit_price = 0.0  # 出場價格
@@ -310,9 +347,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         exit_price = entry_p - sl_distance - sp_dist  # 扣點差出場
                         exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
-                    elif is_force_exit:  # UTC 21:00 時間強制清倉
+                    elif is_force_exit:  # MT5 00:00 時間強制清倉
                         exit_price = c - sp_dist  # 扣點差出場
-                        exit_reason = "Time Cutoff (UTC 21:00 Zero-Overnight)"  # 強制清倉原因
+                        exit_reason = "Zero-Overnight (MT5 00:00 換日前強制清倉，0 Swap)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
@@ -327,9 +364,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                             "symbol": symbol,  # 貨幣對
                             "type": "Buy (Short Put)",  # 交易方向
                             "lot_size": lot_size,  # 下單手數
-                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
+                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間 (MT5)
                             "entry_price": round(entry_p, 5),  # 進場價格
-                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間
+                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間 (MT5)
                             "exit_price": round(exit_price, 5),  # 出場價格
                             "pnl_usd": round(pnl_dollars, 2),  # 淨利 (USD)
                             "pnl_pips": round(pnl_pips, 1),  # 點數 (pips)
@@ -358,9 +395,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         exit_price = entry_p + sl_distance + sp_dist  # 扣點差出場
                         exit_reason = f"SL (-{cfg['sl']} pips)"  # 硬停損標籤
                         is_closed = True  # 標記平倉
-                    elif is_force_exit:  # UTC 21:00 時間強制清倉
+                    elif is_force_exit:  # MT5 00:00 時間強制清倉
                         exit_price = c + sp_dist  # 扣點差出場
-                        exit_reason = "Time Cutoff (UTC 21:00 Zero-Overnight)"  # 強制清倉原因
+                        exit_reason = "Zero-Overnight (MT5 00:00 換日前強制清倉，0 Swap)"  # 強制清倉原因
                         is_closed = True  # 標記平倉
 
                     if is_closed:  # 執行平倉結算
@@ -375,9 +412,9 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                             "symbol": symbol,  # 貨幣對
                             "type": "Sell (Short Call)",  # 交易方向
                             "lot_size": lot_size,  # 下單手數
-                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間
+                            "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'),  # 進場時間 (MT5)
                             "entry_price": round(entry_p, 5),  # 進場價格
-                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間
+                            "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),  # 出場時間 (MT5)
                             "exit_price": round(exit_price, 5),  # 出場價格
                             "pnl_usd": round(pnl_dollars, 2),  # 淨利 (USD)
                             "pnl_pips": round(pnl_pips, 1),  # 點數 (pips)
@@ -389,18 +426,18 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                         })  # 結束單筆記錄
                         pos = 0  # 重設為空倉
 
-            # 檢查進場訊號 (UTC 07:00 ~ 20:00 日間活躍窗口)
-            is_entry_session = (7 <= hr <= 20)  # 歐美日間時段
+            # 檢查進場訊號 (MT5 伺服器時間 10:00 ~ 23:00 日間活躍窗口)
+            is_entry_session = (10 <= hr <= 23) and not (is_friday and hr >= 23)  # MT5 伺服器日間時段
             if pos == 0 and is_entry_session and not is_force_exit:  # 符合開倉時間窗口
                 if z <= -cfg['z_in']:  # 偏離下軌做多 (賣 Put)
                     pos = 1  # 開多單
                     entry_p = c + sp_dist  # 買在 Ask (加點差)
-                    entry_time = dt  # 記錄進場時間
+                    entry_time = dt  # 記錄進場時間 (MT5)
                     entry_bar_idx = i  # 記錄進場索引
                 elif z >= cfg['z_in']:  # 偏離上軌做空 (賣 Call)
                     pos = -1  # 開空單
                     entry_p = c  # 賣在 Bid
-                    entry_time = dt  # 記錄進場時間
+                    entry_time = dt  # 記錄進場時間 (MT5)
                     entry_bar_idx = i  # 記錄進場索引
 
             equity_records.append({"time": dt.strftime('%Y-%m-%d %H:%M:%S'), "balance": round(balance, 2)})  # 記錄當前權益
@@ -441,12 +478,13 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             }  # 指標結束
         }  # 回傳結束
 
-    def execute_all_and_generate_payload(self) -> dict:  # 執行全量運算並生成 JSON 封包
+    def execute_all_and_generate_payload(self) -> dict:  # 執行全量運算並生成 JSON 封包 (以 MT5 時間為顯示核心)
         now_utc = datetime.datetime.now(datetime.timezone.utc)  # 取得當前 UTC 時間
+        now_mt5 = self.to_mt5_time(now_utc)  # 換算當前 MT5 伺服器時間 (夏令 UTC+3)
         now_tpe = now_utc + datetime.timedelta(hours=8)  # 換算台北時間 (UTC+8)
-        print(f"[*] 開始更新 5m 純日內雙策略 8 大模組最新回測數據... (UTC: {now_utc.strftime('%Y-%m-%d %H:%M:%S')})")  # 輸出啟動日誌
+        print(f"[*] 開始更新 5m 純日內雙策略 8 大模組最新回測數據... (基準: MT5 Server Time {now_mt5.strftime('%Y-%m-%d %H:%M:%S')})")  # 輸出啟動日誌
 
-        # 下載 5 大標的之 5m 數據
+        # 下載 5 大標的之 5m 數據並轉換為 MT5 時間序列
         data_cache = {}  # 數據快取字典
         for sym in self.all_symbols:  # 遍歷標的
             data_cache[sym] = self.fetch_5m_data(sym)  # 抓取數據
@@ -457,7 +495,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         symbols_meta = {}  # 儲存商品即時行情與指標狀態
         chart_data_dict = {}  # 儲存各商品 5m K 線與指標數據 (提供 Plotly 圖表)
 
-        # 1. 執行 5 款 Asian Scalper 模組
+        # 1. 執行 5 款 Asian Scalper 模組 (MT5 01:00~08:00 進場，MT5 10:00 清倉)
         for sym, cfg in self.scalper_configs.items():  # 遍歷標的
             if sym not in data_cache or data_cache[sym].empty: continue  # 檢查數據
             res = self.run_scalper_strategy(sym, data_cache[sym], cfg, lot_size=1.0)  # 執行 1.0 手回測
@@ -466,7 +504,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 t['module_id'] = f"Scalper_{sym}"  # 添加模組識別 ID
                 all_completed_trades.append(t)  # 寫入總交易列表
 
-        # 2. 執行 3 款 Short Straddle 模組
+        # 2. 執行 3 款 Short Straddle 模組 (MT5 10:00~23:00 進場，MT5 00:00 清倉)
         for sym, cfg in self.straddle_configs.items():  # 遍歷標的
             if sym not in data_cache or data_cache[sym].empty: continue  # 檢查數據
             res = self.run_straddle_strategy(sym, data_cache[sym], cfg, lot_size=1.0)  # 執行 1.0 手回測
@@ -517,14 +555,14 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
                 "supports_scalper": supports_scalper,  # 是否包含在 Scalper
                 "supports_straddle": supports_straddle,  # 是否包含在 Straddle
                 "spread_pips": self.platform_spreads.get(sym, 1.0),  # 實盤點差
-                "is_scalper_session": (now_utc.hour >= 22) or (now_utc.hour <= 5),  # 當前是否在夜間收租時段
-                "is_straddle_session": 7 <= now_utc.hour <= 20  # 當前是否在日間跨式時段
+                "is_scalper_session": (1 <= now_mt5.hour <= 8),  # 當前是否在 MT5 伺服器夜間收租時段 (01:00~08:00)
+                "is_straddle_session": (10 <= now_mt5.hour <= 23)  # 當前是否在 MT5 伺服器日間跨式時段 (10:00~23:00)
             }  # 商品資訊結束
 
-            # 抽取最近 800 根供圖表繪製
+            # 抽取最近 800 根供圖表繪製 (時間已全部對齊 MT5 伺服器時間)
             df_chart = df.tail(800).copy()  # 取最近 800 筆
             chart_data_dict[sym] = {  # 圖表數據封包
-                "timestamps": [t.strftime('%Y-%m-%d %H:%M') for t in df_chart.index],  # 時間陣列
+                "timestamps": [t.strftime('%Y-%m-%d %H:%M') for t in df_chart.index],  # MT5 伺服器時間陣列
                 "open": [round(float(x), 5) for x in df_chart['open']],  # 開盤價
                 "high": [round(float(x), 5) for x in df_chart['high']],  # 最高價
                 "low": [round(float(x), 5) for x in df_chart['low']],  # 最低價
@@ -573,7 +611,7 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         for t in trades_chronological:  # 依序累加
             running_pnl += t['pnl_usd']  # 累計損益
             combined_equity_curve.append({  # 記錄節點
-                "time": t['exit_time'],  # 時間點
+                "time": t['exit_time'],  # 時間點 (MT5)
                 "cum_pnl": round(running_pnl, 2),  # 當前累計損益
                 "balance": round(100000.0 + running_pnl, 2),  # 對應帳戶餘額
                 "pnl": t['pnl_usd'],  # 本筆損益
@@ -588,12 +626,14 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
         portfolio_mdd_pct = round(abs(comb_dd_series.min()), 2) if len(comb_dd_series) > 0 else 0.0  # 組合最大回撤百分比
         portfolio_mdd_usd = round(abs((comb_series - comb_cum_max).min()), 2) if len(comb_series) > 0 else 0.0  # 組合最大回撤美金
 
-        # 構建最終輸出 JSON 結構
+        # 構建最終輸出 JSON 結構 (時間全部標準化為 MT5 伺服器時間)
         payload = {  # 總資料物件
             "system_info": {  # 系統資訊
                 "title": "5m 純日內雙策略 × 8 大模組極限收租監控儀表板",  # 標題
+                "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / 冬令 UTC+2)",  # 時間標準說明
+                "last_updated_mt5": now_mt5.strftime('%Y-%m-%d %H:%M:%S (MT5 Server Time)'),  # MT5 伺服器時間
+                "last_updated_tpe": now_tpe.strftime('%Y-%m-%d %H:%M:%S (台北 UTC+8)'),  # 台北時間
                 "last_updated_utc": now_utc.strftime('%Y-%m-%d %H:%M:%S UTC'),  # UTC 時間
-                "last_updated_tpe": now_tpe.strftime('%Y-%m-%d %H:%M:%S (UTC+8)'),  # 台北時間
                 "symbols_count": len(self.all_symbols),  # 標的數量
                 "modules_count": len(module_results)  # 模組數量
             },  # 系統資訊結束
@@ -614,15 +654,15 @@ class PureIntraday5mStrategyEngine:  # 定義純日內 5 分鐘策略回測與�
             "symbols_meta": symbols_meta,  # 5 大貨幣對即時狀態
             "active_positions": active_positions_list,  # 即時未平倉活躍持倉
             "combined_equity_curve": combined_equity_curve,  # 組合權益曲線
-            "all_trades": all_completed_trades,  # 全部歷史交易明細
-            "chart_data": chart_data_dict  # 5 大貨幣對圖表 K 線與指標數據
+            "all_trades": all_completed_trades,  # 全部歷史交易明細 (時間均為 MT5)
+            "chart_data": chart_data_dict  # 5 大貨幣對圖表 K 線與指標數據 (時間均為 MT5)
         }  # 總資料結束
 
         # 輸出 strategy_results.json
         output_json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # 輸出路徑
         with open(output_json_path, "w", encoding="utf-8") as f:  # 開啟檔案
             json.dump(payload, f, ensure_ascii=False, indent=2)  # 寫入 JSON
-        print(f"[+] 策略回測數據已成功輸出至: {output_json_path}")  # 輸出成功日誌
+        print(f"[+] 策略回測數據 (MT5 時間基準) 已成功輸出至: {output_json_path}")  # 輸出成功日誌
 
         # 輸出 all_trades_history.csv
         output_csv_path = os.path.join(os.path.dirname(__file__), "all_trades_history.csv")  # CSV 輸出路徑

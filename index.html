@@ -3,7 +3,7 @@
 <head> <!-- 網頁標頭區塊開始 -->
     <meta charset="UTF-8"> <!-- 設定 UTF-8 編碼 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 響應式視窗縮放設定 -->
-    <title>5m 純日內雙策略 8 大模組極限收租量化監控儀表板</title> <!-- 網頁分頁標題 -->
+    <title>5m 純日內雙策略 8 大模組極限收租量化監控儀表板 (MT5 時間基準)</title> <!-- 網頁分頁標題 -->
     <!-- 引入 Google Fonts 現代視效字型 Outfit 與 JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"> <!-- 字型樣式表 -->
     <!-- 引入 Plotly.js 互動繪圖函式庫 CDN -->
@@ -20,7 +20,7 @@
                 <div class="strategy-badge-icon">⚡</div> <!-- 科技圖標徽章 -->
                 <div class="header-title-text"> <!-- 標題文字外框 -->
                     <h1>5m 純日內雙策略 × 8 大模組極限收租監控儀表板</h1> <!-- 主標題 -->
-                    <p class="subtitle">夜間 5 款 (UTC 22:00-05:00, 07:00清倉) & 日間 3 款 (UTC 07:00-20:00, 21:00清倉) | 100% 扣除真實點差與每手 $5 手續費</p> <!-- 副標題說明 -->
+                    <p class="subtitle">全面以 <strong>MT5 伺服器時間 (Broker Server Time)</strong> 為統一基準 | 夜間 (01:00-08:00, 10:00清倉) & 日間 (10:00-23:00, 00:00清倉) | 100% 扣除真實點差與每手 $5 手續費</p> <!-- 副標題說明 -->
                 </div> <!-- 標題外框結束 -->
             </div> <!-- Logo 區結束 -->
             <div class="header-actions"> <!-- 右側狀態與動作群 -->
@@ -129,13 +129,13 @@
             </div> <!-- 容器結束 -->
         </section> <!-- 篩選盤結束 -->
 
-        <!-- 第四區：Plotly 互動式圖表展示區 -->
+        <!-- 第四區：Plotly 互動式圖表展示區 (MT5 時間座標) -->
         <section class="chart-section"> <!-- 圖表主區塊 -->
             <div class="chart-header-controls"> <!-- 圖表控制列 -->
                 <div class="chart-tabs-nav"> <!-- 分頁標籤按鈕 -->
                     <button class="tab-btn active" data-chart="combined-equity">📈 組合累積損益 ($0起計)</button> <!-- 分頁 1 -->
                     <button class="tab-btn" data-chart="comparative-equity">📊 各標的損益比較 ($0起計)</button> <!-- 分頁 2 -->
-                    <button class="tab-btn" data-chart="candlestick-signals">🕯️ 5m K線與進出場訊號</button> <!-- 分頁 3 -->
+                    <button class="tab-btn" data-chart="candlestick-signals">🕯️ 5m K線與進出場訊號 (MT5時間)</button> <!-- 分頁 3 -->
                     <button class="tab-btn" data-chart="drawdown-curve">📉 歷史回撤深度圖</button> <!-- 分頁 4 -->
                 </div> <!-- 分頁標籤結束 -->
                 <div class="chart-extra-options" id="candlestick-options" style="display:none;"> <!-- K 線圖專屬標的下拉選單 -->
@@ -160,8 +160,8 @@
         <section class="strategy-matrix-section" style="margin-top:24px;"> <!-- 策略矩陣區塊 -->
             <div class="table-header-bar"> <!-- 表格標題操作列 -->
                 <div class="table-title-group"> <!-- 標題群組 -->
-                    <h2>📊 8 大策略模組參數規格與實盤回測績效矩陣</h2> <!-- 表格主標題 -->
-                    <span>100% 依實盤點差 (0.4~1.1 pips) 與每手 $5 手續費撮合計算</span> <!-- 補充說明 -->
+                    <h2>📊 8 大策略模組參數規格與實盤回測績效矩陣 (MT5 伺服器時間標準)</h2> <!-- 表格主標題 -->
+                    <span>100% 依實盤點差 (0.4~1.1 pips) 與每手 $5 手續費撮合計算 | 零隔夜清倉時段以 MT5 伺服器時間為準</span> <!-- 補充說明 -->
                 </div> <!-- 標題群組結束 -->
             </div> <!-- 標題列結束 -->
 
@@ -173,7 +173,7 @@
                             <th>策略名稱</th> <!-- 策略 -->
                             <th>交易貨幣對</th> <!-- 標的 -->
                             <th>掛載 EA 檔案</th> <!-- EA 檔名 -->
-                            <th>執行時段 (UTC)</th> <!-- 時段 -->
+                            <th>執行時段 (MT5 時間)</th> <!-- 時段 (MT5) -->
                             <th>進出場設定 (TP/SL/Z)</th> <!-- 設定 -->
                             <th>交易筆數</th> <!-- 筆數 -->
                             <th>勝率</th> <!-- 勝率 -->
@@ -189,11 +189,11 @@
             </div> <!-- 滾動外框結束 -->
         </section> <!-- 策略矩陣結束 -->
 
-        <!-- 第六區：歷史交易紀錄表格清單 -->
+        <!-- 第六區：歷史交易紀錄表格清單 (MT5 時間) -->
         <section class="trades-table-section"> <!-- 表格區塊 -->
             <div class="table-header-bar"> <!-- 表格標題操作列 -->
                 <div class="table-title-group"> <!-- 標題群組 -->
-                    <h2>📋 歷史交易紀錄明細</h2> <!-- 表格主標題 -->
+                    <h2>📋 歷史交易紀錄明細 (時間基準: MT5 伺服器時間)</h2> <!-- 表格主標題 -->
                     <span id="table-trades-counter">顯示 0 / 0 筆交易紀錄</span> <!-- 筆數計數器 -->
                 </div> <!-- 標題群組結束 -->
                 <div class="table-filters-row"> <!-- 篩選操作列 -->
@@ -208,7 +208,7 @@
                         <option value="WIN">獲利 (Win)</option> <!-- 獲利 -->
                         <option value="LOSS">虧損 (Loss)</option> <!-- 虧損 -->
                     </select> <!-- 勝負結束 -->
-                    <button class="btn-export-csv" id="btn-export-csv" title="下載當前篩選之所有交易明細 CSV 檔案"> <!-- 匯出按鈕 -->
+                    <button class="btn-export-csv" id="btn-export-csv" title="下載當前篩選之所有交易明細 CSV 檔案 (MT5 時間)"> <!-- 匯出按鈕 -->
                         📥 匯出 CSV <!-- 按鈕文字 -->
                     </button> <!-- 按鈕結束 -->
                 </div> <!-- 操作列結束 -->
@@ -224,9 +224,9 @@
                             <th>貨幣對</th> <!-- 標的 -->
                             <th>方向</th> <!-- 方向 -->
                             <th>手數</th> <!-- 手數 -->
-                            <th>進場時間 (UTC)</th> <!-- 進場時間 -->
+                            <th>進場時間 (MT5)</th> <!-- 進場時間 (MT5) -->
                             <th>進場價</th> <!-- 進場價 -->
-                            <th>出場時間 (UTC)</th> <!-- 出場時間 -->
+                            <th>出場時間 (MT5)</th> <!-- 出場時間 (MT5) -->
                             <th>出場價</th> <!-- 出場價 -->
                             <th>淨損益 (USD)</th> <!-- 淨利美金 -->
                             <th>點數 (pips)</th> <!-- 點數 -->
@@ -256,11 +256,11 @@
             </div> <!-- 分頁列結束 -->
         </section> <!-- 表格區結束 -->
 
-        <!-- 第七區：策略規格與 MT5 參數速查卡片 (Strategy Reference) -->
+        <!-- 第七區：策略規格與 MT5 參數速查卡片 (MT5 時間規範) -->
         <section class="strategy-guide-section"> <!-- 說明手冊區塊 -->
             <div class="table-title-group"> <!-- 標題 -->
-                <h2>📖 兩大純日內 5m 策略核心規範速查 (Zero-Overnight Rules)</h2> <!-- 標題文字 -->
-                <span>基於 5 分鐘高頻均值回歸與時間對沖，持倉平均 15 ~ 35 分鐘，100% 於時段前獲利平倉或強制清空</span> <!-- 補充說明 -->
+                <h2>📖 兩大純日內 5m 策略核心規範速查 (MT5 伺服器時間 Zero-Overnight 規範)</h2> <!-- 標題文字 -->
+                <span>以經紀商 MT5 伺服器時間為準，在換匯 (Rollover) 期間維持 100% 空手，完全規避隔夜利息與利差擴點</span> <!-- 補充說明 -->
             </div> <!-- 標題結束 -->
 
             <div class="strategy-guide-grid"> <!-- 雙欄規格卡片 -->
@@ -275,7 +275,7 @@
                             <br>• <code>USDCHF [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 12 pts
                             <br>• <code>USDCAD [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 12 pts
                         </li> <!-- 標的 -->
-                        <li>⏰ <strong>交易時段</strong>：進場 <strong>UTC 22:00 ～ 05:00</strong> | <strong>UTC 07:00 強制清倉 (零隔夜)</strong></li> <!-- 時段 -->
+                        <li>⏰ <strong>交易時段 (MT5 時間)</strong>：進場 <strong>MT5 01:00 ～ 08:00</strong> | <strong>MT5 10:00 強制清倉 (歐盤開盤前夕零隔夜)</strong></li> <!-- 時段 -->
                         <li>📐 <strong>指標模型</strong>：20 週期 Bollinger Bands (2.2σ) + 14 週期 RSI (35/65)</li> <!-- 指標 -->
                         <li>🟢 <strong>買進訊號</strong>：收盤價 $\le$ 布林下軌 且 RSI $\le$ 35 (賣 Put 收租)</li> <!-- 買進 -->
                         <li>🔴 <strong>賣出訊號</strong>：收盤價 $\ge$ 布林上軌 且 RSI $\ge$ 65 (賣 Call 收租)</li> <!-- 賣出 -->
@@ -292,7 +292,7 @@
                             <br>• <code>AUDCAD [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 80 (8p) / SL 400 (40p)
                             <br>• <code>USDCAD [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 50 (5p) / SL 350 (35p)
                         </li> <!-- 標的 -->
-                        <li>⏰ <strong>交易時段</strong>：進場 <strong>UTC 07:00 ～ 20:00</strong> | <strong>UTC 21:00 強制清倉 (零隔夜)</strong></li> <!-- 時段 -->
+                        <li>⏰ <strong>交易時段 (MT5 時間)</strong>：進場 <strong>MT5 10:00 ～ 23:00</strong> | <strong>MT5 00:00 強制清倉 (換匯換日前夕零隔夜)</strong></li> <!-- 時段 -->
                         <li>📐 <strong>指標模型</strong>：30 週期滾動均值與標準差，動態波動偏離度 $Z\text{-Score}$</li> <!-- 指標 -->
                         <li>🟢 <strong>買進訊號</strong>：$Z \le -2.1\sigma$ (Short OTM Put 側買入)</li> <!-- 買進 -->
                         <li>🔴 <strong>賣出訊號</strong>：$Z \ge +2.1\sigma$ (Short OTM Call 側賣出)</li> <!-- 賣出 -->

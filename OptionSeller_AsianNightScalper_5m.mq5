@@ -18,13 +18,13 @@ input double   InpLotSize             = 1.0;    // 交易下單手數 (固定 1.
 input ulong    InpMagicNumber         = 500101; // 策略專屬 Magic Number 識別碼
 input int      InpMaxSpreadPoints     = 18;     // 最大容許點差 (18 Points = 1.8 pips，避開夜間換匯擴點)
 
-input group "=== 2. 交易時段與自動夏冬令時區校準 (UTC 時間) ===" // 參數分組 2
+input group "=== 2. 交易時段與自動夏冬令時區校準 (UTC / MT5 伺服器時間) ===" // 參數分組 2
 input bool     InpAutoDST             = true;   // 是否啟用自動夏冬令時區偵測 (Auto-DST，實盤與回測全自動切換)
 input int      InpBrokerGMTOffset     = 3;      // 經紀商手動 GMT 偏移 (若關閉 AutoDST 時使用，夏令為 +3，冬令為 +2)
-input int      InpStartHour           = 22;     // 允許進場起始小時 (UTC 22:00 亞盤夜間黃金窗口)
-input int      InpEndHour             = 5;      // 允許進場結束小時 (UTC 05:00 避開歐盤前夕波動)
+input int      InpStartHour           = 22;     // 允許進場起始小時 (UTC 22:00 = MT5 01:00 亞盤夜間黃金窗口)
+input int      InpEndHour             = 5;      // 允許進場結束小時 (UTC 05:00 = MT5 08:00 避開歐盤前夕波動)
 input bool     InpForceIntradayClose  = true;   // 是否啟用純日內強制清倉 (零隔夜 Zero-Overnight)
-input int      InpForceCloseHour      = 7;      // 強制清倉小時 (UTC 07:00 歐盤開盤前無條件全平)
+input int      InpForceCloseHour      = 7;      // 強制清倉小時 (UTC 07:00 = MT5 10:00 歐盤開盤前無條件全平)
 
 input group "=== 3. 布林通道 (Bollinger Bands) 參數 ===" // 參數分組 3
 input int      InpBBPeriod            = 20;     // 布林通道均線週期 (20 根 5m K 棒)

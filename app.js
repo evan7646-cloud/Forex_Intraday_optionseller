@@ -20,16 +20,16 @@ const symbolColors = { // 配色字典
     "USDCAD": "#b388ff"  // 亮紫色
 }; // 配色結束
 
-// 8 大模組設定規格參照表
+// 8 大模組設定規格參照表 (MT5 伺服器時間標準)
 const moduleConfigsRef = { // 規格字典
-    "Scalper_AUDCHF": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "UTC 22:00 ~ 05:00 (07:00清倉)", params: "TP 5p (50pts) / SL 35p (350pts) / 點差 18pts" }, // AUDCHF 夜間
-    "Scalper_EURCHF": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "UTC 22:00 ~ 05:00 (07:00清倉)", params: "TP 5p (50pts) / SL 35p (350pts) / 點差 15pts" }, // EURCHF 夜間
-    "Scalper_AUDCAD": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "UTC 22:00 ~ 05:00 (07:00清倉)", params: "TP 8p (80pts) / SL 40p (400pts) / 點差 20pts" }, // AUDCAD 夜間
-    "Scalper_USDCHF": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "UTC 22:00 ~ 05:00 (07:00清倉)", params: "TP 8p (80pts) / SL 40p (400pts) / 點差 12pts" }, // USDCHF 夜間
-    "Scalper_USDCAD": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "UTC 22:00 ~ 05:00 (07:00清倉)", params: "TP 8p (80pts) / SL 40p (400pts) / 點差 12pts" }, // USDCAD 夜間
-    "Straddle_AUDCHF": { ea: "OptionSeller_SyntheticShortStraddle_5m.mq5", session: "UTC 07:00 ~ 20:00 (21:00清倉)", params: "Z-in 2.1 / Z-out 0.2 / TP 50 / SL 350" }, // AUDCHF 日間
-    "Straddle_AUDCAD": { ea: "OptionSeller_SyntheticShortStraddle_5m.mq5", session: "UTC 07:00 ~ 20:00 (21:00清倉)", params: "Z-in 2.1 / Z-out 0.2 / TP 80 / SL 400" }, // AUDCAD 日間
-    "Straddle_USDCAD": { ea: "OptionSeller_SyntheticShortStraddle_5m.mq5", session: "UTC 07:00 ~ 20:00 (21:00清倉)", params: "Z-in 2.1 / Z-out 0.2 / TP 50 / SL 350" }  // USDCAD 日間
+    "Scalper_AUDCHF": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "MT5 01:00 ~ 08:00 (10:00清倉)", params: "TP 5p (50pts) / SL 35p (350pts) / 點差 18pts" }, // AUDCHF 夜間
+    "Scalper_EURCHF": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "MT5 01:00 ~ 08:00 (10:00清倉)", params: "TP 5p (50pts) / SL 35p (350pts) / 點差 15pts" }, // EURCHF 夜間
+    "Scalper_AUDCAD": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "MT5 01:00 ~ 08:00 (10:00清倉)", params: "TP 8p (80pts) / SL 40p (400pts) / 點差 20pts" }, // AUDCAD 夜間
+    "Scalper_USDCHF": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "MT5 01:00 ~ 08:00 (10:00清倉)", params: "TP 8p (80pts) / SL 40p (400pts) / 點差 12pts" }, // USDCHF 夜間
+    "Scalper_USDCAD": { ea: "OptionSeller_AsianNightScalper_5m.mq5", session: "MT5 01:00 ~ 08:00 (10:00清倉)", params: "TP 8p (80pts) / SL 40p (400pts) / 點差 12pts" }, // USDCAD 夜間
+    "Straddle_AUDCHF": { ea: "OptionSeller_SyntheticShortStraddle_5m.mq5", session: "MT5 10:00 ~ 23:00 (00:00清倉)", params: "Z-in 2.1 / Z-out 0.2 / TP 50 / SL 350" }, // AUDCHF 日間
+    "Straddle_AUDCAD": { ea: "OptionSeller_SyntheticShortStraddle_5m.mq5", session: "MT5 10:00 ~ 23:00 (00:00清倉)", params: "Z-in 2.1 / Z-out 0.2 / TP 80 / SL 400" }, // AUDCAD 日間
+    "Straddle_USDCAD": { ea: "OptionSeller_SyntheticShortStraddle_5m.mq5", session: "MT5 10:00 ~ 23:00 (00:00清倉)", params: "Z-in 2.1 / Z-out 0.2 / TP 50 / SL 350" }  // USDCAD 日間
 }; // 規格字典結束
 
 // 網頁 DOM 載入完畢監聽入口
@@ -57,13 +57,13 @@ async function loadStrategyData() { // 資料非同步加載函數
         if (allSyms.length > 0) candlestickSymbol = allSyms[0]; // 設定預設 K 線標的
 
         // 渲染各區塊內容
-        renderHeaderStatus(); // 渲染頂部時間與系統狀態
+        renderHeaderStatus(); // 渲染頂部時間與系統狀態 (MT5 伺服器時間)
         renderMarketTickers(); // 渲染即時行情小卡
         renderAssetCheckboxes(); // 渲染多商品勾選控制卡片
         recalculateAndRenderKPIs(); // 根據當前勾選重算並渲染 KPI 卡片
-        renderMainChart(); // 渲染 Plotly 主圖表
+        renderMainChart(); // 渲染 Plotly 主圖表 (MT5 時間座標)
         renderStrategyMatrix(); // 渲染 8 大策略模組參數與實盤績效矩陣總表
-        renderTradesTable(); // 渲染歷史交易明細表格
+        renderTradesTable(); // 渲染歷史交易明細表格 (MT5 時間)
 
     } catch (err) { // 捕捉異常
         console.error("載入策略資料失敗:", err); // 於 Console 記錄錯誤
@@ -149,11 +149,11 @@ function setupEventListeners() { // 事件設定函數
     }); // 監聽結束
 } // setupEventListeners 結束
 
-// 渲染頂部狀態列
+// 渲染頂部狀態列 (以 MT5 伺服器時間為核心)
 function renderHeaderStatus() { // 頂部狀態渲染函數
     const timeEl = document.getElementById('status-update-time'); // 取得時間元素
     if (globalData && globalData.system_info) { // 若系統資訊存在
-        timeEl.textContent = `台北時間: ${globalData.system_info.last_updated_tpe} | UTC: ${globalData.system_info.last_updated_utc}`; // 填入時間文字
+        timeEl.innerHTML = `⚡ <strong>MT5 伺服器時間:</strong> ${globalData.system_info.last_updated_mt5} | 台北: ${globalData.system_info.last_updated_tpe}`; // 填入時間文字
     } // 判斷結束
 } // renderHeaderStatus 結束
 
@@ -168,14 +168,14 @@ function renderMarketTickers() { // 行情卡片渲染函數
         const changeClass = item.price_change_24h_pct >= 0 ? 'val-bull' : 'val-bear'; // 多空顏色
         const changePrefix = item.price_change_24h_pct >= 0 ? '+' : ''; // 正號標記
         
-        // 判定當前是否有開倉窗口
+        // 判定當前是否有開倉窗口 (以 MT5 伺服器時間為準)
         let sessionTag = ''; // 狀態標籤
-        if (item.is_scalper_session && item.supports_scalper) { // 處於夜間收租時段
-            sessionTag = '<span class="badge-scalper">🌙 夜間收租窗口中</span>'; // 夜間標籤
-        } else if (item.is_straddle_session && item.supports_straddle) { // 處於日間跨式時段
-            sessionTag = '<span class="badge-straddle">⚡ 日間跨式窗口中</span>'; // 日間標籤
-        } else { // 非開倉時段
-            sessionTag = '<span style="font-size:10px; color:var(--text-muted);">等待交易窗口</span>'; // 等待標籤
+        if (item.is_scalper_session && item.supports_scalper) { // 處於 MT5 夜間收租時段 (01:00~08:00)
+            sessionTag = '<span class="badge-scalper">🌙 MT5 夜間收租中</span>'; // 夜間標籤
+        } else if (item.is_straddle_session && item.supports_straddle) { // 處於 MT5 日間跨式時段 (10:00~23:00)
+            sessionTag = '<span class="badge-straddle">⚡ MT5 日間跨式中</span>'; // 日間標籤
+        } else { // 換匯清倉/等待時段
+            sessionTag = '<span style="font-size:10px; color:var(--color-bear);">🔒 零隔夜清倉/換匯期</span>'; // 換匯標籤
         } // 判斷結束
 
         return `
@@ -403,7 +403,7 @@ function recalculateAndRenderKPIs() { // KPI 精算與渲染函數
         activeCountEl.className = 'card-main-val val-cyan'; // 預設色
         unrealizedPnlEl.textContent = '$0.00'; // $0
         unrealizedPnlEl.className = 'val-neutral'; // 白色
-        activeStatusEl.textContent = '無隔夜風險'; // 狀態
+        activeStatusEl.textContent = '100% 零隔夜合規'; // 狀態
         activeStatusEl.className = 'val-bull'; // 綠色
     } else { // 當前持有活躍部位
         const totalUnrealized = activeList.reduce((acc, p) => acc + (p.unrealized_pnl_usd || 0), 0); // 累計未實現損益
@@ -416,7 +416,7 @@ function recalculateAndRenderKPIs() { // KPI 精算與渲染函數
     } // 活躍部位判斷結束
 } // recalculateAndRenderKPIs 結束
 
-// 渲染 8 大策略模組參數規格與實盤回測績效矩陣
+// 渲染 8 大策略模組參數規格與實盤回測績效矩陣 (MT5 伺服器時間標準)
 function renderStrategyMatrix() { // 矩陣渲染函數
     const tbody = document.getElementById('strategy-matrix-table-body'); // 取得表體 DOM
     if (!tbody || !globalData || !globalData.modules_summary) return; // 檢查
@@ -435,7 +435,7 @@ function renderStrategyMatrix() { // 矩陣渲染函數
                 <td><span class="${badgeClass}" style="font-size:11px; padding:3px 8px;">${stratShortName}</span></td>
                 <td><strong style="color:${symColor}; font-family:var(--font-mono); font-size:14px;">${m.symbol}</strong></td>
                 <td style="font-family:var(--font-mono); font-size:11px; color:#58a6ff;">${cfgRef.ea}</td>
-                <td style="font-size:11px; color:var(--text-secondary);">${cfgRef.session}</td>
+                <td style="font-size:11px; color:var(--text-secondary); font-family:var(--font-mono); font-weight:600;">${cfgRef.session}</td>
                 <td style="font-size:11px; font-family:var(--font-mono); color:#e6edf3;">${cfgRef.params}</td>
                 <td style="font-family:var(--font-mono);">${m.trades_count} 筆 (${m.wins}W/${m.losses}L)</td>
                 <td><strong class="val-blue" style="font-family:var(--font-mono); font-size:13px;">${m.win_rate}%</strong></td>
@@ -462,7 +462,7 @@ function renderMainChart() { // 主圖表調度函數
     } // 分頁判斷結束
 } // renderMainChart 結束
 
-// 繪製分頁 1：組合累積淨損益曲線 (從 $0 起計，隨勾選商品動態重算聚合)
+// 繪製分頁 1：組合累積淨損益曲線 (從 $0 起計，以 MT5 伺服器時間序列呈現)
 function renderCombinedEquityChart() { // 組合損益圖繪製函數
     const filteredTrades = globalData.all_trades.filter(t => { // 過濾交易
         const matchSymbol = selectedSymbols.has(t.symbol); // 標的符合
@@ -473,7 +473,7 @@ function renderCombinedEquityChart() { // 組合損益圖繪製函數
     }).sort((a, b) => new Date(a.exit_time) - new Date(b.exit_time)); // 依出場時間正序
 
     // 建立時間序列節點 (從 $0 淨損益起算)
-    const timeSeries = []; // 時間陣列
+    const timeSeries = []; // 時間陣列 (MT5)
     const pnlSeries = []; // 累積淨損益陣列
     let currentPnl = 0.0; // 初始累計淨利 $0.0
 
@@ -495,7 +495,7 @@ function renderCombinedEquityChart() { // 組合損益圖繪製函數
     const fillColor = isPositive ? 'rgba(0, 230, 118, 0.12)' : 'rgba(255, 23, 68, 0.12)'; // 對應填充
 
     const trace = { // 定義曲線軌跡
-        x: timeSeries, // X 軸時間
+        x: timeSeries, // X 軸時間 (MT5 伺服器時間)
         y: pnlSeries, // Y 軸累積淨損益
         mode: 'lines', // 折線模式
         name: '累積淨損益 ($0起計)', // 圖例名稱
@@ -506,7 +506,7 @@ function renderCombinedEquityChart() { // 組合損益圖繪製函數
 
     const layout = { // 定義圖表面版樣式
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 }, // 背景色與邊距
-        title: { text: `所選 ${selectedSymbols.size} 款標的之組合累積淨損益曲線 (從 $0 起計 / 扣實盤點差與 $5 手續費)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        title: { text: `所選 ${selectedSymbols.size} 款標的之組合累積淨損益曲線 (時間基準: MT5 伺服器時間 / 實收淨利)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } }, // X 軸
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 }, // Y 軸與 $0 基準線
         hovermode: 'x unified', // 統一浮動標籤
@@ -525,18 +525,18 @@ function renderComparativeEquityChart() { // 多商品比較圖繪製函數
         const symTrades = globalData.all_trades.filter(t => t.symbol === sym).sort((a, b) => new Date(a.exit_time) - new Date(b.exit_time)); // 依時間排序
         if (symTrades.length === 0) return; // 無交易跳過
 
-        const tTimes = [symTrades[0].entry_time]; // 時間
+        const tTimes = [symTrades[0].entry_time]; // 時間 (MT5)
         const tPnls = [0.0]; // 累積損益 (從 $0 開始)
         let rPnl = 0.0; // 當前累計淨利
 
         symTrades.forEach(t => { // 遍歷
             rPnl += t.pnl_usd; // 累加損益
-            tTimes.push(t.exit_time); // 時間
+            tTimes.push(t.exit_time); // 時間 (MT5)
             tPnls.push(Math.round(rPnl * 100) / 100); // 累積損益
         }); // 結束
 
         traces.push({ // 加入軌跡
-            x: tTimes, // 時間
+            x: tTimes, // 時間 (MT5)
             y: tPnls, // 損益
             mode: 'lines', // 折線
             name: `${sym} (${symTrades.length} 筆 / ${rPnl >= 0 ? '+' : ''}$${Math.round(rPnl).toLocaleString()})`, // 名稱與總獲利
@@ -546,7 +546,7 @@ function renderComparativeEquityChart() { // 多商品比較圖繪製函數
 
     const layout = { // 面版樣式
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 }, // 背景色
-        title: { text: '各貨幣對獨立累積淨損益比較 (從 $0 起計 / 扣手續費)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        title: { text: '各貨幣對獨立累積淨損益比較 (時間基準: MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } }, // X 軸
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 }, // Y 軸與 $0 基準線
         hovermode: 'x unified', // 統一浮動
@@ -556,7 +556,7 @@ function renderComparativeEquityChart() { // 多商品比較圖繪製函數
     Plotly.newPlot('main-plotly-chart', traces, layout, { responsive: true, displayModeBar: true }); // 渲染圖表
 } // renderComparativeEquityChart 結束
 
-// 繪製分頁 3：5m 互動式 K 線圖與真實進出場買賣訊號點標記
+// 繪製分頁 3：5m 互動式 K 線圖與真實進出場買賣訊號點標記 (MT5 伺服器時間)
 function renderCandlestickChart(sym) { // K 線繪製函數
     if (!globalData || !globalData.chart_data || !globalData.chart_data[sym]) return; // 檢查資料
 
@@ -565,13 +565,13 @@ function renderCandlestickChart(sym) { // K 線繪製函數
 
     // 1. K 線圖軌跡 (Candlestick)
     const traceCandles = { // K 線
-        x: cdata.timestamps, // 時間
+        x: cdata.timestamps, // 時間 (MT5)
         open: cdata.open, // 開盤
         high: cdata.high, // 最高
         low: cdata.low, // 最低
         close: cdata.close, // 收盤
         type: 'candlestick', // 蠟燭圖
-        name: `${sym} 5m K線`, // 名稱
+        name: `${sym} 5m K線 (MT5時間)`, // 名稱
         increasing: { line: { color: '#00e676', width: 1.2 }, fillcolor: '#00e676' }, // 陽線翡翠綠
         decreasing: { line: { color: '#ff1744', width: 1.2 }, fillcolor: '#ff1744' }, // 陰線珊瑚紅
         yaxis: 'y' // 主座標軸
@@ -588,7 +588,7 @@ function renderCandlestickChart(sym) { // K 線繪製函數
     const exits = symTrades; // 全部出場
 
     const traceBuyMarkers = { // 買入標記 (綠色三角向上)
-        x: buyEntries.map(t => t.entry_time), // 時間
+        x: buyEntries.map(t => t.entry_time), // 時間 (MT5)
         y: buyEntries.map(t => t.entry_price), // 價格
         mode: 'markers', // 標記點
         name: '買進進場 (Buy)', // 圖例
@@ -597,7 +597,7 @@ function renderCandlestickChart(sym) { // K 線繪製函數
     }; // 買入標記結束
 
     const traceSellMarkers = { // 賣出標記 (紅色三角向下)
-        x: sellEntries.map(t => t.entry_time), // 時間
+        x: sellEntries.map(t => t.entry_time), // 時間 (MT5)
         y: sellEntries.map(t => t.entry_price), // 價格
         mode: 'markers', // 標記點
         name: '賣出進場 (Sell)', // 圖例
@@ -606,7 +606,7 @@ function renderCandlestickChart(sym) { // K 線繪製函數
     }; // 賣出標記結束
 
     const traceExitMarkers = { // 出場標記 (黃色方塊)
-        x: exits.map(t => t.exit_time), // 時間
+        x: exits.map(t => t.exit_time), // 時間 (MT5)
         y: exits.map(t => t.exit_price), // 價格
         mode: 'markers', // 標記點
         name: '平倉出場 (Exit)', // 圖例
@@ -639,7 +639,7 @@ function renderCandlestickChart(sym) { // K 線繪製函數
     // 圖表多座標軸複合排版 Layout
     const layout = { // 複合 Layout
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 }, // 背景邊距
-        title: { text: `[${sym}] 5m K線、布林通道與實戰進出場訊號點 (最近 800 根 K 棒)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        title: { text: `[${sym}] 5m K線、布林通道與實戰進出場訊號點 (時間基準: MT5 伺服器時間)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, rangeslider: { visible: false } }, // X 軸
         yaxis: { domain: [0.38, 1.0], gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, title: '價格' }, // 主 K 線軸 (佔 62% 高度)
         yaxis2: { domain: [0.19, 0.35], gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, title: 'RSI', range: [10, 90] }, // RSI 軸 (佔 16% 高度)
@@ -661,25 +661,25 @@ function renderDrawdownChart() { // 回撤圖繪製函數
         return matchSymbol && matchStrategy; // 符合
     }).sort((a, b) => new Date(a.exit_time) - new Date(b.exit_time)); // 排序
 
-    const timeSeries = []; // 時間
+    const timeSeries = []; // 時間 (MT5)
     const ddPctSeries = []; // 回撤百分比
     let runningBal = 100000.0; // 淨值
     let peakBal = 100000.0; // 歷史最高點
 
     if (filteredTrades.length > 0) { // 有交易
-        timeSeries.push(filteredTrades[0].entry_time); // 起始
+        timeSeries.push(filteredTrades[0].entry_time); // 起始 (MT5)
         ddPctSeries.push(0.0); // 起始回撤 0%
         filteredTrades.forEach(t => { // 遍歷
             runningBal += t.pnl_usd; // 累加
             if (runningBal > peakBal) peakBal = runningBal; // 新高
             const ddPct = peakBal > 0 ? -((peakBal - runningBal) / peakBal * 100) : 0; // 回撤百分比 (負值)
-            timeSeries.push(t.exit_time); // 時間
+            timeSeries.push(t.exit_time); // 時間 (MT5)
             ddPctSeries.push(Math.round(ddPct * 100) / 100); // 記錄
         }); // 結束
     } // 判斷結束
 
     const trace = { // 軌跡
-        x: timeSeries, // 時間
+        x: timeSeries, // 時間 (MT5)
         y: ddPctSeries, // 回撤深度
         mode: 'lines', // 折線
         name: '回撤深度 (%)', // 名稱
@@ -690,7 +690,7 @@ function renderDrawdownChart() { // 回撤圖繪製函數
 
     const layout = { // Layout
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 }, // 背景邊距
-        title: { text: '所選組合歷史資金回撤深度圖 (Underwater Drawdown %)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
+        title: { text: '所選組合歷史資金回撤深度圖 (時間基準: MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } }, // 標題
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } }, // X 軸
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, ticksuffix: '%', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 }, // Y 軸
         hovermode: 'x unified' // 浮動
@@ -699,7 +699,7 @@ function renderDrawdownChart() { // 回撤圖繪製函數
     Plotly.newPlot('main-plotly-chart', [trace], layout, { responsive: true, displayModeBar: true }); // 渲染
 } // renderDrawdownChart 結束
 
-// 渲染歷史交易明細表格 (支援搜尋、過濾、分頁與高亮)
+// 渲染歷史交易明細表格 (支援搜尋、過濾、分頁與高亮，時間為 MT5 伺服器時間)
 function renderTradesTable() { // 表格渲染函數
     const tbody = document.getElementById('trades-table-body'); // 取得表體 DOM
     const counterEl = document.getElementById('table-trades-counter'); // 取得計數器 DOM
@@ -757,9 +757,9 @@ function renderTradesTable() { // 表格渲染函數
                     <td><strong style="color:${symColor}; font-family:var(--font-mono);">${t.symbol}</strong></td>
                     <td>${typeBadge}</td>
                     <td style="font-family:var(--font-mono);">${t.lot_size}</td>
-                    <td style="font-family:var(--font-mono); font-size:12px; color:var(--text-secondary);">${t.entry_time}</td>
+                    <td style="font-family:var(--font-mono); font-size:12px; color:var(--text-secondary); font-weight:600;">${t.entry_time}</td>
                     <td style="font-family:var(--font-mono);">${t.entry_price}</td>
-                    <td style="font-family:var(--font-mono); font-size:12px; color:var(--text-secondary);">${t.exit_time}</td>
+                    <td style="font-family:var(--font-mono); font-size:12px; color:var(--text-secondary); font-weight:600;">${t.exit_time}</td>
                     <td style="font-family:var(--font-mono);">${t.exit_price}</td>
                     <td><strong class="${pnlClass}" style="font-family:var(--font-mono);">${t.pnl_usd >= 0 ? '+' : ''}$${t.pnl_usd.toFixed(2)}</strong></td>
                     <td class="${pnlClass}" style="font-family:var(--font-mono);">${t.pnl_pips >= 0 ? '+' : ''}${t.pnl_pips.toFixed(1)}p</td>
@@ -817,7 +817,7 @@ function focusTradeOnChart(sym, tradeId) { // 聚焦交易函數
     document.querySelector('.chart-section').scrollIntoView({ behavior: 'smooth' }); // 平滑滾動
 } // focusTradeOnChart 結束
 
-// 匯出當前篩選之所有交易明細 CSV 檔案
+// 匯出當前篩選之所有交易明細 CSV 檔案 (MT5 伺服器時間標準)
 function exportFilteredTradesCSV() { // CSV 下載函數
     if (!globalData || !globalData.all_trades) return; // 檢查資料
 
@@ -844,8 +844,8 @@ function exportFilteredTradesCSV() { // CSV 下載函數
         return; // 終止
     } // 判斷結束
 
-    // 構建 CSV 內容
-    const headers = ["序號", "策略名稱", "貨幣對", "交易方向", "手數", "進場時間(UTC)", "進場價", "出場時間(UTC)", "出場價", "淨損益(USD)", "獲利點數(pips)", "報酬率(%)", "出場原因", "持倉分鐘數"]; // 表頭
+    // 構建 CSV 內容 (清楚標註 MT5 伺服器時間)
+    const headers = ["序號", "策略名稱", "貨幣對", "交易方向", "手數", "進場時間(MT5伺服器時間)", "進場價", "出場時間(MT5伺服器時間)", "出場價", "淨損益(USD)", "獲利點數(pips)", "報酬率(%)", "出場原因", "持倉分鐘數"]; // 表頭
     const csvRows = [headers.join(',')]; // 寫入表頭
 
     filtered.forEach(t => { // 遍歷交易
@@ -855,9 +855,9 @@ function exportFilteredTradesCSV() { // CSV 下載函數
             t.symbol, // 標的
             `"${t.type}"`, // 方向
             t.lot_size, // 手數
-            t.entry_time, // 進場
+            t.entry_time, // 進場 (MT5)
             t.entry_price, // 進價
-            t.exit_time, // 出場
+            t.exit_time, // 出場 (MT5)
             t.exit_price, // 出價
             t.pnl_usd, // 淨利
             t.pnl_pips, // 點數
@@ -874,7 +874,7 @@ function exportFilteredTradesCSV() { // CSV 下載函數
     const url = URL.createObjectURL(blob); // 生成下載網址
     const link = document.createElement('a'); // 建立 a 標籤
     link.setAttribute('href', url); // 設定網址
-    link.setAttribute('download', `5m_Trading_Trades_${new Date().toISOString().substring(0, 10)}.csv`); // 設定下載檔名
+    link.setAttribute('download', `5m_MT5_Trades_History_${new Date().toISOString().substring(0, 10)}.csv`); // 設定下載檔名
     document.body.appendChild(link); // 加入 DOM
     link.click(); // 觸發點擊下載
     document.body.removeChild(link); // 移除 DOM
