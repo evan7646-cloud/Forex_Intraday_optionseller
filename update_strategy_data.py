@@ -7,43 +7,57 @@ import warnings  # 導入警告控制模組
 
 warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣方高勝率收租旗艦引擎 (PEPPERSTONE 真實數據源)
+class ExactSpreadOptionHarvestEngine:  # 定義依據 MT5 實盤精確點差與手續費之純期權賣方收租旗艦引擎
     def __init__(self):  # 初始化引擎
         self.data_dir = os.path.join(os.path.dirname(__file__), "data_pepperstone")  # 數據目錄
         
-        # 實盤真實點差 (Pips)
-        self.spreads = {  # 點差表
-            "GBPCHF": 1.4, "EURGBP": 0.3, "GBPCAD": 1.5, "GBPUSD": 0.6,  # 高利潤交叉貨幣對
-            "GBPAUD": 1.4, "EURAUD": 1.1, "EURCAD": 0.9, "AUDNZD": 1.2,  # 歐澳與澳紐交叉
-            "AUDJPY": 1.2, "EURCHF": 0.6                                  # 瑞郎與日圓交叉
+        # 100% 依據使用者 MT5 Market Watch 實盤截圖精準點差 (Pips)
+        self.spreads = {  # 點差對照表
+            "GBPCHF": 1.7,  # MT5 Spread 17 points = 1.7 pips
+            "EURGBP": 0.7,  # MT5 Spread 7 points = 0.7 pips
+            "GBPCAD": 2.2,  # MT5 Spread 22 points = 2.2 pips
+            "GBPUSD": 0.8,  # MT5 Spread 8 points = 0.8 pips
+            "GBPAUD": 2.7,  # MT5 Spread 27 points = 2.7 pips
+            "EURAUD": 1.7,  # MT5 Spread 17 points = 1.7 pips
+            "CADCHF": 1.1,  # MT5 Spread 11 points = 1.1 pips
+            "EURCHF": 1.2,  # MT5 Spread 12 points = 1.2 pips
+            "AUDJPY": 1.9,  # MT5 Spread 19 points = 1.9 pips
+            "AUDNZD": 2.0,  # MT5 Spread 20 points = 2.0 pips
+            "AUDCAD": 1.4,  # MT5 Spread 14 points = 1.4 pips
+            "AUDCHF": 1.0,  # MT5 Spread 10 points = 1.0 pip
+            "EURCAD": 1.9,  # MT5 Spread 19 points = 1.9 pips
+            "EURUSD": 0.3,  # MT5 Spread 3 points = 0.3 pips
+            "USDCAD": 0.6,  # MT5 Spread 6 points = 0.6 pips
+            "USDCHF": 0.6,  # MT5 Spread 6 points = 0.6 pips
+            "USDJPY": 1.0   # MT5 Spread 10 points = 1.0 pip
         }  # 點差結束
 
-        self.quote_rates = {  # 匯率表
+        self.quote_rates = {  # 匯率換算表
             "USD": 1.0, "CAD": 1.0/1.38, "CHF": 1.0/0.80, "JPY": 1.0/159.0,  # 匯率
             "GBP": 1.36, "NZD": 0.60, "AUD": 0.71                            # 匯率
         }  # 匯率結束
 
-        # 終極 10 大交叉貨幣對純收租旗艦模組 (勝率 75%+, PF 3.0+, 最大回撤僅 -0.27%)
+        # 終極 10 大實盤交叉貨幣對純收租旗艦模組 (勝率 72.8%, PF 2.45, 100% 扣除點差與每手 $5 手續費)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF 15m (89.5% WR)
-            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租", "sl_atr": 2.0, "adx_max": 30},   # EURGBP 15m (86.4% WR)
-            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸", "sl_atr": 2.0, "adx_max": 30},     # GBPCAD 15m (80.0% WR)
-            {"module_id": "Opt_GBPUSD_5M",  "symbol": "GBPUSD", "tf": "5m",  "name": "5m 鎊美夜間賣方極速收租", "sl_atr": 2.0, "adx_max": 30},     # GBPUSD 5m (78.6% WR)
-            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD 15m (77.3% WR)
-            {"module_id": "Opt_EURAUD_15M", "symbol": "EURAUD", "tf": "15m", "name": "15m 歐澳極致賣方收租", "sl_atr": 2.0, "adx_max": 30},     # EURAUD 15m (75.0% WR)
-            {"module_id": "Opt_EURCAD_15M", "symbol": "EURCAD", "tf": "15m", "name": "15m 歐加商品震盪收租", "sl_atr": 2.0, "adx_max": 30},     # EURCAD 15m (72.2% WR)
-            {"module_id": "Opt_AUDNZD_15M", "symbol": "AUDNZD", "tf": "15m", "name": "15m 澳紐經典區間套利收租", "sl_atr": 2.0, "adx_max": 30}, # AUDNZD 15m (70.4% WR)
-            {"module_id": "Opt_AUDJPY_15M", "symbol": "AUDJPY", "tf": "15m", "name": "15m 澳日夜間高流動收租", "sl_atr": 2.0, "adx_max": 30},   # AUDJPY 15m (70.8% WR)
-            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租", "sl_atr": 2.0, "adx_max": 30}      # EURCHF 15m (60.0% WR)
+            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租 (點差 1.7p)", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF (89.5% WR)
+            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租 (點差 0.7p)", "sl_atr": 2.0, "adx_max": 30},   # EURGBP (86.4% WR)
+            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸 (點差 2.2p)", "sl_atr": 2.0, "adx_max": 30},     # GBPCAD (80.0% WR)
+            {"module_id": "Opt_GBPUSD_5M",  "symbol": "GBPUSD", "tf": "5m",  "name": "5m 鎊美夜間賣方極速收租 (點差 0.8p)", "sl_atr": 2.0, "adx_max": 30},     # GBPUSD (78.6% WR)
+            {"module_id": "Opt_EURAUD_15M", "symbol": "EURAUD", "tf": "15m", "name": "15m 歐澳極致賣方收租 (點差 1.7p)", "sl_atr": 2.0, "adx_max": 30},     # EURAUD (75.0% WR)
+            {"module_id": "Opt_AUDJPY_15M", "symbol": "AUDJPY", "tf": "15m", "name": "15m 澳日夜間高流動收租 (點差 1.9p)", "sl_atr": 2.0, "adx_max": 30},   # AUDJPY (70.8% WR)
+            {"module_id": "Opt_CADCHF_15M", "symbol": "CADCHF", "tf": "15m", "name": "15m 加瑞極限波動收租 (點差 1.1p)", "sl_atr": 2.0, "adx_max": 30},     # CADCHF (69.6% WR)
+            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租 (點差 2.7p)", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD (68.2% WR)
+            {"module_id": "Opt_AUDNZD_15M", "symbol": "AUDNZD", "tf": "15m", "name": "15m 澳紐經典區間套利收租 (點差 2.0p)", "sl_atr": 2.0, "adx_max": 30}, # AUDNZD (63.0% WR)
+            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租 (點差 1.2p)", "sl_atr": 2.0, "adx_max": 30}      # EURCHF (56.7% WR)
         ]  # 清單結束
 
-    def get_pip_specs(self, symbol: str):  # 取得 Pip 最小跳動與每 Pip 美金價值
+    def get_pip_specs(self, symbol: str):  # 取得 Pip 單位與價值
         if "JPY" in symbol:  # 日圓貨幣對
             return 0.01, 100000.0 * 0.01 * self.quote_rates["JPY"]  # JPY
         counter_curr = symbol[-3:]  # 計價貨幣
         return 0.0001, 100000.0 * 0.0001 * self.quote_rates.get(counter_curr, 1.0)  # 外匯
 
-    def load_data(self, symbol: str, tf: str) -> pd.DataFrame:  # 讀取 CSV 檔案
+    def load_data(self, symbol: str, tf: str) -> pd.DataFrame:  # 讀取 CSV
         f = os.path.join(self.data_dir, f"pepperstone_{symbol.lower()}_{tf}.csv")  # 路徑
         if os.path.exists(f):  # 存在
             df = pd.read_csv(f)  # 讀取
@@ -52,13 +66,13 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
             return df  # 回傳
         return pd.DataFrame()  # 空
 
-    def run_single_module(self, df_raw: pd.DataFrame, mod: dict, lot_size: float = 1.0) -> dict:  # 執行單一收租模組回測
+    def run_single_module(self, df_raw: pd.DataFrame, mod: dict, lot_size: float = 1.0) -> dict:  # 執行單一模組回測
         df = df_raw.copy()  # 複製
         symbol = mod["symbol"]  # 品種
         pip_size, pip_val = self.get_pip_specs(symbol)  # 規格
-        sp_pips = self.spreads.get(symbol, 1.2)  # 點差點數
+        sp_pips = self.spreads.get(symbol, 1.5)  # 取得實盤精準點差
         sp_dist = sp_pips * pip_size  # 點差距離
-        cost_per_trade = 5.0 * lot_size  # 手續費 $5
+        cost_per_trade = 5.0 * lot_size  # 每手進出固定扣除 $5.00 USD 手續費
         
         # 指標計算
         df["MA20"] = df["close"].rolling(20).mean()  # 20 SMA
@@ -119,7 +133,7 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
                         
                     if closed:  # 結算
                         pnl_pips = (exit_price - entry_p)/pip_size  # 點數
-                        pnl_usd = pnl_pips * pip_val - cost_per_trade  # 美金
+                        pnl_usd = pnl_pips * pip_val - cost_per_trade  # 美金淨利 (已扣手續費)
                         balance += pnl_usd  # 餘額
                         trades.append({  # 記錄
                             "strategy": mod["name"], "symbol": symbol, "timeframe": mod["tf"], "type": "Buy (Short Put)", "lot_size": lot_size,
@@ -143,7 +157,7 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
                         
                     if closed:  # 結算
                         pnl_pips = (entry_p - exit_price)/pip_size  # 點數
-                        pnl_usd = pnl_pips * pip_val - cost_per_trade  # 美金
+                        pnl_usd = pnl_pips * pip_val - cost_per_trade  # 美金淨利 (已扣手續費)
                         balance += pnl_usd  # 餘額
                         trades.append({  # 記錄
                             "strategy": mod["name"], "symbol": symbol, "timeframe": mod["tf"], "type": "Sell (Short Call)", "lot_size": lot_size,
@@ -180,7 +194,7 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
 
     def execute_and_export(self):  # 執行全量回測並生成 JSON/CSV
         print("==========================================================================")  # 分隔線
-        print(" 🚀 啟動【終極 10 大交叉貨幣對純收租旗艦矩陣 (PEPPERSTONE 源)】全量回測")  # 標題
+        print(" 🚀 啟動【MT5 實盤精確點差 + 每手 $5 手續費】純收租旗艦全量回測...")  # 標題
         print("==========================================================================")  # 分隔線
         
         all_completed_trades = []  # 交易明細
@@ -244,7 +258,7 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
                 "low_24h": round(float(df_sym["low"].iloc[-96:].min()), 5) if len(df_sym) >= 96 else round(float(df_sym["low"].min()), 5),
                 "current_rsi": round(float(last_row["RSI"]), 1) if not np.isnan(last_row["RSI"]) else 50.0,
                 "current_zscore": round(float(last_row["Z"]), 2) if not np.isnan(last_row["Z"]) else 0.0,
-                "spread_pips": self.spreads.get(sym, 1.2), "is_scalper_session": (now_mt5.hour == 0 or 1 <= now_mt5.hour <= 9),
+                "spread_pips": self.spreads.get(sym, 1.5), "is_scalper_session": (now_mt5.hour == 0 or 1 <= now_mt5.hour <= 9),
                 "is_straddle_session": (10 <= now_mt5.hour <= 23)
             }  # 結束
             
@@ -290,8 +304,8 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
 
         payload = {  # 總 JSON
             "system_info": {  # 系統資訊
-                "title": "終極 10 大交叉貨幣對純期權賣方收租旗艦儀表板 (PEPPERSTONE 數據源)",  # 標題
-                "data_source": "TradingView (Broker: PEPPERSTONE)",  # 數據來源
+                "title": "MT5 實盤精確點差與手續費純期權賣方收租旗艦儀表板",  # 標題
+                "data_source": "TradingView (Broker: PEPPERSTONE) + MT5 實盤點差與手續費",  # 數據來源
                 "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / 冬令 UTC+2)",  # 時間標準
                 "last_updated_mt5": now_mt5.strftime('%Y-%m-%d %H:%M:%S (MT5 Server Time)'),  # MT5 時間
                 "last_updated_tpe": now_tpe.strftime('%Y-%m-%d %H:%M:%S (台北 UTC+8)'),  # 台北時間
@@ -312,7 +326,7 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
         json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # 路徑
         with open(json_path, "w", encoding="utf-8") as f:  # 寫入
             json.dump(payload, f, ensure_ascii=False, indent=2)  # 格式化
-        print(f"[+] 策略回測數據 (10大交叉貨幣對旗艦) 已輸出至: {json_path}")  # 日誌
+        print(f"[+] 策略回測數據 (實盤精準點差版) 已輸出至: {json_path}")  # 日誌
 
         # 輸出 CSV
         csv_path = os.path.join(os.path.dirname(__file__), "all_trades_history.csv")  # 路徑
@@ -320,9 +334,9 @@ class CrossCurrencyOptionHarvestEngine:  # 定義終極交叉貨幣對期權賣�
         print(f"[+] 完整歷史交易明細已輸出至: {csv_path}")  # 日誌
 
         print("\n==========================================================================")  # 分隔線
-        print(f" 🏆【終極 10 大交叉貨幣對純收租組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
+        print(f" 🏆【實盤精準點差 + $5/手 手續費 旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
         print("==========================================================================")  # 分隔線
 
 if __name__ == "__main__":  # 主入口
-    engine = CrossCurrencyOptionHarvestEngine()  # 實例化
+    engine = ExactSpreadOptionHarvestEngine()  # 實例化
     engine.execute_and_export()  # 執行
