@@ -81,7 +81,7 @@ def calculate_metrics_for_trades(trades_list, initial_capital=100000.0):  # 計�
 
 def main():  # 主程式
     print("==========================================================================")  # 分隔線
-    print(" 📊 開始生成【純期權賣方收租量化旗艦組合】深度績效與風控指標分析報告...")  # 標題
+    print(" 📊 開始生成【1:00 以後正常低點差時段 8 大王牌收租組合】深度績效與風控指標分析報告...")  # 標題
     print("==========================================================================")  # 分隔線
     
     json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # JSON 路徑
@@ -97,7 +97,7 @@ def main():  # 主程式
     
     rows = []  # 報表列陣列
     
-    # 1. 逐一計算 10 大獨立模組之指標
+    # 1. 逐一計算 8 大獨立模組之指標
     for mod in modules_meta:  # 遍歷模組
         mod_id = mod["module_id"]  # ID
         sym = mod["symbol"]  # 品種
@@ -122,7 +122,7 @@ def main():  # 主程式
     p = calculate_metrics_for_trades(all_trades, initial_capital=100000.0)  # 組合指標
     if p:  # 若計算成功
         rows.append({  # 加入組合總結列
-            "類型": "🏆 全旗艦組合", "模組識別碼": "PORTFOLIO_TOTAL", "交易品種": "10大交叉對組合", "週期": "5M / 15M",
+            "類型": "🏆 全旗艦組合", "模組識別碼": "PORTFOLIO_TOTAL", "交易品種": "8大王牌組合 (避開換日點差)", "週期": "15M / 1H",
             "總交易次數": p["total_trades"], "獲利筆數(W)": p["wins"], "虧損筆數(L)": p["losses"],
             "勝率(%)": f"{p['win_rate_pct']}%", "實質總淨利(USD)": f"${p['total_pnl_usd']:,.2f}",
             "總投報率(%)": f"{p['total_roi_pct']}%", "預估年化報酬(%)": f"{p['annualized_return_pct']}%",
@@ -140,7 +140,7 @@ def main():  # 主程式
     
     # 終端輸出完整漂亮表格
     print("\n==========================================================================")  # 分隔線
-    print(" 🏆【純期權賣方收租 10 大模組與旗艦組合深度績效報告】")  # 標題
+    print(" 🏆【純期權賣方收租 8 大王牌模組與旗艦組合深度績效報告】")  # 標題
     print("==========================================================================")  # 分隔線
     print(df_report.to_string(index=False))  # 輸出表格
 
