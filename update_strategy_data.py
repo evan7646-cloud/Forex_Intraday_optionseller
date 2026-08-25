@@ -32,16 +32,16 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
             "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
         }  # 匯率結束
 
-        # 方案 D 專屬 8 大王牌收租模組 (勝率 65.71%, 獲利因子 1.75, 實質淨利 +$12,884 USD, 夏普 3.53)
+        # 方案 D 專屬 8 大王牌收租模組 (勝率 65.33%, 獲利因子 1.87, 實質淨利 +$14,546.95 USD, 夏普 4.01)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPJPY_1H_US", "symbol": "GBPJPY", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率61.4% / PF 1.74)"},   # GBPJPY 1h
-            {"module_id": "Opt_EURAUD_1H_US", "symbol": "EURAUD", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 1.5, "name": "1h 歐澳美盤極限賣方收租 (勝率57.1% / PF 2.71)"},   # EURAUD 1h
-            {"module_id": "Opt_GBPUSD_15M_US", "symbol": "GBPUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率65.7% / PF 1.71)"}, # GBPUSD 15m
-            {"module_id": "Opt_EURUSD_15M_US", "symbol": "EURUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率62.3% / PF 1.61)"}, # EURUSD 15m
+            {"module_id": "Opt_GBPJPY_1H_US", "symbol": "GBPJPY", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率64.6% / PF 1.90)"},   # GBPJPY 1h
+            {"module_id": "Opt_EURAUD_1H_US", "symbol": "EURAUD", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 1.5, "name": "1h 歐澳美盤極限賣方收租 (勝率55.0% / PF 2.44)"},   # EURAUD 1h
+            {"module_id": "Opt_GBPUSD_15M_US", "symbol": "GBPUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率67.7% / PF 1.81)"}, # GBPUSD 15m
+            {"module_id": "Opt_EURUSD_15M_US", "symbol": "EURUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率61.5% / PF 1.58)"}, # EURUSD 15m
             {"module_id": "Opt_AUDCHF_1H_DAY", "symbol": "AUDCHF", "tf": "1h",  "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 2.5, "name": "1h 澳瑞全天避險均值回歸 (勝率59.4% / PF 2.23)"}, # AUDCHF 1h
             {"module_id": "Opt_EURJPY_15M_DAY", "symbol": "EURJPY", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 3.0, "sl": 2.0, "name": "15m 歐日全天極限波動收租 (勝率75.0% / PF 1.75)"}, # EURJPY 15m
-            {"module_id": "Opt_NZDCHF_15M_DAY", "symbol": "NZDCHF", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 3.0, "sl": 2.5, "name": "15m 紐瑞全天通道賣方收租 (勝率73.8% / PF 2.40)"}, # NZDCHF 15m
-            {"module_id": "Opt_AUDUSD_15M_US", "symbol": "AUDUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.5, "name": "15m 澳美美盤經典均值收租 (勝率69.1% / PF 1.68)"}  # AUDUSD 15m
+            {"module_id": "Opt_USDCAD_1H_DAY",  "symbol": "USDCAD", "tf": "1h",  "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 12, "f_hr": 22, "sigma": 2.2, "sl": 2.5, "name": "1h 美加亞洲白天通道收租 (勝率60.6% / PF 1.62)"}, # USDCAD 1h
+            {"module_id": "Opt_AUDUSD_15M_US", "symbol": "AUDUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.5, "name": "15m 澳美美盤經典均值收租 (勝率70.0% / PF 1.72)"}  # AUDUSD 15m
         ]  # 清單結束
 
     def get_pip_specs(self, symbol: str):  # 依據計價貨幣計算每點單位與換算美金價值
@@ -106,7 +106,7 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
             atr = float(df["ATR"].iloc[i])  # ATR
             
             # 開倉時間檢查
-            if mod["s_hr"] == 1:  # 白天組 (MT5 01:15 ~ 18:59 / 台北 06:15 ~ 23:59)
+            if mod["s_hr"] == 1:  # 白天組 (MT5 01:15 ~ 18:00 / 台北 06:15 ~ 23:00)
                 is_entry = (hr == 1 and minute >= 15) or (2 <= hr <= mod["e_hr"])  # 條件
             else:  # 美盤午後組 (MT5 13:00 ~ 18:59 / 台北 18:00 ~ 23:59)
                 is_entry = (mod["s_hr"] <= hr <= mod["e_hr"])  # 條件
@@ -189,7 +189,7 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
 
     def execute_and_export(self):  # 執行全量回測並生成 JSON/CSV
         print("==========================================================================")  # 分隔線
-        print(" 🚀 啟動【方案 D：全天分工收租旗艦 8 大王牌模組】全量回測...")  # 標題
+        print(" 🚀 啟動【方案 D：全天分工收租旗艦 8 大王牌模組】全量回測 (即時精準校準)...")  # 標題
         print("==========================================================================")  # 分隔線
         
         all_completed_trades = []  # 交易明細

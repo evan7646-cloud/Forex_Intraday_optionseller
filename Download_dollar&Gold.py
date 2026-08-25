@@ -37,38 +37,45 @@ def fetch_symbol_with_retry(tv: TvDatafeed, symbol: str, exchange: str, interval
 
 def main():  # 主程式進入點
     print("==========================================================================")  # 分隔線
-    print(" 🚀 TradingView (PEPPERSTONE) 全品種精準時區對齊下載器 (台北 UTC+8 -> MT5 UTC+3)")  # 標題
+    print(" 🚀 TradingView (PEPPERSTONE) 全量商品時區校正下載器 (台北 UTC+8 -> MT5 UTC+3)")  # 標題
     print("==========================================================================")  # 分隔線
     
     tv = TvDatafeed()  # 建立 TradingView 連線實例
     output_dir = "data_pepperstone"  # 目標儲存目錄
     os.makedirs(output_dir, exist_ok=True)  # 自動建立資料夾
 
-    # 包含 8 大核心及主要外匯標的
+    # 完整 8 大核心模組及所有重要貨幣對
     assets = [  # 標的清單
+        ("GBPJPY", "PEPPERSTONE", "GBPJPY"),  # GBPJPY (方案 D 1h 核心)
+        ("EURAUD", "PEPPERSTONE", "EURAUD"),  # EURAUD (方案 D 1h 核心)
+        ("GBPUSD", "PEPPERSTONE", "GBPUSD"),  # GBPUSD (方案 D 15m 核心)
+        ("EURUSD", "PEPPERSTONE", "EURUSD"),  # EURUSD (方案 D 15m 核心)
+        ("AUDCHF", "PEPPERSTONE", "AUDCHF"),  # AUDCHF (方案 D 1h 核心)
+        ("EURJPY", "PEPPERSTONE", "EURJPY"),  # EURJPY (方案 D 15m 核心)
+        ("NZDCHF", "PEPPERSTONE", "NZDCHF"),  # NZDCHF (方案 D 15m 核心)
+        ("AUDUSD", "PEPPERSTONE", "AUDUSD"),  # AUDUSD (方案 D 15m 核心)
         ("GBPCHF", "PEPPERSTONE", "GBPCHF"),  # GBPCHF
         ("EURGBP", "PEPPERSTONE", "EURGBP"),  # EURGBP
         ("GBPCAD", "PEPPERSTONE", "GBPCAD"),  # GBPCAD
-        ("GBPUSD", "PEPPERSTONE", "GBPUSD"),  # GBPUSD
-        ("EURAUD", "PEPPERSTONE", "EURAUD"),  # EURAUD
         ("CADCHF", "PEPPERSTONE", "CADCHF"),  # CADCHF
         ("GBPAUD", "PEPPERSTONE", "GBPAUD"),  # GBPAUD
         ("EURCHF", "PEPPERSTONE", "EURCHF"),  # EURCHF
-        ("EURUSD", "PEPPERSTONE", "EURUSD"),  # EURUSD
         ("USDCAD", "PEPPERSTONE", "USDCAD"),  # USDCAD
         ("USDCHF", "PEPPERSTONE", "USDCHF"),  # USDCHF
         ("USDJPY", "PEPPERSTONE", "USDJPY"),  # USDJPY
         ("AUDCAD", "PEPPERSTONE", "AUDCAD"),  # AUDCAD
-        ("AUDCHF", "PEPPERSTONE", "AUDCHF"),  # AUDCHF
-        ("EURCAD", "PEPPERSTONE", "EURCAD")   # EURCAD
+        ("EURCAD", "PEPPERSTONE", "EURCAD"),  # EURCAD
+        ("AUDNZD", "PEPPERSTONE", "AUDNZD"),  # AUDNZD
+        ("NZDCAD", "PEPPERSTONE", "NZDCAD"),  # NZDCAD
+        ("GBPNZD", "PEPPERSTONE", "GBPNZD"),  # GBPNZD
+        ("EURNZD", "PEPPERSTONE", "EURNZD")   # EURNZD
     ]  # 標的結束
 
     # 定義要下載的週期陣列
     timeframes = [  # 週期清單
-        ("5m", Interval.in_5_minute, 6000),    # 5 分鐘線
+        ("5m", Interval.in_5_minute, 5000),    # 5 分鐘線
         ("15m", Interval.in_15_minute, 5000),  # 15 分鐘線 (約 3 個月)
-        ("1h", Interval.in_1_hour, 5000),      # 1 小時線 (約 10 個月)
-        ("daily", Interval.in_daily, 5000)     # 日線 (約 15 年)
+        ("1h", Interval.in_1_hour, 5000)       # 1 小時線 (約 10 個月)
     ]  # 週期結束
 
     for symbol, exchange, desc in assets:  # 遍歷標的
@@ -96,12 +103,12 @@ def main():  # 主程式進入點
                 df_out['volume'] = df['volume']  # 成交量
                 
                 df_out.to_csv(filepath, index=False, encoding='utf-8')  # 儲存
-                print(f"  ✅ [{tf_name}] 成功下載並精準校正時區 {len(df_out)} 筆 K 線 -> 最新 MT5: {df_out['timestamp_mt5'].iloc[-1]} (台北: {df_out['timestamp_tpe'].iloc[-1]})")  # 日誌
+                print(f"  ✅ [{tf_name}] 成功更新 {len(df_out)} 筆 -> 最新 MT5: {df_out['timestamp_mt5'].iloc[-1]} (台北: {df_out['timestamp_tpe'].iloc[-1]})")  # 日誌
             else:  # 失敗
                 print(f"  ❌ [{tf_name}] 下載失敗")  # 失敗
-            time.sleep(0.2)  # 延遲
+            time.sleep(0.15)  # 延遲
 
-    print("\n[+] 全部數據下載與精確時區校正完畢！")  # 完成
+    print("\n[+] 全部最新數據下載與精確 MT5 時區校正完畢！")  # 完成
 
 if __name__ == "__main__":  # 主入口
     main()  # 執行
