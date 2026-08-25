@@ -4,12 +4,15 @@
     <meta charset="UTF-8"> <!-- 設定 UTF-8 編碼 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 響應式視窗縮放設定 -->
     <title>方案 D【全天分工收租旗艦 8 大王牌模組】量化監控儀表板</title> <!-- 網頁分頁標題 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"> <!-- 禁止快取指令 -->
+    <meta http-equiv="Pragma" content="no-cache"> <!-- HTTP 1.0 防快取 -->
+    <meta http-equiv="Expires" content="0"> <!-- 快取立即過期 -->
     <!-- 引入 Google Fonts 現代視效字型 Outfit 與 JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"> <!-- 字型樣式表 -->
     <!-- 引入 Plotly.js 互動繪圖函式庫 CDN -->
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script> <!-- Plotly 圖表引擎 -->
     <!-- 引入自訂視覺樣式表 styles.css -->
-    <link rel="stylesheet" href="styles.css"> <!-- 載入 CSS 樣式 -->
+    <link rel="stylesheet" href="styles.css?v=3.0"> <!-- 載入 CSS 樣式並附帶版本號防快取 -->
 </head> <!-- 標頭區塊結束 -->
 <body> <!-- 網頁本體區塊開始 -->
     <div class="dashboard-container"> <!-- 儀表板全域排版容器 -->
@@ -248,6 +251,6 @@
     </div> <!-- 儀表板全域排版容器結束 -->
 
     <!-- 引入應用程式主邏輯 app.js -->
-    <script src="app.js"></script> <!-- 載入前端邏輯 -->
+    <script src="app.js?v=3.0"></script> <!-- 載入前端邏輯並加入防快取版本號 -->
 </body> <!-- 網頁本體區塊結束 -->
 </html> <!-- HTML5 文件結束 -->
