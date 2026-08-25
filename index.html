@@ -36,6 +36,18 @@
             </div>
         </header> <!-- 頂部列結束 -->
 
+        <!-- 模組快選按鈕列 -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin: 12px 0 16px 0; background:rgba(22,27,34,0.8); padding:10px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <span style="font-weight:700; color:#8b949e; font-size:13px;">🎛️ 策略模組快選:</span>
+            <div class="preset-buttons-group" style="display:flex; gap:8px;">
+                <button id="btn-toggle-all" class="preset-btn active">全部 10 大交叉收租模組</button>
+                <button id="btn-toggle-scalper" class="preset-btn">🇬🇧 英鎊交叉收租組</button>
+                <button id="btn-toggle-straddle" class="preset-btn">🇪🇺 歐元交叉收租組</button>
+                <button id="btn-select-all" class="preset-btn">全選商品</button>
+                <button id="btn-clear-all" class="preset-btn">清除篩選</button>
+            </div>
+        </div>
+
         <!-- 第一區：即時行情與指標狀態跑馬卡片 -->
         <section class="market-status-strip" id="market-tickers-container"> <!-- 即時報價小卡容器 -->
             <!-- JavaScript 動態渲染 5 大貨幣對即時報價、RSI 與 Z-Score -->

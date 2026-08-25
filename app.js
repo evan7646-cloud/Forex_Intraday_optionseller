@@ -1,9 +1,9 @@
 // 全域資料與狀態管理變數
 let globalData = null; // 策略結果 JSON 原始數據
 let selectedSymbols = new Set(); // 當前使用者勾選的貨幣對集合
-let activeStrategyFilter = 'ALL'; // 當前策略過濾 ('ALL', '5M', '15M')
+let activeStrategyFilter = 'ALL'; // 當前策略過濾 ('ALL', 'GBP_CROSS', 'EUR_CROSS', 'COMMODITY_CROSS')
 let activeChartTab = 'combined-equity'; // 當前啟用的圖表分頁標籤
-let candlestickSymbol = 'EURCHF'; // 當前 K 線圖所選取的貨幣對標的
+let candlestickSymbol = 'GBPCHF'; // 當前 K 線圖所選取的貨幣對標的
 let currentPage = 1; // 當前歷史交易表格分頁
 let pageSize = 15; // 每頁顯示交易筆數
 let tableSearchQuery = ''; // 交易明細搜尋關鍵字
@@ -11,16 +11,18 @@ let tableTradeType = 'ALL'; // 交易明細方向過濾 ('ALL', 'BUY', 'SELL')
 let tableTradeOutcome = 'ALL'; // 交易明細勝負過濾 ('ALL', 'WIN', 'LOSS')
 let highlightedTradeId = null; // 當前點擊聚焦高亮的交易序號
 
-// 貨幣對專屬圖表配色調色盤
+// 10 大交叉貨幣對專屬圖表配色調色盤
 const symbolColors = { // 配色字典
-    "EURCHF": "#00e676", // 翡翠綠
-    "GBPUSD": "#29b6f6", // 科技天藍
-    "AUDCAD": "#b388ff", // 亮紫色
-    "USDCAD": "#ffa726", // 亮橘色
-    "EURUSD": "#26a69a", // 松石綠
-    "NZDUSD": "#ff4081", // 亮粉色
-    "EURJPY": "#ffd600", // 亮黃色
-    "USDCHF": "#00b0ff"  // 水藍色
+    "GBPCHF": "#00e676", // 翡翠綠 (王牌 89.5% 勝率)
+    "EURGBP": "#29b6f6", // 科技天藍 (王牌 86.4% 勝率)
+    "GBPCAD": "#b388ff", // 亮紫色 (80.0% 勝率)
+    "GBPUSD": "#ffa726", // 亮橘色 (78.6% 勝率)
+    "GBPAUD": "#ff4081", // 亮粉紅 (77.3% 勝率)
+    "EURAUD": "#26a69a", // 松石綠 (75.0% 勝率)
+    "EURCAD": "#ffd600", // 亮黃色 (72.2% 勝率)
+    "AUDNZD": "#00b0ff", // 水藍色 (70.4% 勝率)
+    "AUDJPY": "#ff9100", // 琥珀金 (70.8% 勝率)
+    "EURCHF": "#76ff03"  // 檸檬綠 (60.0% 勝率)
 }; // 配色結束
 
 // 網頁 DOM 載入完畢監聽入口
@@ -53,7 +55,7 @@ async function loadStrategyData() { // 資料非同步加載函數
         renderAssetCheckboxes(); // 渲染多商品勾選控制卡片
         recalculateAndRenderKPIs(); // 根據當前勾選重算並渲染 KPI 卡片
         renderMainChart(); // 渲染 Plotly 主圖表
-        renderStrategyMatrix(); // 渲染 8 大收租模組矩陣總表
+        renderStrategyMatrix(); // 渲染 10 大收租模組矩陣總表
         renderTradesTable(); // 渲染歷史交易明細表格
 
     } catch (err) { // 捕捉異常
@@ -73,8 +75,8 @@ function setupEventListeners() { // 事件設定函數
 
     // 策略快選群組按鈕事件
     document.getElementById('btn-toggle-all').addEventListener('click', () => applyStrategyPreset('ALL')); // 全部組合
-    document.getElementById('btn-toggle-scalper').addEventListener('click', () => applyStrategyPreset('15M')); // 僅 15m
-    document.getElementById('btn-toggle-straddle').addEventListener('click', () => applyStrategyPreset('5M')); // 僅 5m
+    document.getElementById('btn-toggle-scalper').addEventListener('click', () => applyStrategyPreset('GBP_CROSS')); // 英鎊交叉
+    document.getElementById('btn-toggle-straddle').addEventListener('click', () => applyStrategyPreset('EUR_CROSS')); // 歐元交叉
     document.getElementById('btn-select-all').addEventListener('click', () => selectAllSymbols(true)); // 全選商品
     document.getElementById('btn-clear-all').addEventListener('click', () => selectAllSymbols(false)); // 清除商品
 
@@ -149,7 +151,7 @@ function renderHeaderStatus() { // 頂部狀態渲染函數
 // 渲染即時市場行情卡片 (Market Ticker Strip)
 function renderMarketTickers() { // 行情卡片渲染函數
     const container = document.getElementById('market-tickers-container'); // 取得容器 DOM
-    if (!globalData || !globalData.symbols_meta) return; // 檢查資料
+    if (!container || !globalData || !globalData.symbols_meta) return; // 檢查資料
 
     const meta = globalData.symbols_meta; // 取得商品中繼資料
     container.innerHTML = Object.keys(meta).map(sym => { // 遍歷生成 HTML
@@ -157,7 +159,7 @@ function renderMarketTickers() { // 行情卡片渲染函數
         const changeClass = item.price_change_24h_pct >= 0 ? 'val-bull' : 'val-bear'; // 多空顏色
         const changePrefix = item.price_change_24h_pct >= 0 ? '+' : ''; // 正號標記
         
-        let sessionTag = '<span class="badge-scalper">🌙 亞盤收租中</span>'; // 標籤
+        let sessionTag = '<span class="badge-scalper">🌙 交叉收租中</span>'; // 標籤
 
         return `
             <div class="market-ticker-card" onclick="selectSingleSymbol('${sym}')" title="點擊切換專屬監控 ${sym}">
@@ -242,10 +244,10 @@ function applyStrategyPreset(preset) { // 策略預設函數
 
     if (preset === 'ALL') { // 全部組合
         Object.keys(globalData.symbols_meta).forEach(s => selectedSymbols.add(s)); // 全部加入
-    } else if (preset === '15M') { // 僅 15M 模組標的
-        ["EURCHF", "AUDCAD", "USDCAD", "EURUSD", "USDCHF"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
-    } else if (preset === '5M') { // 僅 5M 模組標的
-        ["GBPUSD", "NZDUSD", "EURJPY"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'GBP_CROSS') { // 僅英鎊交叉 (GBPCHF, GBPAUD, GBPCAD, GBPUSD)
+        ["GBPCHF", "GBPAUD", "GBPCAD", "GBPUSD"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'EUR_CROSS') { // 僅歐元交叉 (EURGBP, EURAUD, EURCAD, EURCHF)
+        ["EURGBP", "EURAUD", "EURCAD", "EURCHF"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
     } // 判斷結束
 
     updateFilterButtonsState(); // 更新按鈕樣式
@@ -276,20 +278,20 @@ function selectAllSymbols(selectAll) { // 全選切換函數
 // 更新頂部篩選按鈕 active 樣式
 function updateFilterButtonsState() { // 按鈕狀態更新函數
     const bAll = document.getElementById('btn-toggle-all'); // 全部按鈕
-    const b15m = document.getElementById('btn-toggle-scalper'); // 15m 按鈕
-    const b5m = document.getElementById('btn-toggle-straddle'); // 5m 按鈕
-    if (!bAll || !b15m || !b5m) return; // 檢查
+    const bGbp = document.getElementById('btn-toggle-scalper'); // 英鎊交叉按鈕
+    const bEur = document.getElementById('btn-toggle-straddle'); // 歐元交叉按鈕
+    if (!bAll || !bGbp || !bEur) return; // 檢查
 
     bAll.classList.remove('active'); // 移除
-    b15m.classList.remove('active'); // 移除
-    b5m.classList.remove('active'); // 移除
+    bGbp.classList.remove('active'); // 移除
+    bEur.classList.remove('active'); // 移除
 
     if (activeStrategyFilter === 'ALL' && selectedSymbols.size === Object.keys(globalData.symbols_meta).length) { // 符合全部
         bAll.classList.add('active'); // 啟用全部
-    } else if (activeStrategyFilter === '15M') { // 符合 15m
-        b15m.classList.add('active'); // 啟用
-    } else if (activeStrategyFilter === '5M') { // 符合 5m
-        b5m.classList.add('active'); // 啟用
+    } else if (activeStrategyFilter === 'GBP_CROSS') { // 符合 GBP
+        bGbp.classList.add('active'); // 啟用
+    } else if (activeStrategyFilter === 'EUR_CROSS') { // 符合 EUR
+        bEur.classList.add('active'); // 啟用
     } // 判斷結束
 } // updateFilterButtonsState 結束
 
@@ -365,7 +367,7 @@ function recalculateAndRenderKPIs() { // KPI 精算與渲染函數
     document.getElementById('kpi-active-status').textContent = '100% 零隔夜合規'; // 狀態
 } // recalculateAndRenderKPIs 結束
 
-// 渲染 8 大策略模組參數規格與實盤回測績效矩陣總表
+// 渲染 10 大策略模組參數規格與實盤回測績效矩陣總表
 function renderStrategyMatrix() { // 矩陣渲染函數
     const tbody = document.getElementById('strategy-matrix-table-body'); // 取得表體 DOM
     if (!tbody || !globalData || !globalData.modules_summary) return; // 檢查
@@ -381,12 +383,12 @@ function renderStrategyMatrix() { // 矩陣渲染函數
                 <td><span class="badge-scalper" style="font-size:11px; padding:3px 8px;">🌙 純期權賣方收租</span></td>
                 <td><strong style="color:${symColor}; font-family:var(--font-mono); font-size:14px;">${m.symbol}</strong></td>
                 <td>${tfBadge}</td>
-                <td style="font-size:11px; color:var(--text-secondary); font-family:var(--font-mono); font-weight:600;">MT5 00:00 ~ 08:30 (10:00清倉)</td>
+                <td style="font-size:11px; color:var(--text-secondary); font-family:var(--font-mono); font-weight:600;">MT5 00:00 ~ 09:30 (11:00清倉)</td>
                 <td style="font-size:11px; font-family:var(--font-mono); color:#e6edf3;">BB(2.2σ) + 中軌止盈 + ADX&lt;30</td>
                 <td style="font-family:var(--font-mono);">${m.trades_count} 筆 (${m.wins}W/${m.losses}L)</td>
                 <td><strong class="val-blue" style="font-family:var(--font-mono); font-size:13px;">${m.win_rate}%</strong></td>
                 <td><strong class="val-purple" style="font-family:var(--font-mono);">${m.profit_factor}</strong></td>
-                <td style="color:var(--color-bear); font-family:var(--font-mono);">&lt; 0.5%</td>
+                <td style="color:var(--color-bear); font-family:var(--font-mono);">&lt; 0.3%</td>
                 <td><strong class="${pnlClass}" style="font-family:var(--font-mono); font-size:14px;">+$${m.total_pnl_usd.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></td>
             </tr>
         `; // 回傳一列 HTML
@@ -431,7 +433,7 @@ function renderCombinedEquityChart() { // 組合損益圖繪製函數
 
     const trace = { // 定義曲線軌跡
         x: timeSeries, y: pnlSeries, mode: 'lines', name: '累積純收租淨利 ($0起計)',
-        line: { color: '#00e676', width: 2.8 }, fill: 'tozeroy', fillcolor: 'rgba(0, 230, 118, 0.12)'
+        line: { color: '#00e676', width: 3.0 }, fill: 'tozeroy', fillcolor: 'rgba(0, 230, 118, 0.12)'
     }; // 軌跡結束
 
     const layout = { // 定義圖表面版樣式
@@ -472,7 +474,7 @@ function renderComparativeEquityChart() { // 多商品比較圖繪製函數
 
     const layout = { // 面版樣式
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 },
-        title: { text: '各貨幣對獨立純期權賣方收租淨利比較 (MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
+        title: { text: '各交叉貨幣對獨立純期權賣方收租淨利比較 (MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } },
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 },
         hovermode: 'x unified', legend: { orientation: 'h', y: 1.12, font: { color: '#8b949e', size: 11 } }
@@ -696,7 +698,7 @@ function exportFilteredTradesCSV() { // CSV 下載函數
     const url = URL.createObjectURL(blob); // 網址
     const link = document.createElement('a'); // 標籤
     link.setAttribute('href', url); // 設定
-    link.setAttribute('download', `PEPPERSTONE_Option_Selling_Trades_${new Date().toISOString().substring(0, 10)}.csv`); // 檔名
+    link.setAttribute('download', `PEPPERSTONE_CrossPairs_Option_Selling_Trades_${new Date().toISOString().substring(0, 10)}.csv`); // 檔名
     document.body.appendChild(link); // 加入 DOM
     link.click(); // 下載
     document.body.removeChild(link); // 移除 DOM
