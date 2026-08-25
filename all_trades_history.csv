@@ -1,151 +1,111 @@
 ﻿strategy,symbol,timeframe,type,lot_size,entry_time,entry_price,exit_time,exit_price,pnl_usd,pnl_pips,exit_reason,duration_mins,win,module_id,global_id
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-25 02:50:00,1.36371,2026-08-25 03:00:00,1.36406,-40.43,-3.5,SL (-2.0 ATR),10,False,Opt_GBPUSD_5M,1
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,1.09278,2026-08-25 01:15:00,1.09373,113.43,9.5,BB Middle (Mean Reversion),75,True,Opt_GBPCHF_15M,2
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,1.88605,2026-08-25 01:45:00,1.88703,65.78,9.8,BB Middle (Mean Reversion),105,True,Opt_GBPCAD_15M,3
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,0.5728,2026-08-25 01:00:00,0.57348,79.77,6.8,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,4
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,0.8018,2026-08-25 04:00:00,0.80231,58.58,5.1,BB Middle (Mean Reversion),240,True,Opt_USDCHF_15M,5
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-08-24 03:30:00,0.9349,2026-08-24 08:15:00,0.93485,-11.23,-0.5,BB Middle (Mean Reversion),285,False,Opt_EURCHF_15M,6
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-08-24 03:00:00,0.80023,2026-08-24 06:30:00,0.8004,16.19,1.7,BB Middle (Mean Reversion),210,True,Opt_USDCHF_15M,7
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-08-21 06:15:00,0.857,2026-08-21 08:45:00,0.85695,1.82,0.5,BB Middle (Mean Reversion),150,True,Opt_EURGBP_15M,8
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-08-20 06:15:00,0.858,2026-08-20 08:45:00,0.85816,16.82,1.6,BB Middle (Mean Reversion),150,True,Opt_EURGBP_15M,9
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-20 05:00:00,1.36117,2026-08-20 05:40:00,1.36056,56.0,6.1,BB Middle (Mean Reversion),40,True,Opt_GBPUSD_5M,10
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Sell (Short Call),1.0,2026-08-20 03:45:00,0.79899,2026-08-20 04:00:00,0.80001,-131.8,-10.2,SL (-2.0 ATR),15,False,Opt_USDCHF_15M,11
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Sell (Short Call),1.0,2026-08-20 03:15:00,0.79819,2026-08-20 03:45:00,0.79906,-113.99,-8.7,SL (-2.0 ATR),30,False,Opt_USDCHF_15M,12
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-20 02:30:00,1.36007,2026-08-20 03:00:00,1.36055,43.0,4.8,BB Middle (Mean Reversion),30,True,Opt_GBPUSD_5M,13
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-20 00:05:00,1.35992,2026-08-20 00:25:00,1.36044,47.0,5.2,BB Middle (Mean Reversion),20,True,Opt_GBPUSD_5M,14
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-08-19 05:15:00,1.8792,2026-08-19 08:30:00,1.87951,17.39,3.1,BB Middle (Mean Reversion),195,True,Opt_GBPCAD_15M,15
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-19 03:00:00,1.35401,2026-08-19 03:30:00,1.3536,36.0,4.1,BB Middle (Mean Reversion),30,True,Opt_GBPUSD_5M,16
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-08-18 06:15:00,0.85504,2026-08-18 08:15:00,0.85488,16.82,1.6,BB Middle (Mean Reversion),120,True,Opt_EURGBP_15M,17
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-18 02:35:00,1.35492,2026-08-18 02:45:00,1.35526,-39.0,-3.4,SL (-2.0 ATR),10,False,Opt_GBPUSD_5M,18
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,1.09681,2026-08-18 01:00:00,1.09831,181.99,15.0,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,19
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,1.90551,2026-08-18 01:00:00,1.90609,36.18,5.8,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,20
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,0.93813,2026-08-18 01:00:00,0.939,103.45,8.7,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,21
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-17 07:05:00,1.35548,2026-08-17 07:55:00,1.35522,21.0,2.6,BB Middle (Mean Reversion),50,True,Opt_GBPUSD_5M,22
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-17 06:45:00,1.90891,2026-08-17 07:15:00,1.9073,-119.21,-16.1,SL (-2.0 ATR),30,False,Opt_GBPAUD_15M,23
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-08-17 00:00:00,0.85401,2026-08-17 01:00:00,0.85468,86.38,6.7,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,24
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-08-14 00:00:00,0.85456,2026-08-14 01:00:00,0.85488,38.64,3.2,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,25
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-14 00:00:00,1.34799,2026-08-14 00:30:00,1.3485,46.0,5.1,BB Middle (Mean Reversion),30,True,Opt_GBPUSD_5M,26
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-08-13 04:15:00,1.91225,2026-08-13 06:00:00,1.91391,-122.86,-16.6,SL (-2.0 ATR),105,False,Opt_GBPAUD_15M,27
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-08-13 00:00:00,1.88038,2026-08-13 01:00:00,1.88082,26.78,4.4,BB Middle (Mean Reversion),60,True,Opt_GBPCAD_15M,28
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-12 07:15:00,1.35048,2026-08-12 07:40:00,1.35059,6.0,1.1,BB Middle (Mean Reversion),25,True,Opt_GBPUSD_5M,29
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-11 07:45:00,1.35082,2026-08-11 07:55:00,1.35111,24.0,2.9,BB Middle (Mean Reversion),10,True,Opt_GBPUSD_5M,30
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-08-11 07:30:00,1.91741,2026-08-11 09:00:00,1.91553,128.48,18.8,Zero-Overnight (MT5 09:00),90,True,Opt_GBPAUD_15M,31
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-08-11 06:00:00,0.8545,2026-08-11 07:30:00,0.85423,-41.24,-2.7,SL (-2.0 ATR),90,False,Opt_EURGBP_15M,32
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-11 00:00:00,1.35026,2026-08-11 01:00:00,1.35072,41.0,4.6,BB Middle (Mean Reversion),60,True,Opt_GBPUSD_5M,33
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-10 06:05:00,1.34842,2026-08-10 06:50:00,1.34853,6.0,1.1,BB Middle (Mean Reversion),45,True,Opt_GBPUSD_5M,34
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-08-10 03:45:00,0.85677,2026-08-10 04:45:00,0.85662,15.46,1.5,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,35
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-10 00:45:00,1.90737,2026-08-10 01:45:00,1.90889,102.92,15.2,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,36
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-08-10 00:00:00,1.08787,2026-08-10 01:00:00,1.09033,301.66,24.6,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,37
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-08-10 00:00:00,0.93272,2026-08-10 01:00:00,0.93404,159.55,13.2,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,38
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-07 07:30:00,1.34549,2026-08-07 08:20:00,1.34533,11.0,1.6,BB Middle (Mean Reversion),50,True,Opt_GBPUSD_5M,39
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Sell (Short Call),1.0,2026-08-07 05:45:00,1.88586,2026-08-07 08:00:00,1.88661,-59.27,-7.5,SL (-2.0 ATR),135,False,Opt_GBPCAD_15M,40
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-08-07 05:30:00,1.91523,2026-08-07 08:30:00,1.91446,49.67,7.7,BB Middle (Mean Reversion),180,True,Opt_GBPAUD_15M,41
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-07 00:15:00,1.34445,2026-08-07 00:30:00,1.34513,63.0,6.8,BB Middle (Mean Reversion),15,True,Opt_GBPUSD_5M,42
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-08-07 00:00:00,1.09223,2026-08-07 01:00:00,1.093,90.99,7.7,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,43
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-07 00:00:00,1.9121,2026-08-07 00:15:00,1.91063,-109.17,-14.7,SL (-2.0 ATR),15,False,Opt_GBPAUD_15M,44
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-08-06 06:30:00,1.91004,2026-08-06 09:00:00,1.91147,-106.83,-14.3,SL (-2.0 ATR),150,False,Opt_GBPAUD_15M,45
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-06 05:05:00,1.3472,2026-08-06 05:30:00,1.34693,22.0,2.7,BB Middle (Mean Reversion),25,True,Opt_GBPUSD_5M,46
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-06 02:45:00,1.34704,2026-08-06 03:05:00,1.34679,20.0,2.5,BB Middle (Mean Reversion),20,True,Opt_GBPUSD_5M,47
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-06 00:15:00,1.90659,2026-08-06 01:00:00,1.90803,97.24,14.4,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,48
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Sell (Short Call),1.0,2026-08-05 05:15:00,1.89293,2026-08-05 08:30:00,1.8939,-74.75,-9.7,SL (-2.0 ATR),195,False,Opt_GBPCAD_15M,49
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Buy (Short Put),1.0,2026-08-05 00:00:00,1.34407,2026-08-05 00:15:00,1.34516,104.0,10.9,BB Middle (Mean Reversion),15,True,Opt_GBPUSD_5M,50
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Sell (Short Call),1.0,2026-08-04 04:45:00,0.56805,2026-08-04 06:15:00,0.56877,-94.22,-7.2,SL (-2.0 ATR),90,False,Opt_AUDCHF_15M,51
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-04 04:30:00,1.9163,2026-08-04 04:45:00,1.91454,-129.66,-17.6,SL (-2.0 ATR),15,False,Opt_GBPAUD_15M,52
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-08-04 00:15:00,0.5665,2026-08-04 01:00:00,0.567,57.33,5.0,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,53
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-08-04 00:00:00,0.93216,2026-08-04 01:00:00,0.9325,37.38,3.4,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,54
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-08-03 07:40:00,1.34738,2026-08-03 09:00:00,1.34764,-31.0,-2.6,Zero-Overnight (MT5 09:00),80,False,Opt_GBPUSD_5M,55
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-08-03 03:15:00,0.93058,2026-08-03 04:00:00,0.93183,150.83,12.5,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,56
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-08-03 01:00:00,0.80581,2026-08-03 04:00:00,0.80782,245.57,20.1,BB Middle (Mean Reversion),180,True,Opt_USDCHF_15M,57
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-08-03 00:00:00,1.91227,2026-08-03 01:00:00,1.91569,237.82,34.2,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,58
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-30 04:30:00,1.91841,2026-07-30 06:45:00,1.91967,84.46,12.6,BB Middle (Mean Reversion),135,True,Opt_GBPAUD_15M,59
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-07-29 03:15:00,1.32889,2026-07-29 04:10:00,1.32888,-4.0,0.1,BB Middle (Mean Reversion),55,False,Opt_GBPUSD_5M,60
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-07-29 00:00:00,1.87365,2026-07-29 02:45:00,1.874,20.28,3.5,BB Middle (Mean Reversion),165,True,Opt_GBPCAD_15M,61
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-29 00:00:00,1.90367,2026-07-29 01:15:00,1.90494,85.17,12.7,BB Middle (Mean Reversion),75,True,Opt_GBPAUD_15M,62
-5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00),GBPUSD,5m,Sell (Short Call),1.0,2026-07-28 05:50:00,1.32992,2026-07-28 06:30:00,1.33051,-63.57,-5.9,SL (-2.0 ATR),40,False,Opt_GBPUSD_5M,63
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-07-28 00:15:00,1.08697,2026-07-28 01:00:00,1.0884,173.26,14.3,BB Middle (Mean Reversion),45,True,Opt_GBPCHF_15M,64
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-07-28 00:00:00,0.85485,2026-07-28 01:00:00,0.85546,78.2,6.1,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,65
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-28 00:00:00,1.9001,2026-07-28 01:00:00,1.90146,91.56,13.6,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,66
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-07-27 00:15:00,1.87712,2026-07-27 01:00:00,1.87977,186.4,26.5,BB Middle (Mean Reversion),45,True,Opt_GBPCAD_15M,67
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-27 00:00:00,0.57081,2026-07-27 01:15:00,0.57119,42.37,3.8,BB Middle (Mean Reversion),75,True,Opt_AUDCHF_15M,68
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-27 00:00:00,0.92953,2026-07-27 00:45:00,0.92862,-118.44,-9.1,SL (-2.0 ATR),45,False,Opt_EURCHF_15M,69
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Sell (Short Call),1.0,2026-07-24 05:45:00,1.08786,2026-07-24 08:45:00,1.08788,-7.49,-0.2,BB Middle (Mean Reversion),180,False,Opt_GBPCHF_15M,70
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Sell (Short Call),1.0,2026-07-24 05:45:00,0.92992,2026-07-24 09:00:00,0.92999,-13.73,-0.7,Zero-Overnight (MT5 09:00),195,False,Opt_EURCHF_15M,71
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-24 00:15:00,0.92857,2026-07-24 01:00:00,0.92915,67.3,5.8,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,72
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-07-24 00:15:00,0.81595,2026-07-24 01:00:00,0.81669,87.25,7.4,BB Middle (Mean Reversion),45,True,Opt_USDCHF_15M,73
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-07-23 06:00:00,0.85351,2026-07-23 07:00:00,0.85388,-55.66,-3.7,SL (-2.0 ATR),60,False,Opt_EURGBP_15M,74
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Sell (Short Call),1.0,2026-07-23 05:30:00,0.9297,2026-07-23 09:00:00,0.9299,-29.93,-2.0,Zero-Overnight (MT5 09:00),210,False,Opt_EURCHF_15M,75
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,0.85247,2026-07-23 01:00:00,0.85322,97.29,7.5,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,76
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,1.88249,2026-07-23 01:45:00,1.8831,39.06,6.1,BB Middle (Mean Reversion),105,True,Opt_GBPCAD_15M,77
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,1.91009,2026-07-23 01:00:00,1.91257,171.08,24.8,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,78
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Sell (Short Call),1.0,2026-07-22 03:45:00,0.56959,2026-07-22 06:00:00,0.56913,52.34,4.6,BB Middle (Mean Reversion),135,True,Opt_AUDCHF_15M,79
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-21 00:00:00,0.56633,2026-07-21 00:15:00,0.56571,-82.29,-6.2,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,80
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-07-20 00:15:00,1.92836,2026-07-20 01:30:00,1.92741,62.45,9.5,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,81
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-20 00:00:00,0.56252,2026-07-20 01:00:00,0.56348,114.67,9.6,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,82
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-20 00:00:00,0.92291,2026-07-20 01:00:00,0.92375,99.71,8.4,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,83
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-07-17 07:30:00,0.84972,2026-07-17 09:00:00,0.84994,-35.0,-2.2,Zero-Overnight (MT5 09:00),90,False,Opt_EURGBP_15M,84
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-07-17 04:45:00,1.92831,2026-07-17 09:00:00,1.92845,-14.94,-1.4,BB Middle (Mean Reversion),255,False,Opt_GBPAUD_15M,85
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,1.08834,2026-07-17 01:15:00,1.08941,128.39,10.7,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,86
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,1.92421,2026-07-17 01:00:00,1.9255,86.59,12.9,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,87
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,0.56504,2026-07-17 01:00:00,0.56556,59.82,5.2,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,88
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,0.80804,2026-07-17 03:00:00,0.80853,56.08,4.9,BB Middle (Mean Reversion),165,True,Opt_USDCHF_15M,89
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.84864,2026-07-17 01:00:00,0.84916,65.92,5.2,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,90
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.56509,2026-07-17 00:15:00,0.56451,-77.48,-5.8,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,91
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.92485,2026-07-17 00:15:00,0.92423,-81.76,-6.2,SL (-2.0 ATR),15,False,Opt_EURCHF_15M,92
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.80825,2026-07-17 00:15:00,0.80758,-88.88,-6.7,SL (-2.0 ATR),15,False,Opt_USDCHF_15M,93
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Sell (Short Call),1.0,2026-07-16 06:00:00,1.09068,2026-07-16 09:00:00,1.09114,-62.34,-4.6,Zero-Overnight (MT5 09:00),180,False,Opt_GBPCHF_15M,94
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-07-16 04:15:00,1.9351,2026-07-16 06:45:00,1.93329,123.51,18.1,BB Middle (Mean Reversion),150,True,Opt_GBPAUD_15M,95
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-07-16 03:30:00,0.84755,2026-07-16 06:00:00,0.84727,33.19,2.8,BB Middle (Mean Reversion),150,True,Opt_EURGBP_15M,96
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Sell (Short Call),1.0,2026-07-15 05:45:00,0.56537,2026-07-15 09:00:00,0.5652,16.19,1.7,Zero-Overnight (MT5 09:00),195,True,Opt_AUDCHF_15M,97
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-07-15 00:30:00,0.80821,2026-07-15 01:00:00,0.80953,159.55,13.2,BB Middle (Mean Reversion),30,True,Opt_USDCHF_15M,98
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-15 00:00:00,0.56347,2026-07-15 00:15:00,0.56287,-79.8,-6.0,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,99
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-14 06:45:00,1.92808,2026-07-14 09:00:00,1.9266,-110.08,-14.8,Zero-Overnight (MT5 09:00),135,False,Opt_GBPAUD_15M,100
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-14 00:15:00,1.92864,2026-07-14 01:30:00,1.92956,60.32,9.2,BB Middle (Mean Reversion),75,True,Opt_GBPAUD_15M,101
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-07-13 06:00:00,1.9309,2026-07-13 08:00:00,1.92982,71.68,10.8,BB Middle (Mean Reversion),120,True,Opt_GBPAUD_15M,102
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-07-10 04:00:00,0.80515,2026-07-10 04:45:00,0.80436,-102.95,-7.9,SL (-2.0 ATR),45,False,Opt_USDCHF_15M,103
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.07936,2026-07-10 01:00:00,1.08165,280.47,22.9,BB Middle (Mean Reversion),45,True,Opt_GBPCHF_15M,104
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.89685,2026-07-10 01:00:00,1.90003,224.68,31.8,BB Middle (Mean Reversion),45,True,Opt_GBPCAD_15M,105
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.92925,2026-07-10 01:00:00,1.93155,158.3,23.0,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,106
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,0.5592,2026-07-10 01:00:00,0.55988,79.77,6.8,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,107
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-07-09 00:00:00,1.08088,2026-07-09 01:00:00,1.08219,158.3,13.1,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,108
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-09 00:00:00,0.55927,2026-07-09 01:00:00,0.56012,100.96,8.5,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,109
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-09 00:00:00,0.92246,2026-07-09 00:45:00,0.92301,63.56,5.5,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,110
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-07-08 00:00:00,0.85403,2026-07-08 00:30:00,0.85342,-88.39,-6.1,SL (-2.0 ATR),30,False,Opt_EURGBP_15M,111
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-07 00:15:00,1.92378,2026-07-07 01:00:00,1.92476,64.58,9.8,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,112
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-07-06 00:15:00,1.89449,2026-07-06 01:00:00,1.89617,116.34,16.8,BB Middle (Mean Reversion),45,True,Opt_GBPCAD_15M,113
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-07-06 00:15:00,0.80281,2026-07-06 01:00:00,0.80352,83.51,7.1,BB Middle (Mean Reversion),45,True,Opt_USDCHF_15M,114
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,1.07129,2026-07-06 01:00:00,1.07286,190.72,15.7,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,115
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,0.85586,2026-07-06 01:15:00,0.85645,75.47,5.9,BB Middle (Mean Reversion),75,True,Opt_EURGBP_15M,116
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,0.91815,2026-07-06 01:00:00,0.91883,79.77,6.8,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,117
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Buy (Short Put),1.0,2026-07-03 00:15:00,1.92535,2026-07-03 01:00:00,1.92847,216.52,31.2,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,118
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-07-03 00:00:00,0.55505,2026-07-03 01:00:00,0.55591,102.21,8.6,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,119
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-07-01 03:30:00,1.91869,2026-07-01 04:15:00,1.92047,-131.48,-17.8,SL (-2.0 ATR),45,False,Opt_GBPAUD_15M,120
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-07-01 00:30:00,0.86098,2026-07-01 01:00:00,0.86136,46.83,3.8,BB Middle (Mean Reversion),30,True,Opt_EURGBP_15M,121
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-07-01 00:15:00,0.92247,2026-07-01 01:00:00,0.92303,64.81,5.6,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,122
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-06-30 00:00:00,1.06992,2026-06-30 01:00:00,1.07046,62.32,5.4,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,123
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-06-29 00:15:00,0.55773,2026-06-29 01:00:00,0.55852,93.48,7.9,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,124
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-06-29 00:00:00,0.86153,2026-06-29 01:00:00,0.8627,154.57,11.7,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,125
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-06-29 00:00:00,0.55798,2026-06-29 00:15:00,0.55726,-94.58,-7.2,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,126
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-06-26 06:30:00,0.92047,2026-06-26 07:30:00,0.91991,-74.63,-5.6,SL (-2.0 ATR),60,False,Opt_EURCHF_15M,127
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-06-26 05:45:00,0.92086,2026-06-26 06:30:00,0.92034,-69.29,-5.2,SL (-2.0 ATR),45,False,Opt_EURCHF_15M,128
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-06-26 03:15:00,1.91252,2026-06-26 04:45:00,1.91466,-156.94,-21.4,SL (-2.0 ATR),90,False,Opt_GBPAUD_15M,129
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Buy (Short Put),1.0,2026-06-26 00:15:00,1.87245,2026-06-26 03:00:00,1.87293,29.67,4.8,BB Middle (Mean Reversion),165,True,Opt_GBPCAD_15M,130
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-06-25 05:30:00,1.91298,2026-06-25 07:30:00,1.91056,166.82,24.2,BB Middle (Mean Reversion),120,True,Opt_GBPAUD_15M,131
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-06-25 04:30:00,0.55959,2026-06-25 05:30:00,0.55873,-111.67,-8.6,SL (-2.0 ATR),60,False,Opt_AUDCHF_15M,132
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-06-25 00:30:00,1.06739,2026-06-25 01:00:00,1.06919,219.39,18.0,BB Middle (Mean Reversion),30,True,Opt_GBPCHF_15M,133
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-06-25 00:15:00,1.06836,2026-06-25 00:30:00,1.06708,-164.92,-12.8,SL (-2.0 ATR),15,False,Opt_GBPCHF_15M,134
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Sell (Short Call),1.0,2026-06-24 06:00:00,1.06966,2026-06-24 09:00:00,1.07065,-127.88,-9.9,SL (-2.0 ATR),180,False,Opt_GBPCHF_15M,135
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Sell (Short Call),1.0,2026-06-24 06:00:00,0.81091,2026-06-24 09:00:00,0.8107,21.18,2.1,Zero-Overnight (MT5 09:00),180,True,Opt_USDCHF_15M,136
-15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22),GBPCAD,15m,Sell (Short Call),1.0,2026-06-23 06:45:00,1.87663,2026-06-23 09:00:00,1.87751,-68.56,-8.8,Zero-Overnight (MT5 09:00),135,False,Opt_GBPCAD_15M,137
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-06-23 00:00:00,1.07004,2026-06-23 01:00:00,1.07132,154.57,12.8,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,138
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Buy (Short Put),1.0,2026-06-23 00:00:00,0.80793,2026-06-23 01:30:00,0.8088,103.45,8.7,BB Middle (Mean Reversion),90,True,Opt_USDCHF_15M,139
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Sell (Short Call),1.0,2026-06-22 00:00:00,0.86823,2026-06-22 03:00:00,0.86764,75.47,5.9,BB Middle (Mean Reversion),180,True,Opt_EURGBP_15M,140
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-06-22 00:00:00,0.92481,2026-06-22 01:00:00,0.92565,99.71,8.4,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,141
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Sell (Short Call),1.0,2026-06-19 04:45:00,0.80568,2026-06-19 06:15:00,0.80655,-113.1,-8.7,SL (-2.0 ATR),90,False,Opt_USDCHF_15M,142
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-06-17 05:45:00,1.90088,2026-06-17 07:45:00,1.90232,-107.04,-14.4,SL (-2.0 ATR),120,False,Opt_GBPAUD_15M,143
-15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64),EURGBP,15m,Buy (Short Put),1.0,2026-06-17 00:00:00,0.8641,2026-06-17 01:00:00,0.86458,60.47,4.8,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,144
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Buy (Short Put),1.0,2026-06-17 00:00:00,0.92042,2026-06-17 01:00:00,0.92059,16.19,1.7,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,145
-15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10),GBPAUD,15m,Sell (Short Call),1.0,2026-06-16 07:45:00,1.90011,2026-06-16 09:00:00,1.8999,9.91,2.1,Zero-Overnight (MT5 09:00),75,True,Opt_GBPAUD_15M,146
-15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47),USDCHF,15m,Sell (Short Call),1.0,2026-06-16 07:00:00,0.79563,2026-06-16 09:00:00,0.79582,-28.69,-1.9,Zero-Overnight (MT5 09:00),120,False,Opt_USDCHF_15M,147
-15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47),EURCHF,15m,Sell (Short Call),1.0,2026-06-16 05:45:00,0.92116,2026-06-16 08:00:00,0.92122,-12.48,-0.6,BB Middle (Mean Reversion),135,False,Opt_EURCHF_15M,148
-15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47),GBPCHF,15m,Buy (Short Put),1.0,2026-06-16 00:00:00,1.06483,2026-06-16 01:00:00,1.06553,82.26,7.0,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,149
-15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47),AUDCHF,15m,Buy (Short Put),1.0,2026-06-15 00:00:00,0.56024,2026-06-15 00:15:00,0.56141,140.85,11.7,BB Middle (Mean Reversion),15,True,Opt_AUDCHF_15M,150
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,1.09278,2026-08-25 01:15:00,1.09373,113.43,9.5,BB Middle (Mean Reversion),75,True,Opt_GBPCHF_15M,1
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,0.5728,2026-08-25 01:00:00,0.57348,79.77,6.8,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,2
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,1.88605,2026-08-25 01:45:00,1.88703,65.78,9.8,BB Middle (Mean Reversion),105,True,Opt_GBPCAD_15M,3
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,0.57881,2026-08-25 01:00:00,0.57938,66.06,5.7,BB Middle (Mean Reversion),60,True,Opt_CADCHF_15M,4
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,1.63046,2026-08-25 01:00:00,1.63132,56.06,8.6,BB Middle (Mean Reversion),60,True,Opt_EURAUD_15M,5
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-08-25 00:00:00,1.61379,2026-08-25 02:15:00,1.61461,54.23,8.2,BB Middle (Mean Reversion),135,True,Opt_EURCAD_15M,6
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-08-24 00:00:00,0.58007,2026-08-24 03:00:00,0.58028,21.18,2.1,Tokyo-Open-Cut (MT5 03:00),180,True,Opt_CADCHF_15M,7
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Sell (Short Call),1.0,2026-08-24 00:00:00,1.61233,2026-08-24 03:00:00,1.61103,88.9,13.0,Tokyo-Open-Cut (MT5 03:00),180,True,Opt_EURCAD_15M,8
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,1.09681,2026-08-18 01:00:00,1.09831,181.99,15.0,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,9
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,1.90551,2026-08-18 01:00:00,1.90609,36.18,5.8,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,10
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,0.93813,2026-08-18 01:00:00,0.939,103.45,8.7,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,11
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-08-18 00:00:00,0.58359,2026-08-18 01:00:00,0.58446,103.45,8.7,BB Middle (Mean Reversion),60,True,Opt_CADCHF_15M,12
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-08-17 00:00:00,1.63129,2026-08-17 01:00:00,1.63265,91.56,13.6,BB Middle (Mean Reversion),60,True,Opt_EURAUD_15M,13
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-08-17 00:00:00,0.85401,2026-08-17 01:00:00,0.85468,86.38,6.7,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,14
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-08-14 00:00:00,0.85456,2026-08-14 01:00:00,0.85488,38.64,3.2,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,15
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-08-13 00:00:00,1.88038,2026-08-13 01:00:00,1.88082,26.78,4.4,BB Middle (Mean Reversion),60,True,Opt_GBPCAD_15M,16
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-08-13 00:00:00,1.60575,2026-08-13 01:00:00,1.60643,44.11,6.8,BB Middle (Mean Reversion),60,True,Opt_EURCAD_15M,17
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-08-10 00:45:00,1.90737,2026-08-10 01:45:00,1.90889,102.92,15.2,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,18
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-08-10 00:00:00,1.08787,2026-08-10 01:00:00,1.09033,301.66,24.6,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,19
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-08-10 00:00:00,0.93272,2026-08-10 01:00:00,0.93404,159.55,13.2,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,20
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-08-10 00:00:00,0.57781,2026-08-10 01:00:00,0.57957,214.4,17.6,BB Middle (Mean Reversion),60,True,Opt_CADCHF_15M,21
+15m 鎊美夜間賣方極速收租 (勝率75.0% / PF 2.85),GBPUSD,15m,Buy (Short Put),1.0,2026-08-07 00:30:00,1.34421,2026-08-07 02:00:00,1.34529,103.0,10.8,BB Middle (Mean Reversion),90,True,Opt_GBPUSD_15M,22
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-08-07 00:00:00,1.09223,2026-08-07 01:00:00,1.093,90.99,7.7,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,23
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-08-07 00:00:00,1.9121,2026-08-07 00:15:00,1.91063,-109.17,-14.7,SL (-2.0 ATR),15,False,Opt_GBPAUD_15M,24
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-08-06 00:15:00,1.90659,2026-08-06 01:00:00,1.90803,97.24,14.4,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,25
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-08-05 00:15:00,0.5749,2026-08-05 01:15:00,0.57514,24.92,2.4,BB Middle (Mean Reversion),60,True,Opt_CADCHF_15M,26
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-08-04 00:15:00,0.5665,2026-08-04 01:00:00,0.567,57.33,5.0,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,27
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-08-04 00:00:00,0.93216,2026-08-04 01:00:00,0.9325,37.38,3.4,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,28
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-08-03 00:00:00,1.91227,2026-08-03 01:00:00,1.91569,237.82,34.2,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,29
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-29 00:00:00,1.90367,2026-07-29 01:15:00,1.90494,85.17,12.7,BB Middle (Mean Reversion),75,True,Opt_GBPAUD_15M,30
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-07-29 00:00:00,1.87365,2026-07-29 02:45:00,1.874,20.28,3.5,BB Middle (Mean Reversion),165,True,Opt_GBPCAD_15M,31
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-07-29 00:00:00,1.63207,2026-07-29 00:15:00,1.63258,31.21,5.1,BB Middle (Mean Reversion),15,True,Opt_EURAUD_15M,32
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-07-28 00:15:00,1.08697,2026-07-28 01:00:00,1.0884,173.26,14.3,BB Middle (Mean Reversion),45,True,Opt_GBPCHF_15M,33
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-28 00:00:00,1.9001,2026-07-28 01:00:00,1.90146,91.56,13.6,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,34
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-07-28 00:00:00,0.85485,2026-07-28 01:00:00,0.85546,78.2,6.1,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,35
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-07-27 00:15:00,1.87712,2026-07-27 01:00:00,1.87977,186.4,26.5,BB Middle (Mean Reversion),45,True,Opt_GBPCAD_15M,36
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-27 00:00:00,0.57081,2026-07-27 01:15:00,0.57119,42.37,3.8,BB Middle (Mean Reversion),75,True,Opt_AUDCHF_15M,37
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-27 00:00:00,0.92953,2026-07-27 00:45:00,0.92862,-118.44,-9.1,SL (-2.0 ATR),45,False,Opt_EURCHF_15M,38
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-07-27 00:00:00,0.57898,2026-07-27 03:00:00,0.57881,-26.19,-1.7,Tokyo-Open-Cut (MT5 03:00),180,False,Opt_CADCHF_15M,39
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Sell (Short Call),1.0,2026-07-27 00:00:00,1.604,2026-07-27 03:00:00,1.60519,-90.95,-11.9,Tokyo-Open-Cut (MT5 03:00),180,False,Opt_EURCAD_15M,40
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-24 00:15:00,0.92857,2026-07-24 01:00:00,0.92915,67.3,5.8,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,41
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,1.91009,2026-07-23 01:00:00,1.91257,171.08,24.8,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,42
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,1.88249,2026-07-23 01:45:00,1.8831,39.06,6.1,BB Middle (Mean Reversion),105,True,Opt_GBPCAD_15M,43
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,1.62991,2026-07-23 01:00:00,1.63205,146.94,21.4,BB Middle (Mean Reversion),60,True,Opt_EURAUD_15M,44
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-07-23 00:00:00,0.85247,2026-07-23 01:00:00,0.85322,97.29,7.5,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,45
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-07-22 00:15:00,0.57555,2026-07-22 01:00:00,0.57597,47.36,4.2,BB Middle (Mean Reversion),45,True,Opt_CADCHF_15M,46
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-07-22 00:00:00,0.57569,2026-07-22 00:15:00,0.57519,-67.86,-5.0,SL (-2.0 ATR),15,False,Opt_CADCHF_15M,47
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-07-22 00:00:00,1.60767,2026-07-22 01:30:00,1.608,18.83,3.3,BB Middle (Mean Reversion),90,True,Opt_EURCAD_15M,48
+15m 鎊美夜間賣方極速收租 (勝率75.0% / PF 2.85),GBPUSD,15m,Buy (Short Put),1.0,2026-07-22 00:00:00,1.33708,2026-07-22 02:45:00,1.33778,65.0,7.0,BB Middle (Mean Reversion),165,True,Opt_GBPUSD_15M,49
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-21 00:00:00,0.56633,2026-07-21 00:15:00,0.56571,-82.29,-6.2,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,50
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Sell (Short Call),1.0,2026-07-20 00:15:00,1.92836,2026-07-20 01:30:00,1.92741,62.45,9.5,BB Middle (Mean Reversion),60,True,Opt_GBPAUD_15M,51
+15m 鎊美夜間賣方極速收租 (勝率75.0% / PF 2.85),GBPUSD,15m,Buy (Short Put),1.0,2026-07-20 00:15:00,1.3437,2026-07-20 03:00:00,1.3446,85.0,9.0,Tokyo-Open-Cut (MT5 03:00),150,True,Opt_GBPUSD_15M,52
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-20 00:00:00,0.56252,2026-07-20 01:00:00,0.56348,114.67,9.6,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,53
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-20 00:00:00,0.92291,2026-07-20 01:00:00,0.92375,99.71,8.4,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,54
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Sell (Short Call),1.0,2026-07-20 00:00:00,1.63948,2026-07-20 01:30:00,1.6382,85.88,12.8,BB Middle (Mean Reversion),90,True,Opt_EURAUD_15M,55
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-07-17 00:45:00,1.60606,2026-07-17 01:30:00,1.60657,31.84,5.1,BB Middle (Mean Reversion),45,True,Opt_EURCAD_15M,56
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,1.08834,2026-07-17 01:15:00,1.08941,128.39,10.7,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,57
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,1.92421,2026-07-17 01:00:00,1.9255,86.59,12.9,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,58
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,0.56504,2026-07-17 01:00:00,0.56556,59.82,5.2,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,59
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-07-17 00:15:00,0.57492,2026-07-17 01:00:00,0.57567,88.5,7.5,BB Middle (Mean Reversion),45,True,Opt_CADCHF_15M,60
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.56509,2026-07-17 00:15:00,0.56451,-77.48,-5.8,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,61
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.92485,2026-07-17 00:15:00,0.92423,-81.76,-6.2,SL (-2.0 ATR),15,False,Opt_EURCHF_15M,62
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-07-17 00:00:00,0.84864,2026-07-17 01:00:00,0.84916,65.92,5.2,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,63
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-15 00:00:00,0.56347,2026-07-15 00:15:00,0.56287,-79.8,-6.0,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,64
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-07-15 00:00:00,1.63661,2026-07-15 01:30:00,1.63754,61.03,9.3,BB Middle (Mean Reversion),90,True,Opt_EURAUD_15M,65
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-14 00:15:00,1.92864,2026-07-14 01:30:00,1.92956,60.32,9.2,BB Middle (Mean Reversion),75,True,Opt_GBPAUD_15M,66
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.07936,2026-07-10 01:00:00,1.08165,280.47,22.9,BB Middle (Mean Reversion),45,True,Opt_GBPCHF_15M,67
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.92925,2026-07-10 01:00:00,1.93155,158.3,23.0,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,68
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,0.5592,2026-07-10 01:00:00,0.55988,79.77,6.8,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,69
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.89685,2026-07-10 01:00:00,1.90003,224.68,31.8,BB Middle (Mean Reversion),45,True,Opt_GBPCAD_15M,70
+15m 鎊美夜間賣方極速收租 (勝率75.0% / PF 2.85),GBPUSD,15m,Buy (Short Put),1.0,2026-07-10 00:15:00,1.3399,2026-07-10 01:00:00,1.3409,95.0,10.0,BB Middle (Mean Reversion),45,True,Opt_GBPUSD_15M,71
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-07-10 00:00:00,1.61841,2026-07-10 01:00:00,1.61986,99.73,14.5,BB Middle (Mean Reversion),60,True,Opt_EURCAD_15M,72
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-07-09 00:00:00,1.08088,2026-07-09 01:00:00,1.08219,158.3,13.1,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,73
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-09 00:00:00,0.55927,2026-07-09 01:00:00,0.56012,100.96,8.5,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,74
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-09 00:00:00,0.92246,2026-07-09 00:45:00,0.92301,63.56,5.5,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,75
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-07-08 00:00:00,0.85403,2026-07-08 00:30:00,0.85342,-88.39,-6.1,SL (-2.0 ATR),30,False,Opt_EURGBP_15M,76
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-07 00:15:00,1.92378,2026-07-07 01:00:00,1.92476,64.58,9.8,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,77
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-07-06 00:15:00,1.89449,2026-07-06 01:00:00,1.89617,116.34,16.8,BB Middle (Mean Reversion),45,True,Opt_GBPCAD_15M,78
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,1.07129,2026-07-06 01:00:00,1.07286,190.72,15.7,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,79
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,0.91815,2026-07-06 01:00:00,0.91883,79.77,6.8,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,80
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,0.85586,2026-07-06 01:15:00,0.85645,75.47,5.9,BB Middle (Mean Reversion),75,True,Opt_EURGBP_15M,81
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-07-06 00:00:00,1.62296,2026-07-06 01:00:00,1.62388,61.45,9.2,BB Middle (Mean Reversion),60,True,Opt_EURCAD_15M,82
+15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31),GBPAUD,15m,Buy (Short Put),1.0,2026-07-03 00:15:00,1.92535,2026-07-03 01:00:00,1.92847,216.52,31.2,BB Middle (Mean Reversion),45,True,Opt_GBPAUD_15M,83
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-07-03 00:15:00,1.64999,2026-07-03 01:00:00,1.65191,131.32,19.2,BB Middle (Mean Reversion),45,True,Opt_EURAUD_15M,84
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-07-03 00:00:00,0.55505,2026-07-03 01:00:00,0.55591,102.21,8.6,BB Middle (Mean Reversion),60,True,Opt_AUDCHF_15M,85
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-07-03 00:00:00,0.56601,2026-07-03 01:15:00,0.56652,58.58,5.1,BB Middle (Mean Reversion),75,True,Opt_CADCHF_15M,86
+15m 歐加商品震盪收租 (勝率90.0% / PF 12.3),EURCAD,15m,Buy (Short Put),1.0,2026-07-02 00:00:00,1.6162,2026-07-02 01:00:00,1.6172,67.23,10.0,BB Middle (Mean Reversion),60,True,Opt_EURCAD_15M,87
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-07-01 00:30:00,0.86098,2026-07-01 01:00:00,0.86136,46.83,3.8,BB Middle (Mean Reversion),30,True,Opt_EURGBP_15M,88
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-07-01 00:15:00,0.92247,2026-07-01 01:00:00,0.92303,64.81,5.6,BB Middle (Mean Reversion),45,True,Opt_EURCHF_15M,89
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-06-30 00:00:00,1.06992,2026-06-30 01:00:00,1.07046,62.32,5.4,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,90
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-06-29 00:15:00,0.55773,2026-06-29 01:00:00,0.55852,93.48,7.9,BB Middle (Mean Reversion),45,True,Opt_AUDCHF_15M,91
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-06-29 00:00:00,0.55798,2026-06-29 00:15:00,0.55726,-94.58,-7.2,SL (-2.0 ATR),15,False,Opt_AUDCHF_15M,92
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-06-29 00:00:00,0.86153,2026-06-29 01:00:00,0.8627,154.57,11.7,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,93
+15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5),GBPCAD,15m,Buy (Short Put),1.0,2026-06-26 00:15:00,1.87245,2026-06-26 03:00:00,1.87293,29.67,4.8,BB Middle (Mean Reversion),165,True,Opt_GBPCAD_15M,94
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-06-26 00:00:00,0.57009,2026-06-26 01:00:00,0.57036,28.66,2.7,BB Middle (Mean Reversion),60,True,Opt_CADCHF_15M,95
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-06-25 00:30:00,1.06739,2026-06-25 01:00:00,1.06919,219.39,18.0,BB Middle (Mean Reversion),30,True,Opt_GBPCHF_15M,96
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-06-25 00:15:00,1.06836,2026-06-25 00:30:00,1.06708,-164.92,-12.8,SL (-2.0 ATR),15,False,Opt_GBPCHF_15M,97
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-06-25 00:00:00,0.57024,2026-06-25 01:00:00,0.57061,41.12,3.7,BB Middle (Mean Reversion),60,True,Opt_CADCHF_15M,98
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-06-23 00:00:00,1.07004,2026-06-23 01:00:00,1.07132,154.57,12.8,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,99
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-06-23 00:00:00,1.63089,2026-06-23 01:00:00,1.632,73.81,11.1,BB Middle (Mean Reversion),60,True,Opt_EURAUD_15M,100
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-06-22 00:00:00,0.92481,2026-06-22 01:00:00,0.92565,99.71,8.4,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,101
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-06-22 00:00:00,1.634,2026-06-22 01:00:00,1.63619,150.49,21.9,BB Middle (Mean Reversion),60,True,Opt_EURAUD_15M,102
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Sell (Short Call),1.0,2026-06-22 00:00:00,0.86823,2026-06-22 03:00:00,0.86764,75.47,5.9,BB Middle (Mean Reversion),180,True,Opt_EURGBP_15M,103
+15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90),EURCHF,15m,Buy (Short Put),1.0,2026-06-17 00:00:00,0.92042,2026-06-17 01:00:00,0.92059,16.19,1.7,BB Middle (Mean Reversion),60,True,Opt_EURCHF_15M,104
+15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8),EURGBP,15m,Buy (Short Put),1.0,2026-06-17 00:00:00,0.8641,2026-06-17 01:00:00,0.86458,60.47,4.8,BB Middle (Mean Reversion),60,True,Opt_EURGBP_15M,105
+15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16),GBPCHF,15m,Buy (Short Put),1.0,2026-06-16 00:00:00,1.06483,2026-06-16 01:00:00,1.06553,82.26,7.0,BB Middle (Mean Reversion),60,True,Opt_GBPCHF_15M,106
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-06-15 00:15:00,0.56829,2026-06-15 00:30:00,0.56745,-110.07,-8.4,SL (-2.0 ATR),15,False,Opt_CADCHF_15M,107
+15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98),EURAUD,15m,Buy (Short Put),1.0,2026-06-15 00:15:00,1.64042,2026-06-15 00:30:00,1.63839,-149.23,-20.3,SL (-2.0 ATR),15,False,Opt_EURAUD_15M,108
+15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34),AUDCHF,15m,Buy (Short Put),1.0,2026-06-15 00:00:00,0.56024,2026-06-15 00:15:00,0.56141,140.85,11.7,BB Middle (Mean Reversion),15,True,Opt_AUDCHF_15M,109
+15m 加瑞極限波動收租 (勝率84.8% / PF 5.48),CADCHF,15m,Buy (Short Put),1.0,2026-06-15 00:00:00,0.56868,2026-06-15 00:15:00,0.56798,-92.8,-7.0,SL (-2.0 ATR),15,False,Opt_CADCHF_15M,110
