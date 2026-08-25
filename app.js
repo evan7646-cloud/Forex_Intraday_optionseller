@@ -1,7 +1,7 @@
 // 全域資料與狀態管理變數
 let globalData = null; // 策略結果 JSON 原始數據
 let selectedSymbols = new Set(); // 當前使用者勾選的貨幣對集合
-let activeStrategyFilter = 'ALL'; // 當前策略過濾 ('ALL', 'GBP_CROSS', 'EUR_CROSS', 'COMMODITY_CROSS')
+let activeStrategyFilter = 'ALL'; // 當前策略過濾 ('ALL', 'GBP_CROSS', 'EUR_CROSS', 'CHF_CROSS')
 let activeChartTab = 'combined-equity'; // 當前啟用的圖表分頁標籤
 let candlestickSymbol = 'GBPCHF'; // 當前 K 線圖所選取的貨幣對標的
 let currentPage = 1; // 當前歷史交易表格分頁
@@ -11,18 +11,16 @@ let tableTradeType = 'ALL'; // 交易明細方向過濾 ('ALL', 'BUY', 'SELL')
 let tableTradeOutcome = 'ALL'; // 交易明細勝負過濾 ('ALL', 'WIN', 'LOSS')
 let highlightedTradeId = null; // 當前點擊聚焦高亮的交易序號
 
-// 10 大交叉貨幣對專屬圖表配色調色盤
+// 精選 8 大高夏普交叉貨幣對專屬圖表配色調色盤
 const symbolColors = { // 配色字典
-    "GBPCHF": "#00e676", // 翡翠綠 (王牌 89.5% 勝率)
-    "EURGBP": "#29b6f6", // 科技天藍 (王牌 86.4% 勝率)
-    "GBPCAD": "#b388ff", // 亮紫色 (80.0% 勝率)
-    "GBPUSD": "#ffa726", // 亮橘色 (78.6% 勝率)
-    "GBPAUD": "#ff4081", // 亮粉紅 (77.3% 勝率)
-    "EURAUD": "#26a69a", // 松石綠 (75.0% 勝率)
-    "EURCAD": "#ffd600", // 亮黃色 (72.2% 勝率)
-    "AUDNZD": "#00b0ff", // 水藍色 (70.4% 勝率)
-    "AUDJPY": "#ff9100", // 琥珀金 (70.8% 勝率)
-    "EURCHF": "#76ff03"  // 檸檬綠 (60.0% 勝率)
+    "GBPCHF": "#00e676", // 翡翠綠 (王牌 89.5% 勝率, Sharpe 8.34)
+    "EURGBP": "#29b6f6", // 科技天藍 (王牌 86.4% 勝率, Sharpe 3.79)
+    "GBPCAD": "#b388ff", // 亮紫色 (80.0% 勝率, Sharpe 2.39)
+    "GBPUSD": "#ffa726", // 亮橘色 (78.6% 勝率, Sharpe 5.50)
+    "EURAUD": "#26a69a", // 松石綠 (75.0% 勝率, Sharpe 1.89)
+    "CADCHF": "#ffd600", // 亮黃色 (69.6% 勝率, Sharpe 1.00)
+    "GBPAUD": "#ff4081", // 亮粉紅 (68.2% 勝率, Sharpe 3.19)
+    "EURCHF": "#76ff03"  // 檸檬綠 (56.7% 勝率, Sharpe 0.10)
 }; // 配色結束
 
 // 網頁 DOM 載入完畢監聽入口
@@ -55,7 +53,7 @@ async function loadStrategyData() { // 資料非同步加載函數
         renderAssetCheckboxes(); // 渲染多商品勾選控制卡片
         recalculateAndRenderKPIs(); // 根據當前勾選重算並渲染 KPI 卡片
         renderMainChart(); // 渲染 Plotly 主圖表
-        renderStrategyMatrix(); // 渲染 10 大收租模組矩陣總表
+        renderStrategyMatrix(); // 渲染 8 大收租模組矩陣總表
         renderTradesTable(); // 渲染歷史交易明細表格
 
     } catch (err) { // 捕捉異常
@@ -159,7 +157,7 @@ function renderMarketTickers() { // 行情卡片渲染函數
         const changeClass = item.price_change_24h_pct >= 0 ? 'val-bull' : 'val-bear'; // 多空顏色
         const changePrefix = item.price_change_24h_pct >= 0 ? '+' : ''; // 正號標記
         
-        let sessionTag = '<span class="badge-scalper">🌙 交叉收租中</span>'; // 標籤
+        let sessionTag = '<span class="badge-scalper">🌙 跨國收租中</span>'; // 標籤
 
         return `
             <div class="market-ticker-card" onclick="selectSingleSymbol('${sym}')" title="點擊切換專屬監控 ${sym}">
@@ -246,8 +244,8 @@ function applyStrategyPreset(preset) { // 策略預設函數
         Object.keys(globalData.symbols_meta).forEach(s => selectedSymbols.add(s)); // 全部加入
     } else if (preset === 'GBP_CROSS') { // 僅英鎊交叉 (GBPCHF, GBPAUD, GBPCAD, GBPUSD)
         ["GBPCHF", "GBPAUD", "GBPCAD", "GBPUSD"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
-    } else if (preset === 'EUR_CROSS') { // 僅歐元交叉 (EURGBP, EURAUD, EURCAD, EURCHF)
-        ["EURGBP", "EURAUD", "EURCAD", "EURCHF"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'EUR_CROSS') { // 僅歐元交叉 (EURGBP, EURAUD, EURCHF)
+        ["EURGBP", "EURAUD", "EURCHF"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
     } // 判斷結束
 
     updateFilterButtonsState(); // 更新按鈕樣式
@@ -367,7 +365,7 @@ function recalculateAndRenderKPIs() { // KPI 精算與渲染函數
     document.getElementById('kpi-active-status').textContent = '100% 零隔夜合規'; // 狀態
 } // recalculateAndRenderKPIs 結束
 
-// 渲染 10 大策略模組參數規格與實盤回測績效矩陣總表
+// 渲染 8 大策略模組參數規格與實盤回測績效矩陣總表
 function renderStrategyMatrix() { // 矩陣渲染函數
     const tbody = document.getElementById('strategy-matrix-table-body'); // 取得表體 DOM
     if (!tbody || !globalData || !globalData.modules_summary) return; // 檢查
@@ -438,7 +436,7 @@ function renderCombinedEquityChart() { // 組合損益圖繪製函數
 
     const layout = { // 定義圖表面版樣式
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 },
-        title: { text: `所選 ${selectedSymbols.size} 款純期權賣方收租組合累積淨損益 (時間基準: MT5 伺服器時間)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
+        title: { text: `精選 ${selectedSymbols.size} 款純期權賣方收租組合累積淨損益 (時間基準: MT5 伺服器時間)`, font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } },
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 },
         hovermode: 'x unified', legend: { orientation: 'h', y: 1.1, font: { color: '#8b949e' } }
@@ -474,7 +472,7 @@ function renderComparativeEquityChart() { // 多商品比較圖繪製函數
 
     const layout = { // 面版樣式
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 },
-        title: { text: '各交叉貨幣對獨立純期權賣方收租淨利比較 (MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
+        title: { text: '精選交叉貨幣對獨立純期權賣方收租淨利比較 (MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } },
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, tickprefix: '$', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 },
         hovermode: 'x unified', legend: { orientation: 'h', y: 1.12, font: { color: '#8b949e', size: 11 } }
@@ -565,7 +563,7 @@ function renderDrawdownChart() { // 回撤圖繪製函數
 
     const layout = {
         paper_bgcolor: '#131722', plot_bgcolor: '#131722', margin: { l: 70, r: 40, t: 40, b: 40 },
-        title: { text: '所選純期權賣方收租組合資金回撤深度圖 (MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
+        title: { text: '精選純期權賣方收租組合資金回撤深度圖 (MT5 伺服器時間)', font: { color: '#f0f6fc', family: 'Outfit', size: 16 } },
         xaxis: { type: 'date', gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' } },
         yaxis: { gridcolor: 'rgba(255,255,255,0.06)', tickfont: { color: '#8b949e', family: 'JetBrains Mono' }, ticksuffix: '%', zeroline: true, zerolinecolor: 'rgba(255,255,255,0.3)', zerolinewidth: 1.5 },
         hovermode: 'x unified'
@@ -595,7 +593,7 @@ function renderTradesTable() { // 表格渲染函數
         return true; // 符合
     }); // 過濾結束
 
-    counterEl.textContent = `顯示 ${filtered.length} / ${globalData.all_trades.length} 筆純期權賣方交易明細`; // 計數
+    counterEl.textContent = `顯示 ${filtered.length} / ${globalData.all_trades.length} 筆精選期權賣方交易明細`; // 計數
 
     const totalPages = Math.ceil(filtered.length / pageSize) || 1; // 總頁數
     if (currentPage > totalPages) currentPage = totalPages; // 校正頁碼
@@ -698,7 +696,7 @@ function exportFilteredTradesCSV() { // CSV 下載函數
     const url = URL.createObjectURL(blob); // 網址
     const link = document.createElement('a'); // 標籤
     link.setAttribute('href', url); // 設定
-    link.setAttribute('download', `PEPPERSTONE_CrossPairs_Option_Selling_Trades_${new Date().toISOString().substring(0, 10)}.csv`); // 檔名
+    link.setAttribute('download', `PEPPERSTONE_Top8_Option_Selling_Trades_${new Date().toISOString().substring(0, 10)}.csv`); // 檔名
     document.body.appendChild(link); // 加入 DOM
     link.click(); // 下載
     document.body.removeChild(link); // 移除 DOM

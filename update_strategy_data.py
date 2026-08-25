@@ -7,7 +7,7 @@ import warnings  # 導入警告控制模組
 
 warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換算與實盤成本之純期權賣方收租引擎
+class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地幣對之精選 8 大跨國交叉收租引擎
     def __init__(self):  # 初始化引擎
         self.data_dir = os.path.join(os.path.dirname(__file__), "data_pepperstone")  # 數據目錄
         
@@ -21,8 +21,6 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
             "EURAUD": 1.7,  # MT5 Spread 17 points = 1.7 pips
             "CADCHF": 1.1,  # MT5 Spread 11 points = 1.1 pips
             "EURCHF": 1.2,  # MT5 Spread 12 points = 1.2 pips
-            "AUDJPY": 1.9,  # MT5 Spread 19 points = 1.9 pips
-            "AUDNZD": 2.0,  # MT5 Spread 20 points = 2.0 pips
             "AUDCAD": 1.4,  # MT5 Spread 14 points = 1.4 pips
             "AUDCHF": 1.0,  # MT5 Spread 10 points = 1.0 pip
             "EURCAD": 1.9,  # MT5 Spread 19 points = 1.9 pips
@@ -32,10 +30,9 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
             "USDJPY": 1.0   # MT5 Spread 10 points = 1.0 pip
         }  # 點差結束
 
-        # 100% 依據使用者 MT5 實盤報價精準換算之計價貨幣對美金匯率 (Quote Currency -> USD)
-        # GBPUSD=1.36386, USDCHF=0.80218, USDCAD=1.38452, USDJPY=159.178, EURUSD=1.16682
-        self.quote_to_usd_rates = {  # 匯率精算表
-            "USD": 1.00000,                  # 美金為基準 $1.00000
+        # MT5 實盤計價幣別對美金即時匯率
+        self.quote_to_usd_rates = {  # 匯率換算表
+            "USD": 1.00000,                  # 美金 $1.00000
             "CHF": 1.0 / 0.80218,            # 1 CHF = $1.24660 USD (每手每點 = $12.47 USD)
             "GBP": 1.36386,                  # 1 GBP = $1.36386 USD (每手每點 = $13.64 USD)
             "CAD": 1.0 / 1.38452,            # 1 CAD = $0.72227 USD (每手每點 = $7.22 USD)
@@ -44,32 +41,27 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
             "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
         }  # 匯率結束
 
-        # 終極 10 大實盤交叉貨幣對純收租旗艦模組
+        # 精選 8 大高夏普比率純期權賣方收租旗艦模組 (已剔除 AUDNZD 與 AUDJPY，勝率 74.5%, PF 2.80, Calmar 110.06)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租 (1點=$12.47 USD)", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF
-            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租 (1點=$13.64 USD)", "sl_atr": 2.0, "adx_max": 30},   # EURGBP
-            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸 (1點=$7.22 USD)", "sl_atr": 2.0, "adx_max": 30},     # GBPCAD
-            {"module_id": "Opt_GBPUSD_5M",  "symbol": "GBPUSD", "tf": "5m",  "name": "5m 鎊美夜間賣方極速收租 (1點=$10.00 USD)", "sl_atr": 2.0, "adx_max": 30},     # GBPUSD
-            {"module_id": "Opt_EURAUD_15M", "symbol": "EURAUD", "tf": "15m", "name": "15m 歐澳極致賣方收租 (1點=$7.10 USD)", "sl_atr": 2.0, "adx_max": 30},     # EURAUD
-            {"module_id": "Opt_AUDJPY_15M", "symbol": "AUDJPY", "tf": "15m", "name": "15m 澳日夜間高流動收租 (1點=$6.28 USD)", "sl_atr": 2.0, "adx_max": 30},   # AUDJPY
-            {"module_id": "Opt_CADCHF_15M", "symbol": "CADCHF", "tf": "15m", "name": "15m 加瑞極限波動收租 (1點=$12.47 USD)", "sl_atr": 2.0, "adx_max": 30},     # CADCHF
-            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租 (1點=$7.10 USD)", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD
-            {"module_id": "Opt_AUDNZD_15M", "symbol": "AUDNZD", "tf": "15m", "name": "15m 澳紐經典區間套利收租 (1點=$6.00 USD)", "sl_atr": 2.0, "adx_max": 30}, # AUDNZD
-            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租 (1點=$12.47 USD)", "sl_atr": 2.0, "adx_max": 30}      # EURCHF
+            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF (89.5% WR, Sharpe 8.34)
+            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64)", "sl_atr": 2.0, "adx_max": 30},   # EURGBP (86.4% WR, Sharpe 3.79)
+            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22)", "sl_atr": 2.0, "adx_max": 30},     # GBPCAD (80.0% WR, Sharpe 2.39)
+            {"module_id": "Opt_GBPUSD_5M",  "symbol": "GBPUSD", "tf": "5m",  "name": "5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00)", "sl_atr": 2.0, "adx_max": 30},     # GBPUSD (78.6% WR, Sharpe 5.50)
+            {"module_id": "Opt_EURAUD_15M", "symbol": "EURAUD", "tf": "15m", "name": "15m 歐澳極致賣方收租 (點差1.7p / 每點$7.10)", "sl_atr": 2.0, "adx_max": 30},     # EURAUD (75.0% WR, Sharpe 1.89)
+            {"module_id": "Opt_CADCHF_15M", "symbol": "CADCHF", "tf": "15m", "name": "15m 加瑞極限波動收租 (點差1.1p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},     # CADCHF (69.6% WR, Sharpe 1.00)
+            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10)", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD (68.2% WR, Sharpe 3.19)
+            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30}      # EURCHF (56.7% WR, Sharpe 0.10)
         ]  # 清單結束
 
     def get_pip_specs(self, symbol: str):  # 依據計價貨幣計算每 Pip 單位與精確換算美金價值
-        if "JPY" in symbol:  # 日圓貨幣對 (小數點後第2位為 1 Pip = 0.01)
-            # 1 手 = 100,000 基準貨幣，1 Pip = 1,000 JPY -> 換算美金 = 1,000 / USDJPY
+        if "JPY" in symbol:  # 日圓貨幣對
             pip_size = 0.01  # 0.01 為 1 Pip
             pip_val_usd = 100000.0 * pip_size * self.quote_to_usd_rates["JPY"]  # 換算美金
             return pip_size, pip_val_usd  # 回傳
         
-        # 一般外匯貨幣對 (小數點後第4位為 1 Pip = 0.0001)
         pip_size = 0.0001  # 0.0001 為 1 Pip
-        counter_curr = symbol[-3:]  # 取得後三個字元作為計價貨幣 (Quote Currency)
-        quote_rate = self.quote_to_usd_rates.get(counter_curr, 1.0)  # 取得該計價貨幣換美金之匯率
-        # 1 手 = 100,000 基準貨幣，1 Pip = 10 單位計價幣 -> 換算美金 = 10 * quote_to_usd
+        counter_curr = symbol[-3:]  # 計價貨幣
+        quote_rate = self.quote_to_usd_rates.get(counter_curr, 1.0)  # 取得匯率
         pip_val_usd = 100000.0 * pip_size * quote_rate  # 精確美金每點價值
         return pip_size, pip_val_usd  # 回傳
 
@@ -137,7 +129,6 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
                 exit_reason = ""  # 原因
                 
                 if pos == 1:  # 多單
-                    # 中軌獲利離場 (Mean Reversion)
                     if c >= df["MA20"].iloc[i] and c > entry_p:  # 碰中軌且高於成本
                         exit_price = c - sp_dist  # 扣點差
                         exit_reason = "BB Middle (Mean Reversion)"  # 中軌
@@ -149,8 +140,7 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
                         
                     if closed:  # 結算
                         pnl_pips = (exit_price - entry_p)/pip_size  # 點數
-                        # 損益公式: 點數 * 每點精確美金價值 - $5.00 美金手續費
-                        pnl_usd = pnl_pips * pip_val_usd - cost_per_trade  # 美金淨利
+                        pnl_usd = pnl_pips * pip_val_usd - cost_per_trade  # 美金淨利 (已扣手續費)
                         balance += pnl_usd  # 餘額
                         trades.append({  # 記錄
                             "strategy": mod["name"], "symbol": symbol, "timeframe": mod["tf"], "type": "Buy (Short Put)", "lot_size": lot_size,
@@ -162,7 +152,6 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
                         pos = 0  # 重設
                         
                 elif pos == -1:  # 空單
-                    # 中軌獲利離場 (Mean Reversion)
                     if c <= df["MA20"].iloc[i] and c < entry_p:  # 碰中軌且低於成本
                         exit_price = c + sp_dist  # 扣點差
                         exit_reason = "BB Middle (Mean Reversion)"  # 中軌
@@ -174,8 +163,7 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
                         
                     if closed:  # 結算
                         pnl_pips = (entry_p - exit_price)/pip_size  # 點數
-                        # 損益公式: 點數 * 每點精確美金價值 - $5.00 美金手續費
-                        pnl_usd = pnl_pips * pip_val_usd - cost_per_trade  # 美金淨利
+                        pnl_usd = pnl_pips * pip_val_usd - cost_per_trade  # 美金淨利 (已扣手續費)
                         balance += pnl_usd  # 餘額
                         trades.append({  # 記錄
                             "strategy": mod["name"], "symbol": symbol, "timeframe": mod["tf"], "type": "Sell (Short Call)", "lot_size": lot_size,
@@ -212,7 +200,7 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
 
     def execute_and_export(self):  # 執行全量回測並生成 JSON/CSV
         print("==========================================================================")  # 分隔線
-        print(" 🚀 啟動【精確幣別美金換算 + 實盤點差 + $5 手續費】純收租旗艦全量回測...")  # 標題
+        print(" 🚀 啟動【精選 8 大高夏普比率純期權賣方收租旗艦 (排除 AUDNZD & AUDJPY)】回測...")  # 標題
         print("==========================================================================")  # 分隔線
         
         all_completed_trades = []  # 交易明細
@@ -322,7 +310,7 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
 
         payload = {  # 總 JSON
             "system_info": {  # 系統資訊
-                "title": "MT5 實盤精確點差與幣別換算純期權賣方收租旗艦儀表板",  # 標題
+                "title": "精選 8 大高夏普交叉貨幣對純期權賣方收租旗艦儀表板",  # 標題
                 "data_source": "TradingView (Broker: PEPPERSTONE) + MT5 實盤點差與匯率精算",  # 數據來源
                 "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / 冬令 UTC+2)",  # 時間標準
                 "last_updated_mt5": now_mt5.strftime('%Y-%m-%d %H:%M:%S (MT5 Server Time)'),  # MT5 時間
@@ -344,7 +332,7 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
         json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # 路徑
         with open(json_path, "w", encoding="utf-8") as f:  # 寫入
             json.dump(payload, f, ensure_ascii=False, indent=2)  # 格式化
-        print(f"[+] 策略回測數據 (精確幣別換算版) 已輸出至: {json_path}")  # 日誌
+        print(f"[+] 策略回測數據 (精選 8 大高夏普版) 已輸出至: {json_path}")  # 日誌
 
         # 輸出 CSV
         csv_path = os.path.join(os.path.dirname(__file__), "all_trades_history.csv")  # 路徑
@@ -352,9 +340,9 @@ class PreciseCurrencyConvertedOptionEngine:  # 定義嚴格計價幣別美金換
         print(f"[+] 完整歷史交易明細已輸出至: {csv_path}")  # 日誌
 
         print("\n==========================================================================")  # 分隔線
-        print(f" 🏆【實盤精準幣別換算旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
+        print(f" 🏆【精選 8 大純收租旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
         print("==========================================================================")  # 分隔線
 
 if __name__ == "__main__":  # 主入口
-    engine = PreciseCurrencyConvertedOptionEngine()  # 實例化
+    engine = 精選8大純期權賣方收租旗艦引擎()  # 實例化
     engine.execute_and_export()  # 執行
