@@ -5,7 +5,7 @@
 //+------------------------------------------------------------------+ // 標頭結束
 #property copyright "Copyright 2026, Quant Fund Team" // 版權設定
 #property link      "https://github.com/evan7646-cloud" // 專案網址
-#property version   "3.00" // 策略版本號 (方案 D 全天分工雙時段旗艦版)
+#property version   "3.10" // 策略版本號 (方案 D 全天分工雙時段旗艦 Debug 版)
 #property description "方案 D 全天分工收租旗艦 EA：白天通道避險 (MT5 01:15~18:00) + 晚間美盤收斂 (MT5 13:00~19:00)，100% 避開 04:45~06:15 換日擴點" // 描述
 
 #include <Trade\Trade.mqh> // 導入 MT5 交易執行標準庫
@@ -23,7 +23,7 @@ enum ENUM_STRATEGY_MODE // 策略運作模式枚舉型態
 //--- 外部可調參數設定 (Inputs)
 input group "=== 1. 策略模式與交易品種配置 ===" // 參數分組 1
 input ENUM_STRATEGY_MODE InpStrategyMode      = MODE_AUTO_DETECT; // 策略時段運作模式 (預設自動識別)
-input double             InpLotSize           = 1.0;              // 交易下單手數 (自營商風控推薦 1.0 手)
+input double             InpLotSize           = 1.0;              // 交易下單手數 (自營商風控 100K 設 1.0, 10K 設 0.1)
 input ulong              InpMagicNumber       = 800801;           // 策略專屬 Magic Number 識別碼
 input int                InpMaxSpreadPoints   = 25;               // 最大容許點差 (25 Points = 2.5 pips，超過禁止開倉)
 
@@ -54,12 +54,32 @@ input double             InpATR_Multiplier    = 2.0;              // 自訂 ATR 
 //--- 全域物件與控制變數
 CTrade         m_trade;          // MT5 交易執行物件實例
 CPositionInfo  m_position;       // 持倉資訊查詢物件實例
-CSymbolInfo    m_symbol;         // 標的規格與即事行情物件實例
+CSymbolInfo    m_symbol;         // 標的規格與即時行情物件實例
 
 int            m_handle_bb;      // 布林通道指標控制代碼 Handle
 int            m_handle_rsi;     // RSI 指標控制代碼 Handle
 int            m_handle_atr;     // ATR 指標控制代碼 Handle
 datetime       m_last_bar_time;  // 記錄最後執行的 K 棒開盤時間
+
+//+------------------------------------------------------------------+ // 函數分隔
+//| 自動設定 ECN 經紀商訂單填充模式 (避免 Error 4756 Unsupported filling)   | // 函數說明
+//+------------------------------------------------------------------+ // 分隔線
+void SetTradeFillingMode() // 填充模式設定函數
+{ // 區塊開始
+   uint filling = (uint)SymbolInfoInteger(_Symbol, SYMBOL_FILLING_MODE); // 讀取商品支援的填充模式
+   if((filling & SYMBOL_FILLING_IOC) != 0) // 支援 IOC 模式
+   { // IOC
+      m_trade.SetTypeFilling(ORDER_FILLING_IOC); // 設定為 IOC
+   } // IOC 結束
+   else if((filling & SYMBOL_FILLING_FOK) != 0) // 支援 FOK 模式
+   { // FOK
+      m_trade.SetTypeFilling(ORDER_FILLING_FOK); // 設定為 FOK
+   } // FOK 結束
+   else // 預設模式
+   { // RETURN
+      m_trade.SetTypeFilling(ORDER_FILLING_RETURN); // 設定為 RETURN
+   } // RETURN 結束
+} // SetTradeFillingMode 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
 //| 依據當前商品自動獲取最佳布林標準差倍數                                  | // 函數說明
@@ -112,6 +132,7 @@ int OnInit() // 初始化入口函數
 { // 區塊開始
    m_trade.SetExpertMagicNumber(InpMagicNumber); // 設定交易專屬 Magic Number
    m_trade.SetDeviationInPoints(10); // 設定最大允許滑點 (10 Points = 1 pip)
+   SetTradeFillingMode(); // 自動配置 ECN 訂單填充模式 (避免 Error 4756)
    
    if(!m_symbol.Name(_Symbol)) // 載入商品資訊
    { // 載入失敗
@@ -167,13 +188,13 @@ bool IsWithinAllowedEntryWindow() // 允許開倉判定函數
    
    int mode = GetEffectiveStrategyMode(_Symbol); // 取得當前標的時段模式
    
-   if(mode == MODE_DAY_CHANNEL) // ☀️ 白天全天通道組 (MT5 01:15 ~ 18:00)
+   if(mode == MODE_DAY_CHANNEL) // ☀️ 白天全天通道組 (MT5 01:15 ~ 17:59:59)
    { // 白天時段判定
       if(dt.hour == InpDayStartHour && dt.min < InpDayStartMin) return false; // 換日剛結束前 15 分鐘不進場
-      if(dt.hour >= InpDayStartHour && dt.hour <= InpDayEndHour) return true; // 符合白天窗口
+      if(dt.hour >= InpDayStartHour && dt.hour < InpDayEndHour) return true; // 符合白天窗口 (01:15 ~ 17:59)
       return false; // 否則禁止
    } // 白天結束
-   else // 🌙 晚間美盤午後收斂組 (MT5 13:00 ~ 18:59)
+   else // 🌙 晚間美盤午後收斂組 (MT5 13:00 ~ 18:59:59)
    { // 美盤時段判定
       if(dt.hour >= InpUSStartHour && dt.hour <= InpUSEndHour) return true; // 符合美盤窗口
       return false; // 否則禁止
@@ -190,7 +211,7 @@ bool IsForceCloseTime() // 強制清倉判定函數
    MqlDateTime dt; // 宣告時間結構
    TimeToStruct(TimeCurrent(), dt); // 解析當前時間
    
-   if(dt.hour >= InpForceCloseHour || dt.hour == 0) return true; // MT5 22:00 後至換日前強制全平
+   if(dt.hour >= InpForceCloseHour || dt.hour == 0) return true; // MT5 22:00 後至 00:59 強制全平
    return false; // 否則為非清倉時間
 } // IsForceCloseTime 結束
 
@@ -224,7 +245,7 @@ void OnTick() // 即時行情入口
       return; // 終止後續開倉
    } // 清倉結束
    
-   // 2. 檢查是否有新 K 棒生成 (本策略所有開平倉決策皆以 K 棒收盤為基準)
+   // 2. 檢查是否有新 K 棒生成 (以 K 棒收盤為基準)
    datetime current_bar_time = iTime(_Symbol, _Period, 0); // 取得當前 K 棒開盤時間
    if(current_bar_time == m_last_bar_time) return; // 若非新 K 棒則直接退出
    
@@ -260,7 +281,7 @@ void OnTick() // 即時行情入口
    double prev_atr = atr_val[0]; // 前一根 ATR
    double active_atr_sl = GetOptimalATRStop(_Symbol); // 取得該商品最佳 ATR 止損倍數
    
-   // 4. 持倉管理與布林中軌止盈平倉判定
+   // 4. 持倉管理與布林中軌止盈平倉判定 (修正: 移除 PriceOpen 限制)
    bool has_position = false; // 是否持倉標記
    for(int i = PositionsTotal() - 1; i >= 0; i--) // 遍歷現有持倉
    { // 遍歷
@@ -273,10 +294,10 @@ void OnTick() // 即時行情入口
             // 多單持倉檢查 (Short Put 買多)
             if(m_position.PositionType() == POSITION_TYPE_BUY) // 多單
             { // 多單邏輯
-               if(InpExitAtBBMiddle && closed_price >= prev_bb_mid && closed_price > m_position.PriceOpen()) // 碰中軌止盈且盈利
+               if(InpExitAtBBMiddle && closed_price >= prev_bb_mid) // 觸及或突破中軌
                { // 止盈出場
                   m_trade.PositionClose(m_position.Ticket()); // 執行平倉
-                  Print("🎉 [多單止盈] 觸及布林中軌平倉離場！Ticket: ", m_position.Ticket(), " | 獲利: $", m_position.Profit()); // 日誌
+                  Print("🎉 [多單中軌止盈] 觸及布林中軌平倉！Ticket: ", m_position.Ticket(), " | 獲利: $", m_position.Profit()); // 日誌
                   has_position = false; // 重設標記
                } // 止盈結束
             } // 多單結束
@@ -284,17 +305,18 @@ void OnTick() // 即時行情入口
             // 空單持倉檢查 (Short Call 賣空)
             else if(m_position.PositionType() == POSITION_TYPE_SELL) // 空單
             { // 空單邏輯
-               if(InpExitAtBBMiddle && closed_price <= prev_bb_mid && closed_price < m_position.PriceOpen()) // 碰中軌止盈且盈利
+               if(InpExitAtBBMiddle && closed_price <= prev_bb_mid) // 觸及或跌破中軌
                { // 止盈出場
                   m_trade.PositionClose(m_position.Ticket()); // 執行平倉
-                  Print("🎉 [空單止盈] 觸及布林中軌平倉離場！Ticket: ", m_position.Ticket(), " | 獲利: $", m_position.Profit()); // 日誌
+                  Print("🎉 [空單中軌止盈] 觸及布林中軌平倉！Ticket: ", m_position.Ticket(), " | 獲利: $", m_position.Profit()); // 日誌
+                  has_position = false; // 重設標記
                } // 止盈結束
             } // 空單結束
          } // 符合結束
       } // 選取結束
    } // 持倉管理結束
    
-   // 5. 開倉訊號判定 (僅在無持倉且處於允許時段內時觸發)
+   // 5. 開倉訊號判定 (修正: 價格標準化 NormalizeDouble，靜態 TP=0 依賴動態中軌平倉)
    if(!has_position && IsWithinAllowedEntryWindow()) // 無持倉且時段允許
    { // 開倉檢查
       if(!m_symbol.RefreshRates()) return; // 刷新即時行情
@@ -311,10 +333,9 @@ void OnTick() // 即時行情入口
       if(closed_price <= prev_bb_lower && prev_rsi <= InpRSI_Oversold) // 多頭進場條件
       { // 執行做多
          double ask = m_symbol.Ask(); // 取得即時買價
-         double sl_price = ask - (active_atr_sl * prev_atr); // 計算 ATR 動態止損價
-         double tp_price = prev_bb_mid; // 以布林中軌作為初步目標價
+         double sl_price = NormalizeDouble(ask - (active_atr_sl * prev_atr), _Digits); // 價格標準化 ATR 動態止損價
          
-         if(m_trade.Buy(InpLotSize, _Symbol, ask, sl_price, tp_price, "SchemeD_ShortPut_Buy")) // 發送多單
+         if(m_trade.Buy(InpLotSize, _Symbol, ask, sl_price, 0, "SchemeD_ShortPut_Buy")) // 發送多單 (TP=0)
          { // 成功
             Print("🚀 [做多開倉] 突破布林下軌觸發賣出 Put (Buy)！價格: ", ask, " | SL: ", sl_price, " | RSI: ", prev_rsi); // 日誌
          } // 成功結束
@@ -324,10 +345,9 @@ void OnTick() // 即時行情入口
       else if(closed_price >= prev_bb_upper && prev_rsi >= InpRSI_Overbought) // 空頭進場條件
       { // 執行做空
          double bid = m_symbol.Bid(); // 取得即時賣價
-         double sl_price = bid + (active_atr_sl * prev_atr); // 計算 ATR 動態止損價
-         double tp_price = prev_bb_mid; // 以布林中軌作為初步目標價
+         double sl_price = NormalizeDouble(bid + (active_atr_sl * prev_atr), _Digits); // 價格標準化 ATR 動態止損價
          
-         if(m_trade.Sell(InpLotSize, _Symbol, bid, sl_price, tp_price, "SchemeD_ShortCall_Sell")) // 發送空單
+         if(m_trade.Sell(InpLotSize, _Symbol, bid, sl_price, 0, "SchemeD_ShortCall_Sell")) // 發送空單 (TP=0)
          { // 成功
             Print("🚀 [做空開倉] 突破布林上軌觸發賣出 Call (Sell)！價格: ", bid, " | SL: ", sl_price, " | RSI: ", prev_rsi); // 日誌
          } // 成功結束
