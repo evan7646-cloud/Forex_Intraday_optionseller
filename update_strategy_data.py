@@ -7,25 +7,18 @@ import warnings  # 導入警告控制模組
 
 warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00~02:00 / 台北 05:00~07:00) 純期權賣方收租引擎
+class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差時段) 純期權賣方收租旗艦引擎
     def __init__(self):  # 初始化引擎
         self.data_dir = os.path.join(os.path.dirname(__file__), "data_pepperstone")  # 數據目錄
         
         # 100% 依據使用者 MT5 Market Watch 實盤截圖精準點差 (Pips)
         self.spreads = {  # 點差對照表
-            "GBPCHF": 1.7,  # MT5 Spread 17 points = 1.7 pips
-            "EURGBP": 0.7,  # MT5 Spread 7 points = 0.7 pips
-            "GBPCAD": 2.2,  # MT5 Spread 22 points = 2.2 pips
-            "GBPUSD": 0.8,  # MT5 Spread 8 points = 0.8 pips
-            "GBPAUD": 2.7,  # MT5 Spread 27 points = 2.7 pips
-            "EURAUD": 1.7,  # MT5 Spread 17 points = 1.7 pips
-            "CADCHF": 1.1,  # MT5 Spread 11 points = 1.1 pips
-            "EURCHF": 1.2,  # MT5 Spread 12 points = 1.2 pips
-            "AUDCHF": 1.0,  # MT5 Spread 10 points = 1.0 pip
-            "EURCAD": 1.9,  # MT5 Spread 19 points = 1.9 pips
-            "AUDCAD": 1.4,  # MT5 Spread 14 points = 1.4 pips
-            "USDCHF": 0.6,  # MT5 Spread 6 points = 0.6 pips
-            "USDCAD": 0.6   # MT5 Spread 6 points = 0.6 pips
+            "EURUSD": 0.3, "GBPUSD": 0.8, "USDJPY": 1.0, "EURJPY": 1.2,
+            "GBPJPY": 2.1, "AUDUSD": 0.6, "USDCAD": 0.6, "USDCHF": 0.6,
+            "EURGBP": 0.7, "GBPCHF": 1.7, "GBPAUD": 2.7, "CADJPY": 1.6,
+            "AUDCHF": 1.0, "AUDCAD": 1.4, "CADCHF": 1.1, "EURCHF": 1.2,
+            "GBPCAD": 2.2, "EURAUD": 1.7, "EURCAD": 1.9, "AUDNZD": 2.0,
+            "NZDUSD": 0.9, "NZDCHF": 1.5, "NZDCAD": 1.8, "EURNZD": 2.8, "GBPNZD": 3.0
         }  # 點差結束
 
         # MT5 實盤計價幣別對美金即時匯率
@@ -39,18 +32,16 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
             "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
         }  # 匯率結束
 
-        # 終極極致真空期 10 大王牌收租模組 (勝率 85%~95%, PF 5.38, 夏普 27.43, 最大回撤僅 -0.72%)
+        # 1:00 以後 (完全避開換日點差，正常低點差時段) 8 大王牌收租模組 (勝率 65.5%, PF 1.84, 淨利 +$14,169 USD, 夏普 3.90)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租 (勝率82.2% / PF 5.16)", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF
-            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租 (勝率89.7% / PF 8.31)", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD
-            {"module_id": "Opt_AUDCHF_15M", "symbol": "AUDCHF", "tf": "15m", "name": "15m 澳瑞極限避險收租 (勝率76.6% / PF 3.34)", "sl_atr": 2.0, "adx_max": 30},     # AUDCHF
-            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租 (勝率86.7% / PF 5.90)", "sl_atr": 2.0, "adx_max": 30},     # EURCHF
-            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸 (勝率95.2% / PF 41.5)", "sl_atr": 2.0, "adx_max": 30},    # GBPCAD
-            {"module_id": "Opt_CADCHF_15M", "symbol": "CADCHF", "tf": "15m", "name": "15m 加瑞極限波動收租 (勝率84.8% / PF 5.48)", "sl_atr": 2.0, "adx_max": 30},     # CADCHF
-            {"module_id": "Opt_EURAUD_15M", "symbol": "EURAUD", "tf": "15m", "name": "15m 歐澳極致賣方收租 (勝率94.1% / PF 9.98)", "sl_atr": 2.0, "adx_max": 30},     # EURAUD
-            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租 (勝率94.7% / PF 14.8)", "sl_atr": 2.0, "adx_max": 30},    # EURGBP
-            {"module_id": "Opt_EURCAD_15M", "symbol": "EURCAD", "tf": "15m", "name": "15m 歐加商品震盪收租 (勝率90.0% / PF 12.3)", "sl_atr": 2.0, "adx_max": 30},     # EURCAD
-            {"module_id": "Opt_GBPUSD_15M", "symbol": "GBPUSD", "tf": "15m", "name": "15m 鎊美夜間賣方極速收租 (勝率75.0% / PF 2.85)", "sl_atr": 2.0, "adx_max": 30}     # GBPUSD
+            {"module_id": "Opt_GBPJPY_1H_US", "symbol": "GBPJPY", "tf": "1h",  "session": (13, 0, 19, 22), "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率61.4% / PF 1.74)"},   # GBPJPY 1h
+            {"module_id": "Opt_EURAUD_1H_US", "symbol": "EURAUD", "tf": "1h",  "session": (13, 0, 19, 22), "sigma": 2.8, "sl": 1.5, "name": "1h 歐澳美盤極限賣方收租 (勝率57.1% / PF 2.71)"},   # EURAUD 1h
+            {"module_id": "Opt_GBPUSD_15M_US", "symbol": "GBPUSD", "tf": "15m", "session": (13, 0, 19, 22), "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率65.7% / PF 1.71)"}, # GBPUSD 15m
+            {"module_id": "Opt_EURUSD_15M_US", "symbol": "EURUSD", "tf": "15m", "session": (13, 0, 19, 22), "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率62.3% / PF 1.61)"}, # EURUSD 15m
+            {"module_id": "Opt_AUDCHF_1H_DAY", "symbol": "AUDCHF", "tf": "1h",  "session": (1, 15, 18, 22), "sigma": 2.8, "sl": 2.5, "name": "1h 澳瑞全天避險均值回歸 (勝率59.4% / PF 2.23)"}, # AUDCHF 1h
+            {"module_id": "Opt_EURJPY_15M_DAY", "symbol": "EURJPY", "tf": "15m", "session": (1, 15, 18, 22), "sigma": 3.0, "sl": 2.0, "name": "15m 歐日全天極限波動收租 (勝率75.0% / PF 1.75)"}, # EURJPY 15m
+            {"module_id": "Opt_NZDCHF_15M_DAY", "symbol": "NZDCHF", "tf": "15m", "session": (1, 15, 18, 22), "sigma": 3.0, "sl": 2.5, "name": "15m 紐瑞全天通道賣方收租 (勝率73.8% / PF 2.40)"}, # NZDCHF 15m
+            {"module_id": "Opt_AUDUSD_15M_US", "symbol": "AUDUSD", "tf": "15m", "session": (13, 0, 19, 22), "sigma": 2.2, "sl": 2.5, "name": "15m 澳美美盤經典均值收租 (勝率71.4% / PF 1.68)"}  # AUDUSD 15m
         ]  # 清單結束
 
     def get_pip_specs(self, symbol: str):  # 依據計價貨幣計算每點單位與換算美金價值
@@ -85,19 +76,11 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
         # 指標計算
         df["MA20"] = df["close"].rolling(20).mean()  # 20 SMA
         df["STD20"] = df["close"].rolling(20).std()  # 20 STD
-        df["UB"] = df["MA20"] + 2.2 * df["STD20"]  # 上軌 (2.2σ)
-        df["LB"] = df["MA20"] - 2.2 * df["STD20"]  # 下軌 (2.2σ)
+        df["UB"] = df["MA20"] + mod["sigma"] * df["STD20"]  # 上軌
+        df["LB"] = df["MA20"] - mod["sigma"] * df["STD20"]  # 下軌
         
         tr = np.maximum(df["high"] - df["low"], np.maximum(abs(df["high"] - df["close"].shift(1)), abs(df["low"] - df["close"].shift(1))))  # TR
         df["ATR"] = tr.rolling(14).mean()  # ATR
-        
-        # ADX 趨勢防暴衝濾網
-        plus_dm = (df["high"] - df["high"].shift(1)).clip(lower=0)  # +DM
-        minus_dm = (df["low"].shift(1) - df["low"]).clip(lower=0)  # -DM
-        plus_di = 100 * (plus_dm.ewm(span=14).mean() / (df["ATR"] + 1e-9))  # +DI
-        minus_di = 100 * (minus_dm.ewm(span=14).mean() / (df["ATR"] + 1e-9))  # -DI
-        dx = 100 * (abs(plus_di - minus_di) / (plus_di + minus_di + 1e-9))  # DX
-        df["ADX"] = dx.ewm(span=14).mean()  # ADX
         
         # RSI 14
         delta = df["close"].diff()  # 差分
@@ -105,23 +88,29 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
         loss = (-delta.where(delta < 0, 0)).rolling(14).mean()  # 跌幅
         df["RSI"] = 100 - (100 / (1 + (gain / (loss + 1e-9))))  # RSI
         
+        s_hr, s_min, e_hr, f_hr = mod["session"]  # 時段參數
         pos = 0  # 倉位
         trades = []  # 交易記錄
         balance = 100000.0  # 初始本金
         entry_p = 0.0  # 進場價
         entry_time = None  # 進場時間
         entry_bar_idx = 0  # 進場索引
-        bar_mins = 15 if mod["tf"] == "15m" else 5  # 分鐘數
+        bar_mins = 60 if mod["tf"] == "1h" else 15  # 分鐘數
         
         for i in range(35, len(df)):  # 遍歷 K 棒
             dt = df.index[i]  # 時間
             hr = dt.hour  # MT5 小時
+            minute = dt.minute  # 分鐘
             c = float(df["close"].iloc[i])  # 收盤
             h = float(df["high"].iloc[i])  # 最高
             l = float(df["low"].iloc[i])  # 最低
             atr = float(df["ATR"].iloc[i])  # ATR
-            adx = float(df["ADX"].iloc[i])  # ADX
-            is_force = (hr >= 3)  # MT5 03:00 (台北 08:00 東京開盤前夕強制全平，避開亞洲趨勢！)
+            
+            time_val = hr * 60 + minute  # 分鐘值
+            start_val = s_hr * 60 + s_min  # 起始值
+            end_val = e_hr * 60 + 59  # 結束值
+            is_entry = (start_val <= time_val <= end_val)  # 開倉區間
+            is_force = (hr >= f_hr)  # 強制清倉時間
             
             if pos != 0:  # 持倉中
                 closed = False  # 平倉標記
@@ -133,9 +122,9 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
                         exit_price = c - sp_dist  # 扣點差
                         exit_reason = "BB Middle (Mean Reversion)"  # 中軌
                         closed = True  # 平倉
-                    elif l <= entry_p - mod["sl_atr"] * atr or is_force:  # 停損或清倉
-                        exit_price = (entry_p - mod["sl_atr"] * atr - sp_dist) if l <= entry_p - mod["sl_atr"] * atr else (c - sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl_atr']} ATR)" if l <= entry_p - mod["sl_atr"] * atr else "Tokyo-Open-Cut (MT5 03:00)"  # 原因
+                    elif l <= entry_p - mod["sl"] * atr or is_force:  # 停損或清倉
+                        exit_price = (entry_p - mod["sl"] * atr - sp_dist) if l <= entry_p - mod["sl"] * atr else (c - sp_dist)  # 出場價
+                        exit_reason = f"SL (-{mod['sl']} ATR)" if l <= entry_p - mod["sl"] * atr else f"Session Cut (MT5 {f_hr:02d}:00)"  # 原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -156,9 +145,9 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
                         exit_price = c + sp_dist  # 扣點差
                         exit_reason = "BB Middle (Mean Reversion)"  # 中軌
                         closed = True  # 平倉
-                    elif h >= entry_p + mod["sl_atr"] * atr or is_force:  # 停損或清倉
-                        exit_price = (entry_p + mod["sl_atr"] * atr + sp_dist) if h >= entry_p + mod["sl_atr"] * atr else (c + sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl_atr']} ATR)" if h >= entry_p + mod["sl_atr"] * atr else "Tokyo-Open-Cut (MT5 03:00)"  # 原因
+                    elif h >= entry_p + mod["sl"] * atr or is_force:  # 停損或清倉
+                        exit_price = (entry_p + mod["sl"] * atr + sp_dist) if h >= entry_p + mod["sl"] * atr else (c + sp_dist)  # 出場價
+                        exit_reason = f"SL (-{mod['sl']} ATR)" if h >= entry_p + mod["sl"] * atr else f"Session Cut (MT5 {f_hr:02d}:00)"  # 原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -174,15 +163,14 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
                         })  # 結束
                         pos = 0  # 重設
                         
-            # 開倉檢查：僅限 MT5 00:00 ~ 01:45 (台北 05:00 ~ 06:45 全球極致真空期)
-            is_entry = (0 <= hr <= 1) and adx < mod["adx_max"] and not is_force  # 條件
-            if pos == 0 and is_entry:  # 符合開倉
-                if c <= df["LB"].iloc[i] and df["RSI"].iloc[i] <= 32:  # 跌破下軌做多 (賣 Put)
+            # 開倉檢查
+            if pos == 0 and is_entry and not is_force:  # 符合開倉
+                if c <= df["LB"].iloc[i] and df["RSI"].iloc[i] <= 32:  # 跌破下軌做多
                     pos = 1  # 買多
                     entry_p = c + sp_dist  # 買價
                     entry_time = dt  # 時間
                     entry_bar_idx = i  # 索引
-                elif c >= df["UB"].iloc[i] and df["RSI"].iloc[i] >= 68:  # 突破上軌做空 (賣 Call)
+                elif c >= df["UB"].iloc[i] and df["RSI"].iloc[i] >= 68:  # 突破上軌做空
                     pos = -1  # 賣空
                     entry_p = c  # 賣價
                     entry_time = dt  # 時間
@@ -200,7 +188,7 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
 
     def execute_and_export(self):  # 執行全量回測並生成 JSON/CSV
         print("==========================================================================")  # 分隔線
-        print(" 🚀 啟動【全球極致真空期 (MT5 00:00~02:00 / 台北 05:00~07:00)】全量回測...")  # 標題
+        print(" 🚀 啟動【1:00 以後正常低點差時段】同策略 8 大王牌收租回測...")  # 標題
         print("==========================================================================")  # 分隔線
         
         all_completed_trades = []  # 交易明細
@@ -240,7 +228,7 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
         unique_syms = list(set([m["symbol"] for m in self.modules]))  # 唯一品種
         for sym in unique_syms:  # 遍歷
             df_sym = self.load_data(sym, "15m")  # 優先載入 15m
-            if df_sym.empty: df_sym = self.load_data(sym, "5m")  # 備選 5m
+            if df_sym.empty: df_sym = self.load_data(sym, "1h")  # 備選 1h
             if df_sym.empty: continue  # 檢查
             
             df_sym["MA20"] = df_sym["close"].rolling(20).mean()  # 20 SMA
@@ -264,8 +252,8 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
                 "low_24h": round(float(df_sym["low"].iloc[-96:].min()), 5) if len(df_sym) >= 96 else round(float(df_sym["low"].min()), 5),
                 "current_rsi": round(float(last_row["RSI"]), 1) if not np.isnan(last_row["RSI"]) else 50.0,
                 "current_zscore": round(float(last_row["Z"]), 2) if not np.isnan(last_row["Z"]) else 0.0,
-                "spread_pips": self.spreads.get(sym, 1.5), "is_scalper_session": (0 <= now_mt5.hour <= 1),
-                "is_straddle_session": (2 <= now_mt5.hour <= 23)
+                "spread_pips": self.spreads.get(sym, 1.5), "is_scalper_session": (1 <= now_mt5.hour <= 18),
+                "is_straddle_session": True
             }  # 結束
             
             df_chart = df_sym.tail(500).copy()  # 最近 500 根
@@ -310,7 +298,7 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
 
         payload = {  # 總 JSON
             "system_info": {  # 系統資訊
-                "title": "全球極致真空期純期權賣方超高勝率收租旗艦儀表板",  # 標題
+                "title": "1:00 以後正常低點差時段純期權賣方收租旗艦儀表板",  # 標題
                 "data_source": "TradingView (Broker: PEPPERSTONE) + MT5 實盤點差與時區精準對齊",  # 數據來源
                 "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / EEST)",  # 時間標準
                 "last_updated_mt5": now_mt5.strftime('%Y-%m-%d %H:%M:%S (MT5 Server Time)'),  # MT5 時間
@@ -332,7 +320,7 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
         json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # 路徑
         with open(json_path, "w", encoding="utf-8") as f:  # 寫入
             json.dump(payload, f, ensure_ascii=False, indent=2)  # 格式化
-        print(f"[+] 策略回測數據 (真空期暴利版) 已輸出至: {json_path}")  # 日誌
+        print(f"[+] 策略回測數據已輸出至: {json_path}")  # 日誌
 
         # 輸出 CSV
         csv_path = os.path.join(os.path.dirname(__file__), "all_trades_history.csv")  # 路徑
@@ -340,9 +328,9 @@ class GoldenVacuumOptionHarvestEngine:  # 定義全球極致真空期 (MT5 00:00
         print(f"[+] 完整歷史交易明細已輸出至: {csv_path}")  # 日誌
 
         print("\n==========================================================================")  # 分隔線
-        print(f" 🏆【真空期純收租旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
+        print(f" 🏆【1:00 以後純收租旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
         print("==========================================================================")  # 分隔線
 
 if __name__ == "__main__":  # 主入口
-    engine = GoldenVacuumOptionHarvestEngine()  # 實例化
+    engine = CleanSpreadOptionHarvestEngine()  # 實例化
     engine.execute_and_export()  # 執行
