@@ -3,7 +3,7 @@
 <head> <!-- 網頁標頭區塊開始 -->
     <meta charset="UTF-8"> <!-- 設定 UTF-8 編碼 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 響應式視窗縮放設定 -->
-    <title>5m 純日內雙策略 8 大模組極限收租量化監控儀表板 (MT5 時間基準)</title> <!-- 網頁分頁標題 -->
+    <title>方案 D【全天分工收租旗艦 8 大王牌模組】量化監控儀表板</title> <!-- 網頁分頁標題 -->
     <!-- 引入 Google Fonts 現代視效字型 Outfit 與 JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"> <!-- 字型樣式表 -->
     <!-- 引入 Plotly.js 互動繪圖函式庫 CDN -->
@@ -18,10 +18,10 @@
         <header class="header-bar"> <!-- 頂部玻璃列 -->
             <div class="header-left">
                 <div class="logo-badge">
-                    <span class="logo-icon">⚡</span>
+                    <span class="logo-icon">👑</span>
                     <div>
-                        <h1 class="logo-title">純期權賣方高勝率收租旗艦量化監控儀表板</h1>
-                        <p class="logo-subtitle">PEPPERSTONE ECN 真實數據源 | MT5 伺服器時間標準 | 純震盪收租 (無順勢) | 100% 扣除點差與手續費</p>
+                        <h1 class="logo-title">方案 D【全天分工收租旗艦 8 大王牌模組】量化監控儀表板</h1>
+                        <p class="logo-subtitle">PEPPERSTONE ECN 真實數據 | ☀️ 白天通道避險 + 🌙 晚間美盤收斂 (100% 避開 04:45~06:15 換日擴點) | 扣除點差與手續費</p>
                     </div>
                 </div>
             </div>
@@ -38,11 +38,11 @@
 
         <!-- 模組快選按鈕列 -->
         <div style="display:flex; justify-content:space-between; align-items:center; margin: 12px 0 16px 0; background:rgba(22,27,34,0.8); padding:10px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
-            <span style="font-weight:700; color:#8b949e; font-size:13px;">🎛️ 策略模組快選:</span>
+            <span style="font-weight:700; color:#8b949e; font-size:13px;">🎛️ 時段分工模組快選:</span>
             <div class="preset-buttons-group" style="display:flex; gap:8px;">
-                <button id="btn-toggle-all" class="preset-btn active">全部 8 大高夏普收租模組</button>
-                <button id="btn-toggle-scalper" class="preset-btn">🇬🇧 英鎊交叉組 (4模組)</button>
-                <button id="btn-toggle-straddle" class="preset-btn">🇪🇺 歐元交叉組 (3模組)</button>
+                <button id="btn-toggle-all" class="preset-btn active">全部 8 大分工收租模組 (勝率 65.7% / Sharpe 3.53)</button>
+                <button id="btn-toggle-scalper" class="preset-btn">☀️ 白天全天通道組 (AUDCHF, EURJPY, NZDCHF)</button>
+                <button id="btn-toggle-straddle" class="preset-btn">🌙 晚間美盤收斂組 (GBPJPY, EURAUD, GBPUSD, EURUSD, AUDUSD)</button>
                 <button id="btn-select-all" class="preset-btn">全選商品</button>
                 <button id="btn-clear-all" class="preset-btn">清除篩選</button>
             </div>
@@ -50,7 +50,7 @@
 
         <!-- 第一區：即時行情與指標狀態跑馬卡片 -->
         <section class="market-status-strip" id="market-tickers-container"> <!-- 即時報價小卡容器 -->
-            <!-- JavaScript 動態渲染 5 大貨幣對即時報價、RSI 與 Z-Score -->
+            <!-- JavaScript 動態渲染 8 大貨幣對即時報價、RSI 與 Z-Score -->
         </section> <!-- 報價區結束 -->
 
         <!-- 第二區：關鍵績效指標卡片 (KPI Cards) - 支援勾選即時動態重算 -->
@@ -103,7 +103,7 @@
                 <div class="card-main-val val-bear" id="kpi-max-drawdown">0.00%</div> <!-- MDD 百分比 -->
                 <div class="card-sub-info"> <!-- 底部細節 -->
                     <span>最大回撤金額: <strong id="kpi-mdd-dollars" class="val-bear">-$0</strong></span> <!-- MDD 美金 -->
-                    <span>單日風控: <strong class="val-bull">合規 (&lt; 1%)</strong></span> <!-- 風控合規 -->
+                    <span>單日風控: <strong class="val-bull">合規 (&lt; 2.5%)</strong></span> <!-- 風控合規 -->
                 </div> <!-- 細節結束 -->
             </div> <!-- 卡片 4 結束 -->
 
@@ -116,209 +116,138 @@
                 <div class="card-main-val val-cyan" id="kpi-active-count">0 部位</div> <!-- 持倉數 -->
                 <div class="card-sub-info" id="kpi-active-positions-detail"> <!-- 底部細節 -->
                     <span>未實現損益: <strong id="kpi-unrealized-pnl" class="val-neutral">$0.00</strong></span> <!-- 未實現損益 -->
-                    <span>持倉狀態: <strong id="kpi-active-status" class="val-neutral">無在場單</strong></span> <!-- 狀態標籤 -->
+                    <span>持倉狀態: <strong id="kpi-active-status" class="val-neutral">無在場單 (03:00 前全平)</strong></span> <!-- 狀態標籤 -->
                 </div> <!-- 細節結束 -->
             </div> <!-- 卡片 5 結束 -->
-        </section> <!-- KPI 區結束 -->
+        </section> <!-- KPI 網格結束 -->
 
-        <!-- 第三區：8 大策略模組勾選過濾與控制盤 -->
-        <section class="filter-control-panel"> <!-- 篩選控制外框 -->
-            <div class="filter-panel-header"> <!-- 標題列 -->
-                <div class="panel-title-text"> <!-- 標題群 -->
-                    <h2>🎛️ 5m 策略模組組合自選器 (即時連動重算)</h2> <!-- 標題 -->
-                    <span>勾選或取消個別模組，下方 KPI、資金曲線與明細將自動即時重新計算</span> <!-- 提示 -->
-                </div> <!-- 標題群結束 -->
-                <div class="filter-quick-presets"> <!-- 快捷預設按鈕 -->
-                    <button class="preset-btn active" id="btn-toggle-all">🌟 全部 8 大模組</button> <!-- 全部 -->
-                    <button class="preset-btn" id="btn-toggle-scalper">🌙 僅夜間剝頭皮 (5款)</button> <!-- 僅夜間 -->
-                    <button class="preset-btn" id="btn-toggle-straddle">⚡ 僅日間跨式賣方 (3款)</button> <!-- 僅日間 -->
-                    <button class="preset-btn-ghost" id="btn-select-all">全選</button> <!-- 全選 -->
-                    <button class="preset-btn-ghost" id="btn-clear-all">清除</button> <!-- 清除 -->
-                </div> <!-- 快捷按鈕結束 -->
+        <!-- 第三區：多商品動態組合勾選器 (Multi-Asset Selection Matrix) -->
+        <section class="asset-matrix-section"> <!-- 多商品控制區塊 -->
+            <div class="section-header"> <!-- 區塊標題列 -->
+                <h2 class="section-title">📦 方案 D 專屬 8 大王牌模組分工選擇 (點擊卡片自由組合疊加回測曲線)</h2> <!-- 標題 -->
+                <span class="section-badge">支援 8 大模組獨立自由勾選即時疊加重算</span> <!-- 標籤 -->
             </div> <!-- 標題列結束 -->
+            <div class="asset-checkboxes-grid" id="asset-checkboxes-container"> <!-- 商品卡片網格 -->
+                <!-- JavaScript 動態渲染 8 大商品卡片與勾選框 -->
+            </div> <!-- 網格結束 -->
+        </section> <!-- 多商品區塊結束 -->
 
-            <!-- 模組勾選卡片網格 -->
-            <div class="asset-checkbox-grid" id="asset-checkbox-container"> <!-- 勾選卡片容器 -->
-                <!-- 由 JavaScript 動態渲染 8 大模組卡片 -->
-            </div> <!-- 容器結束 -->
-        </section> <!-- 篩選盤結束 -->
-
-        <!-- 第四區：Plotly 互動式圖表展示區 (MT5 時間座標) -->
-        <section class="chart-section"> <!-- 圖表主區塊 -->
-            <div class="chart-header-controls"> <!-- 圖表控制列 -->
-                <div class="chart-tabs-nav"> <!-- 分頁標籤按鈕 -->
-                    <button class="tab-btn active" data-chart="combined-equity">📈 組合累積損益 ($0起計)</button> <!-- 分頁 1 -->
-                    <button class="tab-btn" data-chart="comparative-equity">📊 各標的損益比較 ($0起計)</button> <!-- 分頁 2 -->
-                    <button class="tab-btn" data-chart="candlestick-signals">🕯️ 5m K線與進出場訊號 (MT5時間)</button> <!-- 分頁 3 -->
-                    <button class="tab-btn" data-chart="drawdown-curve">📉 歷史回撤深度圖</button> <!-- 分頁 4 -->
-                </div> <!-- 分頁標籤結束 -->
-                <div class="chart-extra-options" id="candlestick-options" style="display:none;"> <!-- K 線圖專屬標的下拉選單 -->
-                    <span style="font-size:12px; color:var(--text-secondary);">選擇圖表標的:</span> <!-- 標籤 -->
-                    <select class="chart-select-dropdown" id="candlestick-symbol-select"> <!-- 標的下拉選單 -->
-                        <option value="AUDCHF">AUDCHF</option> <!-- 選項 -->
-                        <option value="EURCHF">EURCHF</option> <!-- 選項 -->
-                        <option value="AUDCAD">AUDCAD</option> <!-- 選項 -->
-                        <option value="USDCHF">USDCHF</option> <!-- 選項 -->
-                        <option value="USDCAD">USDCAD</option> <!-- 選項 -->
-                    </select> <!-- 下拉選單結束 -->
-                </div> <!-- K 線選項結束 -->
+        <!-- 第四區：核心視覺化分析圖表 (Plotly 互動式圖表切換) -->
+        <section class="chart-section"> <!-- 圖表區塊 -->
+            <div class="chart-header-bar"> <!-- 圖表控制列 -->
+                <div class="chart-tabs"> <!-- 分頁按鈕群組 -->
+                    <button class="tab-btn active" data-chart="combined-equity">📈 組合累積損益與淨值曲線</button> <!-- 淨值曲線按鈕 -->
+                    <button class="tab-btn" data-chart="candlestick-signals">🕯️ K線指標與進出場實盤點位</button> <!-- K 線訊號按鈕 -->
+                    <button class="tab-btn" data-chart="pnl-distribution">📊 每筆交易損益分布直方圖</button> <!-- 損益分布按鈕 -->
+                    <button class="tab-btn" data-chart="monthly-bar">📅 模組貢獻與月度收益柱狀圖</button> <!-- 月度收益按鈕 -->
+                </div> <!-- 分頁群組結束 -->
+                <div class="chart-extra-options" id="candlestick-options" style="display:none;"> <!-- K 線下拉容器 -->
+                    <label for="candlestick-symbol-select" style="font-size:12px; color:#8b949e; font-weight:600;">選擇貨幣對:</label> <!-- 標籤 -->
+                    <select id="candlestick-symbol-select" class="custom-select"> <!-- 下拉選單 -->
+                        <!-- 動態填入貨幣對選項 -->
+                    </select> <!-- 選單結束 -->
+                </div> <!-- K 線下拉結束 -->
             </div> <!-- 控制列結束 -->
+            <div class="chart-wrapper"> <!-- 圖表畫布容器 -->
+                <div id="main-plotly-chart" class="plotly-canvas"></div> <!-- Plotly 渲染目標容器 -->
+            </div> <!-- 畫布容器結束 -->
+        </section> <!-- 圖表區塊結束 -->
 
-            <!-- Plotly 圖表繪圖主容器 -->
-            <div class="chart-container-box" id="main-plotly-chart"> <!-- Plotly 主繪圖 DIV -->
-                <!-- Plotly.js 圖表將在此渲染 -->
-            </div> <!-- 繪圖容器結束 -->
-        </section> <!-- 圖表區結束 -->
-
-        <!-- 第五區：8 大策略模組參數規格與實盤回測績效矩陣總表 -->
-        <section class="strategy-matrix-section" style="margin-top:24px;"> <!-- 策略矩陣區塊 -->
-            <div class="table-header-bar"> <!-- 表格標題操作列 -->
-                <div class="table-title-group"> <!-- 標題群組 -->
-                    <h2>📊 8 大策略模組參數規格與實盤回測績效矩陣 (MT5 伺服器時間標準)</h2> <!-- 表格主標題 -->
-                    <span>100% 依實盤點差 (0.4~1.1 pips) 與每手 $5 手續費撮合計算 | 零隔夜清倉時段以 MT5 伺服器時間為準</span> <!-- 補充說明 -->
-                </div> <!-- 標題群組結束 -->
+        <!-- 第五區：8 大王牌模組矩陣總表 (Strategy Matrix Table) -->
+        <section class="strategy-matrix-section"> <!-- 模組矩陣區塊 -->
+            <div class="section-header"> <!-- 區塊標題列 -->
+                <h2 class="section-title">📊 方案 D 8 大王牌模組獨立績效與參數矩陣總表</h2> <!-- 標題 -->
+                <span class="section-badge">100% 依據實盤點差與 $5/手手續費計算</span> <!-- 標籤 -->
             </div> <!-- 標題列結束 -->
-
-            <div class="table-responsive-wrapper"> <!-- 滾動外框 -->
-                <table class="custom-trades-table"> <!-- 表格 -->
+            <div class="table-container glass-table-wrap"> <!-- 表格滾動容器 -->
+                <table class="glass-table" id="strategy-matrix-table"> <!-- 矩陣表格 -->
                     <thead> <!-- 表頭 -->
-                        <tr> <!-- 表頭列 -->
-                            <th>模組識別碼</th> <!-- 識別碼 -->
-                            <th>策略名稱</th> <!-- 策略 -->
-                            <th>交易貨幣對</th> <!-- 標的 -->
-                            <th>掛載 EA 檔案</th> <!-- EA 檔名 -->
-                            <th>執行時段 (MT5 時間)</th> <!-- 時段 (MT5) -->
-                            <th>進出場設定 (TP/SL/Z)</th> <!-- 設定 -->
-                            <th>交易筆數</th> <!-- 筆數 -->
-                            <th>勝率</th> <!-- 勝率 -->
+                        <tr> <!-- 列 -->
+                            <th>時段分組</th> <!-- 時段分組 -->
+                            <th>模組代碼</th> <!-- 代碼 -->
+                            <th>商品標的</th> <!-- 品種 -->
+                            <th>時間週期</th> <!-- 週期 -->
+                            <th>總交易次數</th> <!-- 交易數 -->
+                            <th>勝率 (WR)</th> <!-- 勝率 -->
                             <th>獲利因子 (PF)</th> <!-- PF -->
-                            <th>最大回撤 (MDD)</th> <!-- MDD -->
-                            <th>實質純利 (USD)</th> <!-- 純利 -->
-                        </tr> <!-- 表頭列結束 -->
+                            <th>實質總淨利 (USD)</th> <!-- 淨利 -->
+                            <th>總投報率 (ROI)</th> <!-- ROI -->
+                            <th>最佳布林標準差</th> <!-- 參數 -->
+                            <th>止損設定</th> <!-- 止損 -->
+                        </tr> <!-- 列結束 -->
                     </thead> <!-- 表頭結束 -->
-                    <tbody id="strategy-matrix-table-body"> <!-- 表體 -->
-                        <!-- 由 JavaScript 動態渲染 -->
-                    </tbody> <!-- 表體結束 -->
+                    <tbody id="strategy-matrix-body"> <!-- 表身容器 -->
+                        <!-- JavaScript 動態渲染 8 大模組獨立表現 -->
+                    </tbody> <!-- 表身結束 -->
                 </table> <!-- 表格結束 -->
-            </div> <!-- 滾動外框結束 -->
-        </section> <!-- 策略矩陣結束 -->
+            </div> <!-- 滾動容器結束 -->
+        </section> <!-- 模組矩陣結束 -->
 
-        <!-- 第六區：歷史交易紀錄表格清單 (MT5 時間) -->
-        <section class="trades-table-section"> <!-- 表格區塊 -->
-            <div class="table-header-bar"> <!-- 表格標題操作列 -->
-                <div class="table-title-group"> <!-- 標題群組 -->
-                    <h2>📋 歷史交易紀錄明細 (時間基準: MT5 伺服器時間)</h2> <!-- 表格主標題 -->
-                    <span id="table-trades-counter">顯示 0 / 0 筆交易紀錄</span> <!-- 筆數計數器 -->
-                </div> <!-- 標題群組結束 -->
-                <div class="table-filters-row"> <!-- 篩選操作列 -->
-                    <input type="text" class="table-search-input" id="table-search" placeholder="🔍 搜尋標的 / 出場原因..."> <!-- 搜尋輸入框 -->
-                    <select class="chart-select-dropdown" id="filter-trade-type"> <!-- 方向下拉 -->
-                        <option value="ALL">全部方向</option> <!-- 全部方向 -->
-                        <option value="BUY">買進 (Long)</option> <!-- 買進 -->
-                        <option value="SELL">賣出 (Short)</option> <!-- 賣出 -->
-                    </select> <!-- 方向結束 -->
-                    <select class="chart-select-dropdown" id="filter-trade-outcome"> <!-- 勝負下拉 -->
-                        <option value="ALL">全部損益</option> <!-- 全部 -->
-                        <option value="WIN">獲利 (Win)</option> <!-- 獲利 -->
-                        <option value="LOSS">虧損 (Loss)</option> <!-- 虧損 -->
-                    </select> <!-- 勝負結束 -->
-                    <button class="btn-export-csv" id="btn-export-csv" title="下載當前篩選之所有交易明細 CSV 檔案 (MT5 時間)"> <!-- 匯出按鈕 -->
-                        📥 匯出 CSV <!-- 按鈕文字 -->
-                    </button> <!-- 按鈕結束 -->
-                </div> <!-- 操作列結束 -->
+        <!-- 第六區：完整歷史交易明細表格 (Trade Records with Search & Pagination) -->
+        <section class="trades-log-section"> <!-- 交易明細區塊 -->
+            <div class="section-header"> <!-- 區塊標題列 -->
+                <h2 class="section-title">📜 完整歷史交易明細資料庫 (已扣除實盤點差與手續費)</h2> <!-- 標題 -->
+                <div class="table-controls-group"> <!-- 表格控制群組 -->
+                    <div class="search-box"> <!-- 搜尋框 -->
+                        <span class="search-icon">🔍</span> <!-- 搜尋圖示 -->
+                        <input type="text" id="trade-search-input" placeholder="搜尋貨幣對、策略或平倉原因..."> <!-- 搜尋輸入框 -->
+                    </div> <!-- 搜尋框結束 -->
+                    <select id="trade-type-filter" class="custom-select"> <!-- 買賣過濾 -->
+                        <option value="ALL">全部方向 (Buy / Sell)</option> <!-- 全部 -->
+                        <option value="BUY">僅看多單 (Buy / Short Put)</option> <!-- 多單 -->
+                        <option value="SELL">僅看空單 (Sell / Short Call)</option> <!-- 空單 -->
+                    </select> <!-- 選單結束 -->
+                    <select id="trade-outcome-filter" class="custom-select"> <!-- 勝負過濾 -->
+                        <option value="ALL">全部結果 (獲利 & 虧損)</option> <!-- 全部 -->
+                        <option value="WIN">僅看獲利單 (Win Only)</option> <!-- 獲利 -->
+                        <option value="LOSS">僅看虧損單 (Loss Only)</option> <!-- 虧損 -->
+                    </select> <!-- 選單結束 -->
+                </div> <!-- 控制群組結束 -->
             </div> <!-- 標題列結束 -->
 
-            <!-- 響應式表格外框 -->
-            <div class="table-responsive-wrapper"> <!-- 滾動包裝層 -->
-                <table class="custom-trades-table"> <!-- 自訂樣式表格 -->
+            <div class="table-container glass-table-wrap"> <!-- 表格滾動容器 -->
+                <table class="glass-table" id="trades-history-table"> <!-- 交易明細表格 -->
                     <thead> <!-- 表頭 -->
-                        <tr> <!-- 表頭列 -->
-                            <th>#</th> <!-- 序號 -->
-                            <th>策略名稱</th> <!-- 策略 -->
-                            <th>貨幣對</th> <!-- 標的 -->
-                            <th>方向</th> <!-- 方向 -->
-                            <th>手數</th> <!-- 手數 -->
-                            <th>進場時間 (MT5)</th> <!-- 進場時間 (MT5) -->
-                            <th>進場價</th> <!-- 進場價 -->
-                            <th>出場時間 (MT5)</th> <!-- 出場時間 (MT5) -->
-                            <th>出場價</th> <!-- 出場價 -->
-                            <th>淨損益 (USD)</th> <!-- 淨利美金 -->
-                            <th>點數 (pips)</th> <!-- 點數 -->
-                            <th>出場原因</th> <!-- 原因 -->
-                            <th>持倉時間</th> <!-- 持倉時間 -->
-                        </tr> <!-- 表頭列結束 -->
+                        <tr> <!-- 列 -->
+                            <th>序號</th> <!-- ID -->
+                            <th>商品品種</th> <!-- 品種 -->
+                            <th>週期</th> <!-- 週期 -->
+                            <th>操作方向</th> <!-- 方向 -->
+                            <th>進場時間 (MT5)</th> <!-- 進場時間 -->
+                            <th>進場價格</th> <!-- 進場價 -->
+                            <th>出場時間 (MT5)</th> <!-- 出場時間 -->
+                            <th>出場價格</th> <!-- 出場價 -->
+                            <th>實質損益 (USD)</th> <!-- 淨利 -->
+                            <th>點數 (Pips)</th> <!-- 點數 -->
+                            <th>持倉時間 (分)</th> <!-- 持倉時間 -->
+                            <th>平倉觸發原因</th> <!-- 平倉原因 -->
+                        </tr> <!-- 列結束 -->
                     </thead> <!-- 表頭結束 -->
-                    <tbody id="trades-table-body"> <!-- 表格資料主體 -->
-                        <!-- 由 JavaScript 動態分頁渲染 -->
-                    </tbody> <!-- 主體結束 -->
+                    <tbody id="trades-table-body"> <!-- 表身容器 -->
+                        <!-- JavaScript 動態渲染歷史交易明細 -->
+                    </tbody> <!-- 表身結束 -->
                 </table> <!-- 表格結束 -->
-            </div> <!-- 滾動外框結束 -->
+            </div> <!-- 滾動容器結束 -->
 
-            <!-- 分頁導航工具列 -->
-            <div class="table-pagination-bar"> <!-- 分頁控制列 -->
-                <div style="font-size:12px; color:var(--text-secondary); font-family:var(--font-mono);"> <!-- 頁數資訊 -->
-                    每頁顯示: <!-- 文字 -->
-                    <select class="chart-select-dropdown" id="page-size-select" style="padding:4px 8px; font-size:12px;"> <!-- 每頁筆數 -->
-                        <option value="15">15 筆</option> <!-- 15筆 -->
-                        <option value="30">30 筆</option> <!-- 30筆 -->
-                        <option value="50">50 筆</option> <!-- 50筆 -->
-                    </select> <!-- 筆數結束 -->
-                </div> <!-- 資訊結束 -->
-                <div class="pagination-controls" id="pagination-buttons-container"> <!-- 分頁按鈕容器 -->
-                    <!-- 由 JavaScript 動態生成分頁頁碼按鈕 -->
-                </div> <!-- 分頁按鈕結束 -->
+            <!-- 表格分頁導航列 -->
+            <div class="pagination-bar"> <!-- 分頁控制列 -->
+                <div class="pagination-info" id="pagination-info-text">顯示第 1 - 15 筆，共 0 筆交易</div> <!-- 分頁文字 -->
+                <div class="pagination-buttons"> <!-- 按鈕群組 -->
+                    <button class="page-nav-btn" id="btn-page-prev">⬅️ 上一頁</button> <!-- 上一頁 -->
+                    <span class="page-current-badge" id="current-page-num">1</span> <!-- 當前頁碼 -->
+                    <button class="page-nav-btn" id="btn-page-next">下一頁 ➡️</button> <!-- 下一頁 -->
+                </div> <!-- 按鈕群組結束 -->
             </div> <!-- 分頁列結束 -->
-        </section> <!-- 表格區結束 -->
+        </section> <!-- 交易明細區塊結束 -->
 
-        <!-- 第七區：策略規格與 MT5 參數速查卡片 (MT5 時間規範) -->
-        <section class="strategy-guide-section"> <!-- 說明手冊區塊 -->
-            <div class="table-title-group"> <!-- 標題 -->
-                <h2>📖 兩大純日內 5m 策略核心規範速查 (MT5 伺服器時間 Zero-Overnight 規範)</h2> <!-- 標題文字 -->
-                <span>以經紀商 MT5 伺服器時間為準，在換匯 (Rollover) 期間維持 100% 空手，完全規避隔夜利息與利差擴點</span> <!-- 補充說明 -->
-            </div> <!-- 標題結束 -->
-
-            <div class="strategy-guide-grid"> <!-- 雙欄規格卡片 -->
-                <!-- 策略 1 規格 -->
-                <div class="guide-spec-box"> <!-- 規格盒 1 -->
-                    <h3 style="color:var(--color-purple);">🌙 策略 1：5m 亞洲夜間極限收租 (OptionSeller_AsianNightScalper_5m.mq5)</h3> <!-- 策略 1 標題 -->
-                    <ul class="guide-spec-list"> <!-- 清單 -->
-                        <li>🎯 <strong>掛載清單 (5款)</strong>：
-                            <br>• <code>AUDCHF [M5]</code>: TP 50 (5p) / SL 350 (35p) / 容許點差 18 pts
-                            <br>• <code>EURCHF [M5]</code>: TP 50 (5p) / SL 350 (35p) / 容許點差 15 pts
-                            <br>• <code>AUDCAD [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 20 pts
-                            <br>• <code>USDCHF [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 12 pts
-                            <br>• <code>USDCAD [M5]</code>: TP 80 (8p) / SL 400 (40p) / 容許點差 12 pts
-                        </li> <!-- 標的 -->
-                        <li>⏰ <strong>交易時段 (MT5 時間)</strong>：進場 <strong>MT5 01:00 ～ 08:00</strong> | <strong>MT5 10:00 強制清倉 (歐盤開盤前夕零隔夜)</strong></li> <!-- 時段 -->
-                        <li>📐 <strong>指標模型</strong>：20 週期 Bollinger Bands (2.2σ) + 14 週期 RSI (35/65)</li> <!-- 指標 -->
-                        <li>🟢 <strong>買進訊號</strong>：收盤價 $\le$ 布林下軌 且 RSI $\le$ 35 (賣 Put 收租)</li> <!-- 買進 -->
-                        <li>🔴 <strong>賣出訊號</strong>：收盤價 $\ge$ 布林上軌 且 RSI $\ge$ 65 (賣 Call 收租)</li> <!-- 賣出 -->
-                        <li>💰 <strong>出場機制</strong>：指定 TP 止盈 / 布林中軌獲利平倉；指定 SL 硬停損</li> <!-- 出場 -->
-                    </ul> <!-- 清單結束 -->
-                </div> <!-- 規格盒 1 結束 -->
-
-                <!-- 策略 2 規格 -->
-                <div class="guide-spec-box"> <!-- 規格盒 2 -->
-                    <h3 style="color:var(--color-accent);">⚡ 策略 2：5m 合成跨式賣方模型 (OptionSeller_SyntheticShortStraddle_5m.mq5)</h3> <!-- 策略 2 標題 -->
-                    <ul class="guide-spec-list"> <!-- 清單 -->
-                        <li>🎯 <strong>掛載清單 (3款)</strong>：
-                            <br>• <code>AUDCHF [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 50 (5p) / SL 350 (35p)
-                            <br>• <code>AUDCAD [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 80 (8p) / SL 400 (40p)
-                            <br>• <code>USDCAD [M5]</code>: Z-in 2.1 / Z-out 0.2 / TP 50 (5p) / SL 350 (35p)
-                        </li> <!-- 標的 -->
-                        <li>⏰ <strong>交易時段 (MT5 時間)</strong>：進場 <strong>MT5 10:00 ～ 23:00</strong> | <strong>MT5 00:00 強制清倉 (換匯換日前夕零隔夜)</strong></li> <!-- 時段 -->
-                        <li>📐 <strong>指標模型</strong>：30 週期滾動均值與標準差，動態波動偏離度 $Z\text{-Score}$</li> <!-- 指標 -->
-                        <li>🟢 <strong>買進訊號</strong>：$Z \le -2.1\sigma$ (Short OTM Put 側買入)</li> <!-- 買進 -->
-                        <li>🔴 <strong>賣出訊號</strong>：$Z \ge +2.1\sigma$ (Short OTM Call 側賣出)</li> <!-- 賣出 -->
-                        <li>💰 <strong>出場機制</strong>：$|Z| \le 0.2\sigma$ 均值回歸獲利平倉 / 指定 TP 止盈；$|Z| \ge 3.8\sigma$ / 指定 SL 硬停損</li> <!-- 出場 -->
-                    </ul> <!-- 清單結束 -->
-                </div> <!-- 規格盒 2 結束 -->
-            </div> <!-- 雙欄結束 -->
-        </section> <!-- 說明手冊結束 -->
+        <!-- 底部版權與時區宣告 -->
+        <footer class="footer-bar"> <!-- 頁尾 -->
+            <p>© 2026 方案 D【全天分工收租旗艦量化監控系統】| 資料標準：PEPPERSTONE ECN / MT5 Server Time (UTC+3) / 台北時間 (UTC+8) | 嚴格遵守日內零過夜風控</p> <!-- 頁尾資訊 -->
+        </footer> <!-- 頁尾結束 -->
 
     </div> <!-- 儀表板全域排版容器結束 -->
 
     <!-- 引入應用程式主邏輯 app.js -->
-    <script src="app.js"></script> <!-- 載入前端互動邏輯 -->
-</body> <!-- 網頁本體結束 -->
-</html> <!-- HTML 結束 -->
+    <script src="app.js"></script> <!-- 載入前端邏輯 -->
+</body> <!-- 網頁本體區塊結束 -->
+</html> <!-- HTML5 文件結束 -->

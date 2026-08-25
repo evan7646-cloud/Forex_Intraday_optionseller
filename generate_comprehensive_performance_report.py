@@ -45,7 +45,6 @@ def calculate_metrics_for_trades(trades_list, initial_capital=100000.0):  # 計�
     annualized_return_pct = round(total_roi_pct * (365.0 / duration_days), 2)  # 年化投報率 (%)
     
     # 計算夏普比率 (Sharpe Ratio, 年化無風險利率設為 2.0%)
-    # 以每筆交易報酬率標準差進行年化 (每年預估交易筆數 = tot_trades * (365 / duration_days))
     trade_returns = df_t["pnl_usd"] / initial_capital  # 每筆收益率
     mean_ret = trade_returns.mean()  # 平均每筆收益率
     std_ret = trade_returns.std()  # 每筆收益率標準差
@@ -81,7 +80,7 @@ def calculate_metrics_for_trades(trades_list, initial_capital=100000.0):  # 計�
 
 def main():  # 主程式
     print("==========================================================================")  # 分隔線
-    print(" 📊 開始生成【1:00 以後正常低點差時段 8 大王牌收租組合】深度績效與風控指標分析報告...")  # 標題
+    print(" 📊 開始生成【方案 D 全天分工收租旗艦】深度績效與風控指標分析報告...")  # 標題
     print("==========================================================================")  # 分隔線
     
     json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # JSON 路徑
@@ -122,7 +121,7 @@ def main():  # 主程式
     p = calculate_metrics_for_trades(all_trades, initial_capital=100000.0)  # 組合指標
     if p:  # 若計算成功
         rows.append({  # 加入組合總結列
-            "類型": "🏆 全旗艦組合", "模組識別碼": "PORTFOLIO_TOTAL", "交易品種": "8大王牌組合 (避開換日點差)", "週期": "15M / 1H",
+            "類型": "🏆 全旗艦組合", "模組識別碼": "SCHEME_D_TOTAL", "交易品種": "方案 D 全天分工 8 大王牌組合", "週期": "15M / 1H",
             "總交易次數": p["total_trades"], "獲利筆數(W)": p["wins"], "虧損筆數(L)": p["losses"],
             "勝率(%)": f"{p['win_rate_pct']}%", "實質總淨利(USD)": f"${p['total_pnl_usd']:,.2f}",
             "總投報率(%)": f"{p['total_roi_pct']}%", "預估年化報酬(%)": f"{p['annualized_return_pct']}%",
@@ -136,11 +135,11 @@ def main():  # 主程式
     # 輸出 CSV 檔案 (UTF-8 with BOM 防 Excel 亂碼)
     csv_out_path = os.path.join(os.path.dirname(__file__), "portfolio_performance_analysis_report.csv")  # 輸出路徑
     df_report.to_csv(csv_out_path, index=False, encoding="utf-8-sig")  # 儲存
-    print(f"\n[+] 完整績效風控分析報告已成功儲存至: {csv_out_path}")  # 日誌
+    print(f"\n[+] 方案 D 完整績效風控分析報告已成功儲存至: {csv_out_path}")  # 日誌
     
     # 終端輸出完整漂亮表格
     print("\n==========================================================================")  # 分隔線
-    print(" 🏆【純期權賣方收租 8 大王牌模組與旗艦組合深度績效報告】")  # 標題
+    print(" 🏆【方案 D 全天分工收租 8 大王牌模組與旗艦組合深度績效報告】")  # 標題
     print("==========================================================================")  # 分隔線
     print(df_report.to_string(index=False))  # 輸出表格
 

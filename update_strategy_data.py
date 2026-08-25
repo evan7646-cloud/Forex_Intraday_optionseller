@@ -7,7 +7,7 @@ import warnings  # 導入警告控制模組
 
 warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差時段) 純期權賣方收租旗艦引擎
+class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (白晚雙時段專業分工，避開換日點差)】收租引擎
     def __init__(self):  # 初始化引擎
         self.data_dir = os.path.join(os.path.dirname(__file__), "data_pepperstone")  # 數據目錄
         
@@ -32,16 +32,16 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
             "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
         }  # 匯率結束
 
-        # 1:00 以後 (完全避開換日點差，正常低點差時段) 8 大王牌收租模組 (勝率 65.5%, PF 1.84, 淨利 +$14,169 USD, 夏普 3.90)
+        # 方案 D 專屬 8 大王牌收租模組 (勝率 65.71%, 獲利因子 1.75, 實質淨利 +$12,884 USD, 夏普 3.53)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPJPY_1H_US", "symbol": "GBPJPY", "tf": "1h",  "session": (13, 0, 19, 22), "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率61.4% / PF 1.74)"},   # GBPJPY 1h
-            {"module_id": "Opt_EURAUD_1H_US", "symbol": "EURAUD", "tf": "1h",  "session": (13, 0, 19, 22), "sigma": 2.8, "sl": 1.5, "name": "1h 歐澳美盤極限賣方收租 (勝率57.1% / PF 2.71)"},   # EURAUD 1h
-            {"module_id": "Opt_GBPUSD_15M_US", "symbol": "GBPUSD", "tf": "15m", "session": (13, 0, 19, 22), "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率65.7% / PF 1.71)"}, # GBPUSD 15m
-            {"module_id": "Opt_EURUSD_15M_US", "symbol": "EURUSD", "tf": "15m", "session": (13, 0, 19, 22), "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率62.3% / PF 1.61)"}, # EURUSD 15m
-            {"module_id": "Opt_AUDCHF_1H_DAY", "symbol": "AUDCHF", "tf": "1h",  "session": (1, 15, 18, 22), "sigma": 2.8, "sl": 2.5, "name": "1h 澳瑞全天避險均值回歸 (勝率59.4% / PF 2.23)"}, # AUDCHF 1h
-            {"module_id": "Opt_EURJPY_15M_DAY", "symbol": "EURJPY", "tf": "15m", "session": (1, 15, 18, 22), "sigma": 3.0, "sl": 2.0, "name": "15m 歐日全天極限波動收租 (勝率75.0% / PF 1.75)"}, # EURJPY 15m
-            {"module_id": "Opt_NZDCHF_15M_DAY", "symbol": "NZDCHF", "tf": "15m", "session": (1, 15, 18, 22), "sigma": 3.0, "sl": 2.5, "name": "15m 紐瑞全天通道賣方收租 (勝率73.8% / PF 2.40)"}, # NZDCHF 15m
-            {"module_id": "Opt_AUDUSD_15M_US", "symbol": "AUDUSD", "tf": "15m", "session": (13, 0, 19, 22), "sigma": 2.2, "sl": 2.5, "name": "15m 澳美美盤經典均值收租 (勝率71.4% / PF 1.68)"}  # AUDUSD 15m
+            {"module_id": "Opt_GBPJPY_1H_US", "symbol": "GBPJPY", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率61.4% / PF 1.74)"},   # GBPJPY 1h
+            {"module_id": "Opt_EURAUD_1H_US", "symbol": "EURAUD", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 1.5, "name": "1h 歐澳美盤極限賣方收租 (勝率57.1% / PF 2.71)"},   # EURAUD 1h
+            {"module_id": "Opt_GBPUSD_15M_US", "symbol": "GBPUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率65.7% / PF 1.71)"}, # GBPUSD 15m
+            {"module_id": "Opt_EURUSD_15M_US", "symbol": "EURUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率62.3% / PF 1.61)"}, # EURUSD 15m
+            {"module_id": "Opt_AUDCHF_1H_DAY", "symbol": "AUDCHF", "tf": "1h",  "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 2.5, "name": "1h 澳瑞全天避險均值回歸 (勝率59.4% / PF 2.23)"}, # AUDCHF 1h
+            {"module_id": "Opt_EURJPY_15M_DAY", "symbol": "EURJPY", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 3.0, "sl": 2.0, "name": "15m 歐日全天極限波動收租 (勝率75.0% / PF 1.75)"}, # EURJPY 15m
+            {"module_id": "Opt_NZDCHF_15M_DAY", "symbol": "NZDCHF", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 3.0, "sl": 2.5, "name": "15m 紐瑞全天通道賣方收租 (勝率73.8% / PF 2.40)"}, # NZDCHF 15m
+            {"module_id": "Opt_AUDUSD_15M_US", "symbol": "AUDUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.5, "name": "15m 澳美美盤經典均值收租 (勝率69.1% / PF 1.68)"}  # AUDUSD 15m
         ]  # 清單結束
 
     def get_pip_specs(self, symbol: str):  # 依據計價貨幣計算每點單位與換算美金價值
@@ -88,7 +88,6 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
         loss = (-delta.where(delta < 0, 0)).rolling(14).mean()  # 跌幅
         df["RSI"] = 100 - (100 / (1 + (gain / (loss + 1e-9))))  # RSI
         
-        s_hr, s_min, e_hr, f_hr = mod["session"]  # 時段參數
         pos = 0  # 倉位
         trades = []  # 交易記錄
         balance = 100000.0  # 初始本金
@@ -106,11 +105,13 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
             l = float(df["low"].iloc[i])  # 最低
             atr = float(df["ATR"].iloc[i])  # ATR
             
-            time_val = hr * 60 + minute  # 分鐘值
-            start_val = s_hr * 60 + s_min  # 起始值
-            end_val = e_hr * 60 + 59  # 結束值
-            is_entry = (start_val <= time_val <= end_val)  # 開倉區間
-            is_force = (hr >= f_hr)  # 強制清倉時間
+            # 開倉時間檢查
+            if mod["s_hr"] == 1:  # 白天組 (MT5 01:15 ~ 18:59 / 台北 06:15 ~ 23:59)
+                is_entry = (hr == 1 and minute >= 15) or (2 <= hr <= mod["e_hr"])  # 條件
+            else:  # 美盤午後組 (MT5 13:00 ~ 18:59 / 台北 18:00 ~ 23:59)
+                is_entry = (mod["s_hr"] <= hr <= mod["e_hr"])  # 條件
+                
+            is_force = (hr >= mod["f_hr"])  # MT5 22:00 (台北 03:00 前 100% 強制全平，避開換日！)
             
             if pos != 0:  # 持倉中
                 closed = False  # 平倉標記
@@ -124,7 +125,7 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
                         closed = True  # 平倉
                     elif l <= entry_p - mod["sl"] * atr or is_force:  # 停損或清倉
                         exit_price = (entry_p - mod["sl"] * atr - sp_dist) if l <= entry_p - mod["sl"] * atr else (c - sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl']} ATR)" if l <= entry_p - mod["sl"] * atr else f"Session Cut (MT5 {f_hr:02d}:00)"  # 原因
+                        exit_reason = f"SL (-{mod['sl']} ATR)" if l <= entry_p - mod["sl"] * atr else "Cut Before Rollover (MT5 22:00)"  # 原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -147,7 +148,7 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
                         closed = True  # 平倉
                     elif h >= entry_p + mod["sl"] * atr or is_force:  # 停損或清倉
                         exit_price = (entry_p + mod["sl"] * atr + sp_dist) if h >= entry_p + mod["sl"] * atr else (c + sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl']} ATR)" if h >= entry_p + mod["sl"] * atr else f"Session Cut (MT5 {f_hr:02d}:00)"  # 原因
+                        exit_reason = f"SL (-{mod['sl']} ATR)" if h >= entry_p + mod["sl"] * atr else "Cut Before Rollover (MT5 22:00)"  # 原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -188,7 +189,7 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
 
     def execute_and_export(self):  # 執行全量回測並生成 JSON/CSV
         print("==========================================================================")  # 分隔線
-        print(" 🚀 啟動【1:00 以後正常低點差時段】同策略 8 大王牌收租回測...")  # 標題
+        print(" 🚀 啟動【方案 D：全天分工收租旗艦 8 大王牌模組】全量回測...")  # 標題
         print("==========================================================================")  # 分隔線
         
         all_completed_trades = []  # 交易明細
@@ -298,9 +299,9 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
 
         payload = {  # 總 JSON
             "system_info": {  # 系統資訊
-                "title": "1:00 以後正常低點差時段純期權賣方收租旗艦儀表板",  # 標題
+                "title": "方案 D【全天分工收租旗艦】8 大王牌模組量化監控儀表板",  # 標題
                 "data_source": "TradingView (Broker: PEPPERSTONE) + MT5 實盤點差與時區精準對齊",  # 數據來源
-                "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / EEST)",  # 時間標準
+                "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / EEST) | 台北時間 (UTC+8)",  # 時間標準
                 "last_updated_mt5": now_mt5.strftime('%Y-%m-%d %H:%M:%S (MT5 Server Time)'),  # MT5 時間
                 "last_updated_tpe": now_tpe.strftime('%Y-%m-%d %H:%M:%S (台北 UTC+8)'),  # 台北時間
                 "last_updated_utc": now_utc.strftime('%Y-%m-%d %H:%M:%S UTC'),  # UTC 時間
@@ -320,7 +321,7 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
         json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # 路徑
         with open(json_path, "w", encoding="utf-8") as f:  # 寫入
             json.dump(payload, f, ensure_ascii=False, indent=2)  # 格式化
-        print(f"[+] 策略回測數據已輸出至: {json_path}")  # 日誌
+        print(f"[+] 方案 D 策略數據已輸出至: {json_path}")  # 日誌
 
         # 輸出 CSV
         csv_path = os.path.join(os.path.dirname(__file__), "all_trades_history.csv")  # 路徑
@@ -328,9 +329,9 @@ class CleanSpreadOptionHarvestEngine:  # 定義 1:00 以後 (正常極窄點差�
         print(f"[+] 完整歷史交易明細已輸出至: {csv_path}")  # 日誌
 
         print("\n==========================================================================")  # 分隔線
-        print(f" 🏆【1:00 以後純收租旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
+        print(f" 🏆【方案 D 全天分工收租旗艦】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
         print("==========================================================================")  # 分隔線
 
 if __name__ == "__main__":  # 主入口
-    engine = CleanSpreadOptionHarvestEngine()  # 實例化
+    engine = SchemeDOptionHarvestEngine()  # 實例化
     engine.execute_and_export()  # 執行
