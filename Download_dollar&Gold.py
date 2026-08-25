@@ -7,11 +7,7 @@ from tvDatafeed import TvDatafeed, Interval  # 導入 TradingView 數據獲取�
 
 warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-os.environ['TZ'] = 'UTC'  # 設定系統時區環境變數為 UTC
-if hasattr(time, 'tzset'):  # 若系統支援時區重設
-    time.tzset()  # 立即套用 UTC 時區
-
-def get_mt5_offset_hours(dt_utc: datetime.datetime) -> int:  # 計算 MT5 經紀商夏冬令時差 (夏令 UTC+3 / 冬令 UTC+2)
+def get_mt5_offset_from_utc(dt_utc: datetime.datetime) -> int:  # 計算 MT5 經紀商夏冬令時差 (夏令 UTC+3 / 冬令 UTC+2)
     year = dt_utc.year  # 取得年份
     mar1 = datetime.datetime(year, 3, 1)  # 3月1日
     second_sun_mar = 1 + (6 - mar1.weekday()) % 7 + 7  # 3月第2個週日
@@ -41,29 +37,30 @@ def fetch_symbol_with_retry(tv: TvDatafeed, symbol: str, exchange: str, interval
 
 def main():  # 主程式進入點
     print("==========================================================================")  # 分隔線
-    print(" 🚀 TradingView (PEPPERSTONE) 全品種跨週期 (5m, 15m, 1h, Daily) 批次下載器")  # 標題
+    print(" 🚀 TradingView (PEPPERSTONE) 全品種精準時區對齊下載器 (台北 UTC+8 -> MT5 UTC+3)")  # 標題
     print("==========================================================================")  # 分隔線
     
     tv = TvDatafeed()  # 建立 TradingView 連線實例
     output_dir = "data_pepperstone"  # 目標儲存目錄
     os.makedirs(output_dir, exist_ok=True)  # 自動建立資料夾
 
-    # 定義要下載的全部主流標的
+    # 包含 8 大核心及主要外匯標的
     assets = [  # 標的清單
-        ("AUDCHF", "PEPPERSTONE", "AUDCHF"),  # AUDCHF
-        ("EURCHF", "PEPPERSTONE", "EURCHF"),  # EURCHF
-        ("AUDCAD", "PEPPERSTONE", "AUDCAD"),  # AUDCAD
-        ("USDCHF", "PEPPERSTONE", "USDCHF"),  # USDCHF
-        ("USDCAD", "PEPPERSTONE", "USDCAD"),  # USDCAD
-        ("EURUSD", "PEPPERSTONE", "EURUSD"),  # EURUSD
+        ("GBPCHF", "PEPPERSTONE", "GBPCHF"),  # GBPCHF
+        ("EURGBP", "PEPPERSTONE", "EURGBP"),  # EURGBP
+        ("GBPCAD", "PEPPERSTONE", "GBPCAD"),  # GBPCAD
         ("GBPUSD", "PEPPERSTONE", "GBPUSD"),  # GBPUSD
+        ("EURAUD", "PEPPERSTONE", "EURAUD"),  # EURAUD
+        ("CADCHF", "PEPPERSTONE", "CADCHF"),  # CADCHF
+        ("GBPAUD", "PEPPERSTONE", "GBPAUD"),  # GBPAUD
+        ("EURCHF", "PEPPERSTONE", "EURCHF"),  # EURCHF
+        ("EURUSD", "PEPPERSTONE", "EURUSD"),  # EURUSD
+        ("USDCAD", "PEPPERSTONE", "USDCAD"),  # USDCAD
+        ("USDCHF", "PEPPERSTONE", "USDCHF"),  # USDCHF
         ("USDJPY", "PEPPERSTONE", "USDJPY"),  # USDJPY
-        ("GBPJPY", "PEPPERSTONE", "GBPJPY"),  # GBPJPY
-        ("EURJPY", "PEPPERSTONE", "EURJPY"),  # EURJPY
-        ("AUDUSD", "PEPPERSTONE", "AUDUSD"),  # AUDUSD
-        ("NZDUSD", "PEPPERSTONE", "NZDUSD"),  # NZDUSD
-        ("XAUUSD", "PEPPERSTONE", "XAUUSD"),  # 現貨黃金
-        ("USDX",   "PEPPERSTONE", "USDX")     # 美元指數
+        ("AUDCAD", "PEPPERSTONE", "AUDCAD"),  # AUDCAD
+        ("AUDCHF", "PEPPERSTONE", "AUDCHF"),  # AUDCHF
+        ("EURCAD", "PEPPERSTONE", "EURCAD")   # EURCAD
     ]  # 標的結束
 
     # 定義要下載的週期陣列
@@ -80,22 +77,18 @@ def main():  # 主程式進入點
             filename = f"{exchange.lower()}_{symbol.lower()}_{tf_name}.csv"  # 檔名
             filepath = os.path.join(output_dir, filename)  # 完整路徑
             
-            # 若檔案已存在且容量 > 10KB 則跳過下載以節省時間
-            if os.path.exists(filepath) and os.path.getsize(filepath) > 10240:  # 檢查快取
-                print(f"  ⚡ [{tf_name}] 已存在本地快取 ({os.path.getsize(filepath)//1024} KB)，略過下載")  # 略過日誌
-                continue  # 跳過
-                
             df = fetch_symbol_with_retry(tv, symbol, exchange, tf_interval, n_bars=n_bars)  # 抓取
             if df is not None and not df.empty:  # 成功
                 df = df.reset_index()  # 轉一般欄位
-                utc_times = pd.to_datetime(df['datetime']).dt.tz_localize(None)  # UTC 時間
-                mt5_times = [t + datetime.timedelta(hours=get_mt5_offset_hours(t)) for t in utc_times]  # MT5 時間
-                tpe_times = [t + datetime.timedelta(hours=8) for t in utc_times]  # 台北時間
+                # tvDatafeed 回傳的是本機時間 (台北時間 UTC+8)
+                tpe_times = pd.to_datetime(df['datetime'])  # 台北時間 (UTC+8)
+                utc_times = [t - datetime.timedelta(hours=8) for t in tpe_times]  # 換算標準 UTC (台北-8小時)
+                mt5_times = [u + datetime.timedelta(hours=get_mt5_offset_from_utc(u)) for u in utc_times]  # 換算 MT5 (UTC+3 / 台北-5小時)
                 
                 df_out = pd.DataFrame()  # 輸出表
-                df_out['timestamp_mt5'] = [t.strftime('%Y-%m-%d %H:%M:%S') for t in mt5_times]  # MT5 時間
-                df_out['timestamp_utc'] = [t.strftime('%Y-%m-%d %H:%M:%S') for t in utc_times]  # UTC 時間
-                df_out['timestamp_tpe'] = [t.strftime('%Y-%m-%d %H:%M:%S') for t in tpe_times]  # 台北時間
+                df_out['timestamp_mt5'] = [t.strftime('%Y-%m-%d %H:%M:%S') for t in mt5_times]  # MT5 伺服器時間 (UTC+3)
+                df_out['timestamp_utc'] = [t.strftime('%Y-%m-%d %H:%M:%S') for t in utc_times]  # UTC 標準時間 (UTC+0)
+                df_out['timestamp_tpe'] = [t.strftime('%Y-%m-%d %H:%M:%S') for t in tpe_times]  # 台北本地時間 (UTC+8)
                 df_out['open'] = df['open']  # 開盤
                 df_out['high'] = df['high']  # 最高
                 df_out['low'] = df['low']  # 最低
@@ -103,12 +96,12 @@ def main():  # 主程式進入點
                 df_out['volume'] = df['volume']  # 成交量
                 
                 df_out.to_csv(filepath, index=False, encoding='utf-8')  # 儲存
-                print(f"  ✅ [{tf_name}] 成功下載 {len(df_out)} 筆 K 線 -> {filepath}")  # 成功日誌
+                print(f"  ✅ [{tf_name}] 成功下載並精準校正時區 {len(df_out)} 筆 K 線 -> 最新 MT5: {df_out['timestamp_mt5'].iloc[-1]} (台北: {df_out['timestamp_tpe'].iloc[-1]})")  # 日誌
             else:  # 失敗
                 print(f"  ❌ [{tf_name}] 下載失敗")  # 失敗
-            time.sleep(0.3)  # 延遲
+            time.sleep(0.2)  # 延遲
 
-    print("\n[+] 全部數據下載與更新檢查完畢！")  # 完成
+    print("\n[+] 全部數據下載與精確時區校正完畢！")  # 完成
 
 if __name__ == "__main__":  # 主入口
     main()  # 執行

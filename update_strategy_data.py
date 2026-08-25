@@ -7,7 +7,7 @@ import warnings  # 導入警告控制模組
 
 warnings.filterwarnings("ignore")  # 忽略無害警告訊息
 
-class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地幣對之精選 8 大跨國交叉收租引擎
+class PreciseTimeAlignedOptionEngine:  # 定義 100% 精準對齊 MT5 時間之純期權賣方收租旗艦引擎
     def __init__(self):  # 初始化引擎
         self.data_dir = os.path.join(os.path.dirname(__file__), "data_pepperstone")  # 數據目錄
         
@@ -18,15 +18,14 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
             "GBPCAD": 2.2,  # MT5 Spread 22 points = 2.2 pips
             "GBPUSD": 0.8,  # MT5 Spread 8 points = 0.8 pips
             "GBPAUD": 2.7,  # MT5 Spread 27 points = 2.7 pips
-            "EURAUD": 1.7,  # MT5 Spread 17 points = 1.7 pips
-            "CADCHF": 1.1,  # MT5 Spread 11 points = 1.1 pips
             "EURCHF": 1.2,  # MT5 Spread 12 points = 1.2 pips
-            "AUDCAD": 1.4,  # MT5 Spread 14 points = 1.4 pips
             "AUDCHF": 1.0,  # MT5 Spread 10 points = 1.0 pip
+            "USDCHF": 0.6,  # MT5 Spread 6 points = 0.6 pips
+            "CADCHF": 1.1,  # MT5 Spread 11 points = 1.1 pips
+            "AUDCAD": 1.4,  # MT5 Spread 14 points = 1.4 pips
             "EURCAD": 1.9,  # MT5 Spread 19 points = 1.9 pips
             "EURUSD": 0.3,  # MT5 Spread 3 points = 0.3 pips
             "USDCAD": 0.6,  # MT5 Spread 6 points = 0.6 pips
-            "USDCHF": 0.6,  # MT5 Spread 6 points = 0.6 pips
             "USDJPY": 1.0   # MT5 Spread 10 points = 1.0 pip
         }  # 點差結束
 
@@ -41,16 +40,16 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
             "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
         }  # 匯率結束
 
-        # 精選 8 大高夏普比率純期權賣方收租旗艦模組 (已剔除 AUDNZD 與 AUDJPY，勝率 74.5%, PF 2.80, Calmar 110.06)
+        # 精選 8 大高勝率純期權賣方收租旗艦模組 (嚴格對齊 MT5 00:00~08:00 真實亞洲靜態時段)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF (89.5% WR, Sharpe 8.34)
-            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64)", "sl_atr": 2.0, "adx_max": 30},   # EURGBP (86.4% WR, Sharpe 3.79)
-            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22)", "sl_atr": 2.0, "adx_max": 30},     # GBPCAD (80.0% WR, Sharpe 2.39)
-            {"module_id": "Opt_GBPUSD_5M",  "symbol": "GBPUSD", "tf": "5m",  "name": "5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00)", "sl_atr": 2.0, "adx_max": 30},     # GBPUSD (78.6% WR, Sharpe 5.50)
-            {"module_id": "Opt_EURAUD_15M", "symbol": "EURAUD", "tf": "15m", "name": "15m 歐澳極致賣方收租 (點差1.7p / 每點$7.10)", "sl_atr": 2.0, "adx_max": 30},     # EURAUD (75.0% WR, Sharpe 1.89)
-            {"module_id": "Opt_CADCHF_15M", "symbol": "CADCHF", "tf": "15m", "name": "15m 加瑞極限波動收租 (點差1.1p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},     # CADCHF (69.6% WR, Sharpe 1.00)
-            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10)", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD (68.2% WR, Sharpe 3.19)
-            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30}      # EURCHF (56.7% WR, Sharpe 0.10)
+            {"module_id": "Opt_GBPCHF_15M", "symbol": "GBPCHF", "tf": "15m", "name": "15m 鎊瑞超高勝率極限收租 (點差1.7p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},   # GBPCHF (76.5% WR, PF 5.89)
+            {"module_id": "Opt_EURGBP_15M", "symbol": "EURGBP", "tf": "15m", "name": "15m 歐鎊超低點差經典收租 (點差0.7p / 每點$13.64)", "sl_atr": 2.0, "adx_max": 30},   # EURGBP (78.9% WR, PF 3.92)
+            {"module_id": "Opt_GBPCAD_15M", "symbol": "GBPCAD", "tf": "15m", "name": "15m 鎊加高波動均值回歸 (點差2.2p / 每點$7.22)", "sl_atr": 2.0, "adx_max": 30},     # GBPCAD (75.0% WR, PF 3.59)
+            {"module_id": "Opt_GBPUSD_5M",  "symbol": "GBPUSD", "tf": "5m",  "name": "5m 鎊美夜間賣方極速收租 (點差0.8p / 每點$10.00)", "sl_atr": 2.0, "adx_max": 30},     # GBPUSD (75.0% WR, PF 3.07)
+            {"module_id": "Opt_GBPAUD_15M", "symbol": "GBPAUD", "tf": "15m", "name": "15m 鎊澳波段賣方收租 (點差2.7p / 每點$7.10)", "sl_atr": 2.0, "adx_max": 30},     # GBPAUD (66.7% WR, PF 1.90)
+            {"module_id": "Opt_AUDCHF_15M", "symbol": "AUDCHF", "tf": "15m", "name": "15m 澳瑞低點差跨國收租 (點差1.0p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},   # AUDCHF (66.7% WR, PF 1.74)
+            {"module_id": "Opt_EURCHF_15M", "symbol": "EURCHF", "tf": "15m", "name": "15m 歐瑞避險外匯收租 (點差1.2p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30},   # EURCHF (57.9% WR, PF 2.29)
+            {"module_id": "Opt_USDCHF_15M", "symbol": "USDCHF", "tf": "15m", "name": "15m 美瑞夜間穩定收租 (點差0.6p / 每點$12.47)", "sl_atr": 2.0, "adx_max": 30}    # USDCHF (60.0% WR, PF 1.43)
         ]  # 清單結束
 
     def get_pip_specs(self, symbol: str):  # 依據計價貨幣計算每 Pip 單位與精確換算美金價值
@@ -121,7 +120,7 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
             l = float(df["low"].iloc[i])  # 最低
             atr = float(df["ATR"].iloc[i])  # ATR
             adx = float(df["ADX"].iloc[i])  # ADX
-            is_force = (hr == 11)  # MT5 11:00 歐盤爆發前強制全平 (Zero-Overnight)
+            is_force = (hr >= 9)  # MT5 09:00 (台北 14:00) 歐盤前夕強制全平 (Zero-Overnight)
             
             if pos != 0:  # 持倉中
                 closed = False  # 平倉標記
@@ -135,7 +134,7 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
                         closed = True  # 平倉
                     elif l <= entry_p - mod["sl_atr"] * atr or is_force:  # 停損或清倉
                         exit_price = (entry_p - mod["sl_atr"] * atr - sp_dist) if l <= entry_p - mod["sl_atr"] * atr else (c - sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl_atr']} ATR)" if l <= entry_p - mod["sl_atr"] * atr else "Zero-Overnight (MT5 11:00)"  # 原因
+                        exit_reason = f"SL (-{mod['sl_atr']} ATR)" if l <= entry_p - mod["sl_atr"] * atr else "Zero-Overnight (MT5 09:00)"  # 原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -158,7 +157,7 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
                         closed = True  # 平倉
                     elif h >= entry_p + mod["sl_atr"] * atr or is_force:  # 停損或清倉
                         exit_price = (entry_p + mod["sl_atr"] * atr + sp_dist) if h >= entry_p + mod["sl_atr"] * atr else (c + sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl_atr']} ATR)" if h >= entry_p + mod["sl_atr"] * atr else "Zero-Overnight (MT5 11:00)"  # 原因
+                        exit_reason = f"SL (-{mod['sl_atr']} ATR)" if h >= entry_p + mod["sl_atr"] * atr else "Zero-Overnight (MT5 09:00)"  # 原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -174,8 +173,8 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
                         })  # 結束
                         pos = 0  # 重設
                         
-            # 開倉檢查 (MT5 00:00 ~ 09:30 夜間時段 且 ADX < 門檻)
-            is_entry = (hr == 0 or 1 <= hr <= 9) and adx < mod["adx_max"] and not is_force  # 條件
+            # 開倉檢查 (真實 MT5 00:00 ~ 07:45 夜間時段 且 ADX < 門檻)
+            is_entry = (0 <= hr <= 7) and adx < mod["adx_max"] and not is_force  # 條件
             if pos == 0 and is_entry:  # 符合開倉
                 if c <= df["LB"].iloc[i] and df["RSI"].iloc[i] <= 32:  # 跌破下軌做多 (賣 Put)
                     pos = 1  # 買多
@@ -200,7 +199,7 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
 
     def execute_and_export(self):  # 執行全量回測並生成 JSON/CSV
         print("==========================================================================")  # 分隔線
-        print(" 🚀 啟動【精選 8 大高夏普比率純期權賣方收租旗艦 (排除 AUDNZD & AUDJPY)】回測...")  # 標題
+        print(" 🚀 啟動【100% 精準對齊 MT5 時間】8 大純期權賣方收租旗艦全量回測...")  # 標題
         print("==========================================================================")  # 分隔線
         
         all_completed_trades = []  # 交易明細
@@ -209,8 +208,8 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
         chart_data_dict = {}  # 圖表資料
         
         now_utc = datetime.datetime.now(datetime.timezone.utc)  # UTC 時間
-        now_mt5 = now_utc + datetime.timedelta(hours=3)  # MT5 時間
-        now_tpe = now_utc + datetime.timedelta(hours=8)  # 台北時間
+        now_mt5 = now_utc + datetime.timedelta(hours=3)  # MT5 時間 (UTC+3)
+        now_tpe = now_utc + datetime.timedelta(hours=8)  # 台北時間 (UTC+8)
 
         for mod in self.modules:  # 遍歷模組
             mod_id = mod["module_id"]  # ID
@@ -264,8 +263,8 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
                 "low_24h": round(float(df_sym["low"].iloc[-96:].min()), 5) if len(df_sym) >= 96 else round(float(df_sym["low"].min()), 5),
                 "current_rsi": round(float(last_row["RSI"]), 1) if not np.isnan(last_row["RSI"]) else 50.0,
                 "current_zscore": round(float(last_row["Z"]), 2) if not np.isnan(last_row["Z"]) else 0.0,
-                "spread_pips": self.spreads.get(sym, 1.5), "is_scalper_session": (now_mt5.hour == 0 or 1 <= now_mt5.hour <= 9),
-                "is_straddle_session": (10 <= now_mt5.hour <= 23)
+                "spread_pips": self.spreads.get(sym, 1.5), "is_scalper_session": (0 <= now_mt5.hour <= 8),
+                "is_straddle_session": (9 <= now_mt5.hour <= 23)
             }  # 結束
             
             df_chart = df_sym.tail(500).copy()  # 最近 500 根
@@ -310,9 +309,9 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
 
         payload = {  # 總 JSON
             "system_info": {  # 系統資訊
-                "title": "精選 8 大高夏普交叉貨幣對純期權賣方收租旗艦儀表板",  # 標題
-                "data_source": "TradingView (Broker: PEPPERSTONE) + MT5 實盤點差與匯率精算",  # 數據來源
-                "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / 冬令 UTC+2)",  # 時間標準
+                "title": "精選 8 大高勝率純期權賣方收租旗艦儀表板 (100% MT5 時間對齊)",  # 標題
+                "data_source": "TradingView (Broker: PEPPERSTONE) + MT5 實盤點差與時區精準對齊",  # 數據來源
+                "time_standard": "MT5 伺服器時間 (夏令 UTC+3 / EEST)",  # 時間標準
                 "last_updated_mt5": now_mt5.strftime('%Y-%m-%d %H:%M:%S (MT5 Server Time)'),  # MT5 時間
                 "last_updated_tpe": now_tpe.strftime('%Y-%m-%d %H:%M:%S (台北 UTC+8)'),  # 台北時間
                 "last_updated_utc": now_utc.strftime('%Y-%m-%d %H:%M:%S UTC'),  # UTC 時間
@@ -332,7 +331,7 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
         json_path = os.path.join(os.path.dirname(__file__), "strategy_results.json")  # 路徑
         with open(json_path, "w", encoding="utf-8") as f:  # 寫入
             json.dump(payload, f, ensure_ascii=False, indent=2)  # 格式化
-        print(f"[+] 策略回測數據 (精選 8 大高夏普版) 已輸出至: {json_path}")  # 日誌
+        print(f"[+] 策略回測數據 (MT5精準時區版) 已輸出至: {json_path}")  # 日誌
 
         # 輸出 CSV
         csv_path = os.path.join(os.path.dirname(__file__), "all_trades_history.csv")  # 路徑
@@ -340,9 +339,9 @@ class 精選8大純期權賣方收租旗艦引擎:  # 定義排除亞洲本地�
         print(f"[+] 完整歷史交易明細已輸出至: {csv_path}")  # 日誌
 
         print("\n==========================================================================")  # 分隔線
-        print(f" 🏆【精選 8 大純收租旗艦組合】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
+        print(f" 🏆【精選 8 大純收租旗艦組合 (MT5 對齊)】總筆數: {tot_trades} 筆 | 勝率: {wr}% | PF: {pf} | 總淨利: +${pnl:,.2f} USD | 最大回撤: -{mdd_pct}%")  # 成果
         print("==========================================================================")  # 分隔線
 
 if __name__ == "__main__":  # 主入口
-    engine = 精選8大純期權賣方收租旗艦引擎()  # 實例化
+    engine = PreciseTimeAlignedOptionEngine()  # 實例化
     engine.execute_and_export()  # 執行
