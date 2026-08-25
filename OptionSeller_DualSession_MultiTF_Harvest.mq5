@@ -54,7 +54,7 @@ input double             InpATR_Multiplier    = 2.0;              // 自訂 ATR 
 //--- 全域物件與控制變數
 CTrade         m_trade;          // MT5 交易執行物件實例
 CPositionInfo  m_position;       // 持倉資訊查詢物件實例
-CSymbolInfo    m_symbol;         // 標的規格與即時行情物件實例
+CSymbolInfo    m_symbol;         // 標的規格與即事行情物件實例
 
 int            m_handle_bb;      // 布林通道指標控制代碼 Handle
 int            m_handle_rsi;     // RSI 指標控制代碼 Handle
