@@ -11,16 +11,15 @@ let tableTradeType = 'ALL'; // 交易明細方向過濾 ('ALL', 'BUY', 'SELL')
 let tableTradeOutcome = 'ALL'; // 交易明細勝負過濾 ('ALL', 'WIN', 'LOSS')
 let highlightedTradeId = null; // 當前點擊聚焦高亮的交易序號
 
-// 方案 D 專屬 8 大王牌貨幣對圖表配色調色盤
+// 方案 A 穩健組合 8 大王牌貨幣對圖表配色調色盤
 const symbolColors = { // 配色字典
-    "GBPJPY": "#ff7043", // 亮橘紅 (1h 鎊日美盤高波收租, +$4,779 USD)
-    "EURAUD": "#ab47bc", // 亮紫色 (1h 歐澳美盤極限收租, PF 2.44)
-    "GBPUSD": "#29b6f6", // 科技天藍 (15m 鎊美美盤極速收租, 勝率 67.7%)
+    "GBPJPY": "#ff7043", // 亮橘紅 (1h 鎊日美盤高波收租, +$4,204 USD) 💎
+    "GBPUSD": "#29b6f6", // 科技天藍 (15m 鎊美美盤極速收租, 勝率 67.6%)
     "EURUSD": "#00e676", // 翡翠綠 (15m 歐美超低點差收租, 勝率 61.5%)
-    "AUDCHF": "#ffd600", // 亮金黃 (1h 澳瑞全天避險均值回歸, PF 2.23)
-    "EURJPY": "#ff4081", // 亮粉紅 (15m 歐日全天極限波動收租, 勝率 75.0%)
-    "USDCAD": "#00bcd4", // 科技青 (1h 美加亞洲白天通道收租, 點差 0.6p, 勝率 60.6%)
-    "AUDUSD": "#7c4dff"  // 深紫藍 (15m 澳美美盤經典收租, 勝率 70.0%)
+    "EURNZD": "#ab47bc", // 亮紫色 (1h 歐紐美盤極穩收租, PF 2.11) 🆕
+    "EURJPY": "#ff4081", // 亮粉紅 (15m+1h 歐日白天+美盤, 勝率 70.8%/55.3%)
+    "AUDCHF": "#ffd600", // 亮金黃 (1h 澳瑞全天避險均值回歸, PF 1.84)
+    "CHFJPY": "#00bcd4"  // 科技青 (15m 瑞日白天高勝率收租, 67.7%) 🆕
 }; // 配色結束
 
 // 網頁 DOM 載入完畢監聽入口
@@ -174,9 +173,10 @@ function renderMarketTickers() { // 行情卡片渲染函數
         const changeClass = item.price_change_24h_pct >= 0 ? 'val-bull' : 'val-bear'; // 多空顏色
         const changePrefix = item.price_change_24h_pct >= 0 ? '+' : ''; // 正號標記
         
-        let sessionTag = (sym === 'AUDCHF' || sym === 'EURJPY' || sym === 'USDCAD') ? 
-            '<span class="badge-scalper">☀️ 白天通道收租 (06:15~18:00)</span>' : 
-            '<span class="badge-straddle">🌙 晚間美盤收租 (18:00~00:00)</span>'; // 標籤
+        let sessionTag = (sym === 'AUDCHF' || sym === 'CHFJPY') ? 
+            '<span class="badge-scalper">☀️ 白天通道收租 (06:15~23:00)</span>' : 
+            (sym === 'EURJPY' ? '<span class="badge-scalper">☀️🌙 白天+美盤雙時段</span>' :
+            '<span class="badge-straddle">🌙 晚間美盤收租 (18:00~00:00)</span>'); // 標籤
 
         return `
             <div class="market-ticker-card" onclick="selectSingleSymbol('${sym}')" title="點擊切換專屬監控 ${sym}">
@@ -207,8 +207,8 @@ function renderAssetCheckboxes() { // 勾選卡片生成函數
         const isChecked = selectedSymbols.has(sym); // 是否已勾選
         const activeClass = isChecked ? 'checked' : ''; // 樣式類別
         
-        const isDayGroup = (sym === 'AUDCHF' || sym === 'EURJPY' || sym === 'USDCAD'); // 白天組判斷
-        const tagText = isDayGroup ? '☀️ 白天全天通道組 (勝率 65%)' : '🌙 晚間美盤收斂組 (超窄點差)'; // 標籤文字
+        const isDayGroup = (sym === 'AUDCHF' || sym === 'CHFJPY'); // 白天組判斷 (EURJPY 兩組都有)
+        const tagText = isDayGroup ? '☀️ 白天全天通道組' : (sym === 'EURJPY' ? '☀️🌙 白天+美盤雙時段' : '🌙 晚間美盤收斂組 (超窄點差)'); // 標籤文字
         const tagBadge = isDayGroup ? 'badge-scalper' : 'badge-straddle'; // 樣式
 
         return `
@@ -273,10 +273,10 @@ function applyStrategyPreset(preset) { // 策略預設函數
 
     if (preset === 'ALL') { // 全部 8 大模組
         Object.keys(globalData.symbols_meta).forEach(s => selectedSymbols.add(s)); // 全部加入
-    } else if (preset === 'DAY_CHANNEL') { // ☀️ 白天全天通道組 (AUDCHF, EURJPY, USDCAD)
-        ["AUDCHF", "EURJPY", "USDCAD"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
-    } else if (preset === 'US_AFTERNOON') { // 🌙 晚間美盤收斂組 (GBPJPY, EURAUD, GBPUSD, EURUSD, AUDUSD)
-        ["GBPJPY", "EURAUD", "GBPUSD", "EURUSD", "AUDUSD"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'DAY_CHANNEL') { // ☀️ 白天全天通道組 (AUDCHF, EURJPY, CHFJPY)
+        ["AUDCHF", "EURJPY", "CHFJPY"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'US_AFTERNOON') { // 🌙 晚間美盤收斂組 (GBPJPY, GBPUSD, EURUSD, EURNZD, EURJPY)
+        ["GBPJPY", "GBPUSD", "EURUSD", "EURNZD", "EURJPY"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
     } // 判斷結束
 
     updateFilterButtonsState(); // 更新按鈕樣式
@@ -405,13 +405,16 @@ function renderStrategyMatrix() { // 矩陣渲染函數
         const symColor = symbolColors[m.symbol] || '#fff'; // 標的顏色
         const pnlClass = m.total_pnl_usd >= 0 ? 'val-bull' : 'val-bear'; // 損益顏色
         const tfBadge = m.timeframe === '1h' ? '<span class="badge-straddle">1H 週期</span>' : '<span class="badge-scalper">15M 週期</span>'; // 週期標籤
-        const isDayGroup = (m.symbol === 'AUDCHF' || m.symbol === 'EURJPY' || m.symbol === 'USDCAD'); // 判斷分組
+        const isDayGroup = m.module_id.includes('_DAY'); // 依模組 ID 判斷分組 (避免 EURJPY 雙組問題)
         const sessionGroupBadge = isDayGroup ? 
             '<span class="badge-scalper" style="font-size:11px; padding:3px 8px;">☀️ 白天全天通道組</span>' : 
             '<span class="badge-straddle" style="font-size:11px; padding:3px 8px;">🌙 晚間美盤收斂組</span>'; // 標籤
 
-        const sigmaVal = (m.symbol === 'EURJPY') ? '3.0σ' : ((m.symbol === 'EURAUD' || m.symbol === 'AUDCHF') ? '2.8σ' : ((m.symbol === 'GBPJPY' || m.symbol === 'GBPUSD' || m.symbol === 'AUDUSD' || m.symbol === 'USDCAD') ? '2.2σ' : '2.0σ')); // 標準差
-        const slVal = (m.symbol === 'AUDCHF' || m.symbol === 'AUDUSD' || m.symbol === 'USDCAD') ? '2.5 ATR' : ((m.symbol === 'GBPUSD' || m.symbol === 'EURUSD' || m.symbol === 'EURJPY') ? '2.0 ATR' : '1.5 ATR'); // 止損
+        // 方案 A 參數映射表 (依 module_id 精準對應)
+        const sigmaMap = {'Opt_EURJPY_15M_DAY':'3.0σ', 'Opt_AUDCHF_1H_DAY':'2.8σ', 'Opt_CHFJPY_15M_DAY':'2.8σ', 'Opt_GBPJPY_1H_US':'2.2σ', 'Opt_GBPUSD_15M_US':'2.2σ', 'Opt_EURUSD_15M_US':'2.0σ', 'Opt_EURNZD_1H_US':'2.5σ', 'Opt_EURJPY_1H_US':'2.5σ'};
+        const slMap = {'Opt_AUDCHF_1H_DAY':'2.5 ATR', 'Opt_EURJPY_15M_DAY':'2.0 ATR', 'Opt_CHFJPY_15M_DAY':'1.5 ATR', 'Opt_GBPJPY_1H_US':'1.5 ATR', 'Opt_GBPUSD_15M_US':'2.0 ATR', 'Opt_EURUSD_15M_US':'2.0 ATR', 'Opt_EURNZD_1H_US':'1.5 ATR', 'Opt_EURJPY_1H_US':'1.5 ATR'};
+        const sigmaVal = sigmaMap[m.module_id] || '2.2σ'; // 標準差
+        const slVal = slMap[m.module_id] || '2.0 ATR'; // 止損
 
         return `
             <tr>

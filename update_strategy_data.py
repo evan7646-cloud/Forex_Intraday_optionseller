@@ -18,7 +18,8 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
             "EURGBP": 0.7, "GBPCHF": 1.7, "GBPAUD": 2.7, "CADJPY": 1.6,
             "AUDCHF": 1.0, "AUDCAD": 1.4, "CADCHF": 1.1, "EURCHF": 1.2,
             "GBPCAD": 2.2, "EURAUD": 1.7, "EURCAD": 1.9, "AUDNZD": 2.0,
-            "NZDUSD": 0.9, "NZDCHF": 1.5, "NZDCAD": 1.8, "EURNZD": 2.8, "GBPNZD": 3.0
+            "NZDUSD": 0.9, "NZDCHF": 1.5, "NZDCAD": 1.8, "EURNZD": 2.8, "GBPNZD": 3.0,
+            "CHFJPY": 1.5, "AUDJPY": 1.9, "NZDJPY": 1.8  # 新增日圓交叉盤點差
         }  # 點差結束
 
         # MT5 實盤計價幣別對美金即時匯率
@@ -32,16 +33,18 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
             "NZD": 0.60000                   # 1 NZD = $0.60000 USD (每手每點 = $6.00 USD)
         }  # 匯率結束
 
-        # 方案 D 專屬 8 大王牌收租模組 (勝率 65.33%, 獲利因子 1.87, 實質淨利 +$14,546.95 USD, 夏普 4.01)
+        # 方案 A 穩健組合 8 大王牌模組 (大規模回測篩選後最佳配置，預估淨利 +$12,437 USD)
         self.modules = [  # 模組清單
-            {"module_id": "Opt_GBPJPY_1H_US", "symbol": "GBPJPY", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率64.6% / PF 1.90)"},   # GBPJPY 1h
-            {"module_id": "Opt_EURAUD_1H_US", "symbol": "EURAUD", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 1.5, "name": "1h 歐澳美盤極限賣方收租 (勝率55.0% / PF 2.44)"},   # EURAUD 1h
-            {"module_id": "Opt_GBPUSD_15M_US", "symbol": "GBPUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率67.7% / PF 1.81)"}, # GBPUSD 15m
-            {"module_id": "Opt_EURUSD_15M_US", "symbol": "EURUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率61.5% / PF 1.58)"}, # EURUSD 15m
-            {"module_id": "Opt_AUDCHF_1H_DAY", "symbol": "AUDCHF", "tf": "1h",  "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 2.5, "name": "1h 澳瑞全天避險均值回歸 (勝率59.4% / PF 2.23)"}, # AUDCHF 1h
-            {"module_id": "Opt_EURJPY_15M_DAY", "symbol": "EURJPY", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 3.0, "sl": 2.0, "name": "15m 歐日全天極限波動收租 (勝率75.0% / PF 1.75)"}, # EURJPY 15m
-            {"module_id": "Opt_USDCAD_1H_DAY",  "symbol": "USDCAD", "tf": "1h",  "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 12, "f_hr": 22, "sigma": 2.2, "sl": 2.5, "name": "1h 美加亞洲白天通道收租 (勝率60.6% / PF 1.62)"}, # USDCAD 1h
-            {"module_id": "Opt_AUDUSD_15M_US", "symbol": "AUDUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.5, "name": "15m 澳美美盤經典均值收租 (勝率70.0% / PF 1.72)"}  # AUDUSD 15m
+            # === 🌙 US_Afternoon 美盤午後 (MT5 13:00~18:59) — 5 組 ===
+            {"module_id": "Opt_GBPJPY_1H_US",   "symbol": "GBPJPY", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 1.5, "name": "1h 鎊日美盤高波均值收租 (勝率63.1% / PF 1.75)"},   # GBPJPY 1h — 絕對王牌 +$4,204
+            {"module_id": "Opt_GBPUSD_15M_US",  "symbol": "GBPUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.2, "sl": 2.0, "name": "15m 鎊美美盤極速賣方收租 (勝率67.6% / PF 1.75)"}, # GBPUSD 15m — +$1,581
+            {"module_id": "Opt_EURUSD_15M_US",  "symbol": "EURUSD", "tf": "15m", "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.0, "sl": 2.0, "name": "15m 歐美超低點差經典收租 (勝率61.5% / PF 1.56)"}, # EURUSD 15m — +$1,387
+            {"module_id": "Opt_EURNZD_1H_US",   "symbol": "EURNZD", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.5, "sl": 1.5, "name": "1h 歐紐美盤極穩收租 (勝率55.0% / PF 2.11)"},       # 🆕 EURNZD 1h — +$1,000 MDD 0.31%
+            {"module_id": "Opt_EURJPY_1H_US",   "symbol": "EURJPY", "tf": "1h",  "session_group": "US_AFTERNOON", "s_hr": 13, "e_hr": 18, "f_hr": 22, "sigma": 2.5, "sl": 1.5, "name": "1h 歐日美盤波動收租 (勝率55.3% / PF 1.39)"},       # 🔄 EURJPY 移入美盤 — +$929
+            # === ☀️ DaytimeChannel 白天全天通道 (MT5 01:15~18:59) — 3 組 ===
+            {"module_id": "Opt_AUDCHF_1H_DAY",   "symbol": "AUDCHF", "tf": "1h",  "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 2.5, "name": "1h 澳瑞全天避險均值回歸 (勝率56.2% / PF 1.84)"},  # AUDCHF 1h — +$1,196
+            {"module_id": "Opt_EURJPY_15M_DAY",  "symbol": "EURJPY", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 3.0, "sl": 2.0, "name": "15m 歐日白天極限波動收租 (勝率70.8% / PF 1.73)"}, # EURJPY 15m — +$1,277
+            {"module_id": "Opt_CHFJPY_15M_DAY",  "symbol": "CHFJPY", "tf": "15m", "session_group": "DAY_CHANNEL",  "s_hr": 1,  "e_hr": 18, "f_hr": 22, "sigma": 2.8, "sl": 1.5, "name": "15m 瑞日白天高勝率收租 (勝率67.7% / PF 1.46)"},   # 🆕 CHFJPY 15m — +$863 勝率之王
         ]  # 清單結束
 
     def get_pip_specs(self, symbol: str):  # 依據計價貨幣計算每點單位與換算美金價值
@@ -111,7 +114,7 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
             else:  # 美盤午後組 (MT5 13:00 ~ 18:59 / 台北 18:00 ~ 23:59)
                 is_entry = (mod["s_hr"] <= hr <= mod["e_hr"])  # 條件
                 
-            is_force = (hr >= mod["f_hr"])  # MT5 22:00 (台北 03:00 前 100% 強制全平，避開換日！)
+            is_force = (hr >= mod["f_hr"] or hr == 0)  # Bug4修正: MT5 22:00~00:59 強制全平，與 EA 一致
             
             if pos != 0:  # 持倉中
                 closed = False  # 平倉標記
@@ -119,7 +122,7 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
                 exit_reason = ""  # 原因
                 
                 if pos == 1:  # 多單
-                    if c >= df["MA20"].iloc[i] and c > entry_p:  # 碰中軌且高於成本
+                    if c >= df["MA20"].iloc[i] and c > entry_p:  # 碰中軌且高於成本才止盈 (方案C: 合理的策略設計，EA 也會同步加入此條件)
                         exit_price = c - sp_dist  # 扣點差
                         exit_reason = "BB Middle (Mean Reversion)"  # 中軌
                         closed = True  # 平倉
@@ -142,7 +145,7 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
                         pos = 0  # 重設
                         
                 elif pos == -1:  # 空單
-                    if c <= df["MA20"].iloc[i] and c < entry_p:  # 碰中軌且低於成本
+                    if c <= df["MA20"].iloc[i] and c < entry_p:  # 碰中軌且低於成本才止盈 (方案C: 合理的策略設計，EA 也會同步加入此條件)
                         exit_price = c + sp_dist  # 扣點差
                         exit_reason = "BB Middle (Mean Reversion)"  # 中軌
                         closed = True  # 平倉
@@ -173,7 +176,7 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 (
                     entry_bar_idx = i  # 索引
                 elif c >= df["UB"].iloc[i] and df["RSI"].iloc[i] >= 68:  # 突破上軌做空
                     pos = -1  # 賣空
-                    entry_p = c  # 賣價
+                    entry_p = c - sp_dist  # Bug6修正: 空單進場扣除點差 (模擬 Bid = Ask - Spread)，與多單對稱
                     entry_time = dt  # 時間
                     entry_bar_idx = i  # 索引
                     

@@ -5,8 +5,8 @@
 //+------------------------------------------------------------------+ // 標頭結束
 #property copyright "Copyright 2026, Quant Fund Team" // 版權設定
 #property link      "https://github.com/evan7646-cloud" // 專案網址
-#property version   "3.10" // 策略版本號 (深度 Debug 修正版)
-#property description "☀️ 策略一【白天全天通道避險收租 EA】：專攻 AUDCHF (1h)、EURJPY (15m)、USDCAD (1h)，運作時段 MT5 01:15~18:00 (台北 06:15~23:00)" // 描述
+#property version   "4.00" // 策略版本號 (方案A大規模回測優化版)
+#property description "☀️ 策略一【白天全天通道避險收租 EA】：專攻 AUDCHF (1h)、EURJPY (15m)、CHFJPY (15m)，運作時段 MT5 01:15~18:00 (台北 06:15~23:00)" // 描述
 
 #include <Trade\Trade.mqh> // 導入 MT5 交易執行標準庫
 #include <Trade\PositionInfo.mqh> // 導入持倉資訊查詢標準庫
@@ -26,7 +26,7 @@ input bool     InpForceDailyClose     = true;   // 啟用每日強制清倉離�
 input int      InpForceCloseHour      = 22;     // 強制全平小時 (MT5 22:00 = 台北 03:00，換日前全平)
 
 input group "=== 3. 布林通道 (Bollinger Bands) 參數 ===" // 參數分組 3
-input bool     InpAutoParams          = true;   // 啟用自動品種參數適配 (EURJPY 3.0σ, AUDCHF 2.8σ, USDCAD 2.2σ)
+input bool     InpAutoParams          = true;   // 啟用自動品種參數適配 (EURJPY 3.0σ, AUDCHF/CHFJPY 2.8σ)
 input int      InpBBPeriod            = 20;     // 布林通道均線週期 (20 SMA)
 input double   InpBBMandatorySigma    = 2.8;    // 自訂布林標準差 (若關閉自動適配時生效)
 input bool     InpExitAtBBMiddle      = true;   // 價格回歸布林中軌時是否立即止盈平倉
@@ -77,8 +77,7 @@ double GetOptimalSigma(string sym) // 自動獲取標準差倍數
 { // 區塊開始
    if(!InpAutoParams) return InpBBMandatorySigma; // 若未啟用自動適配則回傳手動值
    if(sym == "EURJPY") return 3.0; // EURJPY 最佳為 3.0σ
-   if(sym == "AUDCHF") return 2.8; // AUDCHF 最佳為 2.8σ
-   if(sym == "USDCAD") return 2.2; // USDCAD 最佳為 2.2σ
+   if(sym == "AUDCHF" || sym == "CHFJPY") return 2.8; // AUDCHF/CHFJPY 最佳為 2.8σ
    return 2.8; // 預設 2.8σ
 } // GetOptimalSigma 結束
 
@@ -88,9 +87,10 @@ double GetOptimalSigma(string sym) // 自動獲取標準差倍數
 double GetOptimalATRStop(string sym) // 自動獲取 ATR 停損倍數
 { // 區塊開始
    if(!InpAutoParams) return InpATR_Multiplier; // 若未啟用自動適配則回傳手動值
-   if(sym == "AUDCHF" || sym == "USDCAD") return 2.5; // 最佳為 2.5 ATR
-   if(sym == "EURJPY") return 2.0; // 最佳為 2.0 ATR
-   return 2.5; // 預設 2.5 ATR
+   if(sym == "AUDCHF") return 2.5; // AUDCHF 最佳為 2.5 ATR
+   if(sym == "EURJPY") return 2.0; // EURJPY 最佳為 2.0 ATR
+   if(sym == "CHFJPY") return 1.5; // CHFJPY 最佳為 1.5 ATR
+   return 2.0; // 預設 2.0 ATR
 } // GetOptimalATRStop 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
@@ -239,7 +239,7 @@ void OnTick() // 即時行情入口
             has_position = true; // 設為持倉中
             if(m_position.PositionType() == POSITION_TYPE_BUY) // 多單持倉
             { // 多單
-               if(InpExitAtBBMiddle && closed_price >= prev_bb_mid) // 收盤觸碰或突破中軌
+               if(InpExitAtBBMiddle && closed_price >= prev_bb_mid && closed_price > m_position.PriceOpen()) // 收盤觸碰中軌 + 當前盈利才止盈 (方案C)
                { // 止盈出場
                   m_trade.PositionClose(m_position.Ticket()); // 執行平倉
                   Print("🎉 [多單中軌止盈] 觸及布林中軌平倉！Ticket: ", m_position.Ticket(), " | 獲利: $", m_position.Profit()); // 日誌
@@ -248,7 +248,7 @@ void OnTick() // 即時行情入口
             } // 結束
             else if(m_position.PositionType() == POSITION_TYPE_SELL) // 空單持倉
             { // 空單
-               if(InpExitAtBBMiddle && closed_price <= prev_bb_mid) // 收盤觸碰或跌破中軌
+               if(InpExitAtBBMiddle && closed_price <= prev_bb_mid && closed_price < m_position.PriceOpen()) // 收盤觸碰中軌 + 當前盈利才止盈 (方案C)
                { // 止盈出場
                   m_trade.PositionClose(m_position.Ticket()); // 執行平倉
                   Print("🎉 [空單中軌止盈] 觸及布林中軌平倉！Ticket: ", m_position.Ticket(), " | 獲利: $", m_position.Profit()); // 日誌
