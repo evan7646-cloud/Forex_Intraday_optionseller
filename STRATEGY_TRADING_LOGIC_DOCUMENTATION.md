@@ -182,3 +182,4 @@
 |------|------|---------|
 | v3.10 | 2026-08 | 深度 Debug 修正版 |
 | **v4.00** | **2026-08-26** | **大規模回測優化版**：移除 USDCAD(-$966虧損)、AUDUSD(未通過篩選)、EURAUD(40%勝率)。新增 EURNZD(PF 2.11極穩)、CHFJPY(67.7%高勝率)、EURJPY美盤1h。中軌止盈加入盈利條件(`PriceOpen`)。空單進場扣除點差。清倉覆蓋 hour==0。勝率 57.5%→62.2%，PF 1.42→1.67，淨利 +19%，MDD -27%。 |
+| **v4.10** | **2026-08-27** | **Code Review 修復版**：[P0] `CloseAllPositions()` 加入平倉失敗檢查 + 錯誤碼日誌 + 下一 Tick 自動重試（對齊 Straddle EA 標準）。[P0] 新增 `IsFridayCloseTime()` 週五 MT5 20:00 提前清倉防護（避免跨週末跳空）。[P1] 新增 `CleanSymbolName()` 去除經紀商 Symbol 後綴（`.a`, `.r`, `m` 等），確保 `GetOptimalSigma/ATRStop` 在任何經紀商正確匹配品種。[P1] Buy/Sell 失敗新增 `else` 錯誤碼 + ResultRetcodeDescription 完整日誌。[P2] 持倉判定從 `has_position` 變數改為 `CountMyPositions()` 獨立函數，修正多持倉遍歷邊界問題。 |
