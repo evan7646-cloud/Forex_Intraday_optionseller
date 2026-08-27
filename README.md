@@ -44,7 +44,7 @@ git commit -m "🚀 Initial commit: 5m Scalper & Straddle Dashboard"
 git branch -M main
 
 # 5. 連接至您的 GitHub 倉庫 (請替換為您的倉庫網址)
-git remote add origin https://github.com/您的用戶名/FundedNext_5m_scalping.git
+git remote add origin https://github.com/您的用戶名/Forex_Intraday_optionseller.git
 
 # 6. 推送至 GitHub
 git push -u origin main
@@ -58,7 +58,7 @@ git push -u origin main
 2. 在左側選單中點擊 **`Pages`**。
 3. 在 **Build and deployment** 下方的 **Source** 選擇 **`Deploy from a branch`**。
 4. Branch 選擇 **`main`**，資料夾選擇 **`/(root)`**，並點擊 **`Save`**。
-5. 稍等 1～2 分鐘，您的網頁將於 `https://您的用戶名.github.io/FundedNext_5m_scalping/` 正式上線！
+5. 稍等 1～2 分鐘，您的網頁將於 `https://您的用戶名.github.io/Forex_Intraday_optionseller/` 正式上線！
 
 ---
 
