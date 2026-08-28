@@ -43,11 +43,11 @@
         <div style="display:flex; justify-content:space-between; align-items:center; margin: 12px 0 16px 0; background:rgba(22,27,34,0.8); padding:10px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
             <span style="font-weight:700; color:#8b949e; font-size:13px;">🎛️ 時段分工模組快選:</span>
             <div class="preset-buttons-group" style="display:flex; gap:8px;">
-                <button id="btn-toggle-all" class="preset-btn active">全部 8 大分工收租模組 (勝率 65.3% / Sharpe 4.01)</button>
-                <button id="btn-toggle-scalper" class="preset-btn">☀️ 白天全天通道組 (AUDCHF, EURJPY, USDCAD)</button>
-                <button id="btn-toggle-straddle" class="preset-btn">🌙 晚間美盤收斂組 (GBPJPY, EURAUD, GBPUSD, EURUSD, AUDUSD)</button>
-                <button id="btn-select-all" class="preset-btn">全選商品</button>
-                <button id="btn-clear-all" class="preset-btn">清除篩選</button>
+                <button id="btn-toggle-all" class="preset-btn active">全部 8 大分工收租模組 (勝率 63.4% / PF 2.38 / 淨利 $11,525)</button> <!-- 全部 8 大模組按鈕 -->
+                <button id="btn-toggle-scalper" class="preset-btn">☀️ 白天全天通道組 (EURJPY 15m, AUDCHF 1h, AUDUSD 1h, GBPJPY 15m)</button> <!-- 白天通道組按鈕 -->
+                <button id="btn-toggle-straddle" class="preset-btn">🌙 晚間美盤午後組 (GBPJPY 1h, EURJPY 1h, GBPUSD 15m, EURCAD 1h)</button> <!-- 晚間美盤午後組按鈕 -->
+                <button id="btn-select-all" class="preset-btn">全選商品</button> <!-- 全選按鈕 -->
+                <button id="btn-clear-all" class="preset-btn">清除篩選</button> <!-- 清除按鈕 -->
             </div>
         </div>
 
@@ -97,15 +97,15 @@
                 </div> <!-- 細節結束 -->
             </div> <!-- 卡片 3 結束 -->
 
-            <!-- 卡片 4：最大歷史回撤 (Max Drawdown) -->
+            <!-- 卡片 4：最大歷史回撤與目前即時回撤 (Max & Current Drawdown) -->
             <div class="glass-card"> <!-- 玻璃卡片 -->
                 <div class="card-top"> <!-- 頂部列 -->
                     <span class="card-title">🛡️ 最大歷史回撤 (Max Drawdown)</span> <!-- 標題 -->
                     <span class="card-icon">📉</span> <!-- 圖示 -->
                 </div> <!-- 頂部列結束 -->
-                <div class="card-main-val val-bear" id="kpi-max-drawdown">0.00%</div> <!-- MDD 百分比 -->
+                <div class="card-main-val val-bear" id="kpi-max-drawdown">-$0.00 (0.00%)</div> <!-- MDD 金額(%)顯示 -->
                 <div class="card-sub-info"> <!-- 底部細節 -->
-                    <span>最大回撤金額: <strong id="kpi-mdd-dollars" class="val-bear">-$0</strong></span> <!-- MDD 美金 -->
+                    <span>目前即時回撤: <strong id="kpi-current-drawdown" class="val-bull">-$0.00 (0.00%)</strong></span> <!-- 目前即時回撤 金額(%) -->
                     <span>單日風控: <strong class="val-bull">合規 (&lt; 2.5%)</strong></span> <!-- 風控合規 -->
                 </div> <!-- 細節結束 -->
             </div> <!-- 卡片 4 結束 -->
@@ -251,6 +251,6 @@
     </div> <!-- 儀表板全域排版容器結束 -->
 
     <!-- 引入應用程式主邏輯 app.js -->
-    <script src="app.js?v=3.0"></script> <!-- 載入前端邏輯並加入防快取版本號 -->
+    <script src="app.js?v=5.10"></script> <!-- 載入前端邏輯並加入防快取版本號 v5.10 -->
 </body> <!-- 網頁本體區塊結束 -->
 </html> <!-- HTML5 文件結束 -->

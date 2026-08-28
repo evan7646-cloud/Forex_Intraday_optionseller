@@ -39,15 +39,15 @@ def verify_mt5_vs_web_consistency():  # 定義 MT5 EA 邏輯與網頁數據一�
 
     # 3. 模組指標一致性核對表
     comparison_rows = []  # 儲存對照列
-    modules_list = [  # 方案 A 穩健組合 8 大模組清單
+    modules_list = [  # 方案 A 穩健組合 8 大模組清單 (v5.10 汰弱留強精銳版)
         ("Opt_GBPJPY_1H_US",    "OptionSeller_US_Afternoon_Harvest.mq5",    "GBPJPY",  "1h"),   # 美盤王牌
+        ("Opt_EURJPY_1H_US",    "OptionSeller_US_Afternoon_Harvest.mq5",    "EURJPY",  "1h"),   # 美盤
         ("Opt_GBPUSD_15M_US",   "OptionSeller_US_Afternoon_Harvest.mq5",    "GBPUSD",  "15m"),  # 美盤
-        ("Opt_EURUSD_15M_US",   "OptionSeller_US_Afternoon_Harvest.mq5",    "EURUSD",  "15m"),  # 美盤
-        ("Opt_EURNZD_1H_US",    "OptionSeller_US_Afternoon_Harvest.mq5",    "EURNZD",  "1h"),   # 🆕 美盤
-        ("Opt_EURJPY_1H_US",    "OptionSeller_US_Afternoon_Harvest.mq5",    "EURJPY",  "1h"),   # 🔄 移入美盤
-        ("Opt_AUDCHF_1H_DAY",   "OptionSeller_DaytimeChannel_Harvest.mq5",  "AUDCHF",  "1h"),   # 白天
+        ("Opt_EURCAD_1H_US",    "OptionSeller_US_Afternoon_Harvest.mq5",    "EURCAD",  "1h"),   # 🆕 美盤
         ("Opt_EURJPY_15M_DAY",  "OptionSeller_DaytimeChannel_Harvest.mq5",  "EURJPY",  "15m"),  # 白天
-        ("Opt_CHFJPY_15M_DAY",  "OptionSeller_DaytimeChannel_Harvest.mq5",  "CHFJPY",  "15m"),  # 🆕 白天
+        ("Opt_AUDCHF_1H_DAY",   "OptionSeller_DaytimeChannel_Harvest.mq5",  "AUDCHF",  "1h"),   # 白天
+        ("Opt_AUDUSD_1H_DAY",   "OptionSeller_DaytimeChannel_Harvest.mq5",  "AUDUSD",  "1h"),   # 🆕 白天
+        ("Opt_GBPJPY_15M_DAY",  "OptionSeller_DaytimeChannel_Harvest.mq5",  "GBPJPY",  "15m"),  # 🆕 白天
     ]  # 清單結束
 
     all_consistent = True  # 全部一致旗標
@@ -100,7 +100,7 @@ def verify_mt5_vs_web_consistency():  # 定義 MT5 EA 邏輯與網頁數據一�
     else:  # 有差異
         print(f"  ⚠️ 偵測到不一致：請重新執行 update_strategy_data.py 更新 JSON 後再驗證")  # 提示
     print(f"  📊 MT5 模擬總筆數: {sim_total} | 勝率: {sim_wr_total}% | 總淨利: ${sim_pnl_total:,.2f}")  # MT5 統計
-    print(f"  📊 網頁端總筆數: {web_metrics.get('total_trades', 0)} | 勝率: {web_metrics.get('win_rate', 0)}% | 總淨利: ${web_metrics.get('total_pnl_usd', 0):,.2f}")  # 網頁統計
+    print(f"  📊 網頁端總筆數: {web_metrics.get('total_trades', 0)} | 勝率: {web_metrics.get('win_rate', 0)}% | 總淨利: ${web_metrics.get('total_net_pnl_usd', 0):,.2f}")  # 網頁統計
     print("==========================================================================\n")  # 結尾線
 
 if __name__ == "__main__":  # 執行主入口

@@ -5,8 +5,8 @@
 //+------------------------------------------------------------------+ // 標頭結束
 #property copyright "Copyright 2026, Quant Fund Team" // 版權設定
 #property link      "https://github.com/evan7646-cloud" // 專案網址
-#property version   "4.10" // 策略版本號 (v4.10 Code Review 修復版：平倉重試/週五防護/Symbol Suffix/開倉失敗日誌)
-#property description "☀️ 策略一【白天全天通道避險收租 EA】：專攻 AUDCHF (1h)、EURJPY (15m)、CHFJPY (15m)，運作時段 MT5 01:15~18:00 (台北 06:15~23:00)" // 描述
+#property version   "5.10" // 策略版本號 (v5.10 汰弱留強精銳升級版：納入 AUDUSD 1h/GBPJPY 15m，剔除 CHFJPY)
+#property description "☀️ 策略一【白天全天通道避險收租 EA v5.10】：專攻 AUDCHF (1h)、EURJPY (15m)、AUDUSD (1h)、GBPJPY (15m)，運作時段 MT5 01:15~18:00 (台北 06:15~23:00)" // 描述
 
 #include <Trade\Trade.mqh> // 導入 MT5 交易執行標準庫
 #include <Trade\PositionInfo.mqh> // 導入持倉資訊查詢標準庫
@@ -27,7 +27,7 @@ input int      InpForceCloseHour      = 22;     // 強制全平小時 (MT5 22:00
 input int      InpFridayCloseHour     = 20;     // 週五提前清倉小時 (MT5 20:00 = 台北 01:00，避免跨週末跳空)
 
 input group "=== 3. 布林通道 (Bollinger Bands) 參數 ===" // 參數分組 3
-input bool     InpAutoParams          = true;   // 啟用自動品種參數適配 (EURJPY 3.0σ, AUDCHF/CHFJPY 2.8σ)
+input bool     InpAutoParams          = true;   // 啟用自動品種參數適配 (EURJPY/AUDUSD 3.0σ, AUDCHF/GBPJPY 2.8σ)
 input int      InpBBPeriod            = 20;     // 布林通道均線週期 (20 SMA)
 input double   InpBBMandatorySigma    = 2.8;    // 自訂布林標準差 (若關閉自動適配時生效)
 input bool     InpExitAtBBMiddle      = true;   // 價格回歸布林中軌時是否立即止盈平倉
@@ -40,6 +40,15 @@ input double   InpRSI_Oversold        = 32.0;   // RSI 超賣閾值 (<= 32 確�
 input group "=== 5. ATR 動態停損參數 ===" // 參數分組 5
 input int      InpATR_Period          = 14;     // ATR 週期 (14)
 input double   InpATR_Multiplier      = 2.5;    // 自訂 ATR 止損倍數 (若關閉自動適配時生效)
+
+input group "=== 6. [v5.10 新增] 波動度防禦與動能耗盡過濾 ===" // 參數分組 6
+input bool     InpUseBandwidthGuard   = true;   // 啟用布林帶寬擴張防禦 (防單邊爆發接飛刀)
+input double   InpMaxBandwidthRatio1H = 1.60;   // 1H 圖表最大容許帶寬比率 (1.60x)
+input double   InpMaxBandwidthRatio15M= 1.85;   // 15M 圖表最大容許帶寬比率 (1.85x)
+input bool     InpUseWickRejection    = true;   // 啟用 K 線引線動能衰竭確認 (防實體大棒接飛刀)
+input double   InpMinWickRatio        = 0.04;   // 最小反向引線佔比門檻 (4% 或反轉實體)
+input bool     InpUseThetaDecaySL     = true;   // 啟用持倉時間階梯收緊停損 (降低尾部風險)
+input int      InpDecayStartBars      = 8;      // 啟動時間收緊之持倉 K 棒數 (8 根)
 
 //--- 全域物件與控制變數
 CTrade         m_trade;          // MT5 交易執行物件實例
@@ -72,7 +81,7 @@ void SetTradeFillingMode() // 填充模式設定函數
 } // SetTradeFillingMode 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| [P1 修復] 去除經紀商 Symbol 後綴 (如 .a, .r, m 等) 取得純淨品種名      | // 函數說明
+//| 去除經紀商 Symbol 後綴 (如 .a, .r, m 等) 取得純淨品種名                | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
 string CleanSymbolName(string sym) // Symbol 後綴清理函數
 { // 區塊開始
@@ -92,29 +101,124 @@ string CleanSymbolName(string sym) // Symbol 後綴清理函數
 } // CleanSymbolName 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| 依據當前商品自動獲取最佳布林標準差倍數                                  | // 函數說明
+//| [v5.10] 依據當前商品自動獲取最佳布林標準差倍數                          | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
 double GetOptimalSigma(string sym) // 自動獲取標準差倍數
 { // 區塊開始
    if(!InpAutoParams) return InpBBMandatorySigma; // 若未啟用自動適配則回傳手動值
-   string clean = CleanSymbolName(sym); // [P1 修復] 清理 Symbol 後綴
-   if(clean == "EURJPY") return 3.0; // EURJPY 最佳為 3.0σ
-   if(clean == "AUDCHF" || clean == "CHFJPY") return 2.8; // AUDCHF/CHFJPY 最佳為 2.8σ
+   string clean = CleanSymbolName(sym); // 清理 Symbol 後綴
+   if(clean == "EURJPY" || clean == "AUDUSD") return 3.0; // EURJPY/AUDUSD 最佳為 3.0σ
+   if(clean == "AUDCHF" || clean == "GBPJPY") return 2.8; // AUDCHF/GBPJPY 最佳為 2.8σ
    return 2.8; // 預設 2.8σ
 } // GetOptimalSigma 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| 依據當前商品自動獲取最佳 ATR 停損倍數                                   | // 函數說明
+//| [v5.10] 依據當前商品自動獲取最佳 ATR 停損倍數                           | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
 double GetOptimalATRStop(string sym) // 自動獲取 ATR 停損倍數
 { // 區塊開始
    if(!InpAutoParams) return InpATR_Multiplier; // 若未啟用自動適配則回傳手動值
-   string clean = CleanSymbolName(sym); // [P1 修復] 清理 Symbol 後綴
-   if(clean == "AUDCHF") return 2.5; // AUDCHF 最佳為 2.5 ATR
-   if(clean == "EURJPY") return 2.0; // EURJPY 最佳為 2.0 ATR
-   if(clean == "CHFJPY") return 1.5; // CHFJPY 最佳為 1.5 ATR
+   string clean = CleanSymbolName(sym); // 清理 Symbol 後綴
+   if(clean == "AUDCHF" || clean == "GBPJPY") return 2.5; // AUDCHF/GBPJPY 最佳為 2.5 ATR
+   if(clean == "EURJPY" || clean == "AUDUSD") return 2.0; // EURJPY/AUDUSD 最佳為 2.0 ATR
    return 2.0; // 預設 2.0 ATR
 } // GetOptimalATRStop 結束
+
+//+------------------------------------------------------------------+ // 函數分隔
+//| [v5.10] 檢查布林帶寬擴張比率是否處於安全震盪區間 (杜絕單邊爆發接飛刀)         | // 函數說明
+//+------------------------------------------------------------------+ // 分隔線
+bool IsBandwidthSafe() // 帶寬安全檢查函數
+{ // 區塊開始
+   if(!InpUseBandwidthGuard) return true; // 若未啟用帶寬防禦則直接放行
+   double bb_up[20], bb_low[20], bb_mid[20]; // 定義布林軌道陣列 (20 週期)
+   ArraySetAsSeries(bb_up, true); // 設定為倒序
+   ArraySetAsSeries(bb_low, true); // 設定為倒序
+   ArraySetAsSeries(bb_mid, true); // 設定為倒序
+   if(CopyBuffer(m_handle_bb, 1, 1, 20, bb_up) < 20) return true; // 複製上軌數據 (失敗放行)
+   if(CopyBuffer(m_handle_bb, 2, 1, 20, bb_low) < 20) return true; // 複製下軌數據
+   if(CopyBuffer(m_handle_bb, 0, 1, 20, bb_mid) < 20) return true; // 複製中軌數據
+   
+   double sum_w = 0.0; // 帶寬累加變數
+   double curr_width = (bb_up[0] - bb_low[0]) / (bb_mid[0] + 1e-9); // 當前 K 棒帶寬
+   for(int i = 0; i < 20; i++) // 計算 20 週期帶寬平均值
+   { // 迴圈開始
+      double w = (bb_up[i] - bb_low[i]) / (bb_mid[i] + 1e-9); // 計算單根帶寬
+      sum_w += w; // 累加帶寬
+   } // 迴圈結束
+   double ma_width = sum_w / 20.0; // 計算帶寬 20 均值
+   double curr_width_ratio = curr_width / (ma_width + 1e-9); // 計算當前帶寬比率
+   
+   double max_allowed = (_Period == PERIOD_H1) ? InpMaxBandwidthRatio1H : InpMaxBandwidthRatio15M; // 依週期選取門檻
+   return (curr_width_ratio <= max_allowed); // 若帶寬比率小於上限則回傳安全 true
+} // IsBandwidthSafe 結束
+
+//+------------------------------------------------------------------+ // 函數分隔
+//| [v5.10] 檢查 K 棒引線拒絕形態 (確認極限拉伸後的反轉動能)                  | // 函數說明
+//+------------------------------------------------------------------+ // 分隔線
+bool IsWickRejectionValid(bool is_long) // 引線確認函數
+{ // 區塊開始
+   if(!InpUseWickRejection) return true; // 若未啟用引線確認則直接放行
+   MqlRates rates[1]; // 定義 K 棒結構陣列
+   ArraySetAsSeries(rates, true); // 設定為倒序
+   if(CopyRates(_Symbol, _Period, 1, 1, rates) < 1) return true; // 複製前一根已收盤 K 棒
+   double range = (rates[0].high - rates[0].low) + 1e-9; // 計算全距
+   if(is_long) // 做多 (賣 Put) 檢查
+   { // 多單
+      double lower_wick = MathMin(rates[0].open, rates[0].close) - rates[0].low; // 計算下影線長度
+      return ((lower_wick / range >= InpMinWickRatio) || (rates[0].close > rates[0].open)); // 下影線 >= 4% 或收陽線
+   } // 多單結束
+   else // 做空 (賣 Call) 檢查
+   { // 空單
+      double upper_wick = rates[0].high - MathMax(rates[0].open, rates[0].close); // 計算上影線長度
+      return ((upper_wick / range >= InpMinWickRatio) || (rates[0].close < rates[0].open)); // 上影線 >= 4% 或收陰線
+   } // 空單結束
+} // IsWickRejectionValid 結束
+
+//+------------------------------------------------------------------+ // 函數分隔
+//| [v5.10] 管理期權時間價值階梯衰減停損 (持倉 > 8 根 K 棒動態收緊停損)         | // 函數說明
+//+------------------------------------------------------------------+ // 分隔線
+void ManageThetaDecayStopLoss(double atr_val, double active_atr_sl) // 時間衰減停損管理函數
+{ // 區塊開始
+   if(!InpUseThetaDecaySL) return; // 若未啟用時間衰減則退出
+   datetime current_time = TimeCurrent(); // 當前伺服器時間
+   for(int i = PositionsTotal() - 1; i >= 0; i--) // 遍歷持倉
+   { // 遍歷
+      if(m_position.SelectByIndex(i)) // 選取持倉
+      { // 選取成功
+         if(m_position.Symbol() == _Symbol && m_position.Magic() == InpMagicNumber) // 比對標的與 Magic
+         { // 符合
+            datetime pos_time = (datetime)PositionGetInteger(POSITION_TIME); // 取得開倉時間
+            int bar_seconds = PeriodSeconds(_Period); // 當前週期每根 K 棒秒數
+            int bars_held = (int)((current_time - pos_time) / (bar_seconds > 0 ? bar_seconds : 900)); // 計算持有 K 棒數
+            if(bars_held >= InpDecayStartBars) // 持倉超過設定 K 棒數
+            { // 觸發時間收緊
+               double decay_pct = MathMin(0.25, (bars_held - InpDecayStartBars + 1) * 0.03); // 每根收緊 3% (上限 25%)
+               double curr_sl_dist = (active_atr_sl * atr_val) * (1.0 - decay_pct); // 計算收緊後停損距離
+               double open_p = m_position.PriceOpen(); // 進場價格
+               double current_sl = m_position.StopLoss(); // 當前停損
+               if(m_position.PositionType() == POSITION_TYPE_BUY) // 多單
+               { // 多單
+                  double new_sl = NormalizeDouble(open_p - curr_sl_dist, _Digits); // 新停損
+                  if(new_sl > current_sl) // 停損上移
+                  { // 執行修改
+                     m_trade.PositionModify(m_position.Ticket(), new_sl, 0); // 更新伺服器停損
+                     Print("⏱️ [多單時間收緊停損] 持倉 ", bars_held, " 根 K 棒，停損上移至: ", new_sl); // 日誌
+                  } // 修改結束
+               } // 多單結束
+               else if(m_position.PositionType() == POSITION_TYPE_SELL) // 空單
+               { // 空單
+                  double new_sl = NormalizeDouble(open_p + curr_sl_dist, _Digits); // 新停損
+                  if(current_sl == 0.0 || new_sl < current_sl) // 停損下移
+                  { // 執行修改
+                     m_trade.PositionModify(m_position.Ticket(), new_sl, 0); // 更新伺服器停損
+                     Print("⏱️ [空單時間收緊停損] 持倉 ", bars_held, " 根 K 棒，停損下移至: ", new_sl); // 日誌
+                  } // 修改結束
+               } // 空單結束
+            } // 時間收緊結束
+         } // 符合結束
+      } // 選取結束
+   } // 遍歷結束
+} // ManageThetaDecayStopLoss 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
 //| Expert initialization function (EA 初始化函數)                    | // 初始化註解
@@ -147,9 +251,10 @@ int OnInit() // 初始化入口函數
    m_last_bar_time = 0; // 重設 K 棒時間
    
    Print("=========================================================================="); // 分隔線
-   Print(" ☀️【策略一：白天全天通道避險收租 EA v4.10】成功啟動！標的: ", _Symbol, " (清理後: ", CleanSymbolName(_Symbol), ") | 週期: ", EnumToString(_Period)); // 啟動提示
+   Print(" ☀️【策略一：白天全天通道避險收租 EA v5.10】成功啟動！標的: ", _Symbol, " (清理後: ", CleanSymbolName(_Symbol), ") | 週期: ", EnumToString(_Period)); // 啟動提示
    Print(" • 運作時段: MT5 01:15 ~ 18:00 (台北 06:15 ~ 23:00)"); // 時段提示
    Print(" • 布林通道: 20 SMA / ", DoubleToString(active_sigma, 1), "σ | 止損: ", DoubleToString(active_atr_sl, 1), " ATR"); // 參數提示
+   Print(" • [v5.10 防禦]: 帶寬擴張防禦: ", InpUseBandwidthGuard ? "ON" : "OFF", " | 引線動能衰竭確認: ", InpUseWickRejection ? "ON" : "OFF", " | 時間衰減停損: ", InpUseThetaDecaySL ? "ON" : "OFF"); // 防禦提示
    Print(" • 每日強制全平: MT5 22:00 (台北 03:00) | 週五提前清倉: MT5 ", InpFridayCloseHour, ":00 | 換日休市保護: MT5 23:45~01:15"); // 風控提示
    Print("=========================================================================="); // 分隔線
    
@@ -164,7 +269,7 @@ void OnDeinit(const int reason) // 卸載入口函數
    IndicatorRelease(m_handle_bb); // 釋放布林通道
    IndicatorRelease(m_handle_rsi); // 釋放 RSI
    IndicatorRelease(m_handle_atr); // 釋放 ATR
-   Print("🔌 策略一【白天全天通道收租 EA v4.10】已卸載。"); // 輸出日誌
+   Print("🔌 策略一【白天全天通道收租 EA v5.10】已卸載。"); // 輸出日誌
 } // OnDeinit 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
@@ -193,7 +298,7 @@ bool IsForceCloseTime() // 強制清倉判定函數
 } // IsForceCloseTime 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| [P0 新增] 檢查是否為週五提前清倉時段 (避免跨週末跳空)                    | // 函數說明
+//| 檢查是否為週五提前清倉時段 (避免跨週末跳空)                            | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
 bool IsFridayCloseTime() // 週五提前清倉判定函數
 { // 區塊開始
@@ -204,7 +309,7 @@ bool IsFridayCloseTime() // 週五提前清倉判定函數
 } // IsFridayCloseTime 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| [P0 修復] 強制平倉 + 失敗重試與錯誤日誌 (對齊 Straddle EA 標準)        | // 函數說明
+//| 強制平倉 + 失敗重試與錯誤日誌                                         | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
 void CloseAllPositions(string reason_text) // 全平函數
 { // 區塊開始
@@ -214,8 +319,8 @@ void CloseAllPositions(string reason_text) // 全平函數
       { // 選取成功
          if(m_position.Symbol() == _Symbol && m_position.Magic() == InpMagicNumber) // 比對標的與 Magic
          { // 符合條件
-            ulong ticket = m_position.Ticket(); // [P0] 先暫存 Ticket 避免迴圈中物件狀態變更
-            if(!m_trade.PositionClose(ticket)) // [P0] 檢查平倉是否成功
+            ulong ticket = m_position.Ticket(); // 暫存 Ticket 避免迴圈中狀態變更
+            if(!m_trade.PositionClose(ticket)) // 檢查平倉是否成功
             { // 平倉失敗
                Print("⚠️ [強制清倉失敗] Ticket: ", ticket, " | 錯誤碼: ", m_trade.ResultRetcode(), // 輸出錯誤碼
                      " | 說明: ", m_trade.ResultRetcodeDescription(), " | 原因: ", reason_text, // 輸出錯誤描述
@@ -231,7 +336,7 @@ void CloseAllPositions(string reason_text) // 全平函數
 } // CloseAllPositions 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
-//| [P2 修復] 計算當前策略持倉數量 (修正 has_position 多持倉邊界問題)      | // 函數說明
+//| 計算當前策略持倉數量                                                 | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
 int CountMyPositions() // 持倉計數函數
 { // 區塊開始
@@ -254,7 +359,7 @@ int CountMyPositions() // 持倉計數函數
 //+------------------------------------------------------------------+ // 分隔線
 void OnTick() // 即時行情入口
 { // 區塊開始
-   // 1. [P0] 週五提前清倉檢查 (避免跨週末跳空風險)
+   // 1. 週五提前清倉檢查 (避免跨週末跳空風險)
    if(IsFridayCloseTime()) // 週五清倉時間檢查
    { // 週五清倉
       CloseAllPositions("週五提前清倉 (MT5 " + IntegerToString(InpFridayCloseHour) + ":00)，避免跨週末跳空"); // 平倉
@@ -297,7 +402,10 @@ void OnTick() // 即時行情入口
    double prev_atr = atr_val[0]; // 前一根 ATR
    double active_atr_sl = GetOptimalATRStop(_Symbol); // 取得 ATR 止損倍數
    
-   // 5. 持倉管理與布林中軌動態止盈平倉 (方案C：回歸中軌 + 盈利條件才止盈)
+   // 5. [v5.10] 管理持倉時間階梯收緊停損 (降低跨時段長持倉風險)
+   ManageThetaDecayStopLoss(prev_atr, active_atr_sl); // 執行時間收緊停損檢查
+   
+   // 6. 持倉管理與布林中軌動態止盈平倉 (回歸中軌 + 盈利條件才止盈)
    for(int i = PositionsTotal() - 1; i >= 0; i--) // 遍歷
    { // 遍歷
       if(m_position.SelectByIndex(i)) // 選取
@@ -324,41 +432,41 @@ void OnTick() // 即時行情入口
       } // 選取結束
    } // 持倉管理結束
    
-   // 6. [P2] 用 CountMyPositions() 精確判定持倉，取代原本有邊界問題的 has_position 變數
-   bool has_position = (CountMyPositions() > 0); // 用獨立函數精確計算持倉數量
+   // 7. 精確判定持倉數量
+   bool has_position = (CountMyPositions() > 0); // 計算持倉數量
    
-   // 7. 開倉訊號檢查 (價格標準化 NormalizeDouble，靜態 TP=0 依賴動態中軌平倉)
+   // 8. 開倉訊號檢查 (價格標準化 NormalizeDouble，注入 v5.10 帶寬防禦與引線衰竭確認)
    if(!has_position && IsWithinAllowedEntryWindow()) // 開倉判定
    { // 開倉檢查
       if(!m_symbol.RefreshRates()) return; // 刷新行情
       if(m_symbol.Spread() > InpMaxSpreadPoints) { m_last_bar_time = current_bar_time; return; } // 點差保護
       
-      // 多單訊號：收盤跌破布林下軌 + RSI <= 32 極度超賣
-      if(closed_price <= prev_bb_lower && prev_rsi <= InpRSI_Oversold) // 多單條件
+      // 多單訊號：收盤跌破布林下軌 + RSI <= 32 + 帶寬未暴增 + 引線/收陽動能衰竭確認
+      if(closed_price <= prev_bb_lower && prev_rsi <= InpRSI_Oversold && IsBandwidthSafe() && IsWickRejectionValid(true)) // 多單條件
       { // 做多
          double ask = m_symbol.Ask(); // 即時買價
          double sl = NormalizeDouble(ask - (active_atr_sl * prev_atr), _Digits); // 價格標準化 ATR 止損
-         if(m_trade.Buy(InpLotSize, _Symbol, ask, sl, 0, "DayChannel_ShortPut_Buy")) // 發送多單 (TP=0)
+         if(m_trade.Buy(InpLotSize, _Symbol, ask, sl, 0, "DaytimeChannel_ShortPut_Buy")) // 發送多單 (TP=0)
          { // 成功
             Print("🚀 [白天做多] 跌破下軌做多 (Buy)！Ask: ", ask, " | SL: ", sl, " | RSI: ", prev_rsi); // 日誌
          } // 成功結束
-         else // [P1] 開倉失敗錯誤日誌
+         else // 開倉失敗錯誤日誌
          { // 失敗
             Print("❌ [白天做多失敗] 錯誤碼: ", m_trade.ResultRetcode(), " | 說明: ", m_trade.ResultRetcodeDescription(), // 輸出錯誤碼
                   " | Ask: ", ask, " | SL: ", sl, " | RSI: ", prev_rsi); // 輸出價格參數
          } // 失敗結束
       } // 結束
       
-      // 空單訊號：收盤衝破布林上軌 + RSI >= 68 極度超買
-      else if(closed_price >= prev_bb_upper && prev_rsi >= InpRSI_Overbought) // 空單條件
+      // 空單訊號：收盤衝破布林上軌 + RSI >= 68 + 帶寬未暴增 + 引線/收陰動能衰竭確認
+      else if(closed_price >= prev_bb_upper && prev_rsi >= InpRSI_Overbought && IsBandwidthSafe() && IsWickRejectionValid(false)) // 空單條件
       { // 做空
          double bid = m_symbol.Bid(); // 即時賣價
          double sl = NormalizeDouble(bid + (active_atr_sl * prev_atr), _Digits); // 價格標準化 ATR 止損
-         if(m_trade.Sell(InpLotSize, _Symbol, bid, sl, 0, "DayChannel_ShortCall_Sell")) // 發送空單 (TP=0)
+         if(m_trade.Sell(InpLotSize, _Symbol, bid, sl, 0, "DaytimeChannel_ShortCall_Sell")) // 發送空單 (TP=0)
          { // 成功
             Print("🚀 [白天做空] 突破上軌做空 (Sell)！Bid: ", bid, " | SL: ", sl, " | RSI: ", prev_rsi); // 日誌
          } // 成功結束
-         else // [P1] 開倉失敗錯誤日誌
+         else // 開倉失敗錯誤日誌
          { // 失敗
             Print("❌ [白天做空失敗] 錯誤碼: ", m_trade.ResultRetcode(), " | 說明: ", m_trade.ResultRetcodeDescription(), // 輸出錯誤碼
                   " | Bid: ", bid, " | SL: ", sl, " | RSI: ", prev_rsi); // 輸出價格參數

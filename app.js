@@ -11,15 +11,14 @@ let tableTradeType = 'ALL'; // 交易明細方向過濾 ('ALL', 'BUY', 'SELL')
 let tableTradeOutcome = 'ALL'; // 交易明細勝負過濾 ('ALL', 'WIN', 'LOSS')
 let highlightedTradeId = null; // 當前點擊聚焦高亮的交易序號
 
-// 方案 A 穩健組合 8 大王牌貨幣對圖表配色調色盤
+// 方案 A 穩健組合 8 大王牌貨幣對圖表配色調色盤 (v5.10 汰弱留強精銳版)
 const symbolColors = { // 配色字典
-    "GBPJPY": "#ff7043", // 亮橘紅 (1h 鎊日美盤高波收租, +$4,204 USD) 💎
-    "GBPUSD": "#29b6f6", // 科技天藍 (15m 鎊美美盤極速收租, 勝率 67.6%)
-    "EURUSD": "#00e676", // 翡翠綠 (15m 歐美超低點差收租, 勝率 61.5%)
-    "EURNZD": "#ab47bc", // 亮紫色 (1h 歐紐美盤極穩收租, PF 2.11) 🆕
-    "EURJPY": "#ff4081", // 亮粉紅 (15m+1h 歐日白天+美盤, 勝率 70.8%/55.3%)
-    "AUDCHF": "#ffd600", // 亮金黃 (1h 澳瑞全天避險均值回歸, PF 1.84)
-    "CHFJPY": "#00bcd4"  // 科技青 (15m 瑞日白天高勝率收租, 67.7%) 🆕
+    "GBPJPY": "#ff7043", // 亮橘紅 (1h/15m 鎊日美盤+白天收租) 💎
+    "EURJPY": "#ff4081", // 亮粉紅 (1h/15m 歐日美盤+白天收租)
+    "GBPUSD": "#29b6f6", // 科技天藍 (15m 鎊美美盤極速收租)
+    "EURCAD": "#00e676", // 翡翠綠 (1h 歐加美盤高盈虧收租) 🆕
+    "AUDCHF": "#ffd600", // 亮金黃 (1h 澳瑞全天避險均值回歸)
+    "AUDUSD": "#00bcd4"  // 科技青 (1h 澳美白天低點差收租) 🆕
 }; // 配色結束
 
 // 網頁 DOM 載入完畢監聽入口
@@ -41,8 +40,16 @@ async function loadStrategyData() { // 資料非同步加載函數
         if (!response.ok) throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`); // 檢查回應狀態
         globalData = await response.json(); // 解析 JSON 物件
 
-        // 初始化商品勾選集合
-        const allSyms = Object.keys(globalData.symbols_meta); // 取得全部貨幣對
+        // 初始化商品勾選集合 (支援自動防禦容錯)
+        if (!globalData.symbols_meta && globalData.modules_summary) { // 若中繼字典為空則自動從模組摘要建構
+            globalData.symbols_meta = {}; // 初始化物件
+            globalData.modules_summary.forEach(m => { // 遍歷模組
+                if (!globalData.symbols_meta[m.symbol]) { // 若不存在
+                    globalData.symbols_meta[m.symbol] = { symbol: m.symbol, spread_pips: 1.5, current_price: 1.0, price_change_24h_pct: 0.0, current_rsi: 50.0, current_zscore: 0.0 }; // 填入預設值
+                } // 判斷結束
+            }); // 遍歷結束
+        } // 容錯結束
+        const allSyms = Object.keys(globalData.symbols_meta || {}); // 取得全部貨幣對清單
         selectedSymbols = new Set(allSyms); // 放入集合
         if (allSyms.length > 0) candlestickSymbol = allSyms[0]; // 設定預設 K 線標的
 
@@ -273,10 +280,10 @@ function applyStrategyPreset(preset) { // 策略預設函數
 
     if (preset === 'ALL') { // 全部 8 大模組
         Object.keys(globalData.symbols_meta).forEach(s => selectedSymbols.add(s)); // 全部加入
-    } else if (preset === 'DAY_CHANNEL') { // ☀️ 白天全天通道組 (AUDCHF, EURJPY, CHFJPY)
-        ["AUDCHF", "EURJPY", "CHFJPY"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
-    } else if (preset === 'US_AFTERNOON') { // 🌙 晚間美盤收斂組 (GBPJPY, GBPUSD, EURUSD, EURNZD, EURJPY)
-        ["GBPJPY", "GBPUSD", "EURUSD", "EURNZD", "EURJPY"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'DAY_CHANNEL') { // ☀️ 白天全天通道組 (EURJPY, AUDCHF, AUDUSD, GBPJPY)
+        ["EURJPY", "AUDCHF", "AUDUSD", "GBPJPY"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
+    } else if (preset === 'US_AFTERNOON') { // 🌙 晚間美盤午後組 (GBPJPY, EURJPY, GBPUSD, EURCAD)
+        ["GBPJPY", "EURJPY", "GBPUSD", "EURCAD"].forEach(s => { if (globalData.symbols_meta[s]) selectedSymbols.add(s); }); // 加入
     } // 判斷結束
 
     updateFilterButtonsState(); // 更新按鈕樣式
@@ -342,27 +349,34 @@ function recalculateAndRenderKPIs() { // KPI 精算與渲染函數
     const profitFactor = grossLoss > 0 ? (grossProfit / grossLoss).toFixed(2) : (wins > 0 ? '99.00' : '0.00'); // 獲利因子
     const roi = (totalPnl / 100000.0 * 100).toFixed(2); // 投報率
 
-    // 計算歷史最大回撤 (MDD)
-    let mddPct = 0.0; // MDD 百分比
-    let mddDollars = 0.0; // MDD 美金
+    // 計算歷史最大回撤 (MDD) 與目前即時回撤 (Current Drawdown) — 均換算為美金金額與百分比
+    let mddPct = '0.00'; // MDD 百分比
+    let mddDollars = '0.00'; // MDD 美金
+    let currentDdDollars = '0.00'; // 目前回撤美金
+    let currentDdPct = '0.00'; // 目前回撤百分比
     if (totalTrades > 0) { // 交易筆數大於 0
         const sortedTrades = [...filtered].sort((a, b) => new Date(a.exit_time) - new Date(b.exit_time)); // 依出場時間正序
-        let runningBal = 100000.0; // 起始本金
+        let runningBal = 100000.0; // 起始本金 $100,000 USD
         let peakBal = 100000.0; // 歷史高點
         let maxDdVal = 0.0; // 最大美金回撤
         let maxDdPval = 0.0; // 最大百分比回撤
 
         sortedTrades.forEach(t => { // 遍歷交易
             runningBal += t.pnl_usd; // 累加淨值
-            if (runningBal > peakBal) peakBal = runningBal; // 更新新高
-            const curDrawdown = peakBal - runningBal; // 當前回撤
-            const curDrawdownPct = peakBal > 0 ? (curDrawdown / peakBal * 100) : 0; // 回撤百分比
-            if (curDrawdown > maxDdVal) maxDdVal = curDrawdown; // 更新最大美金
-            if (curDrawdownPct > maxDdPval) maxDdPval = curDrawdownPct; // 更新最大百分比
+            if (runningBal > peakBal) peakBal = runningBal; // 更新歷史新高
+            const curDrawdown = peakBal - runningBal; // 該筆當前回撤
+            const curDrawdownPct = (curDrawdown / 100000.0 * 100); // 以 $100,000 為基準換算回撤百分比
+            if (curDrawdown > maxDdVal) maxDdVal = curDrawdown; // 更新最大回撤美金
+            if (curDrawdownPct > maxDdPval) maxDdPval = curDrawdownPct; // 更新最大回撤百分比
         }); // 遍歷結束
 
-        mddPct = maxDdPval.toFixed(2); // 設定 MDD 百分比
-        mddDollars = maxDdVal.toFixed(2); // 設定 MDD 美金
+        mddPct = maxDdPval.toFixed(2); // 格式化 MDD 百分比
+        mddDollars = maxDdVal.toFixed(2); // 格式化 MDD 美金
+
+        const finalDrawdownVal = Math.max(0, peakBal - runningBal); // 計算最新目前即時回撤美金
+        const finalDrawdownPct = (finalDrawdownVal / 100000.0 * 100); // 換算最新目前即時回撤百分比
+        currentDdDollars = finalDrawdownVal.toFixed(2); // 格式化目前回撤美金
+        currentDdPct = finalDrawdownPct.toFixed(2); // 格式化目前回撤百分比
     } // MDD 計算結束
 
     // 渲染卡片 1：總淨利
@@ -384,9 +398,18 @@ function recalculateAndRenderKPIs() { // KPI 精算與渲染函數
     document.getElementById('kpi-gross-profit').textContent = `+$${Math.round(grossProfit).toLocaleString()}`; // 顯示毛利
     document.getElementById('kpi-gross-loss').textContent = `-$${Math.round(grossLoss).toLocaleString()}`; // 顯示毛損
 
-    // 渲染卡片 4：最大回撤
-    document.getElementById('kpi-max-drawdown').textContent = `-${mddPct}%`; // 顯示 MDD%
-    document.getElementById('kpi-mdd-dollars').textContent = `-$${parseFloat(mddDollars).toLocaleString()}`; // 顯示 MDD 美金
+    // 渲染卡片 4：最大歷史回撤與目前即時回撤 (均以 金額 (％) 格式顯示)
+    const mddEl = document.getElementById('kpi-max-drawdown'); // 取得 MDD 主顯示 DOM
+    if (mddEl) { // 若存在
+        mddEl.textContent = `-$${parseFloat(mddDollars).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${mddPct}%)`; // 金額(%)顯示
+    } // 判斷結束
+    
+    const curDdEl = document.getElementById('kpi-current-drawdown'); // 取得目前回撤 DOM
+    if (curDdEl) { // 若存在
+        const curDdV = parseFloat(currentDdDollars); // 轉浮點數
+        curDdEl.textContent = `-$${curDdV.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${currentDdPct}%)`; // 金額(%)顯示
+        curDdEl.className = curDdV === 0 ? 'val-bull' : 'val-bear'; // 0 回撤為綠色，有回撤為紅色
+    } // 判斷結束
 
     // 渲染卡片 5：當前持倉
     const activeCountEl = document.getElementById('kpi-active-count'); // DOM
@@ -410,9 +433,9 @@ function renderStrategyMatrix() { // 矩陣渲染函數
             '<span class="badge-scalper" style="font-size:11px; padding:3px 8px;">☀️ 白天全天通道組</span>' : 
             '<span class="badge-straddle" style="font-size:11px; padding:3px 8px;">🌙 晚間美盤收斂組</span>'; // 標籤
 
-        // 方案 A 參數映射表 (依 module_id 精準對應)
-        const sigmaMap = {'Opt_EURJPY_15M_DAY':'3.0σ', 'Opt_AUDCHF_1H_DAY':'2.8σ', 'Opt_CHFJPY_15M_DAY':'2.8σ', 'Opt_GBPJPY_1H_US':'2.2σ', 'Opt_GBPUSD_15M_US':'2.2σ', 'Opt_EURUSD_15M_US':'2.0σ', 'Opt_EURNZD_1H_US':'2.5σ', 'Opt_EURJPY_1H_US':'2.5σ'};
-        const slMap = {'Opt_AUDCHF_1H_DAY':'2.5 ATR', 'Opt_EURJPY_15M_DAY':'2.0 ATR', 'Opt_CHFJPY_15M_DAY':'1.5 ATR', 'Opt_GBPJPY_1H_US':'1.5 ATR', 'Opt_GBPUSD_15M_US':'2.0 ATR', 'Opt_EURUSD_15M_US':'2.0 ATR', 'Opt_EURNZD_1H_US':'1.5 ATR', 'Opt_EURJPY_1H_US':'1.5 ATR'};
+        // 方案 A 參數映射表 (v5.10 精銳版依 module_id 精準對應)
+        const sigmaMap = {'Opt_GBPJPY_1H_US':'2.2σ', 'Opt_EURJPY_1H_US':'2.5σ', 'Opt_GBPUSD_15M_US':'2.2σ', 'Opt_EURCAD_1H_US':'3.0σ', 'Opt_EURJPY_15M_DAY':'3.0σ', 'Opt_AUDCHF_1H_DAY':'2.8σ', 'Opt_AUDUSD_1H_DAY':'3.0σ', 'Opt_GBPJPY_15M_DAY':'2.8σ'}; // 標準差表
+        const slMap = {'Opt_GBPJPY_1H_US':'1.5 ATR', 'Opt_EURJPY_1H_US':'1.5 ATR', 'Opt_GBPUSD_15M_US':'2.0 ATR', 'Opt_EURCAD_1H_US':'2.0 ATR', 'Opt_EURJPY_15M_DAY':'2.0 ATR', 'Opt_AUDCHF_1H_DAY':'2.5 ATR', 'Opt_AUDUSD_1H_DAY':'2.0 ATR', 'Opt_GBPJPY_15M_DAY':'2.5 ATR'}; // 停損表
         const sigmaVal = sigmaMap[m.module_id] || '2.2σ'; // 標準差
         const slVal = slMap[m.module_id] || '2.0 ATR'; // 止損
 
@@ -633,11 +656,12 @@ function renderTradesTable() { // 表格渲染函數
             const pnlClass = isWin ? 'val-bull' : 'val-bear'; // 配色
             const typeBadge = t.type.includes('Buy') ? '<span class="badge-bull">買多 (Short Put)</span>' : '<span class="badge-bear">賣空 (Short Call)</span>'; // 標籤
             const symColor = symbolColors[t.symbol] || '#fff'; // 顏色
-            const isHighlight = highlightedTradeId === t.global_id ? 'style="background:rgba(41,182,246,0.15);"' : ''; // 高亮
+            const tradeNum = t.trade_id || t.global_id || 1; // 取得交易序號 (避免 undefined)
+            const isHighlight = highlightedTradeId === tradeNum ? 'style="background:rgba(41,182,246,0.15);"' : ''; // 高亮
 
             return `
-                <tr ${isHighlight} onclick="focusTradeOnChart('${t.symbol}', ${t.global_id})" style="cursor:pointer;" title="點擊切換聚焦 ${t.symbol} K線圖">
-                    <td style="font-family:var(--font-mono); color:var(--text-secondary); font-size:12px;">#${t.global_id}</td>
+                <tr ${isHighlight} onclick="focusTradeOnChart('${t.symbol}', ${tradeNum})" style="cursor:pointer;" title="點擊切換聚焦 ${t.symbol} K線圖">
+                    <td style="font-family:var(--font-mono); color:var(--text-secondary); font-size:12px;">#${tradeNum}</td>
                     <td><strong style="color:${symColor}; font-family:var(--font-mono);">${t.symbol}</strong></td>
                     <td style="font-family:var(--font-mono); font-size:12px; color:var(--text-secondary);">${t.timeframe || '15m'}</td>
                     <td>${typeBadge}</td>
