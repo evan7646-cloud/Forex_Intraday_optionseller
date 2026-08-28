@@ -2,8 +2,8 @@
   "system_version": "5.10 (汰弱留強精銳升級版)",
   "system_info": {
     "version": "5.10 (汰弱留強精銳升級版)",
-    "last_updated_mt5": "2026-08-28 08:11:36",
-    "last_updated_tpe": "2026-08-28 13:11:36"
+    "last_updated_mt5": "2026-08-28 21:31:56",
+    "last_updated_tpe": "2026-08-29 02:31:56"
   },
   "portfolio_metrics": {
     "total_trades": 175,
@@ -21,7 +21,7 @@
     "calmar_ratio": 9.87,
     "initial_balance": 100000.0,
     "final_equity": 111525.79,
-    "last_updated": "2026-08-28 13:11:36"
+    "last_updated": "2026-08-29 02:31:56"
   },
   "modules_summary": [
     {
