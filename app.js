@@ -633,7 +633,7 @@ function renderTradesTable() { // 表格渲染函數
             if (!matchSym && !matchReason && !matchStrat) return false; // 排除
         } // 結束
         return true; // 符合
-    }); // 過濾結束
+    }).sort((a, b) => new Date(b.exit_time || b.entry_time) - new Date(a.exit_time || a.entry_time)); // 依最新出場時間倒序排列 (最新交易顯示於第 1 頁)
 
     const totalPages = Math.ceil(filtered.length / pageSize) || 1; // 總頁數
     if (currentPage > totalPages) currentPage = totalPages; // 校正頁碼
