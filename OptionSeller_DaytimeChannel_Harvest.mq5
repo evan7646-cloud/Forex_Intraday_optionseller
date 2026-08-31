@@ -16,7 +16,7 @@
 input group "=== 1. 資金管理與手數配置 ===" // 參數分組 1
 input double   InpLotSize             = 1.0;    // 交易下單手數 (固定 1.0 手，FTMO 10K 請設 0.1)
 input ulong    InpMagicNumber         = 800101; // 策略專屬 Magic Number 識別碼
-input int      InpMaxSpreadPoints     = 25;     // 最大容許點差 (25 Points = 2.5 pips，超過禁止開倉)
+input int      InpMaxSpreadPoints     = 35;     // 最大容許點差 (35 Points = 3.5 pips，避免高波交叉盤被誤殺漏單)
 
 input group "=== 2. 白天交易時段與換日防禦 (MT5 伺服器時間 UTC+3) ===" // 參數分組 2
 input int      InpStartHour           = 1;      // 開倉起始小時 (MT5 01:00 = 台北 06:00)
@@ -119,19 +119,19 @@ double GetOptimalATRStop(string sym) // 自動獲取 ATR 停損倍數
 { // 區塊開始
    if(!InpAutoParams) return InpATR_Multiplier; // 若未啟用自動適配則回傳手動值
    string clean = CleanSymbolName(sym); // 清理 Symbol 後綴
-   if(clean == "AUDCHF" || clean == "GBPJPY") return 2.5; // AUDCHF/GBPJPY 最佳為 2.5 ATR
    if(clean == "EURJPY" || clean == "AUDUSD") return 2.0; // EURJPY/AUDUSD 最佳為 2.0 ATR
-   return 2.0; // 預設 2.0 ATR
+   if(clean == "AUDCHF" || clean == "GBPJPY") return 2.5; // AUDCHF/GBPJPY 最佳為 2.5 ATR
+   return 2.5; // 預設 2.5 ATR
 } // GetOptimalATRStop 結束
 
 //+------------------------------------------------------------------+ // 函數分隔
 //| [v5.10] 檢查布林帶寬擴張比率是否處於安全震盪區間 (杜絕單邊爆發接飛刀)         | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
-bool IsBandwidthSafe() // 帶寬安全檢查函數
+bool IsBandwidthSafe() // 帶寬安全檢查函數 (修復動態陣列倒序索引 Bug)
 { // 區塊開始
    if(!InpUseBandwidthGuard) return true; // 若未啟用帶寬防禦則直接放行
-   double bb_up[20], bb_low[20], bb_mid[20]; // 定義布林軌道陣列 (20 週期)
-   ArraySetAsSeries(bb_up, true); // 設定為倒序
+   double bb_up[], bb_low[], bb_mid[]; // 宣告動態陣列 (確保 ArraySetAsSeries 生效)
+   ArraySetAsSeries(bb_up, true); // 設定為倒序 (0 為最新收盤 K 棒)
    ArraySetAsSeries(bb_low, true); // 設定為倒序
    ArraySetAsSeries(bb_mid, true); // 設定為倒序
    if(CopyBuffer(m_handle_bb, 1, 1, 20, bb_up) < 20) return true; // 複製上軌數據 (失敗放行)
@@ -155,11 +155,11 @@ bool IsBandwidthSafe() // 帶寬安全檢查函數
 //+------------------------------------------------------------------+ // 函數分隔
 //| [v5.10] 檢查 K 棒引線拒絕形態 (確認極限拉伸後的反轉動能)                  | // 函數說明
 //+------------------------------------------------------------------+ // 分隔線
-bool IsWickRejectionValid(bool is_long) // 引線確認函數
+bool IsWickRejectionValid(bool is_long) // 引線確認函數 (修復動態陣列宣告)
 { // 區塊開始
    if(!InpUseWickRejection) return true; // 若未啟用引線確認則直接放行
-   MqlRates rates[1]; // 定義 K 棒結構陣列
-   ArraySetAsSeries(rates, true); // 設定為倒序
+   MqlRates rates[]; // 宣告動態 K 棒結構陣列
+   ArraySetAsSeries(rates, true); // 設定為倒序 (0 為最新收盤 K 棒)
    if(CopyRates(_Symbol, _Period, 1, 1, rates) < 1) return true; // 複製前一根已收盤 K 棒
    double range = (rates[0].high - rates[0].low) + 1e-9; // 計算全距
    if(is_long) // 做多 (賣 Put) 檢查
