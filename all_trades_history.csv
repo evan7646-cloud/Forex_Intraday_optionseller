@@ -183,3 +183,4 @@
 15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-28 17:15:00,185.647,185.43014,2026-08-28 17:30:00,-141.24,-21.7,SL (-2.0 ATR),30,False,Opt_EURJPY_15M_DAY,182
 15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-28 17:30:00,216.465,216.936,2026-08-28 18:00:00,290.9,47.1,BB Middle (Mean Reversion),45,True,Opt_GBPJPY_15M_DAY,183
 15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-28 17:30:00,185.507,185.558,2026-08-28 20:15:00,27.04,5.1,Cut Before Weekend (Friday MT5 20:00),180,True,Opt_EURJPY_15M_DAY,184
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-31 10:15:00,185.052,185.185,2026-08-31 12:00:00,78.55,13.3,BB Middle (Mean Reversion),120,True,Opt_EURJPY_15M_DAY,185
