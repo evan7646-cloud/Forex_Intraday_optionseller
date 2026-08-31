@@ -32,15 +32,17 @@ jobs: # 工作任務清單
           python -m pip install --upgrade pip # 升級 pip 工具
           pip install -r requirements.txt # 安裝 requirements.txt 所需依賴
 
-      - name: 🔄 Run strategy update # 步驟 4: 執行 5m 策略運算與數據更新
-        run: python update_strategy_data.py # 執行回測運算並更新 strategy_results.json
+      - name: 🔄 Run strategy update # 步驟 4: 執行最新行情同步與 5m 策略運算
+        run: | # 執行同步與運算
+          python sync_market_data.py # 同步最新 K 線行情
+          python update_strategy_data.py # 執行回測運算並更新 strategy_results.json
         env: # 環境變數
           PYTHONUNBUFFERED: '1' # 確保 print 即時輸出至 Actions log
 
       - name: 📊 Check if data changed # 步驟 5: 檢查資料檔案是否有異動
         id: check_changes # 設定步驟識別 ID
         run: | # 檢查檔案變動
-          if [ -n "$(git status --porcelain strategy_results.json all_trades_history.csv)" ]; then # 判斷檔案是否變更
+          if [ -n "$(git status --porcelain strategy_results.json all_trades_history.csv data_pepperstone)" ]; then # 判斷檔案是否變更
             echo "changed=true" >> $GITHUB_OUTPUT # 標記有異動
           else # 若無變動
             echo "changed=false" >> $GITHUB_OUTPUT # 標記無異動
@@ -51,7 +53,7 @@ jobs: # 工作任務清單
         run: | # 執行 Git 提交與推送指令
           git config --local user.email "github-actions[bot]@users.noreply.github.com" # 設定 bot Email
           git config --local user.name "github-actions[bot]" # 設定 bot 名稱
-          git add strategy_results.json all_trades_history.csv # 加入已更新的資料檔案
+          git add strategy_results.json all_trades_history.csv data_pepperstone # 加入已更新的資料檔案
           git commit -m "🤖 Auto-update: 5m strategy data $(date -u +'%Y-%m-%d %H:%M UTC')" # 自動 commit 訊息帶時間戳
           git push # 推送到 GitHub main 分支
 

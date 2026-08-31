@@ -54,6 +54,11 @@ async function loadStrategyData() { // 資料非同步加載函數
         if (allSyms.length > 0) candlestickSymbol = allSyms[0]; // 設定預設 K 線標的
 
         // 渲染各區塊內容
+        const btnToggleAll = document.getElementById('btn-toggle-all'); // 取得全部模組按鈕
+        if (btnToggleAll && globalData.portfolio_metrics) { // 若按鈕與指標存在
+            const m = globalData.portfolio_metrics; // 取得總組合指標
+            btnToggleAll.textContent = `全部 8 大分工收租模組 (勝率 ${m.win_rate}% / PF ${m.profit_factor} / 淨利 $${Math.round(m.total_net_pnl_usd).toLocaleString()})`; // 動態更新按鈕文字
+        } // 判斷結束
         renderHeaderStatus(); // 渲染頂部時間與系統狀態
         renderMarketTickers(); // 渲染即時行情小卡
         renderAssetCheckboxes(); // 渲染多商品勾選控制卡片
@@ -180,10 +185,10 @@ function renderMarketTickers() { // 行情卡片渲染函數
         const changeClass = item.price_change_24h_pct >= 0 ? 'val-bull' : 'val-bear'; // 多空顏色
         const changePrefix = item.price_change_24h_pct >= 0 ? '+' : ''; // 正號標記
         
-        let sessionTag = (sym === 'AUDCHF' || sym === 'CHFJPY') ? 
-            '<span class="badge-scalper">☀️ 白天通道收租 (06:15~23:00)</span>' : 
-            (sym === 'EURJPY' ? '<span class="badge-scalper">☀️🌙 白天+美盤雙時段</span>' :
-            '<span class="badge-straddle">🌙 晚間美盤收租 (18:00~00:00)</span>'); // 標籤
+        let sessionTag = (sym === 'AUDCHF' || sym === 'AUDUSD') ? // 純白天全天通道組判斷
+            '<span class="badge-scalper">☀️ 白天通道收租 (06:15~23:00)</span>' : // 白天通道標籤
+            ((sym === 'EURJPY' || sym === 'GBPJPY') ? '<span class="badge-scalper">☀️🌙 白天+美盤雙時段</span>' : // 雙時段標籤
+            '<span class="badge-straddle">🌙 晚間美盤收租 (18:00~00:00)</span>'); // 晚間美盤標籤
 
         return `
             <div class="market-ticker-card" onclick="selectSingleSymbol('${sym}')" title="點擊切換專屬監控 ${sym}">
@@ -214,9 +219,10 @@ function renderAssetCheckboxes() { // 勾選卡片生成函數
         const isChecked = selectedSymbols.has(sym); // 是否已勾選
         const activeClass = isChecked ? 'checked' : ''; // 樣式類別
         
-        const isDayGroup = (sym === 'AUDCHF' || sym === 'CHFJPY'); // 白天組判斷 (EURJPY 兩組都有)
-        const tagText = isDayGroup ? '☀️ 白天全天通道組' : (sym === 'EURJPY' ? '☀️🌙 白天+美盤雙時段' : '🌙 晚間美盤收斂組 (超窄點差)'); // 標籤文字
-        const tagBadge = isDayGroup ? 'badge-scalper' : 'badge-straddle'; // 樣式
+        const isDayOnly = (sym === 'AUDCHF' || sym === 'AUDUSD'); // 純白天組判斷
+        const isDual = (sym === 'EURJPY' || sym === 'GBPJPY'); // 雙時段組判斷
+        const tagText = isDayOnly ? '☀️ 白天全天通道組' : (isDual ? '☀️🌙 白天+美盤雙時段' : '🌙 晚間美盤收斂組 (超窄點差)'); // 標籤文字
+        const tagBadge = isDayOnly ? 'badge-scalper' : (isDual ? 'badge-scalper' : 'badge-straddle'); // 樣式
 
         return `
             <div class="asset-checkbox-item ${activeClass}" data-symbol="${sym}" onclick="toggleSymbolSelection('${sym}')">
