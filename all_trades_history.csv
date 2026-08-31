@@ -1,185 +1,185 @@
 ﻿strategy,symbol,timeframe,type,lot_size,entry_time,entry_price,exit_price,exit_time,pnl_usd,pnl_pips,exit_reason,duration_mins,win,module_id,trade_id
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-11-06 18:00:00,200.502,201.078,2025-11-06 20:00:00,356.86,57.6,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_1H_US,1
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2025-11-06 18:00:00,176.514,176.698,2025-11-06 22:00:00,110.59,18.4,Cut Before Rollover (MT5 22:00),240,True,Opt_EURJPY_1H_US,2
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2025-11-06 17:00:00,0.64699,0.64787,2025-11-06 22:00:00,83.0,8.8,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDUSD_1H_DAY,3
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-13 14:00:00,203.762,203.788,2025-11-13 22:00:00,-21.33,-2.6,Cut Before Rollover (MT5 22:00),480,False,Opt_GBPJPY_1H_US,4
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-17 14:00:00,204.063,204.45954,2025-11-17 17:00:00,-254.11,-39.7,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,5
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2025-11-17 17:00:00,179.975,179.892,2025-11-17 22:00:00,47.14,8.3,Cut Before Rollover (MT5 22:00),300,True,Opt_EURJPY_1H_US,6
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-20 16:00:00,206.647,205.97,2025-11-20 22:00:00,420.31,67.7,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,7
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-11-21 13:00:00,204.635,204.934,2025-11-21 22:00:00,182.84,29.9,Cut Before Rollover (MT5 22:00),540,True,Opt_GBPJPY_1H_US,8
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-24 14:00:00,205.637,205.605,2025-11-24 22:00:00,15.1,3.2,Cut Before Rollover (MT5 22:00),480,True,Opt_GBPJPY_1H_US,9
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-26 15:00:00,206.656,207.094,2025-11-26 22:00:00,-280.16,-43.8,Cut Before Rollover (MT5 22:00),420,False,Opt_GBPJPY_1H_US,10
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-12-04 13:00:00,206.476,206.71,2025-12-04 22:00:00,142.01,23.4,Cut Before Rollover (MT5 22:00),540,True,Opt_GBPJPY_1H_US,11
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2025-12-04 13:00:00,180.501,180.589,2025-12-04 22:00:00,50.28,8.8,Cut Before Rollover (MT5 22:00),540,True,Opt_EURJPY_1H_US,12
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2025-12-08 17:00:00,0.66181,0.66241,2025-12-08 22:00:00,55.0,6.0,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDUSD_1H_DAY,13
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-12-09 18:00:00,208.878,208.698,2025-12-09 22:00:00,108.08,18.0,Cut Before Rollover (MT5 22:00),240,True,Opt_GBPJPY_1H_US,14
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2025-12-09 17:00:00,182.401,182.429,2025-12-09 22:00:00,-22.59,-2.8,Cut Before Rollover (MT5 22:00),300,False,Opt_EURJPY_1H_US,15
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-10 16:00:00,0.53322,0.53429,2025-12-10 22:00:00,128.39,10.7,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDCHF_1H_DAY,16
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2025-12-12 17:00:00,0.66439,0.66509,2025-12-12 22:00:00,65.0,7.0,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDUSD_1H_DAY,17
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-16 03:00:00,0.52706,0.52878,2025-12-16 08:00:00,209.42,17.2,BB Middle (Mean Reversion),300,True,Opt_AUDCHF_1H_DAY,18
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-17 17:00:00,0.52535,0.52539,2025-12-17 22:00:00,-0.01,0.4,Cut Before Rollover (MT5 22:00),300,False,Opt_AUDCHF_1H_DAY,19
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-12-18 15:00:00,208.906,208.214,2025-12-18 18:00:00,429.73,69.2,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,20
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2025-12-18 15:00:00,0.66219,0.66113,2025-12-18 22:00:00,101.0,10.6,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDUSD_1H_DAY,21
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2025-12-23 15:00:00,1.61275,1.61366,2025-12-23 22:00:00,60.73,9.1,Cut Before Rollover (MT5 22:00),420,True,Opt_EURCAD_1H_US,22
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-12-24 16:00:00,210.146,210.583,2025-12-26 00:00:00,269.54,43.7,BB Middle (Mean Reversion),360,True,Opt_GBPJPY_1H_US,23
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2025-12-29 17:00:00,183.569,183.742,2025-12-29 22:00:00,103.68,17.3,Cut Before Rollover (MT5 22:00),300,True,Opt_EURJPY_1H_US,24
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2025-12-31 14:00:00,184.08,184.093,2026-01-02 00:00:00,-13.17,-1.3,Cut Before Rollover (MT5 22:00),480,False,Opt_EURJPY_1H_US,25
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-31 17:00:00,0.52841,0.52758,2026-01-02 00:00:00,-108.47,-8.3,Cut Before Rollover (MT5 22:00),300,False,Opt_AUDCHF_1H_DAY,26
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-01-13 17:00:00,0.66875,0.66819,2026-01-13 22:00:00,-61.0,-5.6,Cut Before Rollover (MT5 22:00),300,False,Opt_AUDUSD_1H_DAY,27
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-14 16:00:00,212.914,213.008,2026-01-14 22:00:00,54.05,9.4,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,28
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-16 17:00:00,211.477,211.495,2026-01-16 22:00:00,6.31,1.8,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,29
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-01-16 15:00:00,1.61472,1.61419,2026-01-16 22:00:00,33.28,5.3,Cut Before Rollover (MT5 22:00),420,True,Opt_EURCAD_1H_US,30
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-01-16 16:00:00,0.53595,0.53675,2026-01-16 22:00:00,94.73,8.0,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDCHF_1H_DAY,31
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-01-16 17:00:00,0.66801,0.66842,2026-01-16 22:00:00,36.0,4.1,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDUSD_1H_DAY,32
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-01-20 06:00:00,0.53631,0.53528,2026-01-20 09:00:00,123.4,10.3,BB Middle (Mean Reversion),180,True,Opt_AUDCHF_1H_DAY,33
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-01-20 10:00:00,0.53282,0.53216,2026-01-20 22:00:00,-87.28,-6.6,Cut Before Rollover (MT5 22:00),720,False,Opt_AUDCHF_1H_DAY,34
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-21 13:00:00,211.778,212.656,2026-01-21 16:00:00,546.58,87.8,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,35
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-01-23 14:00:00,0.68639,0.6889,2026-01-23 19:00:00,-256.14,-25.1,SL (-2.0 ATR),300,False,Opt_AUDUSD_1H_DAY,36
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-29 17:00:00,210.342,211.35,2026-01-29 22:00:00,628.25,100.8,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,37
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-01-29 17:00:00,182.303,183.181,2026-01-29 22:00:00,546.58,87.8,BB Middle (Mean Reversion),300,True,Opt_EURJPY_1H_US,38
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-02-03 05:00:00,0.54649,0.54335,2026-02-03 16:00:00,386.43,31.4,BB Middle (Mean Reversion),660,True,Opt_AUDCHF_1H_DAY,39
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-02-03 14:00:00,213.239,212.912,2026-02-03 20:00:00,200.43,32.7,BB Middle (Mean Reversion),360,True,Opt_GBPJPY_1H_US,40
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-02-03 05:00:00,0.70218,0.70002,2026-02-03 20:00:00,211.0,21.6,BB Middle (Mean Reversion),900,True,Opt_AUDUSD_1H_DAY,41
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-02-05 15:00:00,212.757,212.03561,2026-02-05 17:00:00,-458.2,-72.1,SL (-1.5 ATR),120,False,Opt_GBPJPY_1H_US,42
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-02-09 16:00:00,212.328,213.286,2026-02-09 18:00:00,596.84,95.8,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_1H_US,43
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-02-11 16:00:00,0.54987,0.54971,2026-02-11 22:00:00,14.95,1.6,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDCHF_1H_DAY,44
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-02-11 04:00:00,0.71181,0.71249,2026-02-11 22:00:00,-73.0,-6.8,Cut Before Rollover (MT5 22:00),1080,False,Opt_AUDUSD_1H_DAY,45
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-02-12 17:00:00,1.61569,1.61577,2026-02-12 22:00:00,-10.78,-0.8,Cut Before Rollover (MT5 22:00),300,False,Opt_EURCAD_1H_US,46
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-02-18 16:00:00,182.397,182.44,2026-02-18 22:00:00,-32.01,-4.3,Cut Before Rollover (MT5 22:00),360,False,Opt_EURJPY_1H_US,47
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-02-27 15:00:00,0.547,0.54703,2026-02-27 22:00:00,-1.26,0.3,Cut Before Rollover (MT5 22:00),420,False,Opt_AUDCHF_1H_DAY,48
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-03-02 16:00:00,211.207,210.897,2026-03-02 22:00:00,189.75,31.0,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,49
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-03-03 16:00:00,0.54751,0.5501,2026-03-03 22:00:00,317.87,25.9,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDCHF_1H_DAY,50
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-03-23 13:00:00,183.349,184.052,2026-03-23 15:00:00,436.64,70.3,BB Middle (Mean Reversion),120,True,Opt_EURJPY_1H_US,51
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-03-26 15:00:00,0.54765,0.54711,2026-03-26 22:00:00,-72.32,-5.4,Cut Before Rollover (MT5 22:00),420,False,Opt_AUDCHF_1H_DAY,52
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-03-27 15:00:00,212.364,212.826,2026-03-27 17:00:00,285.24,46.2,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_1H_US,53
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-03-31 17:00:00,209.837,210.041,2026-03-31 22:00:00,123.16,20.4,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,54
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-04-02 04:00:00,0.68855,0.68945,2026-04-02 16:00:00,85.0,9.0,BB Middle (Mean Reversion),720,True,Opt_AUDUSD_1H_DAY,55
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-04-03 17:00:00,210.724,210.563,2026-04-03 22:00:00,-106.14,-16.1,Cut Before Rollover (MT5 22:00),300,False,Opt_GBPJPY_1H_US,56
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-04-07 11:00:00,0.55418,0.55613,2026-04-07 22:00:00,-247.64,-19.5,SL (-2.5 ATR),660,False,Opt_AUDCHF_1H_DAY,57
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-04-07 11:00:00,0.6945,0.69713,2026-04-07 22:00:00,-268.0,-26.3,Cut Before Rollover (MT5 22:00),660,False,Opt_AUDUSD_1H_DAY,58
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-09 14:00:00,213.352,213.66336,2026-04-09 18:00:00,-200.6,-31.1,SL (-1.5 ATR),240,False,Opt_GBPJPY_1H_US,59
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-04-09 18:00:00,0.55885,0.56013,2026-04-09 22:00:00,-164.57,-12.8,Cut Before Rollover (MT5 22:00),240,False,Opt_AUDCHF_1H_DAY,60
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-10 15:00:00,214.174,214.4545,2026-04-10 17:00:00,-181.22,-28.0,SL (-1.5 ATR),120,False,Opt_GBPJPY_1H_US,61
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-14 16:00:00,215.753,215.488,2026-04-14 22:00:00,161.48,26.5,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,62
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-21 18:00:00,215.331,215.207,2026-04-21 22:00:00,72.9,12.4,Cut Before Rollover (MT5 22:00),240,True,Opt_GBPJPY_1H_US,63
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-04-22 18:00:00,1.60025,1.60014,2026-04-22 22:00:00,-12.94,-1.1,Cut Before Rollover (MT5 22:00),240,False,Opt_EURCAD_1H_US,64
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-04-28 09:00:00,0.71643,0.71794,2026-04-28 18:00:00,146.0,15.1,BB Middle (Mean Reversion),540,True,Opt_AUDUSD_1H_DAY,65
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-04-29 17:00:00,187.248,187.202,2026-04-29 22:00:00,23.9,4.6,Cut Before Rollover (MT5 22:00),300,True,Opt_EURJPY_1H_US,66
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-04-30 15:00:00,0.56059,0.56229,2026-04-30 22:00:00,206.92,17.0,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDCHF_1H_DAY,67
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-05-01 17:00:00,1.59696,1.59324,2026-05-01 21:00:00,263.69,37.2,BB Middle (Mean Reversion),240,True,Opt_EURCAD_1H_US,68
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-04 18:00:00,0.56151,0.5619,2026-05-04 22:00:00,43.62,3.9,Cut Before Rollover (MT5 22:00),240,True,Opt_AUDCHF_1H_DAY,69
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-05-05 13:00:00,184.241,184.5095,2026-05-05 15:00:00,-173.68,-26.8,SL (-1.5 ATR),120,False,Opt_EURJPY_1H_US,70
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-05-05 13:00:00,213.483,213.84493,2026-05-05 16:00:00,-232.37,-36.2,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,71
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-12 09:00:00,0.5627,0.56384,2026-05-12 12:00:00,137.11,11.4,BB Middle (Mean Reversion),180,True,Opt_AUDCHF_1H_DAY,72
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-05-13 15:00:00,212.955,213.359,2026-05-13 18:00:00,248.8,40.4,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,73
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-05-14 16:00:00,184.603,184.797,2026-05-14 22:00:00,116.88,19.4,Cut Before Rollover (MT5 22:00),360,True,Opt_EURJPY_1H_US,74
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-05-14 18:00:00,1.60267,1.60128,2026-05-14 22:00:00,-105.4,-13.9,Cut Before Rollover (MT5 22:00),240,False,Opt_EURCAD_1H_US,75
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-14 16:00:00,0.56495,0.5657,2026-05-14 22:00:00,88.5,7.5,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDCHF_1H_DAY,76
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-15 08:00:00,0.56293,0.56232,2026-05-15 22:00:00,-81.04,-6.1,Cut Before Rollover (MT5 22:00),840,False,Opt_AUDCHF_1H_DAY,77
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-05-19 17:00:00,184.454,184.586,2026-05-19 22:00:00,77.93,13.2,Cut Before Rollover (MT5 22:00),300,True,Opt_EURJPY_1H_US,78
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-05-20 17:00:00,213.386,213.486,2026-05-20 22:00:00,-67.82,-10.0,Cut Before Rollover (MT5 22:00),300,False,Opt_GBPJPY_1H_US,79
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-05-20 17:00:00,0.71528,0.71596,2026-05-20 22:00:00,-73.0,-6.8,Cut Before Rollover (MT5 22:00),300,False,Opt_AUDUSD_1H_DAY,80
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-21 04:00:00,0.56014,0.56192,2026-05-21 15:00:00,216.9,17.8,BB Middle (Mean Reversion),660,True,Opt_AUDCHF_1H_DAY,81
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-05-22 18:00:00,213.876,213.923,2026-05-22 22:00:00,-34.53,-4.7,Cut Before Rollover (MT5 22:00),240,False,Opt_GBPJPY_1H_US,82
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-05-25 17:00:00,0.56195,0.56165,2026-05-25 22:00:00,32.4,3.0,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDCHF_1H_DAY,83
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-05-28 06:00:00,0.71023,0.71313,2026-05-28 15:00:00,285.0,29.0,BB Middle (Mean Reversion),540,True,Opt_AUDUSD_1H_DAY,84
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-05-29 16:00:00,0.71873,0.71876,2026-05-29 22:00:00,-8.0,-0.3,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDUSD_1H_DAY,85
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-06-01 16:00:00,0.71386,0.7161,2026-06-01 22:00:00,219.0,22.4,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDUSD_1H_DAY,86
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-04 14:00:00,215.012,214.822,2026-06-04 22:00:00,114.36,19.0,BB Middle (Mean Reversion),480,True,Opt_GBPJPY_1H_US,87
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-06-04 14:00:00,185.983,185.826,2026-06-04 22:00:00,93.63,15.7,Cut Before Rollover (MT5 22:00),480,True,Opt_EURJPY_1H_US,88
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-06-04 14:00:00,0.71463,0.71363,2026-06-04 22:00:00,95.0,10.0,Cut Before Rollover (MT5 22:00),480,True,Opt_AUDUSD_1H_DAY,89
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-05 13:00:00,215.447,214.78,2026-06-05 15:00:00,414.03,66.7,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_1H_US,90
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-06-05 16:00:00,185.33,185.02314,2026-06-05 18:00:00,-197.78,-30.7,SL (-1.5 ATR),120,False,Opt_EURJPY_1H_US,91
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-09 13:00:00,214.521,214.79882,2026-06-09 16:00:00,-179.54,-27.8,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,92
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-06-09 13:00:00,185.225,185.43757,2026-06-09 16:00:00,-138.54,-21.3,SL (-1.5 ATR),180,False,Opt_EURJPY_1H_US,93
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-06-09 18:00:00,0.56023,0.56104,2026-06-09 22:00:00,95.97,8.1,Cut Before Rollover (MT5 22:00),240,True,Opt_AUDCHF_1H_DAY,94
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-10 16:00:00,215.042,214.75,2026-06-10 21:00:00,178.44,29.2,BB Middle (Mean Reversion),300,True,Opt_GBPJPY_1H_US,95
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-06-11 17:00:00,213.931,214.351,2026-06-11 22:00:00,258.86,42.0,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,96
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-06-17 09:00:00,215.148,214.94021,2026-06-17 09:30:00,-135.54,-20.8,SL (-2.5 ATR),30,False,Opt_GBPJPY_15M_DAY,97
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-06-17 09:30:00,215.016,214.81396,2026-06-17 13:15:00,-131.93,-20.2,SL (-2.5 ATR),225,False,Opt_GBPJPY_15M_DAY,98
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-06-17 14:15:00,1.3407,1.34144,2026-06-17 15:45:00,69.0,7.4,BB Middle (Mean Reversion),90,True,Opt_GBPUSD_15M_US,99
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-06-22 13:00:00,1.32411,1.32612,2026-06-22 15:30:00,-205.66,-20.1,SL (-2.0 ATR),150,False,Opt_GBPUSD_15M_US,100
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-22 15:00:00,214.497,213.788,2026-06-22 21:00:00,440.41,70.9,BB Middle (Mean Reversion),360,True,Opt_GBPJPY_1H_US,101
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-06-23 09:15:00,184.779,184.391,2026-06-23 10:30:00,238.75,38.8,BB Middle (Mean Reversion),75,True,Opt_EURJPY_15M_DAY,102
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-06-23 17:30:00,1.31982,1.3182,2026-06-23 20:00:00,-167.44,-16.2,SL (-2.0 ATR),150,False,Opt_GBPUSD_15M_US,103
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-06-24 13:00:00,183.358,183.732,2026-06-24 19:00:00,229.96,37.4,BB Middle (Mean Reversion),360,True,Opt_EURJPY_1H_US,104
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-06-26 15:45:00,184.709,184.282,2026-06-26 17:45:00,263.25,42.7,BB Middle (Mean Reversion),120,True,Opt_EURJPY_15M_DAY,105
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-06-29 16:00:00,0.55678,0.55612,2026-06-29 22:00:00,-87.28,-6.6,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDCHF_1H_DAY,106
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-06-30 15:15:00,1.32162,1.32278,2026-06-30 16:15:00,111.0,11.6,BB Middle (Mean Reversion),60,True,Opt_GBPUSD_15M_US,107
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-30 17:00:00,215.676,215.666,2026-06-30 22:00:00,1.28,1.0,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,108
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-06-30 17:00:00,185.788,185.781,2026-06-30 22:00:00,-0.6,0.7,Cut Before Rollover (MT5 22:00),300,False,Opt_EURJPY_1H_US,109
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-01 16:00:00,1.32212,1.32505,2026-07-01 16:15:00,288.0,29.3,BB Middle (Mean Reversion),15,True,Opt_GBPUSD_15M_US,110
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-01 16:00:00,215.152,215.524,2026-07-01 16:30:00,228.7,37.2,BB Middle (Mean Reversion),30,True,Opt_GBPJPY_15M_DAY,111
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-07-02 05:00:00,185.046,184.973,2026-07-02 06:00:00,40.86,7.3,BB Middle (Mean Reversion),60,True,Opt_EURJPY_15M_DAY,112
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-02 15:00:00,1.33042,1.33789,2026-07-02 15:30:00,742.0,74.7,BB Middle (Mean Reversion),30,True,Opt_GBPUSD_15M_US,113
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-07-02 10:00:00,0.55591,0.556,2026-07-02 22:00:00,6.22,0.9,Cut Before Rollover (MT5 22:00),720,True,Opt_AUDCHF_1H_DAY,114
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-03 09:30:00,215.071,215.17,2026-07-03 13:00:00,57.19,9.9,BB Middle (Mean Reversion),210,True,Opt_GBPJPY_15M_DAY,115
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-06 16:15:00,1.33535,1.33693,2026-07-06 19:00:00,-163.1,-15.8,SL (-2.0 ATR),165,False,Opt_GBPUSD_15M_US,116
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-07 04:30:00,185.301,185.11814,2026-07-07 06:15:00,-119.88,-18.3,SL (-2.0 ATR),105,False,Opt_EURJPY_15M_DAY,117
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-08 09:30:00,216.681,216.77,2026-07-08 09:45:00,50.91,8.9,BB Middle (Mean Reversion),15,True,Opt_GBPJPY_15M_DAY,118
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-07-08 16:00:00,217.302,217.71461,2026-07-08 20:00:00,-264.21,-41.3,SL (-1.5 ATR),240,False,Opt_GBPJPY_1H_US,119
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-09 09:15:00,217.798,218.02721,2026-07-09 10:15:00,-149.0,-22.9,SL (-2.5 ATR),60,False,Opt_GBPJPY_15M_DAY,120
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-09 13:45:00,1.33968,1.33801,2026-07-09 15:45:00,-171.53,-16.7,SL (-2.0 ATR),120,False,Opt_GBPUSD_15M_US,121
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-10 15:00:00,1.61665,1.6157,2026-07-10 22:00:00,-73.62,-9.5,Cut Before Rollover (MT5 22:00),420,False,Opt_EURCAD_1H_US,122
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-13 08:45:00,217.088,217.02,2026-07-13 12:00:00,37.72,6.8,BB Middle (Mean Reversion),195,True,Opt_GBPJPY_15M_DAY,123
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-13 17:30:00,1.33731,1.33579,2026-07-13 20:45:00,-156.62,-15.2,SL (-2.0 ATR),195,False,Opt_GBPUSD_15M_US,124
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-14 15:30:00,1.34319,1.33877,2026-07-14 18:30:00,437.0,44.2,BB Middle (Mean Reversion),180,True,Opt_GBPUSD_15M_US,125
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-07-14 15:30:00,185.292,185.285,2026-07-14 20:00:00,-0.6,0.7,BB Middle (Mean Reversion),270,False,Opt_EURJPY_15M_DAY,126
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-07-14 16:00:00,217.207,217.183,2026-07-14 22:00:00,10.08,2.4,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,127
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-07-14 15:00:00,185.303,185.26,2026-07-14 22:00:00,22.01,4.3,Cut Before Rollover (MT5 22:00),420,True,Opt_EURJPY_1H_US,128
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-15 15:30:00,1.34205,1.34411,2026-07-15 16:45:00,-211.43,-20.6,SL (-2.0 ATR),75,False,Opt_GBPUSD_15M_US,129
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-07-15 16:00:00,217.996,218.38214,2026-07-15 17:00:00,-247.59,-38.6,SL (-1.5 ATR),60,False,Opt_GBPJPY_1H_US,130
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-16 15:00:00,1.60588,1.60672,2026-07-16 22:00:00,55.67,8.4,Cut Before Rollover (MT5 22:00),420,True,Opt_EURCAD_1H_US,131
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-07-17 13:00:00,218.089,218.554,2026-07-17 19:00:00,287.13,46.5,BB Middle (Mean Reversion),360,True,Opt_GBPJPY_1H_US,132
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-17 16:45:00,1.34497,1.34538,2026-07-17 22:00:00,-46.0,-4.1,Cut Before Rollover (MT5 22:00),315,False,Opt_GBPUSD_15M_US,133
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-07-17 11:00:00,0.5624,0.56367,2026-07-17 22:00:00,153.32,12.7,Cut Before Rollover (MT5 22:00),660,True,Opt_AUDCHF_1H_DAY,134
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-20 18:00:00,1.34214,1.34355,2026-07-20 21:00:00,136.0,14.1,BB Middle (Mean Reversion),180,True,Opt_GBPUSD_15M_US,135
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-21 15:15:00,1.33868,1.3367,2026-07-21 16:30:00,-203.14,-19.8,SL (-2.0 ATR),75,False,Opt_GBPUSD_15M_US,136
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-21 16:30:00,1.3363,1.33823,2026-07-21 19:30:00,188.0,19.3,BB Middle (Mean Reversion),180,True,Opt_GBPUSD_15M_US,137
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-22 08:45:00,218.21,218.352,2026-07-22 10:15:00,84.21,14.2,BB Middle (Mean Reversion),90,True,Opt_GBPJPY_15M_DAY,138
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-22 10:30:00,185.873,186.002,2026-07-22 14:45:00,76.04,12.9,BB Middle (Mean Reversion),255,True,Opt_EURJPY_15M_DAY,139
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-23 14:30:00,1.33461,1.33279,2026-07-23 17:00:00,-186.55,-18.2,SL (-2.0 ATR),150,False,Opt_GBPUSD_15M_US,140
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-24 10:00:00,218.295,218.128,2026-07-24 11:45:00,99.91,16.7,BB Middle (Mean Reversion),105,True,Opt_GBPJPY_15M_DAY,141
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-24 18:00:00,1.33416,1.3327,2026-07-24 20:00:00,141.0,14.6,BB Middle (Mean Reversion),120,True,Opt_GBPUSD_15M_US,142
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-27 10:00:00,218.214,217.97263,2026-07-27 13:15:00,-156.64,-24.1,SL (-2.5 ATR),195,False,Opt_GBPJPY_15M_DAY,143
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-27 10:15:00,186.323,186.447,2026-07-27 13:30:00,72.9,12.4,BB Middle (Mean Reversion),195,True,Opt_EURJPY_15M_DAY,144
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-07-27 16:00:00,0.57242,0.57281,2026-07-27 22:00:00,-53.62,-3.9,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDCHF_1H_DAY,145
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-28 08:00:00,186.078,186.204,2026-07-28 10:00:00,74.16,12.6,BB Middle (Mean Reversion),120,True,Opt_EURJPY_15M_DAY,146
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-29 15:00:00,1.60359,1.60574,2026-07-29 20:00:00,150.29,21.5,BB Middle (Mean Reversion),300,True,Opt_EURCAD_1H_US,147
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-29 17:30:00,217.837,218.15411,2026-07-29 21:00:00,-204.22,-31.7,SL (-2.5 ATR),210,False,Opt_GBPJPY_15M_DAY,148
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-31 16:00:00,1.60996,1.61388,2026-07-31 17:00:00,278.13,39.2,BB Middle (Mean Reversion),60,True,Opt_EURCAD_1H_US,149
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-03 03:30:00,179.577,180.452,2026-08-03 07:45:00,544.7,87.5,BB Middle (Mean Reversion),255,True,Opt_EURJPY_15M_DAY,150
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-03 03:30:00,209.829,210.738,2026-08-03 08:00:00,566.06,90.9,BB Middle (Mean Reversion),270,True,Opt_GBPJPY_15M_DAY,151
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-08-03 18:00:00,1.34278,1.34305,2026-08-03 21:45:00,22.0,2.7,BB Middle (Mean Reversion),225,True,Opt_GBPUSD_15M_US,152
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-04 14:45:00,181.341,181.507,2026-08-04 17:15:00,99.29,16.6,BB Middle (Mean Reversion),150,True,Opt_EURJPY_15M_DAY,153
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-05 14:30:00,1.34797,1.34688,2026-08-05 16:30:00,104.0,10.9,BB Middle (Mean Reversion),120,True,Opt_GBPUSD_15M_US,154
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-05 16:30:00,212.078,212.257,2026-08-05 19:30:00,107.45,17.9,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_15M_DAY,155
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-06 14:00:00,212.582,212.85457,2026-08-06 17:00:00,-176.24,-27.3,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,156
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-08-06 18:00:00,182.524,182.536,2026-08-06 22:00:00,-12.54,-1.2,Cut Before Rollover (MT5 22:00),240,False,Opt_EURJPY_1H_US,157
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-07 04:30:00,182.402,182.529,2026-08-07 06:30:00,74.78,12.7,BB Middle (Mean Reversion),120,True,Opt_EURJPY_15M_DAY,158
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-07 04:30:00,212.962,213.075,2026-08-07 06:30:00,65.99,11.3,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_15M_DAY,159
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-08-07 13:00:00,212.735,212.31168,2026-08-07 15:00:00,-270.94,-42.3,SL (-1.5 ATR),120,False,Opt_GBPJPY_1H_US,160
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-08-07 15:00:00,212.489,212.99,2026-08-07 17:00:00,309.74,50.1,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_1H_US,161
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-08-07 13:00:00,0.57018,0.57065,2026-08-07 21:00:00,53.59,4.7,BB Middle (Mean Reversion),480,True,Opt_AUDCHF_1H_DAY,162
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-08-07 16:00:00,1.6123,1.61167,2026-08-07 22:00:00,-50.5,-6.3,Cut Before Rollover (MT5 22:00),360,False,Opt_EURCAD_1H_US,163
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-08-07 15:00:00,0.707,0.70727,2026-08-07 22:00:00,-32.0,-2.7,Cut Before Rollover (MT5 22:00),420,False,Opt_AUDUSD_1H_DAY,164
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-12 12:15:00,214.997,215.181,2026-08-12 14:45:00,110.59,18.4,BB Middle (Mean Reversion),150,True,Opt_GBPJPY_15M_DAY,165
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-12 14:45:00,1.35266,1.35412,2026-08-12 15:30:00,-151.14,-14.6,SL (-2.0 ATR),45,False,Opt_GBPUSD_15M_US,166
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-08-12 15:00:00,0.70876,0.70662,2026-08-12 19:00:00,209.0,21.4,BB Middle (Mean Reversion),240,True,Opt_AUDUSD_1H_DAY,167
-1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-08-14 14:00:00,184.0,183.816,2026-08-14 15:00:00,110.59,18.4,BB Middle (Mean Reversion),60,True,Opt_EURJPY_1H_US,168
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-14 13:00:00,215.304,215.63207,2026-08-14 18:00:00,-211.1,-32.8,SL (-1.5 ATR),300,False,Opt_GBPJPY_1H_US,169
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-17 18:00:00,216.071,215.976,2026-08-17 22:00:00,54.68,9.5,Cut Before Rollover (MT5 22:00),240,True,Opt_GBPJPY_1H_US,170
-1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-08-18 14:00:00,0.57751,0.57639,2026-08-18 17:00:00,134.62,11.2,BB Middle (Mean Reversion),180,True,Opt_AUDCHF_1H_DAY,171
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-19 03:45:00,215.755,215.60616,2026-08-19 07:30:00,-98.51,-14.9,SL (-2.5 ATR),225,False,Opt_GBPJPY_15M_DAY,172
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-19 15:45:00,1.35954,1.36127,2026-08-19 16:00:00,-177.71,-17.3,SL (-2.0 ATR),15,False,Opt_GBPUSD_15M_US,173
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-08-19 15:00:00,1.61246,1.6128,2026-08-19 22:00:00,-29.56,-3.4,Cut Before Rollover (MT5 22:00),420,False,Opt_EURCAD_1H_US,174
-1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-08-19 16:00:00,0.71204,0.71272,2026-08-19 22:00:00,-73.0,-6.8,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDUSD_1H_DAY,175
-1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-08-20 14:00:00,1.6088,1.61049,2026-08-20 22:00:00,117.06,16.9,BB Middle (Mean Reversion),480,True,Opt_EURCAD_1H_US,176
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-08-21 17:30:00,1.36244,1.3641,2026-08-21 19:15:00,161.0,16.6,BB Middle (Mean Reversion),105,True,Opt_GBPUSD_15M_US,177
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-08-24 10:15:00,217.105,216.863,2026-08-24 11:45:00,147.03,24.2,BB Middle (Mean Reversion),90,True,Opt_GBPJPY_15M_DAY,178
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-08-26 16:00:00,1.36083,1.35939,2026-08-26 17:15:00,-149.43,-14.4,SL (-2.0 ATR),75,False,Opt_GBPUSD_15M_US,179
-15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-27 16:15:00,1.35993,1.35826,2026-08-27 17:45:00,162.0,16.7,BB Middle (Mean Reversion),90,True,Opt_GBPUSD_15M_US,180
-1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-28 13:00:00,216.933,216.723,2026-08-28 16:00:00,126.93,21.0,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,181
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-28 17:00:00,185.647,185.43014,2026-08-28 17:15:00,-141.24,-21.7,SL (-2.0 ATR),15,False,Opt_EURJPY_15M_DAY,182
-15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-28 17:15:00,216.465,216.936,2026-08-28 17:45:00,290.9,47.1,BB Middle (Mean Reversion),30,True,Opt_GBPJPY_15M_DAY,183
-15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-28 17:15:00,185.507,185.39868,2026-08-28 22:00:00,-73.05,-10.8,SL (-2.0 ATR),285,False,Opt_EURJPY_15M_DAY,184
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-11-06 19:00:00,200.502,201.078,2025-11-06 21:00:00,356.86,57.6,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,1
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2025-11-06 19:00:00,176.514,176.698,2025-11-06 23:00:00,110.59,18.4,Cut Before Rollover (MT5 22:00),300,True,Opt_EURJPY_1H_US,2
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2025-11-06 18:00:00,0.64699,0.64787,2025-11-06 23:00:00,83.0,8.8,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDUSD_1H_DAY,3
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-13 15:00:00,203.762,203.788,2025-11-13 23:00:00,-21.33,-2.6,Cut Before Rollover (MT5 22:00),540,False,Opt_GBPJPY_1H_US,4
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-17 15:00:00,204.063,204.45954,2025-11-17 18:00:00,-254.11,-39.7,SL (-1.5 ATR),240,False,Opt_GBPJPY_1H_US,5
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2025-11-17 18:00:00,179.975,179.892,2025-11-17 23:00:00,47.14,8.3,Cut Before Rollover (MT5 22:00),360,True,Opt_EURJPY_1H_US,6
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-20 17:00:00,206.647,205.97,2025-11-20 23:00:00,420.31,67.7,Cut Before Rollover (MT5 22:00),420,True,Opt_GBPJPY_1H_US,7
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-11-21 14:00:00,204.635,205.037,2025-11-21 21:00:00,247.55,40.2,Cut Before Weekend (Friday MT5 20:00),480,True,Opt_GBPJPY_1H_US,8
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-24 15:00:00,205.637,205.605,2025-11-24 23:00:00,15.1,3.2,Cut Before Rollover (MT5 22:00),540,True,Opt_GBPJPY_1H_US,9
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-11-26 16:00:00,206.656,207.094,2025-11-26 23:00:00,-280.16,-43.8,Cut Before Rollover (MT5 22:00),480,False,Opt_GBPJPY_1H_US,10
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-12-04 14:00:00,206.476,206.71,2025-12-04 23:00:00,142.01,23.4,Cut Before Rollover (MT5 22:00),600,True,Opt_GBPJPY_1H_US,11
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2025-12-04 14:00:00,180.501,180.589,2025-12-04 23:00:00,50.28,8.8,Cut Before Rollover (MT5 22:00),600,True,Opt_EURJPY_1H_US,12
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2025-12-08 18:00:00,0.66181,0.66241,2025-12-08 23:00:00,55.0,6.0,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDUSD_1H_DAY,13
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-12-09 19:00:00,208.878,208.698,2025-12-09 23:00:00,108.08,18.0,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,14
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2025-12-09 18:00:00,182.401,182.429,2025-12-09 23:00:00,-22.59,-2.8,Cut Before Rollover (MT5 22:00),360,False,Opt_EURJPY_1H_US,15
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-10 17:00:00,0.53322,0.53429,2025-12-10 23:00:00,128.39,10.7,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDCHF_1H_DAY,16
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2025-12-12 18:00:00,0.66439,0.66529,2025-12-12 21:00:00,85.0,9.0,Cut Before Weekend (Friday MT5 20:00),240,True,Opt_AUDUSD_1H_DAY,17
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-16 04:00:00,0.52706,0.52878,2025-12-16 09:00:00,209.42,17.2,BB Middle (Mean Reversion),360,True,Opt_AUDCHF_1H_DAY,18
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-17 18:00:00,0.52535,0.52539,2025-12-17 23:00:00,-0.01,0.4,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDCHF_1H_DAY,19
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2025-12-18 16:00:00,208.906,208.214,2025-12-18 19:00:00,429.73,69.2,BB Middle (Mean Reversion),240,True,Opt_GBPJPY_1H_US,20
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2025-12-18 16:00:00,0.66219,0.66113,2025-12-18 23:00:00,101.0,10.6,Cut Before Rollover (MT5 22:00),480,True,Opt_AUDUSD_1H_DAY,21
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2025-12-23 16:00:00,1.61275,1.61366,2025-12-23 23:00:00,60.73,9.1,Cut Before Rollover (MT5 22:00),480,True,Opt_EURCAD_1H_US,22
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2025-12-24 17:00:00,210.146,210.583,2025-12-26 01:00:00,269.54,43.7,BB Middle (Mean Reversion),420,True,Opt_GBPJPY_1H_US,23
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2025-12-29 18:00:00,183.569,183.742,2025-12-29 23:00:00,103.68,17.3,Cut Before Rollover (MT5 22:00),360,True,Opt_EURJPY_1H_US,24
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2025-12-31 15:00:00,184.08,184.093,2026-01-02 01:00:00,-13.17,-1.3,Cut Before Rollover (MT5 22:00),540,False,Opt_EURJPY_1H_US,25
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2025-12-31 18:00:00,0.52841,0.52758,2026-01-02 01:00:00,-108.47,-8.3,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDCHF_1H_DAY,26
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-01-13 18:00:00,0.66875,0.66819,2026-01-13 23:00:00,-61.0,-5.6,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDUSD_1H_DAY,27
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-14 17:00:00,212.914,213.008,2026-01-14 23:00:00,54.05,9.4,Cut Before Rollover (MT5 22:00),420,True,Opt_GBPJPY_1H_US,28
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-16 18:00:00,211.477,211.618,2026-01-16 21:00:00,83.58,14.1,Cut Before Weekend (Friday MT5 20:00),240,True,Opt_GBPJPY_1H_US,29
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-01-16 16:00:00,1.61472,1.61471,2026-01-16 21:00:00,-4.28,0.1,Cut Before Weekend (Friday MT5 20:00),360,False,Opt_EURCAD_1H_US,30
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-01-16 17:00:00,0.53595,0.5367,2026-01-16 21:00:00,88.5,7.5,Cut Before Weekend (Friday MT5 20:00),300,True,Opt_AUDCHF_1H_DAY,31
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-01-16 18:00:00,0.66801,0.66821,2026-01-16 21:00:00,15.0,2.0,Cut Before Weekend (Friday MT5 20:00),240,True,Opt_AUDUSD_1H_DAY,32
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-01-20 07:00:00,0.53631,0.53528,2026-01-20 10:00:00,123.4,10.3,BB Middle (Mean Reversion),240,True,Opt_AUDCHF_1H_DAY,33
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-01-20 11:00:00,0.53282,0.53216,2026-01-20 23:00:00,-87.28,-6.6,Cut Before Rollover (MT5 22:00),780,False,Opt_AUDCHF_1H_DAY,34
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-21 14:00:00,211.778,212.656,2026-01-21 17:00:00,546.58,87.8,BB Middle (Mean Reversion),240,True,Opt_GBPJPY_1H_US,35
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-01-23 15:00:00,0.68639,0.6889,2026-01-23 20:00:00,-256.14,-25.1,SL (-2.0 ATR),360,False,Opt_AUDUSD_1H_DAY,36
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-01-29 18:00:00,210.342,211.35,2026-01-29 23:00:00,628.25,100.8,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,37
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-01-29 18:00:00,182.303,183.181,2026-01-29 23:00:00,546.58,87.8,BB Middle (Mean Reversion),360,True,Opt_EURJPY_1H_US,38
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-02-03 06:00:00,0.54649,0.54335,2026-02-03 17:00:00,386.43,31.4,BB Middle (Mean Reversion),720,True,Opt_AUDCHF_1H_DAY,39
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-02-03 15:00:00,213.239,212.912,2026-02-03 21:00:00,200.43,32.7,BB Middle (Mean Reversion),420,True,Opt_GBPJPY_1H_US,40
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-02-03 06:00:00,0.70218,0.70002,2026-02-03 21:00:00,211.0,21.6,BB Middle (Mean Reversion),960,True,Opt_AUDUSD_1H_DAY,41
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-02-05 16:00:00,212.757,212.03561,2026-02-05 18:00:00,-458.2,-72.1,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,42
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-02-09 17:00:00,212.328,213.286,2026-02-09 19:00:00,596.84,95.8,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,43
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-02-11 17:00:00,0.54987,0.54971,2026-02-11 23:00:00,14.95,1.6,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDCHF_1H_DAY,44
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-02-11 05:00:00,0.71181,0.71249,2026-02-11 23:00:00,-73.0,-6.8,Cut Before Rollover (MT5 22:00),1140,False,Opt_AUDUSD_1H_DAY,45
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-02-12 18:00:00,1.61569,1.61577,2026-02-12 23:00:00,-10.78,-0.8,Cut Before Rollover (MT5 22:00),360,False,Opt_EURCAD_1H_US,46
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-02-18 17:00:00,182.397,182.44,2026-02-18 23:00:00,-32.01,-4.3,Cut Before Rollover (MT5 22:00),420,False,Opt_EURJPY_1H_US,47
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-02-27 16:00:00,0.547,0.5465,2026-02-27 21:00:00,-67.33,-5.0,Cut Before Weekend (Friday MT5 20:00),360,False,Opt_AUDCHF_1H_DAY,48
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-03-02 17:00:00,211.207,210.897,2026-03-02 23:00:00,189.75,31.0,Cut Before Rollover (MT5 22:00),420,True,Opt_GBPJPY_1H_US,49
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-03-03 17:00:00,0.54751,0.5501,2026-03-03 23:00:00,317.87,25.9,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDCHF_1H_DAY,50
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-03-23 14:00:00,183.349,184.052,2026-03-23 16:00:00,436.64,70.3,BB Middle (Mean Reversion),180,True,Opt_EURJPY_1H_US,51
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-03-26 16:00:00,0.54765,0.54711,2026-03-26 23:00:00,-72.32,-5.4,Cut Before Rollover (MT5 22:00),480,False,Opt_AUDCHF_1H_DAY,52
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-03-27 16:00:00,212.364,212.826,2026-03-27 18:00:00,285.24,46.2,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,53
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-03-31 18:00:00,209.837,210.041,2026-03-31 23:00:00,123.16,20.4,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,54
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-04-02 05:00:00,0.68855,0.68945,2026-04-02 17:00:00,85.0,9.0,BB Middle (Mean Reversion),780,True,Opt_AUDUSD_1H_DAY,55
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-04-03 18:00:00,210.724,210.608,2026-04-03 21:00:00,-77.87,-11.6,Cut Before Weekend (Friday MT5 20:00),240,False,Opt_GBPJPY_1H_US,56
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-04-07 12:00:00,0.55418,0.55613,2026-04-07 23:00:00,-247.64,-19.5,SL (-2.5 ATR),720,False,Opt_AUDCHF_1H_DAY,57
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-04-07 12:00:00,0.6945,0.69713,2026-04-07 23:00:00,-268.0,-26.3,Cut Before Rollover (MT5 22:00),720,False,Opt_AUDUSD_1H_DAY,58
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-09 15:00:00,213.352,213.66336,2026-04-09 19:00:00,-200.6,-31.1,SL (-1.5 ATR),300,False,Opt_GBPJPY_1H_US,59
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-04-09 19:00:00,0.55885,0.56013,2026-04-09 23:00:00,-164.57,-12.8,Cut Before Rollover (MT5 22:00),300,False,Opt_AUDCHF_1H_DAY,60
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-10 16:00:00,214.174,214.4545,2026-04-10 18:00:00,-181.22,-28.0,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,61
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-14 17:00:00,215.753,215.488,2026-04-14 23:00:00,161.48,26.5,Cut Before Rollover (MT5 22:00),420,True,Opt_GBPJPY_1H_US,62
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-04-21 19:00:00,215.331,215.207,2026-04-21 23:00:00,72.9,12.4,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,63
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-04-22 19:00:00,1.60025,1.60014,2026-04-22 23:00:00,-12.94,-1.1,Cut Before Rollover (MT5 22:00),300,False,Opt_EURCAD_1H_US,64
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-04-28 10:00:00,0.71643,0.71794,2026-04-28 19:00:00,146.0,15.1,BB Middle (Mean Reversion),600,True,Opt_AUDUSD_1H_DAY,65
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-04-29 18:00:00,187.248,187.202,2026-04-29 23:00:00,23.9,4.6,Cut Before Rollover (MT5 22:00),360,True,Opt_EURJPY_1H_US,66
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-04-30 16:00:00,0.56059,0.56229,2026-04-30 23:00:00,206.92,17.0,Cut Before Rollover (MT5 22:00),480,True,Opt_AUDCHF_1H_DAY,67
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-05-01 18:00:00,1.59696,1.59425,2026-05-01 21:00:00,190.74,27.1,Cut Before Weekend (Friday MT5 20:00),240,True,Opt_EURCAD_1H_US,68
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-04 19:00:00,0.56151,0.5619,2026-05-04 23:00:00,43.62,3.9,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDCHF_1H_DAY,69
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-05-05 14:00:00,184.241,184.5095,2026-05-05 16:00:00,-173.68,-26.8,SL (-1.5 ATR),180,False,Opt_EURJPY_1H_US,70
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-05-05 14:00:00,213.483,213.84493,2026-05-05 17:00:00,-232.37,-36.2,SL (-1.5 ATR),240,False,Opt_GBPJPY_1H_US,71
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-12 10:00:00,0.5627,0.56384,2026-05-12 13:00:00,137.11,11.4,BB Middle (Mean Reversion),240,True,Opt_AUDCHF_1H_DAY,72
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-05-13 16:00:00,212.955,213.359,2026-05-13 19:00:00,248.8,40.4,BB Middle (Mean Reversion),240,True,Opt_GBPJPY_1H_US,73
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-05-14 17:00:00,184.603,184.797,2026-05-14 23:00:00,116.88,19.4,Cut Before Rollover (MT5 22:00),420,True,Opt_EURJPY_1H_US,74
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-05-14 19:00:00,1.60267,1.60128,2026-05-14 23:00:00,-105.4,-13.9,Cut Before Rollover (MT5 22:00),300,False,Opt_EURCAD_1H_US,75
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-14 17:00:00,0.56495,0.5657,2026-05-14 23:00:00,88.5,7.5,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDCHF_1H_DAY,76
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-15 09:00:00,0.56293,0.56299,2026-05-15 21:00:00,2.48,0.6,Cut Before Weekend (Friday MT5 20:00),780,True,Opt_AUDCHF_1H_DAY,77
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-05-19 18:00:00,184.454,184.586,2026-05-19 23:00:00,77.93,13.2,Cut Before Rollover (MT5 22:00),360,True,Opt_EURJPY_1H_US,78
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-05-20 18:00:00,213.386,213.486,2026-05-20 23:00:00,-67.82,-10.0,Cut Before Rollover (MT5 22:00),360,False,Opt_GBPJPY_1H_US,79
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-05-20 18:00:00,0.71528,0.71596,2026-05-20 23:00:00,-73.0,-6.8,Cut Before Rollover (MT5 22:00),360,False,Opt_AUDUSD_1H_DAY,80
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-05-21 05:00:00,0.56014,0.56192,2026-05-21 16:00:00,216.9,17.8,BB Middle (Mean Reversion),720,True,Opt_AUDCHF_1H_DAY,81
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-05-22 19:00:00,213.876,214.018,2026-05-22 21:00:00,-94.21,-14.2,Cut Before Weekend (Friday MT5 20:00),180,False,Opt_GBPJPY_1H_US,82
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-05-25 18:00:00,0.56195,0.56165,2026-05-25 23:00:00,32.4,3.0,Cut Before Rollover (MT5 22:00),360,True,Opt_AUDCHF_1H_DAY,83
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-05-28 07:00:00,0.71023,0.71313,2026-05-28 16:00:00,285.0,29.0,BB Middle (Mean Reversion),600,True,Opt_AUDUSD_1H_DAY,84
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-05-29 17:00:00,0.71873,0.71825,2026-05-29 21:00:00,43.0,4.8,Cut Before Weekend (Friday MT5 20:00),300,True,Opt_AUDUSD_1H_DAY,85
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Buy (Short Put),1.0,2026-06-01 17:00:00,0.71386,0.7161,2026-06-01 23:00:00,219.0,22.4,Cut Before Rollover (MT5 22:00),420,True,Opt_AUDUSD_1H_DAY,86
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-04 15:00:00,215.012,214.822,2026-06-04 23:00:00,114.36,19.0,BB Middle (Mean Reversion),540,True,Opt_GBPJPY_1H_US,87
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-06-04 15:00:00,185.983,185.826,2026-06-04 23:00:00,93.63,15.7,Cut Before Rollover (MT5 22:00),540,True,Opt_EURJPY_1H_US,88
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-06-04 15:00:00,0.71463,0.71363,2026-06-04 23:00:00,95.0,10.0,Cut Before Rollover (MT5 22:00),540,True,Opt_AUDUSD_1H_DAY,89
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-05 14:00:00,215.447,214.78,2026-06-05 16:00:00,414.03,66.7,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,90
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-06-05 17:00:00,185.33,185.02314,2026-06-05 19:00:00,-197.78,-30.7,SL (-1.5 ATR),180,False,Opt_EURJPY_1H_US,91
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-09 14:00:00,214.521,214.79882,2026-06-09 17:00:00,-179.54,-27.8,SL (-1.5 ATR),240,False,Opt_GBPJPY_1H_US,92
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-06-09 14:00:00,185.225,185.43757,2026-06-09 17:00:00,-138.54,-21.3,SL (-1.5 ATR),240,False,Opt_EURJPY_1H_US,93
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-06-09 19:00:00,0.56023,0.56104,2026-06-09 23:00:00,95.97,8.1,Cut Before Rollover (MT5 22:00),300,True,Opt_AUDCHF_1H_DAY,94
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-10 17:00:00,215.042,214.75,2026-06-10 22:00:00,178.44,29.2,BB Middle (Mean Reversion),360,True,Opt_GBPJPY_1H_US,95
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-06-11 18:00:00,213.931,214.351,2026-06-11 23:00:00,258.86,42.0,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,96
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-06-17 09:15:00,215.148,214.94021,2026-06-17 09:45:00,-135.54,-20.8,SL (-2.5 ATR),45,False,Opt_GBPJPY_15M_DAY,97
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-06-17 09:45:00,215.016,214.81396,2026-06-17 13:30:00,-131.93,-20.2,SL (-2.5 ATR),240,False,Opt_GBPJPY_15M_DAY,98
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-06-17 14:30:00,1.3407,1.34144,2026-06-17 16:00:00,69.0,7.4,BB Middle (Mean Reversion),105,True,Opt_GBPUSD_15M_US,99
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-06-22 13:15:00,1.32411,1.32612,2026-06-22 15:45:00,-205.66,-20.1,SL (-2.0 ATR),165,False,Opt_GBPUSD_15M_US,100
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-22 16:00:00,214.497,213.788,2026-06-22 22:00:00,440.41,70.9,BB Middle (Mean Reversion),420,True,Opt_GBPJPY_1H_US,101
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-06-23 09:30:00,184.779,184.391,2026-06-23 10:45:00,238.75,38.8,BB Middle (Mean Reversion),90,True,Opt_EURJPY_15M_DAY,102
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-06-23 17:45:00,1.31982,1.3182,2026-06-23 20:15:00,-167.44,-16.2,SL (-2.0 ATR),165,False,Opt_GBPUSD_15M_US,103
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Buy (Short Put),1.0,2026-06-24 14:00:00,183.358,183.732,2026-06-24 20:00:00,229.96,37.4,BB Middle (Mean Reversion),420,True,Opt_EURJPY_1H_US,104
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-06-26 16:00:00,184.709,184.282,2026-06-26 18:00:00,263.25,42.7,BB Middle (Mean Reversion),135,True,Opt_EURJPY_15M_DAY,105
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-06-29 17:00:00,0.55678,0.55612,2026-06-29 23:00:00,-87.28,-6.6,Cut Before Rollover (MT5 22:00),420,False,Opt_AUDCHF_1H_DAY,106
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-06-30 15:30:00,1.32162,1.32278,2026-06-30 16:30:00,111.0,11.6,BB Middle (Mean Reversion),75,True,Opt_GBPUSD_15M_US,107
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-06-30 18:00:00,215.676,215.666,2026-06-30 23:00:00,1.28,1.0,Cut Before Rollover (MT5 22:00),360,True,Opt_GBPJPY_1H_US,108
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-06-30 18:00:00,185.788,185.781,2026-06-30 23:00:00,-0.6,0.7,Cut Before Rollover (MT5 22:00),360,False,Opt_EURJPY_1H_US,109
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-01 16:15:00,1.32212,1.32505,2026-07-01 16:30:00,288.0,29.3,BB Middle (Mean Reversion),30,True,Opt_GBPUSD_15M_US,110
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-01 16:15:00,215.152,215.524,2026-07-01 16:45:00,228.7,37.2,BB Middle (Mean Reversion),45,True,Opt_GBPJPY_15M_DAY,111
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-07-02 05:15:00,185.046,184.973,2026-07-02 06:15:00,40.86,7.3,BB Middle (Mean Reversion),75,True,Opt_EURJPY_15M_DAY,112
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-02 15:15:00,1.33042,1.33789,2026-07-02 15:45:00,742.0,74.7,BB Middle (Mean Reversion),45,True,Opt_GBPUSD_15M_US,113
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-07-02 11:00:00,0.55591,0.556,2026-07-02 23:00:00,6.22,0.9,Cut Before Rollover (MT5 22:00),780,True,Opt_AUDCHF_1H_DAY,114
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-03 09:45:00,215.071,215.17,2026-07-03 13:15:00,57.19,9.9,BB Middle (Mean Reversion),225,True,Opt_GBPJPY_15M_DAY,115
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-06 16:30:00,1.33535,1.33693,2026-07-06 19:15:00,-163.1,-15.8,SL (-2.0 ATR),180,False,Opt_GBPUSD_15M_US,116
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-07 04:45:00,185.301,185.11814,2026-07-07 06:30:00,-119.88,-18.3,SL (-2.0 ATR),120,False,Opt_EURJPY_15M_DAY,117
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-08 09:45:00,216.681,216.77,2026-07-08 10:00:00,50.91,8.9,BB Middle (Mean Reversion),30,True,Opt_GBPJPY_15M_DAY,118
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-07-08 17:00:00,217.302,217.71461,2026-07-08 21:00:00,-264.21,-41.3,SL (-1.5 ATR),300,False,Opt_GBPJPY_1H_US,119
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-09 09:30:00,217.798,218.02721,2026-07-09 10:30:00,-149.0,-22.9,SL (-2.5 ATR),75,False,Opt_GBPJPY_15M_DAY,120
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-09 14:00:00,1.33968,1.33801,2026-07-09 16:00:00,-171.53,-16.7,SL (-2.0 ATR),135,False,Opt_GBPUSD_15M_US,121
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-10 16:00:00,1.61665,1.61473,2026-07-10 21:00:00,-143.68,-19.2,Cut Before Weekend (Friday MT5 20:00),360,False,Opt_EURCAD_1H_US,122
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-13 09:00:00,217.088,217.02,2026-07-13 12:15:00,37.72,6.8,BB Middle (Mean Reversion),210,True,Opt_GBPJPY_15M_DAY,123
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-13 17:45:00,1.33731,1.33579,2026-07-13 21:00:00,-156.62,-15.2,SL (-2.0 ATR),210,False,Opt_GBPUSD_15M_US,124
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-14 15:45:00,1.34319,1.33877,2026-07-14 18:45:00,437.0,44.2,BB Middle (Mean Reversion),195,True,Opt_GBPUSD_15M_US,125
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Sell (Short Call),1.0,2026-07-14 15:45:00,185.292,185.285,2026-07-14 20:15:00,-0.6,0.7,BB Middle (Mean Reversion),285,False,Opt_EURJPY_15M_DAY,126
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-07-14 17:00:00,217.207,217.183,2026-07-14 23:00:00,10.08,2.4,Cut Before Rollover (MT5 22:00),420,True,Opt_GBPJPY_1H_US,127
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-07-14 16:00:00,185.303,185.26,2026-07-14 23:00:00,22.01,4.3,Cut Before Rollover (MT5 22:00),480,True,Opt_EURJPY_1H_US,128
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-15 15:45:00,1.34205,1.34411,2026-07-15 17:00:00,-211.43,-20.6,SL (-2.0 ATR),90,False,Opt_GBPUSD_15M_US,129
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-07-15 17:00:00,217.996,218.38214,2026-07-15 18:00:00,-247.59,-38.6,SL (-1.5 ATR),120,False,Opt_GBPJPY_1H_US,130
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-16 16:00:00,1.60588,1.60672,2026-07-16 23:00:00,55.67,8.4,Cut Before Rollover (MT5 22:00),480,True,Opt_EURCAD_1H_US,131
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-07-17 14:00:00,218.089,218.554,2026-07-17 20:00:00,287.13,46.5,BB Middle (Mean Reversion),420,True,Opt_GBPJPY_1H_US,132
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-17 17:00:00,1.34497,1.34564,2026-07-17 20:15:00,-72.0,-6.7,Cut Before Weekend (Friday MT5 20:00),210,False,Opt_GBPUSD_15M_US,133
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-07-17 12:00:00,0.5624,0.56366,2026-07-17 21:00:00,152.07,12.6,Cut Before Weekend (Friday MT5 20:00),600,True,Opt_AUDCHF_1H_DAY,134
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-20 18:15:00,1.34214,1.34355,2026-07-20 21:15:00,136.0,14.1,BB Middle (Mean Reversion),195,True,Opt_GBPUSD_15M_US,135
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-21 15:30:00,1.33868,1.3367,2026-07-21 16:45:00,-203.14,-19.8,SL (-2.0 ATR),90,False,Opt_GBPUSD_15M_US,136
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-21 16:45:00,1.3363,1.33823,2026-07-21 19:45:00,188.0,19.3,BB Middle (Mean Reversion),195,True,Opt_GBPUSD_15M_US,137
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-22 09:00:00,218.21,218.352,2026-07-22 10:30:00,84.21,14.2,BB Middle (Mean Reversion),105,True,Opt_GBPJPY_15M_DAY,138
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-22 10:45:00,185.873,186.002,2026-07-22 15:00:00,76.04,12.9,BB Middle (Mean Reversion),270,True,Opt_EURJPY_15M_DAY,139
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-07-23 14:45:00,1.33461,1.33279,2026-07-23 17:15:00,-186.55,-18.2,SL (-2.0 ATR),165,False,Opt_GBPUSD_15M_US,140
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-24 10:15:00,218.295,218.128,2026-07-24 12:00:00,99.91,16.7,BB Middle (Mean Reversion),120,True,Opt_GBPJPY_15M_DAY,141
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-07-24 18:15:00,1.33416,1.3327,2026-07-24 20:15:00,141.0,14.6,BB Middle (Mean Reversion),135,True,Opt_GBPUSD_15M_US,142
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-07-27 10:15:00,218.214,217.97263,2026-07-27 13:30:00,-156.64,-24.1,SL (-2.5 ATR),210,False,Opt_GBPJPY_15M_DAY,143
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-27 10:30:00,186.323,186.447,2026-07-27 13:45:00,72.9,12.4,BB Middle (Mean Reversion),210,True,Opt_EURJPY_15M_DAY,144
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-07-27 17:00:00,0.57242,0.57281,2026-07-27 23:00:00,-53.62,-3.9,Cut Before Rollover (MT5 22:00),420,False,Opt_AUDCHF_1H_DAY,145
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-07-28 08:15:00,186.078,186.204,2026-07-28 10:15:00,74.16,12.6,BB Middle (Mean Reversion),135,True,Opt_EURJPY_15M_DAY,146
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-29 16:00:00,1.60359,1.60574,2026-07-29 21:00:00,150.29,21.5,BB Middle (Mean Reversion),360,True,Opt_EURCAD_1H_US,147
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-07-29 17:45:00,217.837,218.15411,2026-07-29 21:15:00,-204.22,-31.7,SL (-2.5 ATR),225,False,Opt_GBPJPY_15M_DAY,148
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-07-31 17:00:00,1.60996,1.61388,2026-07-31 18:00:00,278.13,39.2,BB Middle (Mean Reversion),120,True,Opt_EURCAD_1H_US,149
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-03 03:45:00,179.577,180.452,2026-08-03 08:00:00,544.7,87.5,BB Middle (Mean Reversion),270,True,Opt_EURJPY_15M_DAY,150
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-03 03:45:00,209.829,210.738,2026-08-03 08:15:00,566.06,90.9,BB Middle (Mean Reversion),285,True,Opt_GBPJPY_15M_DAY,151
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-08-03 18:15:00,1.34278,1.34305,2026-08-03 22:00:00,22.0,2.7,BB Middle (Mean Reversion),240,True,Opt_GBPUSD_15M_US,152
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-04 15:00:00,181.341,181.507,2026-08-04 17:30:00,99.29,16.6,BB Middle (Mean Reversion),165,True,Opt_EURJPY_15M_DAY,153
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-05 14:45:00,1.34797,1.34688,2026-08-05 16:45:00,104.0,10.9,BB Middle (Mean Reversion),135,True,Opt_GBPUSD_15M_US,154
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-05 16:45:00,212.078,212.257,2026-08-05 19:45:00,107.45,17.9,BB Middle (Mean Reversion),195,True,Opt_GBPJPY_15M_DAY,155
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-06 15:00:00,212.582,212.85457,2026-08-06 18:00:00,-176.24,-27.3,SL (-1.5 ATR),240,False,Opt_GBPJPY_1H_US,156
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-08-06 19:00:00,182.524,182.536,2026-08-06 23:00:00,-12.54,-1.2,Cut Before Rollover (MT5 22:00),300,False,Opt_EURJPY_1H_US,157
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-07 04:45:00,182.402,182.529,2026-08-07 06:45:00,74.78,12.7,BB Middle (Mean Reversion),135,True,Opt_EURJPY_15M_DAY,158
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-07 04:45:00,212.962,213.075,2026-08-07 06:45:00,65.99,11.3,BB Middle (Mean Reversion),135,True,Opt_GBPJPY_15M_DAY,159
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-08-07 14:00:00,212.735,212.31168,2026-08-07 16:00:00,-270.94,-42.3,SL (-1.5 ATR),180,False,Opt_GBPJPY_1H_US,160
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Buy (Short Put),1.0,2026-08-07 16:00:00,212.489,212.99,2026-08-07 18:00:00,309.74,50.1,BB Middle (Mean Reversion),180,True,Opt_GBPJPY_1H_US,161
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-08-07 17:00:00,1.6123,1.61102,2026-08-07 21:00:00,-97.45,-12.8,Cut Before Weekend (Friday MT5 20:00),300,False,Opt_EURCAD_1H_US,162
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Buy (Short Put),1.0,2026-08-07 14:00:00,0.57018,0.57065,2026-08-07 21:00:00,53.59,4.7,Cut Before Weekend (Friday MT5 20:00),480,True,Opt_AUDCHF_1H_DAY,163
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-08-07 16:00:00,0.707,0.70702,2026-08-07 21:00:00,-7.0,-0.2,Cut Before Weekend (Friday MT5 20:00),360,False,Opt_AUDUSD_1H_DAY,164
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-12 12:30:00,214.997,215.181,2026-08-12 15:00:00,110.59,18.4,BB Middle (Mean Reversion),165,True,Opt_GBPJPY_15M_DAY,165
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-12 15:00:00,1.35266,1.35412,2026-08-12 15:45:00,-151.14,-14.6,SL (-2.0 ATR),60,False,Opt_GBPUSD_15M_US,166
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-08-12 16:00:00,0.70876,0.70662,2026-08-12 20:00:00,209.0,21.4,BB Middle (Mean Reversion),300,True,Opt_AUDUSD_1H_DAY,167
+1h 歐日美盤波動收租 (v5.10 自適應帶寬),EURJPY,1h,Sell (Short Call),1.0,2026-08-14 15:00:00,184.0,183.816,2026-08-14 16:00:00,110.59,18.4,BB Middle (Mean Reversion),120,True,Opt_EURJPY_1H_US,168
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-14 14:00:00,215.304,215.63207,2026-08-14 19:00:00,-211.1,-32.8,SL (-1.5 ATR),360,False,Opt_GBPJPY_1H_US,169
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-17 19:00:00,216.071,215.976,2026-08-17 23:00:00,54.68,9.5,Cut Before Rollover (MT5 22:00),300,True,Opt_GBPJPY_1H_US,170
+1h 澳瑞全天避險收租 (v5.10 自適應帶寬),AUDCHF,1h,Sell (Short Call),1.0,2026-08-18 15:00:00,0.57751,0.57639,2026-08-18 18:00:00,134.62,11.2,BB Middle (Mean Reversion),240,True,Opt_AUDCHF_1H_DAY,171
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-19 04:00:00,215.755,215.60616,2026-08-19 07:45:00,-98.51,-14.9,SL (-2.5 ATR),240,False,Opt_GBPJPY_15M_DAY,172
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-19 16:00:00,1.35954,1.36127,2026-08-19 16:15:00,-177.71,-17.3,SL (-2.0 ATR),30,False,Opt_GBPUSD_15M_US,173
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Sell (Short Call),1.0,2026-08-19 16:00:00,1.61246,1.6128,2026-08-19 23:00:00,-29.56,-3.4,Cut Before Rollover (MT5 22:00),480,False,Opt_EURCAD_1H_US,174
+1h 澳美白天低點差收租 (v5.10 自適應帶寬),AUDUSD,1h,Sell (Short Call),1.0,2026-08-19 17:00:00,0.71204,0.71272,2026-08-19 23:00:00,-73.0,-6.8,Cut Before Rollover (MT5 22:00),420,False,Opt_AUDUSD_1H_DAY,175
+1h 歐加美盤高盈虧收租 (v5.10 自適應帶寬),EURCAD,1h,Buy (Short Put),1.0,2026-08-20 15:00:00,1.6088,1.61049,2026-08-20 23:00:00,117.06,16.9,BB Middle (Mean Reversion),540,True,Opt_EURCAD_1H_US,176
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-08-21 17:45:00,1.36244,1.3641,2026-08-21 19:30:00,161.0,16.6,BB Middle (Mean Reversion),120,True,Opt_GBPUSD_15M_US,177
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Sell (Short Call),1.0,2026-08-24 10:30:00,217.105,216.863,2026-08-24 12:00:00,147.03,24.2,BB Middle (Mean Reversion),105,True,Opt_GBPJPY_15M_DAY,178
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Buy (Short Put),1.0,2026-08-26 16:15:00,1.36083,1.35939,2026-08-26 17:30:00,-149.43,-14.4,SL (-2.0 ATR),90,False,Opt_GBPUSD_15M_US,179
+15m 鎊美美盤極速收租 (v5.10 自適應帶寬),GBPUSD,15m,Sell (Short Call),1.0,2026-08-27 16:30:00,1.35993,1.35826,2026-08-27 18:00:00,162.0,16.7,BB Middle (Mean Reversion),105,True,Opt_GBPUSD_15M_US,180
+1h 鎊日美盤高波收租 (v5.10 自適應帶寬),GBPJPY,1h,Sell (Short Call),1.0,2026-08-28 14:00:00,216.933,216.723,2026-08-28 17:00:00,126.93,21.0,BB Middle (Mean Reversion),240,True,Opt_GBPJPY_1H_US,181
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-28 17:15:00,185.647,185.43014,2026-08-28 17:30:00,-141.24,-21.7,SL (-2.0 ATR),30,False,Opt_EURJPY_15M_DAY,182
+15m 鎊日白天波動收租 (v5.10 自適應帶寬),GBPJPY,15m,Buy (Short Put),1.0,2026-08-28 17:30:00,216.465,216.936,2026-08-28 18:00:00,290.9,47.1,BB Middle (Mean Reversion),45,True,Opt_GBPJPY_15M_DAY,183
+15m 歐日白天極限收租 (v5.10 自適應帶寬),EURJPY,15m,Buy (Short Put),1.0,2026-08-28 17:30:00,185.507,185.558,2026-08-28 20:15:00,27.04,5.1,Cut Before Weekend (Friday MT5 20:00),180,True,Opt_EURJPY_15M_DAY,184

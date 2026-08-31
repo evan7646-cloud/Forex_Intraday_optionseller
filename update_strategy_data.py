@@ -130,8 +130,9 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 v
                 if s_hr <= hr <= e_hr:  # 符合時間
                     is_window = True  # 開放
                     
-            # 判斷是否為每日強制清倉時間 (MT5 22:00 ~ 00:59)
-            is_force = (hr >= f_hr or hr == 0)  # 強制平倉旗標
+            # 判斷是否為每日強制清倉時間 (MT5 22:00 或週五 MT5 20:00 提前清倉)
+            is_friday_close = (dt.weekday() == 4 and hr >= 20)  # 週五提前清倉檢查 (避免週末跳空)
+            is_force = (hr >= f_hr or hr == 0 or is_friday_close)  # 強制平倉旗標
             
             # 持倉管理 (止盈 / 停損 / 時間衰減 / 強制平倉)
             if pos != 0:  # 若有持倉
@@ -148,11 +149,16 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 v
                 if pos == 1:  # 多單
                     if c >= df["MA20"].iloc[i] and c > entry_p:  # 碰中軌且高於成本才止盈
                         exit_price = c - sp_dist  # 扣點差
-                        exit_reason = "BB Middle (Mean Reversion)"  # 中軌
+                        exit_reason = "BB Middle (Mean Reversion)"  # 中軌止盈
                         closed = True  # 平倉
                     elif l <= entry_p - curr_sl_dist or is_force:  # 停損或清倉
                         exit_price = (entry_p - curr_sl_dist - sp_dist) if l <= entry_p - curr_sl_dist else (c - sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl']} ATR)" if l <= entry_p - curr_sl_dist else "Cut Before Rollover (MT5 22:00)"  # 原因
+                        if is_friday_close:  # 若為週五提前清倉
+                            exit_reason = "Cut Before Weekend (Friday MT5 20:00)"  # 週五清倉原因
+                        elif l <= entry_p - curr_sl_dist:  # 停損
+                            exit_reason = f"SL (-{mod['sl']} ATR)"  # 停損原因
+                        else:  # 常規換日清倉
+                            exit_reason = "Cut Before Rollover (MT5 22:00)"  # 換日原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -162,20 +168,25 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 v
                         trades.append({  # 記錄
                             "strategy": mod["name"], "symbol": symbol, "timeframe": mod["tf"], "type": "Buy (Short Put)", "lot_size": lot_size,
                             "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'), "entry_price": round(entry_p, 5),
-                            "exit_price": round(exit_price, 5), "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),
+                            "exit_price": round(exit_price, 5), "exit_time": (dt + datetime.timedelta(minutes=bar_mins)).strftime('%Y-%m-%d %H:%M:%S'),
                             "pnl_usd": round(pnl_usd, 2), "pnl_pips": round(pnl_pips, 1), "exit_reason": exit_reason,
-                            "duration_mins": (i - entry_bar_idx) * bar_mins, "win": pnl_usd > 0
+                            "duration_mins": (i - entry_bar_idx + 1) * bar_mins, "win": pnl_usd > 0
                         })  # 結束
                         pos = 0  # 重設
                         
                 elif pos == -1:  # 空單
                     if c <= df["MA20"].iloc[i] and c < entry_p:  # 碰中軌且低於成本才止盈
                         exit_price = c + sp_dist  # 扣點差
-                        exit_reason = "BB Middle (Mean Reversion)"  # 中軌
+                        exit_reason = "BB Middle (Mean Reversion)"  # 中軌止盈
                         closed = True  # 平倉
                     elif h >= entry_p + curr_sl_dist or is_force:  # 停損或清倉
                         exit_price = (entry_p + curr_sl_dist + sp_dist) if h >= entry_p + curr_sl_dist else (c + sp_dist)  # 出場價
-                        exit_reason = f"SL (-{mod['sl']} ATR)" if h >= entry_p + curr_sl_dist else "Cut Before Rollover (MT5 22:00)"  # 原因
+                        if is_friday_close:  # 若為週五提前清倉
+                            exit_reason = "Cut Before Weekend (Friday MT5 20:00)"  # 週五清倉原因
+                        elif h >= entry_p + curr_sl_dist:  # 停損
+                            exit_reason = f"SL (-{mod['sl']} ATR)"  # 停損原因
+                        else:  # 常規換日清倉
+                            exit_reason = "Cut Before Rollover (MT5 22:00)"  # 換日原因
                         closed = True  # 平倉
                         
                     if closed:  # 結算
@@ -185,9 +196,9 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 v
                         trades.append({  # 記錄
                             "strategy": mod["name"], "symbol": symbol, "timeframe": mod["tf"], "type": "Sell (Short Call)", "lot_size": lot_size,
                             "entry_time": entry_time.strftime('%Y-%m-%d %H:%M:%S'), "entry_price": round(entry_p, 5),
-                            "exit_price": round(exit_price, 5), "exit_time": dt.strftime('%Y-%m-%d %H:%M:%S'),
+                            "exit_price": round(exit_price, 5), "exit_time": (dt + datetime.timedelta(minutes=bar_mins)).strftime('%Y-%m-%d %H:%M:%S'),
                             "pnl_usd": round(pnl_usd, 2), "pnl_pips": round(pnl_pips, 1), "exit_reason": exit_reason,
-                            "duration_mins": (i - entry_bar_idx) * bar_mins, "win": pnl_usd > 0
+                            "duration_mins": (i - entry_bar_idx + 1) * bar_mins, "win": pnl_usd > 0
                         })  # 結束
                         pos = 0  # 重設
                         
@@ -201,13 +212,13 @@ class SchemeDOptionHarvestEngine:  # 定義方案 D【全天分工收租旗艦 v
                 if c <= df["LB"].iloc[i] and df["RSI"].iloc[i] <= 32.0 and bb_ratio <= bb_ratio_limit and (lower_wick >= min_wick_ratio or c > o):  # 多單條件
                     pos = 1  # 開多
                     entry_p = c + sp_dist  # 買進加點差
-                    entry_time = dt  # 時間
+                    entry_time = dt + datetime.timedelta(minutes=bar_mins)  # 對齊次根 K 棒開盤時間 (與 MT5 下單時間 100% 一致)
                     entry_bar_idx = i  # 索引
                 # 空單 (賣 Call)：衝破上軌 + RSI >= 68 + 帶寬安全 + 上影線 >= 4% 或收陰線
                 elif c >= df["UB"].iloc[i] and df["RSI"].iloc[i] >= 68.0 and bb_ratio <= bb_ratio_limit and (upper_wick >= min_wick_ratio or c < o):  # 空單條件
                     pos = -1  # 開空
                     entry_p = c - sp_dist  # 賣出扣點差
-                    entry_time = dt  # 時間
+                    entry_time = dt + datetime.timedelta(minutes=bar_mins)  # 對齊次根 K 棒開盤時間 (與 MT5 下單時間 100% 一致)
                     entry_bar_idx = i  # 索引
                     
         # 計算模組統計指標
